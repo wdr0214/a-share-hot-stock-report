@@ -1,6 +1,22 @@
 {
   "logs": [
     {
+      "jobName": "late-report-preview",
+      "startedAt": "2026-06-13T09:40:15.630Z",
+      "finishedAt": "2026-06-13T09:40:15.630Z",
+      "status": "simulated-preview",
+      "errorMessage": "derived from daily report because historical 14:55 quote is unavailable",
+      "reportKey": "2026-06-12"
+    },
+    {
+      "jobName": "daily-report-refresh",
+      "startedAt": "2026-06-13T09:40:15.628Z",
+      "finishedAt": "2026-06-13T09:40:15.630Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-06-12"
+    },
+    {
       "jobName": "daily-report",
       "startedAt": "2026-06-13T01:09:21.956Z",
       "finishedAt": "2026-06-13T01:09:21.956Z",
