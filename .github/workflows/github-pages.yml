@@ -49,9 +49,6 @@ jobs:
 
       - run: npm install
 
-      - name: Refresh June 12 report fields
-        run: node scripts/enrich-report-fields.js 2026-06-12
-
       - name: Generate late-session report
         if: github.event.schedule == '55 6 * * 1-5' || github.event.inputs.job == 'late'
         run: |
