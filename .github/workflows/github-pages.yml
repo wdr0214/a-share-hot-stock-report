@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
+    - cron: "55 6 * * 1-5"
     - cron: "0 8 * * 1-5"
     - cron: "15 14 * * 5"
   workflow_dispatch:
@@ -15,6 +16,7 @@ on:
         type: choice
         options:
           - export
+          - late
           - daily
           - weekly
       date:
@@ -46,6 +48,15 @@ jobs:
           node-version: 22
 
       - run: npm install
+
+      - name: Generate late-session report
+        if: github.event.schedule == '55 6 * * 1-5' || github.event.inputs.job == 'late'
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            npm run run:late -- "${{ github.event.inputs.date }}"
+          else
+            npm run run:late
+          fi
 
       - name: Generate daily report
         if: github.event.schedule == '0 8 * * 1-5' || github.event.inputs.job == 'daily'
