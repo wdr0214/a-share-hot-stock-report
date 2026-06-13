@@ -2,6 +2,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 
 const targetDate = process.argv[2] || "2026-06-12";
+const title = "A 股行情热度报告（尾盘+收盘报告）";
 const db = JSON.parse(await readFile("data/reports.json", "utf8"));
 const report = db.dailyReports?.[targetDate];
 if (!report) throw new Error(`daily report not found: ${targetDate}`);
@@ -17,9 +18,11 @@ db.dailyReports[targetDate] = report;
 await writeFile("data/reports.json", `${JSON.stringify(db, null, 2)}\n`, "utf8");
 await mkdir(join("outputs", "data", "reports", "daily"), { recursive: true });
 await writeFile(join("outputs", "data", "reports", "daily", `${targetDate}.json`), `${JSON.stringify(report, null, 2)}\n`, "utf8");
+await refreshHtmlTitle();
 
 console.log(JSON.stringify({
   date: targetDate,
+  title,
   stocks: report.stocks.map((stock) => ({
     symbol: stock.symbol,
     name: stock.name,
@@ -28,6 +31,14 @@ console.log(JSON.stringify({
     businessConcepts: stock.businessConcepts
   }))
 }, null, 2));
+
+async function refreshHtmlTitle() {
+  const path = "outputs/xueqiu-stock-report.html";
+  let html = await readFile(path, "utf8");
+  html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+  html = html.replace(/<h1>.*?<\/h1>/, `<h1>${title}</h1>`);
+  await writeFile(path, html, "utf8");
+}
 
 function isLimitUp(stock) {
   const threshold = limitUpThreshold(stock);
