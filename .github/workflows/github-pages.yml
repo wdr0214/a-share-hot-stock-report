@@ -49,9 +49,6 @@ jobs:
 
       - run: npm install
 
-      - name: Generate June 12 daily refresh and late preview
-        run: node scripts/preview-2026-06-12.js
-
       - name: Generate late-session report
         if: github.event.schedule == '55 6 * * 1-5' || github.event.inputs.job == 'late'
         run: |
