@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "run:late": "node src/cli.js late",
     "run:daily": "node src/cli.js daily",
     "run:weekly": "node src/cli.js weekly",
     "export:static": "node src/cli.js export-static",
