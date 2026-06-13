@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A 股行情热度报告</title>
+  <title>A 股行情热度报告（尾盘+收盘报告）</title>
   <style>
     :root{--ink:#17202c;--muted:#667085;--line:#d8dee8;--paper:#fff;--red:#d84b47;--green:#178f61;--shadow:0 10px 28px rgba(26,32,44,.08)}
     *{box-sizing:border-box}body{margin:0;font-family:"Microsoft YaHei","PingFang SC","Segoe UI",Arial,sans-serif;color:var(--ink);background:#eef2f6}
@@ -27,7 +27,7 @@
   </style>
 </head>
 <body>
-  <header><div class="wrap top"><div><h1>A 股行情热度报告</h1><p class="sub">交易日 14:55 生成尾盘报告，16:00 生成日报；周五 22:15 汇总周报。尾盘和日报使用同一套行情热度评分；周报默认汇总日报，避免同日重复计数。</p></div><div class="schedule"><strong>自动任务</strong><div class="row"><span>尾盘报告</span><b>14:55</b></div><div class="row"><span>交易日日报</span><b>16:00</b></div><div class="row"><span>周五周报</span><b>22:15</b></div></div></div></header>
+  <header><div class="wrap top"><div><h1>A 股行情热度报告（尾盘+收盘报告）</h1><p class="sub">交易日 14:55 生成尾盘报告，16:00 生成日报；周五 22:15 汇总周报。尾盘和日报使用同一套行情热度评分；周报默认汇总日报，避免同日重复计数。</p></div><div class="schedule"><strong>自动任务</strong><div class="row"><span>尾盘报告</span><b>14:55</b></div><div class="row"><span>交易日日报</span><b>16:00</b></div><div class="row"><span>周五周报</span><b>22:15</b></div></div></div></header>
   <main class="wrap"><div class="controls"><div class="tabs"><button id="lateBtn" type="button">尾盘</button><button id="dailyBtn" class="active" type="button">日报</button><button id="weeklyBtn" type="button">周报</button><button id="archiveBtn" type="button">最近一周</button></div><label class="pick">报告日期<select id="reportSelect"></select></label></div><section class="metrics" id="metrics"></section><section class="meta" id="meta"></section><section id="content"></section></main>
   <script>
     const S={view:"daily",date:"",recent:[],lateRecent:[],daily:null,late:null,weekly:null,logs:[]};
