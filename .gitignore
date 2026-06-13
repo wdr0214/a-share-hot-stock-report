@@ -1,0 +1,5 @@
+.env
+node_modules/
+npm-debug.log*
+
+# Generated report database is committed by GitHub Actions when reports are generated.
