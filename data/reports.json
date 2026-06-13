@@ -2,7 +2,7 @@
   "dailyReports": {
     "2026-06-12": {
       "date": "2026-06-12",
-      "generatedAt": "2026-06-13T09:21:32.202Z",
+      "generatedAt": "2026-06-13T09:21:59.120Z",
       "source": "github-actions-free-eastmoney-yahoo",
       "status": "ok",
       "notice": "基于真实行情数据生成；免费源不保证稳定性；不构成投资建议。",
