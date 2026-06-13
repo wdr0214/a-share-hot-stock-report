@@ -48,9 +48,11 @@ jobs:
       - run: npm install
 
       - name: Generate daily report
-        if: github.event.schedule == '0 8 * * 1-5' || github.event.inputs.job == 'daily'
+        if: github.event_name == 'push' || github.event.schedule == '0 8 * * 1-5' || github.event.inputs.job == 'daily'
         run: |
-          if [ -n "${{ github.event.inputs.date }}" ]; then
+          if [ "${{ github.event_name }}" = "push" ]; then
+            npm run run:daily -- "2026-06-12"
+          elif [ -n "${{ github.event.inputs.date }}" ]; then
             npm run run:daily -- "${{ github.event.inputs.date }}"
           else
             npm run run:daily
