@@ -1,6 +1,6 @@
 {
-  "reports": [
-    {
+  "dailyReports": {
+    "2026-06-12": {
       "date": "2026-06-12",
       "generatedAt": "2026-06-13T01:09:21.956Z",
       "source": "github-actions-free-eastmoney-yahoo",
@@ -5542,6 +5542,17 @@
         "status": "missing_previous_report",
         "items": []
       }
+    }
+  },
+  "weeklyReports": {},
+  "jobLogs": [
+    {
+      "jobName": "daily-report",
+      "startedAt": "2026-06-13T01:09:21.956Z",
+      "finishedAt": "2026-06-13T01:09:21.956Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-06-12"
     }
   ]
 }
