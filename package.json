@@ -1,0 +1,14 @@
+{
+  "name": "xueqiu-real-hot-stock-report",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "run:daily": "node src/cli.js daily",
+    "run:weekly": "node src/cli.js weekly",
+    "export:static": "node src/cli.js export-static",
+    "check": "node src/cli.js check"
+  },
+  "dependencies": {}
+}
