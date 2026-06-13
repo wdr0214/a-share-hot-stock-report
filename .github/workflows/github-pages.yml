@@ -49,6 +49,17 @@ jobs:
 
       - run: npm install
 
+      - name: Adjust limit-up label position
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('outputs/xueqiu-stock-report.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('.name b{display:block;font-size:19px;overflow-wrap:anywhere}', '.name b{display:flex;align-items:center;gap:8px;font-size:19px;overflow-wrap:anywhere}')
+          s = s.replace('.limit{margin-left:8px;background:#fff1f0;color:#b42318;border-color:#fecdca;font-size:12px;padding:3px 7px;vertical-align:middle}', '.limit{margin-left:0;background:#fff1f0;color:#b42318;border-color:#fecdca;font-size:12px;padding:3px 7px;vertical-align:middle;flex:0 0 auto}')
+          p.write_text(s, encoding='utf-8')
+          PY
+
       - name: Generate late-session report
         if: github.event.schedule == '55 6 * * 1-5' || github.event.inputs.job == 'late'
         run: |
