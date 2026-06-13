@@ -17,6 +17,10 @@ on:
           - export
           - daily
           - weekly
+      date:
+        description: "Optional report date YYYY-MM-DD"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -46,11 +50,21 @@ jobs:
 
       - name: Generate daily report
         if: github.event.schedule == '0 8 * * 1-5' || github.event.inputs.job == 'daily'
-        run: npm run run:daily
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            npm run run:daily -- "${{ github.event.inputs.date }}"
+          else
+            npm run run:daily
+          fi
 
       - name: Generate weekly report
         if: github.event.schedule == '15 14 * * 5' || github.event.inputs.job == 'weekly'
-        run: npm run run:weekly
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            npm run run:weekly -- "${{ github.event.inputs.date }}"
+          else
+            npm run run:weekly
+          fi
 
       - name: Export static report data
         run: npm run export:static
