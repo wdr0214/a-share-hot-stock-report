@@ -1,0 +1,76 @@
+name: GitHub Pages Report
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 8 * * 1-5"
+    - cron: "15 14 * * 5"
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "Job to run"
+        required: true
+        default: "export"
+        type: choice
+        options:
+          - export
+          - daily
+          - weekly
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm install
+
+      - name: Generate daily report
+        if: github.event.schedule == '0 8 * * 1-5' || github.event.inputs.job == 'daily'
+        run: npm run run:daily
+
+      - name: Generate weekly report
+        if: github.event.schedule == '15 14 * * 5' || github.event.inputs.job == 'weekly'
+        run: npm run run:weekly
+
+      - name: Export static report data
+        run: npm run export:static
+
+      - name: Prepare GitHub Pages entry
+        run: cp outputs/xueqiu-stock-report.html outputs/index.html
+
+      - name: Persist generated report data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f data/reports.json outputs/data/reports outputs/index.html
+          git diff --cached --quiet || git commit -m "Update generated stock reports"
+          git push
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: outputs
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
