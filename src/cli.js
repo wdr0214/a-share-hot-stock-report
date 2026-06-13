@@ -3,287 +3,636 @@ import { join } from "node:path";
 
 const DATA_FILE = "data/reports.json";
 const OUT_DIR = "outputs/data/reports";
-const TZ = "Asia/Shanghai";
-const PAGE_SIZE = 500;
-const FS_ALL_A = "m:1+t:2,m:0+t:6,m:0+t:80,m:0+t:81";
-const EM_FIELDS = "f12,f14,f2,f3,f6,f7,f8,f10,f62,f66,f69,f72,f75";
+const EASTMONEY_FIELDS = "f12,f14,f2,f3,f6,f7,f8,f10,f62,f66,f69,f72,f75,f100";
+const QUOTE_FIELDS = "f12,f14,f2,f3,f17";
 
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-const num = v => (v === undefined || v === null || v === "-" ? null : Number(v));
-const finite = v => Number.isFinite(v) ? v : null;
-const round = (v, d = 2) => finite(v) === null ? null : Number(v.toFixed(d));
-const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-const todayCN = () => new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+const command = process.argv[2] || "check";
+const argDate = process.argv[3];
 
-function cnParts() {
-  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: TZ, hour12: false, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", weekday: "short" }).formatToParts(new Date());
-  const p = Object.fromEntries(parts.map(x => [x.type, x.value]));
-  return { date: `${p.year}-${p.month}-${p.day}`, minute: Number(p.hour) * 60 + Number(p.minute), weekday: p.weekday };
+if (command === "late") console.log(JSON.stringify(await withRetry("late-report", () => generateMarketReport("late", argDate || today())), null, 2));
+else if (command === "daily") console.log(JSON.stringify(await withRetry("daily-report", () => generateMarketReport("daily", argDate || today())), null, 2));
+else if (command === "weekly") console.log(JSON.stringify(await withRetry("weekly-report", () => generateWeekly(argDate || today())), null, 2));
+else if (command === "export-static") console.log(JSON.stringify(await exportStatic(), null, 2));
+else if (command === "check") console.log(JSON.stringify({ ok: true, runtime: "github-pages-actions" }, null, 2));
+else throw new Error(`Unknown command: ${command}`);
+
+async function withRetry(label, task) {
+  try {
+    return await task();
+  } catch (firstError) {
+    console.warn(`${label} failed once, retrying: ${firstError.message}`);
+    await sleep(2500);
+    return task();
+  }
 }
 
-function isWeekday(date) {
-  const d = new Date(`${date}T00:00:00+08:00`).getUTCDay();
-  return d >= 1 && d <= 5;
+async function generateMarketReport(type, date) {
+  assertMarketReportAllowed(type, date);
+  const db = await readDb();
+  const candidates = await fetchAllMarketStocks();
+  const preliminary = candidates
+    .filter((stock) => stock.changePct >= 0)
+    .map((stock) => ({ ...stock, preliminaryScore: scoreStock(stock, []) }))
+    .sort((a, b) => b.preliminaryScore - a.preliminaryScore)
+    .slice(0, 30);
+
+  const enriched = [];
+  for (const stock of preliminary) {
+    let kline = [];
+    let dataStatus = "ok";
+    let dataError = "";
+    try {
+      kline = await fetchKline(stock.symbol);
+    } catch (error) {
+      dataStatus = "kline_failed";
+      dataError = error.message;
+    }
+    const heatScore = scoreStock(stock, kline);
+    const summary = summarize(stock, kline);
+    enriched.push({
+      rank: 0,
+      symbol: stock.symbol,
+      name: stock.name,
+      industry: stock.industry,
+      businessConcepts: businessConcepts(stock),
+      isLimitUp: isLimitUp(stock),
+      heatScore,
+      activityScore: Math.round(heatScore * 0.7 + stock.turnoverRate * 5 + Math.log10(Math.max(stock.amount, 1)) * 3),
+      momentumScore: momentumScore(stock, kline),
+      changePct: stock.changePct,
+      turnoverRate: stock.turnoverRate,
+      amount: stock.amount,
+      volumeRatio: stock.volumeRatio,
+      amplitude: stock.amplitude,
+      mainNetInflow: stock.mainNetInflow,
+      superLargeOrderNetAmount: stock.superLargeOrderNetAmount,
+      superLargeOrderNetRatio: stock.superLargeOrderNetRatio,
+      largeOrderNetAmount: stock.largeOrderNetAmount,
+      largeOrderNetRatio: stock.largeOrderNetRatio,
+      bigOrderNetAmount: stock.bigOrderNetAmount,
+      keyPoints: summary.keyPoints,
+      positiveFactors: summary.positiveFactors,
+      kline,
+      dataStatus,
+      dataError
+    });
+  }
+
+  const stocks = enriched
+    .sort((a, b) => b.heatScore - a.heatScore)
+    .slice(0, 5)
+    .map((stock, index) => ({ ...stock, rank: index + 1 }));
+
+  const previousDayStocksTodayChange = await previousSelectionChange(db, type, date);
+  const report = {
+    type,
+    date,
+    generatedAt: new Date().toISOString(),
+    source: "github-actions-free-eastmoney-yahoo",
+    status: stocks.length === 5 ? "ok" : "partial",
+    totalCandidates: candidates.length,
+    ratingPolicy: type === "late"
+      ? "尾盘报告与日报使用同一套行情热度评分；周报默认汇总收盘后的日报，避免同一交易日重复计数。"
+      : "日报使用收盘后行情热度评分；周报默认汇总日报结果。",
+    notice: "基于真实行情数据生成；免费源不保证稳定性；不构成投资建议。",
+    stocks,
+    previousDayStocksTodayChange
+  };
+
+  if (type === "late") {
+    report.latePortfolio = await updateLatePortfolio(db, report);
+    db.lateReports[date] = report;
+  } else {
+    db.dailyReports[date] = report;
+  }
+  db.jobLogs.push({
+    jobName: type === "late" ? "late-report" : "daily-report",
+    startedAt: report.generatedAt,
+    finishedAt: new Date().toISOString(),
+    status: "success",
+    errorMessage: "",
+    reportKey: date
+  });
+  db.jobLogs = db.jobLogs.slice(-200);
+  await writeDb(db);
+  await exportStatic(db);
+  return report;
 }
 
-function prevWeekday(date) {
-  const d = new Date(`${date}T00:00:00+08:00`);
-  do { d.setUTCDate(d.getUTCDate() - 1); } while (d.getUTCDay() === 0 || d.getUTCDay() === 6);
-  return d.toISOString().slice(0, 10);
+async function updateLatePortfolio(db, report) {
+  const state = db.latePortfolio || { netValue: 1, cash: 1, holdings: [], history: [] };
+  let cash = number(state.cash);
+  const sellRecords = [];
+  if (state.holdings?.length) {
+    const quotes = await fetchQuotes(state.holdings.map((holding) => holding.symbol));
+    const quoteMap = new Map(quotes.map((quote) => [quote.symbol, quote]));
+    for (const holding of state.holdings) {
+      const quote = quoteMap.get(holding.symbol);
+      const sellPrice = quote?.close || holding.entryPrice;
+      const sellValue = number(holding.shares) * sellPrice;
+      cash += sellValue;
+      sellRecords.push({
+        symbol: holding.symbol,
+        name: holding.name,
+        entryPrice: holding.entryPrice,
+        sellPrice,
+        returnPct: holding.entryPrice ? ((sellPrice - holding.entryPrice) / holding.entryPrice) * 100 : null
+      });
+    }
+  }
+
+  const currentNetValue = cash;
+  const holdings = [];
+  const buyRecords = [];
+  for (const stock of report.stocks || []) {
+    if (stock.isLimitUp) {
+      buyRecords.push({ symbol: stock.symbol, name: stock.name, skipped: true, reason: "涨停无法买入" });
+      continue;
+    }
+    const price = number(stock.close || stock.kline?.at(-1)?.close);
+    const allocation = currentNetValue * 0.2;
+    if (!price || allocation <= 0 || cash < allocation) {
+      buyRecords.push({ symbol: stock.symbol, name: stock.name, skipped: true, reason: "价格数据不足或现金不足" });
+      continue;
+    }
+    const shares = allocation / price;
+    cash -= allocation;
+    holdings.push({ symbol: stock.symbol, name: stock.name, entryPrice: price, shares, allocation, date: report.date });
+    buyRecords.push({ symbol: stock.symbol, name: stock.name, skipped: false, buyPrice: price, allocation });
+  }
+
+  const snapshot = {
+    date: report.date,
+    netValue: round(currentNetValue, 4),
+    cash: round(cash, 6),
+    holdings,
+    sold: sellRecords,
+    bought: buyRecords
+  };
+  db.latePortfolio = { netValue: snapshot.netValue, cash, holdings, history: [...(state.history || []), snapshot].slice(-250) };
+  return snapshot;
 }
 
-function currentWeek(date) {
-  const d = new Date(`${date}T00:00:00+08:00`);
-  const day = d.getUTCDay() || 7;
-  d.setUTCDate(d.getUTCDate() + 4 - day);
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-  return `${d.getUTCFullYear()}-${String(week).padStart(2, "0")}`;
+async function generateWeekly(date) {
+  const db = await readDb();
+  const dates = Array.from({ length: 7 }, (_, index) => addDays(date, -index));
+  const reports = dates.map((day) => db.dailyReports[day]).filter(Boolean);
+  const map = new Map();
+  for (const report of reports) {
+    for (const stock of report.stocks || []) {
+      const item = map.get(stock.symbol) || {
+        symbol: stock.symbol,
+        name: stock.name,
+        weeklyHeatScore: 0,
+        appearances: 0,
+        momentumTotal: 0,
+        factors: new Map()
+      };
+      item.weeklyHeatScore += stock.heatScore || 0;
+      item.appearances += 1;
+      item.momentumTotal += stock.momentumScore || 0;
+      for (const factor of stock.positiveFactors || []) item.factors.set(factor, (item.factors.get(factor) || 0) + 1);
+      map.set(stock.symbol, item);
+    }
+  }
+  const stocks = [...map.values()]
+    .map((item) => {
+      const topFactors = [...item.factors.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([factor]) => factor);
+      return {
+        rank: 0,
+        symbol: item.symbol,
+        name: item.name,
+        weeklyHeatScore: Math.round(item.weeklyHeatScore + item.appearances * 20),
+        appearances: item.appearances,
+        avgMomentumScore: Math.round(item.momentumTotal / item.appearances),
+        weeklySummary: `本周高频行情特征集中在 ${topFactors.join("、") || "成交活跃"}，累计入选 ${item.appearances} 天。`
+      };
+    })
+    .sort((a, b) => b.weeklyHeatScore - a.weeklyHeatScore)
+    .map((item, index) => ({ ...item, rank: index + 1 }));
+
+  const report = {
+    week: weekKey(date),
+    rangeStart: addDays(date, -6),
+    rangeEnd: date,
+    generatedAt: new Date().toISOString(),
+    source: "github-actions-daily-reports",
+    status: reports.length ? "ok" : "empty",
+    ratingPolicy: "周报汇总最近 7 天日报结果，不重复计入尾盘报告。",
+    stocks
+  };
+  db.weeklyReports[report.week] = report;
+  db.jobLogs.push({ jobName: "weekly-report", startedAt: report.generatedAt, finishedAt: new Date().toISOString(), status: "success", errorMessage: "", reportKey: report.week });
+  db.jobLogs = db.jobLogs.slice(-200);
+  await writeDb(db);
+  await exportStatic(db);
+  return report;
 }
 
-function rangeForWeek(date) {
-  const d = new Date(`${date}T00:00:00+08:00`);
-  const day = d.getUTCDay() || 7;
-  const start = new Date(d); start.setUTCDate(d.getUTCDate() - day + 1);
-  const end = new Date(start); end.setUTCDate(start.getUTCDate() + 4);
-  return { start: start.toISOString().slice(0, 10), end: end.toISOString().slice(0, 10) };
+async function exportStatic(existingDb) {
+  const db = existingDb || await readDb();
+  await mkdir(join(OUT_DIR, "daily"), { recursive: true });
+  await mkdir(join(OUT_DIR, "late"), { recursive: true });
+
+  const recentDaily = Object.values(db.dailyReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 7);
+  const recentLate = Object.values(db.lateReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 7);
+  await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily, lateReports: recentLate });
+  await writeJson(join(OUT_DIR, "logs.json"), { logs: db.jobLogs.slice(-30).reverse() });
+  for (const report of recentDaily) await writeJson(join(OUT_DIR, "daily", `${report.date}.json`), report);
+  for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), report);
+  if (recentDaily[0]) await writeJson(join(OUT_DIR, "daily-latest.json"), recentDaily[0]);
+  if (recentLate[0]) await writeJson(join(OUT_DIR, "late-latest.json"), recentLate[0]);
+  const latestWeek = Object.values(db.weeklyReports).sort((a, b) => b.week.localeCompare(a.week))[0];
+  if (latestWeek) await writeJson(join(OUT_DIR, "weekly-latest.json"), latestWeek);
+  return {
+    recentDailyCount: recentDaily.length,
+    recentLateCount: recentLate.length,
+    latestDailyDate: recentDaily[0]?.date || null,
+    latestLateDate: recentLate[0]?.date || null,
+    hasWeekly: Boolean(latestWeek)
+  };
+}
+
+async function fetchAllMarketStocks() {
+  const pageSize = 500;
+  const first = await fetchMarketPage(1, pageSize);
+  const items = [...first.items];
+  const total = Number(first.total || items.length);
+  const pages = Math.ceil(total / pageSize);
+  for (let page = 2; page <= pages; page += 1) {
+    const next = await fetchMarketPage(page, pageSize);
+    items.push(...next.items);
+    await sleep(180);
+  }
+  const bySymbol = new Map();
+  for (const item of items.map(normalizeEastmoney).filter(Boolean)) bySymbol.set(item.symbol, item);
+  return [...bySymbol.values()];
+}
+
+async function fetchMarketPage(page, pageSize) {
+  const url = new URL("https://push2.eastmoney.com/api/qt/clist/get");
+  url.searchParams.set("pn", String(page));
+  url.searchParams.set("pz", String(pageSize));
+  url.searchParams.set("po", "1");
+  url.searchParams.set("np", "1");
+  url.searchParams.set("fltt", "2");
+  url.searchParams.set("invt", "2");
+  url.searchParams.set("fid", "f62");
+  url.searchParams.set("fs", "m:1+t:2,m:0+t:6,m:0+t:80,m:0+t:81");
+  url.searchParams.set("fields", EASTMONEY_FIELDS);
+  const data = (await fetchJson(url))?.data;
+  if (!Array.isArray(data?.diff)) throw new Error("Eastmoney response missing data.diff");
+  return { total: data.total, items: data.diff };
+}
+
+async function fetchQuotes(symbols) {
+  const secids = symbols.map(toEastmoneySecid).filter(Boolean);
+  const all = [];
+  for (let i = 0; i < secids.length; i += 80) {
+    const url = new URL("https://push2.eastmoney.com/api/qt/ulist.np/get");
+    url.searchParams.set("fltt", "2");
+    url.searchParams.set("invt", "2");
+    url.searchParams.set("fields", QUOTE_FIELDS);
+    url.searchParams.set("secids", secids.slice(i, i + 80).join(","));
+    const items = (await fetchJson(url))?.data?.diff;
+    if (!Array.isArray(items)) throw new Error("Eastmoney quote response missing data.diff");
+    all.push(...items);
+  }
+  return all.map((item) => {
+    const close = number(item.f2);
+    const open = number(item.f17);
+    return {
+      symbol: normalizeSymbol(item.f12),
+      name: String(item.f14 || "").trim(),
+      changePct: number(item.f3),
+      open,
+      close,
+      closeVsOpenPct: open ? ((close - open) / open) * 100 : null
+    };
+  }).filter((item) => item.symbol);
+}
+
+async function fetchKline(symbol) {
+  const yahoo = toYahooSymbol(symbol);
+  const payload = await fetchJson(`https://query1.finance.yahoo.com/v8/finance/chart/${yahoo}?range=6mo&interval=1d`);
+  const result = payload?.chart?.result?.[0];
+  const timestamps = result?.timestamp || [];
+  const quote = result?.indicators?.quote?.[0] || {};
+  if (!timestamps.length || !quote.open?.length) throw new Error(`No Yahoo kline rows for ${symbol}`);
+  return timestamps.map((ts, index) => {
+    const open = number(quote.open[index]);
+    const high = number(quote.high[index]);
+    const low = number(quote.low[index]);
+    const close = number(quote.close[index]);
+    const volume = number(quote.volume[index]);
+    if (!open || !high || !low || !close) return null;
+    return { date: new Date(ts * 1000).toISOString().slice(0, 10), open, high, low, close, volume, amount: 0 };
+  }).filter(Boolean);
+}
+
+async function previousSelectionChange(db, type, date) {
+  const previousDate = previousWeekday(date);
+  const preferred = type === "late" ? db.lateReports[previousDate] : db.dailyReports[previousDate];
+  const previous = preferred || db.dailyReports[previousDate] || db.lateReports[previousDate];
+  const previousStocks = previous?.stocks || [];
+  if (!previousStocks.length) return { previousDate, date, status: "missing_previous_report", items: [] };
+  try {
+    const quotes = await fetchQuotes(previousStocks.map((stock) => stock.symbol));
+    const map = new Map(quotes.map((quote) => [quote.symbol, quote]));
+    return {
+      previousDate,
+      date,
+      sourceReportType: previous.type || "daily",
+      status: "ok",
+      items: previousStocks.slice(0, 5).map((stock) => {
+        const quote = map.get(stock.symbol);
+        return {
+          symbol: stock.symbol,
+          name: quote?.name || stock.name,
+          yesterdayChangePct: stock.changePct,
+          wasLimitUpYesterday: Boolean(stock.isLimitUp ?? isLimitUp(stock)),
+          todayChangePct: quote?.changePct ?? null,
+          todayOpen: quote?.open ?? null,
+          todayClose: quote?.close ?? null,
+          todayCloseVsOpenPct: quote?.closeVsOpenPct ?? null
+        };
+      })
+    };
+  } catch (error) {
+    return {
+      previousDate,
+      date,
+      sourceReportType: previous.type || "daily",
+      status: "quote_failed",
+      error: error.message,
+      items: previousStocks.slice(0, 5).map((stock) => ({
+        symbol: stock.symbol,
+        name: stock.name,
+        yesterdayChangePct: stock.changePct,
+        wasLimitUpYesterday: Boolean(stock.isLimitUp ?? isLimitUp(stock)),
+        todayChangePct: null,
+        todayOpen: null,
+        todayClose: null,
+        todayCloseVsOpenPct: null
+      }))
+    };
+  }
+}
+
+function normalizeEastmoney(item) {
+  const symbol = normalizeSymbol(item.f12);
+  if (!symbol) return null;
+  const superLargeOrderNetAmount = number(item.f66);
+  const largeOrderNetAmount = number(item.f72);
+  return {
+    symbol,
+    name: String(item.f14 || symbol).trim(),
+    industry: String(item.f100 || "").trim(),
+    changePct: number(item.f3),
+    turnoverRate: number(item.f8),
+    amount: number(item.f6),
+    volumeRatio: number(item.f10 || 1),
+    amplitude: number(item.f7),
+    close: number(item.f2),
+    mainNetInflow: number(item.f62),
+    superLargeOrderNetAmount,
+    superLargeOrderNetRatio: number(item.f69),
+    largeOrderNetAmount,
+    largeOrderNetRatio: number(item.f75),
+    bigOrderNetAmount: superLargeOrderNetAmount + largeOrderNetAmount
+  };
+}
+
+function businessConcepts(stock) {
+  const concepts = [];
+  if (stock.industry) concepts.push(stock.industry);
+  const text = `${stock.name}${stock.industry}`;
+  const rules = [
+    [/银行|证券|保险|金融|信托/, "金融服务"],
+    [/半导体|芯片|集成电路|微电子/, "半导体"],
+    [/软件|信息|数据|云|网络|科技/, "软件与信息服务"],
+    [/汽车|车|汽配|电池|锂|新能源/, "汽车与新能源"],
+    [/医药|生物|医疗|药|制药/, "医药生物"],
+    [/电力|能源|光伏|风电|水电|煤|石油|燃气/, "能源电力"],
+    [/地产|建筑|建材|水泥|工程/, "地产建筑"],
+    [/消费|食品|饮料|酒|零售|家电|服饰/, "消费"],
+    [/军工|航天|航空|船舶|兵器/, "军工装备"],
+    [/钢铁|有色|金属|化工|材料/, "周期材料"],
+    [/通信|电子|传媒|游戏/, "TMT"]
+  ];
+  for (const [pattern, label] of rules) if (pattern.test(text)) concepts.push(label);
+  return [...new Set(concepts)].slice(0, 2);
+}
+
+function scoreStock(stock, kline) {
+  const amount = clamp(Math.log10(Math.max(stock.amount, 1)) * 9 - 55, 0, 35);
+  const change = clamp(stock.changePct * 2.5, 0, 25);
+  const turnover = clamp(stock.turnoverRate * 1.8, 0, 15);
+  const volume = clamp((stock.volumeRatio - 1) * 6, 0, 12);
+  const amplitude = clamp(stock.amplitude * 0.8, 0, 8);
+  const bigOrder = clamp(Math.max(stock.bigOrderNetAmount || 0, 0) / 100000000 * 5 + Math.max(stock.largeOrderNetRatio || 0, 0), 0, 20);
+  const trend = trendScore(kline);
+  return Math.round(amount + change + turnover + volume + amplitude + bigOrder + trend);
+}
+
+function momentumScore(stock, kline) {
+  return Math.round(clamp(50 + stock.changePct * 4 + (stock.volumeRatio - 1) * 8 + trendScore(kline), 0, 100));
+}
+
+function summarize(stock, kline) {
+  const keyPoints = [];
+  const positiveFactors = [];
+  keyPoints.push(`当日涨跌幅 ${formatPercent(stock.changePct)}，成交额 ${formatAmount(stock.amount)}。`);
+  if (stock.bigOrderNetAmount > 0) {
+    keyPoints.push(`大单资金净额为 ${formatAmount(stock.bigOrderNetAmount)}。`);
+    positiveFactors.push("大单净流入");
+  } else if (stock.bigOrderNetAmount < 0) {
+    keyPoints.push(`大单资金净额为 ${formatAmount(stock.bigOrderNetAmount)}，资金存在分歧。`);
+  }
+  if (stock.mainNetInflow > 0) positiveFactors.push("主力资金");
+  if (stock.superLargeOrderNetAmount > 0) positiveFactors.push("超大单活跃");
+  if (stock.volumeRatio >= 1.5) positiveFactors.push("放量");
+  if (stock.turnoverRate >= 5) positiveFactors.push("高换手");
+  if (trendScore(kline) >= 10) {
+    keyPoints.push("近半年价格趋势较强，表明中期趋势有改善。");
+    positiveFactors.push("强趋势");
+  }
+  return { keyPoints, positiveFactors: [...new Set(positiveFactors)].slice(0, 5) };
+}
+
+function trendScore(kline) {
+  if (!Array.isArray(kline) || kline.length < 20) return 0;
+  const last = kline[kline.length - 1].close;
+  const prev20 = kline[Math.max(0, kline.length - 20)].close;
+  const first = kline[0].close;
+  return clamp(((last - prev20) / prev20) * 40 + ((last - first) / first) * 10, 0, 20);
+}
+
+async function fetchJson(url) {
+  let lastError;
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Accept: "application/json,text/plain,*/*",
+          Referer: "https://quote.eastmoney.com/",
+          "User-Agent": "Mozilla/5.0 github-pages-stock-report/1.0"
+        }
+      });
+      if (!response.ok) throw new Error(`Request failed ${response.status}: ${(await response.text()).slice(0, 160)}`);
+      return response.json();
+    } catch (error) {
+      lastError = error;
+      if (attempt < 2) await sleep(1500);
+    }
+  }
+  throw lastError;
 }
 
 async function readDb() {
   try {
     const db = JSON.parse(await readFile(DATA_FILE, "utf8"));
-    return { dailyReports: {}, lateReports: {}, weeklyReports: {}, jobLogs: [], ...db };
+    return {
+      dailyReports: db.dailyReports || {},
+      lateReports: db.lateReports || {},
+      weeklyReports: db.weeklyReports || {},
+      latePortfolio: db.latePortfolio || null,
+      jobLogs: db.jobLogs || []
+    };
   } catch {
-    return { dailyReports: {}, lateReports: {}, weeklyReports: {}, jobLogs: [] };
+    return { dailyReports: {}, lateReports: {}, weeklyReports: {}, latePortfolio: null, jobLogs: [] };
   }
 }
 
-async function saveDb(db) {
+async function writeDb(db) {
   await mkdir("data", { recursive: true });
   await writeFile(DATA_FILE, `${JSON.stringify(db, null, 2)}\n`, "utf8");
 }
 
-async function fetchJson(url, options = {}, retries = 1) {
-  let last;
-  for (let attempt = 0; attempt <= retries; attempt += 1) {
-    try {
-      const res = await fetch(url, { headers: { "user-agent": "Mozilla/5.0", accept: "application/json,text/plain,*/*" }, ...options });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch (err) {
-      last = err;
-      if (attempt < retries) await wait(1200);
-    }
+async function writeJson(path, payload) {
+  await mkdir(join(path, "..").replace(/\\/g, "/"), { recursive: true });
+  await writeFile(path, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+}
+
+function today() {
+  return shanghaiParts(new Date()).date;
+}
+
+function shanghaiParts(input) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  }).formatToParts(input).reduce((acc, part) => (acc[part.type] = part.value, acc), {});
+  return { date: `${parts.year}-${parts.month}-${parts.day}`, hour: Number(parts.hour), minute: Number(parts.minute) };
+}
+
+function assertMarketReportAllowed(type, date) {
+  const now = shanghaiParts(new Date());
+  const hour = type === "late" ? 14 : 16;
+  const minute = type === "late" ? 55 : 0;
+  if (!isWeekday(date)) throw new Error("报告只在交易日生成；周末不生成当天报告。");
+  if (date > now.date) throw new Error("不能生成未来日期的报告。");
+  if (date === now.date && (now.hour < hour || (now.hour === hour && now.minute < minute))) {
+    throw new Error(`${type === "late" ? "尾盘报告" : "日报"}将在交易日 ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")} 后生成；当前未到自动生成时间。`);
   }
-  throw last;
 }
 
-async function withJobRetry(fn) {
-  try { return await fn(); }
-  catch (err) {
-    console.log(`first run failed, retrying once: ${err.message}`);
-    await wait(3000);
-    return await fn();
-  }
+function previousWeekday(date) {
+  let d = addDays(date, -1);
+  while (!isWeekday(d)) d = addDays(d, -1);
+  return d;
 }
 
-function allowRun(type, date) {
-  if (!isWeekday(date)) return { ok: false, reason: "not a trading weekday" };
-  const now = cnParts();
-  if (date !== now.date) return { ok: true };
-  const threshold = type === "late" ? 14 * 60 + 55 : 16 * 60;
-  if (now.minute < threshold) return { ok: false, reason: `before ${type === "late" ? "14:55" : "16:00"} Asia/Shanghai` };
-  return { ok: true };
+function isWeekday(date) {
+  const day = new Date(`${date}T00:00:00+08:00`).getUTCDay();
+  return day >= 1 && day <= 5;
 }
 
-async function fetchMarketPage(pn) {
-  const url = new URL("https://push2.eastmoney.com/api/qt/clist/get");
-  url.search = new URLSearchParams({ pn: String(pn), pz: String(PAGE_SIZE), po: "1", np: "1", fltt: "2", invt: "2", fid: "f62", fs: FS_ALL_A, fields: EM_FIELDS }).toString();
-  const json = await fetchJson(url);
-  return json.data || { diff: [], total: 0 };
+function addDays(date, days) {
+  const d = new Date(`${date}T00:00:00+08:00`);
+  d.setUTCDate(d.getUTCDate() + days);
+  return shanghaiParts(d).date;
 }
 
-async function fetchAllMarketHotStocks() {
-  const first = await fetchMarketPage(1);
-  const total = Number(first.total || first.diff?.length || 0);
-  const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-  const all = [...(first.diff || [])];
-  for (let pn = 2; pn <= pages; pn += 1) {
-    const data = await fetchMarketPage(pn);
-    all.push(...(data.diff || []));
-    await wait(180);
-  }
-  return all.map(normalizeStock).filter(s => s.symbol && s.name && s.price > 0 && s.amount > 0);
+function weekKey(date) {
+  const d = new Date(`${date}T00:00:00+08:00`);
+  const day = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - day);
+  const start = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const week = Math.ceil((((d - start) / 86400000) + 1) / 7);
+  return `${d.getUTCFullYear()}-${String(week).padStart(2, "0")}`;
 }
 
-function normalizeStock(x) {
-  const superNet = num(x.f66) || 0;
-  const largeNet = num(x.f72) || 0;
-  const bigNet = superNet + largeNet;
-  return {
-    symbol: String(x.f12 || ""), name: String(x.f14 || ""), price: num(x.f2), changePct: num(x.f3), amount: num(x.f6), amplitude: num(x.f7), turnoverRate: num(x.f8), volumeRatio: num(x.f10), mainNetInflow: num(x.f62), superLargeOrderNetAmount: superNet, superLargeOrderNetRatio: num(x.f69), largeOrderNetAmount: largeNet, largeOrderNetRatio: num(x.f75), bigOrderNetAmount: bigNet
-  };
+function isLimitUp(stock) {
+  const threshold = limitUpThreshold(stock);
+  return Number(stock.changePct) >= threshold - 0.15;
 }
 
-function baseScore(s) {
-  const positive = Math.max(0, s.changePct || 0);
-  const bigRatio = Math.max(0, s.largeOrderNetRatio || 0) + Math.max(0, s.superLargeOrderNetRatio || 0);
-  return round(
-    clamp((s.amount || 0) / 20000000000, 0, 1) * 24 +
-    clamp(positive / 10, 0, 1) * 22 +
-    clamp((s.turnoverRate || 0) / 20, 0, 1) * 16 +
-    clamp((s.volumeRatio || 0) / 5, 0, 1) * 14 +
-    clamp((s.amplitude || 0) / 15, 0, 1) * 8 +
-    clamp(Math.max(0, s.bigOrderNetAmount || 0) / 500000000, 0, 1) * 10 +
-    clamp(bigRatio / 12, 0, 1) * 6
-  );
+function limitUpThreshold(stock) {
+  const name = String(stock.name || "").toUpperCase();
+  const symbol = normalizeSymbol(stock.symbol);
+  if (name.includes("ST")) return 5;
+  if (symbol.startsWith("BJ")) return 30;
+  if (/^(SZ30|SH68|SH69)/.test(symbol)) return 20;
+  return 10;
 }
 
-function yahooSymbol(symbol) {
-  if (/^[036]/.test(symbol)) return `${symbol}.${symbol.startsWith("6") ? "SS" : "SZ"}`;
-  if (/^[489]/.test(symbol)) return `${symbol}.BJ`;
-  return `${symbol}.SS`;
+function normalizeSymbol(symbol) {
+  const raw = String(symbol || "").trim().toUpperCase().replace(".", "");
+  if (/^(SH|SZ|BJ)\d{6}$/.test(raw)) return raw;
+  if (/^6\d{5}$/.test(raw)) return `SH${raw}`;
+  if (/^[038]\d{5}$/.test(raw)) return `SZ${raw}`;
+  if (/^[492]\d{5}$/.test(raw)) return `BJ${raw}`;
+  return raw;
 }
 
-async function fetchKline(symbol) {
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${yahooSymbol(symbol)}?range=6mo&interval=1d`;
-  const json = await fetchJson(url);
-  const result = json.chart?.result?.[0];
-  const ts = result?.timestamp || [];
-  const q = result?.indicators?.quote?.[0] || {};
-  return ts.map((t, i) => ({ date: new Date(t * 1000).toISOString().slice(0, 10), open: round(q.open?.[i]), high: round(q.high?.[i]), low: round(q.low?.[i]), close: round(q.close?.[i]), volume: q.volume?.[i] ?? null })).filter(k => [k.open, k.high, k.low, k.close].every(v => v !== null));
+function toYahooSymbol(symbol) {
+  const normalized = normalizeSymbol(symbol);
+  const code = normalized.slice(2);
+  if (normalized.startsWith("SH")) return `${code}.SS`;
+  if (normalized.startsWith("SZ")) return `${code}.SZ`;
+  if (normalized.startsWith("BJ")) return `${code}.BJ`;
+  return normalized;
 }
 
-function trendScore(kline) {
-  if (kline.length < 20) return 0;
-  const first = kline[0].close;
-  const last = kline.at(-1).close;
-  const pct = first ? (last - first) / first * 100 : 0;
-  return round(clamp(pct / 30, -1, 1) * 8);
+function toEastmoneySecid(symbol) {
+  const normalized = normalizeSymbol(symbol);
+  const code = normalized.slice(2);
+  if (normalized.startsWith("SH")) return `1.${code}`;
+  if (normalized.startsWith("SZ") || normalized.startsWith("BJ")) return `0.${code}`;
+  return "";
 }
 
-function isLimitUp(symbol, name, pct) {
-  if (!Number.isFinite(pct)) return false;
-  let limit = 10;
-  if (name.includes("ST")) limit = 5;
-  else if (/^(8|4|9)/.test(symbol)) limit = 30;
-  else if (/^(30|68|69)/.test(symbol)) limit = 20;
-  return pct >= limit - 0.15;
+function number(value) {
+  const n = Number(value || 0);
+  return Number.isFinite(n) ? n : 0;
 }
 
-async function fetchQuotes(symbols) {
-  if (!symbols.length) return new Map();
-  const secids = symbols.map(s => `${s.startsWith("6") ? "1" : "0"}.${s}`).join(",");
-  const url = new URL("https://push2.eastmoney.com/api/qt/ulist.np/get");
-  url.search = new URLSearchParams({ fltt: "2", fields: "f12,f14,f2,f3,f17", secids }).toString();
-  const json = await fetchJson(url);
-  return new Map((json.data?.diff || []).map(x => [String(x.f12), { symbol: String(x.f12), name: String(x.f14), close: num(x.f2), changePct: num(x.f3), open: num(x.f17) }]));
+function round(value, digits = 2) {
+  const n = Number(value);
+  return Number.isFinite(n) ? Number(n.toFixed(digits)) : null;
 }
 
-async function previousStats(db, type, date) {
-  const prev = prevWeekday(date);
-  const source = (type === "late" ? db.lateReports?.[prev] : db.dailyReports?.[prev]) || db.dailyReports?.[prev] || db.lateReports?.[prev];
-  if (!source?.stocks?.length) return [];
-  const quotes = await fetchQuotes(source.stocks.map(s => s.symbol));
-  return source.stocks.slice(0, 5).map(s => {
-    const q = quotes.get(s.symbol) || {};
-    const openClose = q.open && q.close ? (q.close - q.open) / q.open * 100 : null;
-    return { symbol: s.symbol, name: s.name, yesterdayChangePct: round(s.changePct), wasLimitUpYesterday: isLimitUp(s.symbol, s.name, s.changePct), todayChangePct: round(q.changePct), todayOpen: q.open ?? null, todayClose: q.close ?? null, todayCloseVsOpenPct: round(openClose) };
-  });
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
 }
 
-function keyPoints(s, kline) {
-  const points = [];
-  if ((s.amount || 0) > 10000000000) points.push("成交额居前");
-  if ((s.changePct || 0) > 3) points.push("价格正向表现较强");
-  if ((s.turnoverRate || 0) > 8) points.push("换手活跃");
-  if ((s.volumeRatio || 0) > 1.5) points.push("量能放大");
-  if ((s.bigOrderNetAmount || 0) > 0) points.push("大单资金净流入"); else points.push("大单资金为负，热度主要来自价格或成交活跃");
-  if (trendScore(kline) > 0) points.push("近半年趋势改善");
-  return points.slice(0, 5);
+function formatAmount(value) {
+  const n = number(value);
+  if (Math.abs(n) >= 100000000) return `${(n / 100000000).toFixed(1)} 亿`;
+  if (Math.abs(n) >= 10000) return `${(n / 10000).toFixed(0)} 万`;
+  return String(Math.round(n));
 }
 
-function factors(s) {
-  const f = [];
-  if ((s.bigOrderNetAmount || 0) > 0) f.push("大单净流入");
-  if ((s.superLargeOrderNetAmount || 0) > 0) f.push("超大单活跃");
-  if ((s.mainNetInflow || 0) > 0) f.push("主力资金");
-  if ((s.changePct || 0) > 0) f.push("正向涨幅");
-  if ((s.volumeRatio || 0) > 1.5) f.push("放量");
-  return f;
+function formatPercent(value) {
+  return `${number(value).toFixed(2)}%`;
 }
 
-async function generateMarketReport(type, date = todayCN()) {
-  const gate = allowRun(type, date);
-  if (!gate.ok) return { skipped: true, type, date, reason: gate.reason };
-  const db = await readDb();
-  const market = await fetchAllMarketHotStocks();
-  const candidates = market.map(s => ({ ...s, activityScore: baseScore(s) })).sort((a, b) => b.activityScore - a.activityScore).slice(0, 30);
-  const enriched = [];
-  for (const s of candidates) {
-    let kline = [];
-    try { kline = await fetchKline(s.symbol); } catch (err) { console.log(`kline failed ${s.symbol}: ${err.message}`); }
-    const t = trendScore(kline);
-    enriched.push({ ...s, kline, trendScore: t, heatScore: round(s.activityScore + Math.max(0, t)) });
-    await wait(120);
-  }
-  const stocks = enriched.sort((a, b) => b.heatScore - a.heatScore).slice(0, 5).map((s, i) => ({ rank: i + 1, symbol: s.symbol, name: s.name, heatScore: s.heatScore, activityScore: s.activityScore, momentumScore: s.trendScore, changePct: round(s.changePct), turnoverRate: round(s.turnoverRate), amount: s.amount, volumeRatio: round(s.volumeRatio), amplitude: round(s.amplitude), mainNetInflow: s.mainNetInflow, superLargeOrderNetAmount: s.superLargeOrderNetAmount, largeOrderNetAmount: s.largeOrderNetAmount, largeOrderNetRatio: round(s.largeOrderNetRatio), bigOrderNetAmount: s.bigOrderNetAmount, keyPoints: keyPoints(s, s.kline), positiveFactors: factors(s), kline: s.kline, klineStatus: s.kline.length ? "ok" : "行情数据异常" }));
-  const report = { type, date, generatedAt: new Date().toISOString(), source: "Eastmoney free market data + Yahoo Finance kline", ratingPolicy: "尾盘报告和日报使用同一热度评分；周报只汇总16:00日报，不把14:55尾盘报告重复计入周排行。", totalCandidates: market.length, stocks, previousDayStocksTodayChange: await previousStats(db, type, date), status: "ok" };
-  if (type === "late") db.lateReports[date] = report; else db.dailyReports[date] = report;
-  db.jobLogs.unshift({ jobName: `${type}-report`, startedAt: report.generatedAt, finishedAt: new Date().toISOString(), status: "ok", errorMessage: null });
-  db.jobLogs = db.jobLogs.slice(0, 60);
-  await saveDb(db);
-  await exportStatic(db);
-  return report;
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-async function generateWeekly(date = todayCN()) {
-  const db = await readDb();
-  const { start, end } = rangeForWeek(date);
-  const reports = Object.values(db.dailyReports || {}).filter(r => r.date >= start && r.date <= end && r.status === "ok");
-  const map = new Map();
-  for (const r of reports) for (const s of r.stocks || []) {
-    const item = map.get(s.symbol) || { symbol: s.symbol, name: s.name, weeklyHeatScore: 0, appearances: 0, avgMomentumScore: 0 };
-    item.weeklyHeatScore += s.heatScore || 0;
-    item.avgMomentumScore += s.momentumScore || 0;
-    item.appearances += 1;
-    map.set(s.symbol, item);
-  }
-  const stocks = [...map.values()].map(s => ({ ...s, weeklyHeatScore: round(s.weeklyHeatScore), avgMomentumScore: round(s.avgMomentumScore / s.appearances), weeklySummary: `本周入选日报${s.appearances}次，周热度按16:00日报累计，不含尾盘报告重复计数。` })).sort((a, b) => b.weeklyHeatScore - a.weeklyHeatScore).slice(0, 10).map((s, i) => ({ rank: i + 1, ...s }));
-  const week = currentWeek(date);
-  const report = { type: "weekly", week, rangeStart: start, rangeEnd: end, generatedAt: new Date().toISOString(), ratingPolicy: "周报只汇总16:00日报；14:55尾盘报告用于盘中观察和昨日股票统计，不参与周评级重复计分。", stocks, status: "ok" };
-  db.weeklyReports[week] = report;
-  db.jobLogs.unshift({ jobName: "weekly-report", startedAt: report.generatedAt, finishedAt: new Date().toISOString(), status: "ok", errorMessage: null });
-  db.jobLogs = db.jobLogs.slice(0, 60);
-  await saveDb(db);
-  await exportStatic(db);
-  return report;
-}
-
-async function exportStatic(db = null) {
-  db ||= await readDb();
-  await mkdir(join(OUT_DIR, "daily"), { recursive: true });
-  await mkdir(join(OUT_DIR, "late"), { recursive: true });
-  await mkdir(join(OUT_DIR, "weekly"), { recursive: true });
-  const dailyDates = Object.keys(db.dailyReports || {}).sort();
-  const lateDates = Object.keys(db.lateReports || {}).sort();
-  const weeks = Object.keys(db.weeklyReports || {}).sort();
-  for (const d of dailyDates) await writeFile(join(OUT_DIR, "daily", `${d}.json`), JSON.stringify(db.dailyReports[d], null, 2));
-  for (const d of lateDates) await writeFile(join(OUT_DIR, "late", `${d}.json`), JSON.stringify(db.lateReports[d], null, 2));
-  for (const w of weeks) await writeFile(join(OUT_DIR, "weekly", `${w}.json`), JSON.stringify(db.weeklyReports[w], null, 2));
-  const recent = { generatedAt: new Date().toISOString(), latestDailyDate: dailyDates.at(-1) || null, latestLateDate: lateDates.at(-1) || null, latestWeek: weeks.at(-1) || null, dailyReports: dailyDates.slice(-7).reverse(), lateReports: lateDates.slice(-7).reverse(), weeklyReports: weeks.slice(-8).reverse(), jobLogs: (db.jobLogs || []).slice(0, 20) };
-  await writeFile(join(OUT_DIR, "recent.json"), JSON.stringify(recent, null, 2));
-  if (weeks.at(-1)) await writeFile(join(OUT_DIR, "weekly-latest.json"), JSON.stringify(db.weeklyReports[weeks.at(-1)], null, 2));
-}
-
-async function main() {
-  const [cmd, argDate] = process.argv.slice(2);
-  if (cmd === "late") console.log(JSON.stringify(await withJobRetry(() => generateMarketReport("late", argDate || todayCN())), null, 2));
-  else if (cmd === "daily") console.log(JSON.stringify(await withJobRetry(() => generateMarketReport("daily", argDate || todayCN())), null, 2));
-  else if (cmd === "weekly") console.log(JSON.stringify(await withJobRetry(() => generateWeekly(argDate || todayCN())), null, 2));
-  else if (cmd === "export-static") { await exportStatic(); console.log("exported static report data"); }
-  else if (cmd === "check") console.log("ok");
-  else throw new Error("Usage: node src/cli.js late|daily|weekly|export-static|check [YYYY-MM-DD]");
-}
-
-main().catch(err => { console.error(err); process.exit(1); });
