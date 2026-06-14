@@ -49,6 +49,77 @@ jobs:
 
       - run: npm install
 
+      - name: Patch stock links and metric layout
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const htmlPath = 'outputs/xueqiu-stock-report.html';
+          let html = fs.readFileSync(htmlPath, 'utf8');
+
+          if (!html.includes('.stocklinks')) {
+            html = html.replace(
+              '    .body{display:grid;',
+              '    .stocklinks{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}.stocklinks a{color:#145e58;text-decoration:none;border:1px solid #c8e3df;border-radius:999px;padding:3px 8px;font-size:12px;font-weight:800;background:#eef7f6}.scoreline{grid-column:2 / 5;display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:14px}.scoreline .field{min-width:0}\n    .body{display:grid;'
+            );
+            html = html.replace(
+              '.head{grid-template-columns:1fr 1fr}.chart{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:16px}',
+              '.head{grid-template-columns:1fr 1fr}.scoreline{grid-column:1 / -1;grid-template-columns:repeat(3,minmax(120px,1fr))}.chart{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:16px}'
+            );
+            html = html.replace(
+              '@media(max-width:620px){header,main{padding-left:16px;padding-right:16px}.metrics,.head,.prevgrid{grid-template-columns:1fr}',
+              '@media(max-width:620px){header,main{padding-left:16px;padding-right:16px}.metrics,.head,.prevgrid{grid-template-columns:1fr}.scoreline{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.scoreline .field b{font-size:16px}.stocklinks a{padding:3px 7px}'
+            );
+          }
+
+          if (!html.includes('function stockLinks')) {
+            html = html.replace(
+              '    function prev(r,label){',
+              '    function codeOf(symbol){return String(symbol||"").replace(/^(SH|SZ|BJ)/,"")}\n    function xqSymbol(symbol){return String(symbol||"").toUpperCase()}\n    function stockLinks(symbol){const code=codeOf(symbol),xq=xqSymbol(symbol);return `<div class="stocklinks"><a href="https://stockpage.10jqka.com.cn/${code}/" target="_blank" rel="noopener">同花顺</a><a href="https://xueqiu.com/S/${xq}" target="_blank" rel="noopener">雪球</a></div>`}\n    function prev(r,label){'
+            );
+          }
+
+          if (!html.includes('class="scoreline"')) {
+            html = html.replace(
+              '<span>${esc(i.symbol)}</span></div></div><div class="field"><span>热度评分</span>',
+              '<span>${esc(i.symbol)}</span>${stockLinks(i.symbol)}</div></div><div class="scoreline"><div class="field"><span>热度评分</span>'
+            );
+            html = html.replace(
+              '${pct(i.changePct)}</b></div></div><div class="body">',
+              '${pct(i.changePct)}</b></div></div></div><div class="body">'
+            );
+          } else if (!html.includes('${stockLinks(i.symbol)}</div></div><div class="scoreline"')) {
+            html = html.replace(
+              '<span>${esc(i.symbol)}</span></div></div><div class="scoreline">',
+              '<span>${esc(i.symbol)}</span>${stockLinks(i.symbol)}</div></div><div class="scoreline">'
+            );
+          }
+
+          if (!html.includes('<span>${esc(i.name||i.symbol||"-")}</span>${stockLinks(i.symbol)}')) {
+            html = html.replace(
+              '<div class="previtem"><span>${esc(i.name||i.symbol||"-")}</span><b',
+              '<div class="previtem"><span>${esc(i.name||i.symbol||"-")}</span>${stockLinks(i.symbol)}<b'
+            );
+          }
+
+          if (!html.includes('<span>${esc(i.symbol)}</span>${stockLinks(i.symbol)}</td>')) {
+            html = html.replace(
+              '<td><b>${esc(i.name)}</b><br><span>${esc(i.symbol)}</span></td>',
+              '<td><b>${esc(i.name)}</b><br><span>${esc(i.symbol)}</span>${stockLinks(i.symbol)}</td>'
+            );
+          }
+
+          fs.writeFileSync(htmlPath, html);
+
+          const dbPath = 'data/reports.json';
+          if (fs.existsSync(dbPath)) {
+            const db = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+            if (db.dailyReports && db.dailyReports['2026-06-12']) {
+              db.dailyReports['2026-06-12'].generatedAt = new Date().toISOString();
+              fs.writeFileSync(dbPath, JSON.stringify(db, null, 2) + '\n');
+            }
+          }
+          NODE
+
       - name: Generate late-session report
         if: github.event.schedule == '55 6 * * 1-5' || github.event.inputs.job == 'late'
         run: |
