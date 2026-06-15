@@ -53,6 +53,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - uses: actions/setup-node@v4
         with:
@@ -110,7 +112,7 @@ jobs:
             git add -f data/reports.json
           fi
           git diff --cached --quiet || git commit -m "Update generated stock reports"
-          git push
+          git push || (git pull --rebase origin main && git push)
 
       - uses: actions/configure-pages@v5
 
