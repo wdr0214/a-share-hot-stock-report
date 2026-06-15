@@ -4,8 +4,18 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "55 6 * * 1-5"
+    - cron: "50 6 * * 1-5"
+    - cron: "51 6 * * 1-5"
+    - cron: "52 6 * * 1-5"
+    - cron: "53 6 * * 1-5"
+    - cron: "54 6 * * 1-5"
+    - cron: "50 7 * * 1-5"
     - cron: "0 8 * * 1-5"
+    - cron: "1 8 * * 1-5"
+    - cron: "2 8 * * 1-5"
+    - cron: "3 8 * * 1-5"
+    - cron: "4 8 * * 1-5"
+    - cron: "0 9 * * 1-5"
     - cron: "15 14 * * 5"
   workflow_dispatch:
     inputs:
@@ -19,6 +29,7 @@ on:
           - late
           - daily
           - weekly
+          - catchup
       date:
         description: "Optional report date YYYY-MM-DD"
         required: false
@@ -49,8 +60,12 @@ jobs:
 
       - run: npm install
 
+      - name: Run scheduled catchup
+        if: github.event_name == 'schedule' && github.event.schedule != '15 14 * * 5'
+        run: npm run run:catchup
+
       - name: Generate late-session report
-        if: github.event.schedule == '55 6 * * 1-5' || github.event.inputs.job == 'late'
+        if: github.event.inputs.job == 'late'
         run: |
           if [ -n "${{ github.event.inputs.date }}" ]; then
             npm run run:late -- "${{ github.event.inputs.date }}"
@@ -59,7 +74,7 @@ jobs:
           fi
 
       - name: Generate daily report
-        if: github.event.schedule == '0 8 * * 1-5' || github.event.inputs.job == 'daily'
+        if: github.event.inputs.job == 'daily'
         run: |
           if [ -n "${{ github.event.inputs.date }}" ]; then
             npm run run:daily -- "${{ github.event.inputs.date }}"
@@ -75,6 +90,10 @@ jobs:
           else
             npm run run:weekly
           fi
+
+      - name: Manual catchup
+        if: github.event.inputs.job == 'catchup'
+        run: npm run run:catchup
 
       - name: Export static report data
         run: npm run export:static
