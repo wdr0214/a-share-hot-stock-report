@@ -1,28 +1,96 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const DATA_FILE = "data/reports.json";
 const OUT_DIR = "outputs/data/reports";
+const REPORT_RETENTION_DAYS = 180;
+const REQUEST_RETRIES = 3;
+const REQUEST_RETRY_DELAY_MS = 10000;
 const EASTMONEY_FIELDS = "f12,f14,f2,f3,f6,f7,f8,f10,f62,f66,f69,f72,f75,f100";
 const QUOTE_FIELDS = "f12,f14,f2,f3,f17";
 
 const command = process.argv[2] || "check";
 const argDate = process.argv[3];
 
-if (command === "late") console.log(JSON.stringify(await withRetry("late-report", () => generateMarketReport("late", argDate || today())), null, 2));
-else if (command === "daily") console.log(JSON.stringify(await withRetry("daily-report", () => generateMarketReport("daily", argDate || today())), null, 2));
-else if (command === "weekly") console.log(JSON.stringify(await withRetry("weekly-report", () => generateWeekly(argDate || today())), null, 2));
+if (command === "late") console.log(JSON.stringify(await runReportJob("late", argDate || today(), { force: true }), null, 2));
+else if (command === "daily") console.log(JSON.stringify(await runReportJob("daily", argDate || today(), { force: true }), null, 2));
+else if (command === "weekly") console.log(JSON.stringify(await runWeeklyJob(argDate || today()), null, 2));
+else if (command === "catchup") console.log(JSON.stringify(await catchupReports(), null, 2));
 else if (command === "export-static") console.log(JSON.stringify(await exportStatic(), null, 2));
 else if (command === "check") console.log(JSON.stringify({ ok: true, runtime: "github-pages-actions" }, null, 2));
 else throw new Error(`Unknown command: ${command}`);
 
-async function withRetry(label, task) {
+async function withRetry(label, task, retryDelayMs = REQUEST_RETRY_DELAY_MS) {
+  let lastError;
+  for (let attempt = 0; attempt <= REQUEST_RETRIES; attempt += 1) {
+    try {
+      return await task();
+    } catch (error) {
+      lastError = error;
+      if (attempt >= REQUEST_RETRIES) break;
+      console.warn(`${label} attempt ${attempt + 1} failed, retrying in ${Math.round(retryDelayMs / 1000)}s: ${error.message}`);
+      await sleep(retryDelayMs);
+    }
+  }
+  throw lastError;
+}
+
+async function runReportJob(type, date, { force = false } = {}) {
+  const db = await readDb();
+  const collection = type === "late" ? db.lateReports : db.dailyReports;
+  if (!force && collection[date]?.status === "ok") {
+    return { skipped: true, reason: "report_already_ok", type, date };
+  }
   try {
-    return await task();
-  } catch (firstError) {
-    console.warn(`${label} failed once, retrying: ${firstError.message}`);
-    await sleep(2500);
-    return task();
+    return await generateMarketReport(type, date);
+  } catch (error) {
+    await recordFailureLog(type === "late" ? "late-report" : "daily-report", date, error);
+    throw error;
+  }
+}
+
+async function runWeeklyJob(date) {
+  try {
+    return await generateWeekly(date);
+  } catch (error) {
+    await recordFailureLog("weekly-report", weekKey(date), error);
+    throw error;
+  }
+}
+
+async function catchupReports() {
+  const now = shanghaiParts(new Date());
+  const date = now.date;
+  const results = [];
+  if (!isWeekday(date)) return { date, results, skipped: "not_trading_weekday" };
+
+  const db = await readDb();
+  if (isMarketReportDue("late", now)) {
+    const late = db.lateReports[date];
+    if (!late || late.status !== "ok") {
+      results.push(await catchupOne("late", date));
+    } else {
+      results.push({ type: "late", skipped: "already_ok" });
+    }
+  }
+  if (isMarketReportDue("daily", now)) {
+    const latestDb = await readDb();
+    const daily = latestDb.dailyReports[date];
+    if (!daily || daily.status !== "ok") {
+      results.push(await catchupOne("daily", date));
+    } else {
+      results.push({ type: "daily", skipped: "already_ok" });
+    }
+  }
+  if (!results.length) results.push({ skipped: "no_report_due_yet" });
+  return { date, now, results };
+}
+
+async function catchupOne(type, date) {
+  try {
+    return { type, result: await runReportJob(type, date) };
+  } catch (error) {
+    return { type, status: "failed", error: error.message };
   }
 }
 
@@ -114,6 +182,7 @@ async function generateMarketReport(type, date) {
     reportKey: date
   });
   db.jobLogs = db.jobLogs.slice(-200);
+  pruneDb(db);
   await writeDb(db);
   await exportStatic(db);
   return report;
@@ -169,7 +238,7 @@ async function updateLatePortfolio(db, report) {
     sold: sellRecords,
     bought: buyRecords
   };
-  db.latePortfolio = { netValue: snapshot.netValue, cash, holdings, history: [...(state.history || []), snapshot].slice(-250) };
+  db.latePortfolio = { netValue: snapshot.netValue, cash, holdings, history: [...(state.history || []), snapshot].slice(-REPORT_RETENTION_DAYS) };
   return snapshot;
 }
 
@@ -224,6 +293,7 @@ async function generateWeekly(date) {
   db.weeklyReports[report.week] = report;
   db.jobLogs.push({ jobName: "weekly-report", startedAt: report.generatedAt, finishedAt: new Date().toISOString(), status: "success", errorMessage: "", reportKey: report.week });
   db.jobLogs = db.jobLogs.slice(-200);
+  pruneDb(db);
   await writeDb(db);
   await exportStatic(db);
   return report;
@@ -234,9 +304,13 @@ async function exportStatic(existingDb) {
   await mkdir(join(OUT_DIR, "daily"), { recursive: true });
   await mkdir(join(OUT_DIR, "late"), { recursive: true });
 
-  const recentDaily = Object.values(db.dailyReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 7);
-  const recentLate = Object.values(db.lateReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 7);
-  await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily, lateReports: recentLate });
+  pruneDb(db);
+  await cleanReportDir(join(OUT_DIR, "daily"));
+  await cleanReportDir(join(OUT_DIR, "late"));
+
+  const recentDaily = Object.values(db.dailyReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
+  const recentLate = Object.values(db.lateReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
+  await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily.map(reportIndexItem), lateReports: recentLate.map(reportIndexItem) });
   await writeJson(join(OUT_DIR, "logs.json"), { logs: db.jobLogs.slice(-30).reverse() });
   for (const report of recentDaily) await writeJson(join(OUT_DIR, "daily", `${report.date}.json`), report);
   for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), report);
@@ -405,6 +479,17 @@ function normalizeEastmoney(item) {
 
 function businessConcepts(stock) {
   const concepts = [];
+  const name = String(stock.name || "");
+  const known = [
+    [/远东股份/, ["电线电缆", "智能缆网"]],
+    [/铜冠铜箔/, ["电子铜箔", "锂电材料"]],
+    [/诺德股份/, ["铜箔材料", "新能源材料"]],
+    [/盛屯矿业/, ["有色金属", "矿产资源"]],
+    [/宗申动力/, ["通用动力", "摩托车动力"]]
+  ];
+  for (const [pattern, labels] of known) {
+    if (pattern.test(name)) concepts.push(...labels);
+  }
   if (stock.industry) concepts.push(stock.industry);
   const text = `${stock.name}${stock.industry}`;
   const rules = [
@@ -470,7 +555,7 @@ function trendScore(kline) {
 
 async function fetchJson(url) {
   let lastError;
-  for (let attempt = 1; attempt <= 2; attempt += 1) {
+  for (let attempt = 0; attempt <= REQUEST_RETRIES; attempt += 1) {
     try {
       const response = await fetch(url, {
         headers: {
@@ -483,10 +568,32 @@ async function fetchJson(url) {
       return response.json();
     } catch (error) {
       lastError = error;
-      if (attempt < 2) await sleep(1500);
+      if (attempt < REQUEST_RETRIES) {
+        console.warn(`external request failed, retrying in ${REQUEST_RETRY_DELAY_MS / 1000}s: ${error.message}`);
+        await sleep(REQUEST_RETRY_DELAY_MS);
+      }
     }
   }
   throw lastError;
+}
+
+async function recordFailureLog(jobName, reportKey, error) {
+  const db = await readDb();
+  const now = new Date().toISOString();
+  db.jobLogs.push({
+    jobName,
+    startedAt: now,
+    finishedAt: now,
+    status: "failed",
+    errorMessage: error.message,
+    reportKey,
+    attempts: REQUEST_RETRIES + 1,
+    nextRetryHint: "scheduled catchup or one-hour rerun"
+  });
+  db.jobLogs = db.jobLogs.slice(-200);
+  pruneDb(db);
+  await writeDb(db);
+  await exportStatic(db);
 }
 
 async function readDb() {
@@ -505,6 +612,7 @@ async function readDb() {
 }
 
 async function writeDb(db) {
+  pruneDb(db);
   await mkdir("data", { recursive: true });
   await writeFile(DATA_FILE, `${JSON.stringify(db, null, 2)}\n`, "utf8");
 }
@@ -512,6 +620,57 @@ async function writeDb(db) {
 async function writeJson(path, payload) {
   await mkdir(join(path, "..").replace(/\\/g, "/"), { recursive: true });
   await writeFile(path, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+}
+
+async function cleanReportDir(dir) {
+  try {
+    const files = await readdir(dir);
+    await Promise.all(files.filter((file) => file.endsWith(".json")).map((file) => rm(join(dir, file), { force: true })));
+  } catch {
+    await mkdir(dir, { recursive: true });
+  }
+}
+
+function pruneDb(db) {
+  db.dailyReports = pruneReportMap(db.dailyReports || {}, "date", REPORT_RETENTION_DAYS);
+  db.lateReports = pruneReportMap(db.lateReports || {}, "date", REPORT_RETENTION_DAYS);
+  db.weeklyReports = pruneReportMap(db.weeklyReports || {}, "rangeEnd", REPORT_RETENTION_DAYS);
+  db.jobLogs = (db.jobLogs || []).slice(-200);
+  if (db.latePortfolio?.history) {
+    db.latePortfolio.history = db.latePortfolio.history.slice(-REPORT_RETENTION_DAYS);
+  }
+}
+
+function pruneReportMap(map, dateField, limit) {
+  return Object.fromEntries(
+    Object.entries(map)
+      .sort(([, a], [, b]) => String(b?.[dateField] || b?.date || "").localeCompare(String(a?.[dateField] || a?.date || "")))
+      .slice(0, limit)
+  );
+}
+
+function reportIndexItem(report) {
+  return {
+    type: report.type,
+    date: report.date,
+    week: report.week,
+    generatedAt: report.generatedAt,
+    status: report.status,
+    totalCandidates: report.totalCandidates,
+    stocks: (report.stocks || []).slice(0, 5).map((stock) => ({
+      rank: stock.rank,
+      symbol: stock.symbol,
+      name: stock.name,
+      heatScore: stock.heatScore,
+      weeklyHeatScore: stock.weeklyHeatScore
+    }))
+  };
+}
+
+function isMarketReportDue(type, now = shanghaiParts(new Date())) {
+  const hour = type === "late" ? 14 : 16;
+  const minute = type === "late" ? 50 : 0;
+  return now.hour > hour || (now.hour === hour && now.minute >= minute);
 }
 
 function today() {
@@ -534,7 +693,7 @@ function shanghaiParts(input) {
 function assertMarketReportAllowed(type, date) {
   const now = shanghaiParts(new Date());
   const hour = type === "late" ? 14 : 16;
-  const minute = type === "late" ? 55 : 0;
+  const minute = type === "late" ? 50 : 0;
   if (!isWeekday(date)) throw new Error("报告只在交易日生成；周末不生成当天报告。");
   if (date > now.date) throw new Error("不能生成未来日期的报告。");
   if (date === now.date && (now.hour < hour || (now.hour === hour && now.minute < minute))) {
