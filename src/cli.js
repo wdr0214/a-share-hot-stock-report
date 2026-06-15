@@ -708,7 +708,7 @@ function previousWeekday(date) {
 }
 
 function isWeekday(date) {
-  const day = new Date(`${date}T00:00:00+08:00`).getUTCDay();
+  const day = new Date(`${date}T12:00:00+08:00`).getUTCDay();
   return day >= 1 && day <= 5;
 }
 
@@ -719,7 +719,7 @@ function addDays(date, days) {
 }
 
 function weekKey(date) {
-  const d = new Date(`${date}T00:00:00+08:00`);
+  const d = new Date(`${date}T12:00:00+08:00`);
   const day = d.getUTCDay() || 7;
   d.setUTCDate(d.getUTCDate() + 4 - day);
   const start = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
