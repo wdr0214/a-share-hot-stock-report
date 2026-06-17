@@ -3,7 +3,7 @@
     {
       "type": "daily",
       "date": "2026-06-17",
-      "generatedAt": "2026-06-17T15:03:45.738Z",
+      "generatedAt": "2026-06-17T18:05:17.100Z",
       "status": "ok",
       "totalCandidates": 5527,
       "stocks": [
@@ -21,20 +21,20 @@
         },
         {
           "rank": 3,
-          "symbol": "SZ300475",
-          "name": "香农芯创",
-          "heatScore": 103
-        },
-        {
-          "rank": 4,
           "symbol": "SH600378",
           "name": "昊华科技",
           "heatScore": 102
         },
         {
-          "rank": 5,
+          "rank": 4,
           "symbol": "SH688525",
           "name": "佰维存储",
+          "heatScore": 100
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ002491",
+          "name": "通鼎互联",
           "heatScore": 100
         }
       ]
