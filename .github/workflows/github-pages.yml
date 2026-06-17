@@ -62,9 +62,29 @@ jobs:
 
       - run: npm install
 
-      - name: Run scheduled catchup
-        if: github.event_name == 'schedule' && github.event.schedule != '15 14 * * 5'
-        run: npm run run:catchup
+      - name: Run scheduled report
+        if: github.event_name == 'schedule'
+        run: |
+          schedule="${{ github.event.schedule }}"
+          schedule_hour="$(printf '%s\n' "$schedule" | awk '{print $2}')"
+          now_hour="$(date -u +%-H)"
+          if [ "$now_hour" -lt "$schedule_hour" ]; then
+            report_date="$(date -u -d 'yesterday' +%F)"
+          else
+            report_date="$(date -u +%F)"
+          fi
+
+          case "$schedule" in
+            "50 6 * * 1-5"|"51 6 * * 1-5"|"52 6 * * 1-5"|"53 6 * * 1-5"|"54 6 * * 1-5"|"50 7 * * 1-5")
+              npm run run:late -- "$report_date"
+              ;;
+            "0 8 * * 1-5"|"1 8 * * 1-5"|"2 8 * * 1-5"|"3 8 * * 1-5"|"4 8 * * 1-5"|"0 9 * * 1-5")
+              npm run run:daily -- "$report_date"
+              ;;
+            "15 14 * * 5")
+              npm run run:weekly -- "$report_date"
+              ;;
+          esac
 
       - name: Generate late-session report
         if: github.event.inputs.job == 'late'
@@ -85,7 +105,7 @@ jobs:
           fi
 
       - name: Generate weekly report
-        if: github.event.schedule == '15 14 * * 5' || github.event.inputs.job == 'weekly'
+        if: github.event.inputs.job == 'weekly'
         run: |
           if [ -n "${{ github.event.inputs.date }}" ]; then
             npm run run:weekly -- "${{ github.event.inputs.date }}"
@@ -95,6 +115,10 @@ jobs:
 
       - name: Manual catchup
         if: github.event.inputs.job == 'catchup'
+        run: npm run run:catchup
+
+      - name: Push catchup
+        if: github.event_name == 'push'
         run: npm run run:catchup
 
       - name: Export static report data
