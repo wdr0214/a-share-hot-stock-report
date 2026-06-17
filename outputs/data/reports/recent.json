@@ -1,6 +1,45 @@
 {
   "reports": [
     {
+      "type": "daily",
+      "date": "2026-06-17",
+      "generatedAt": "2026-06-17T15:03:45.738Z",
+      "status": "ok",
+      "totalCandidates": 5527,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH603986",
+          "name": "兆易创新",
+          "heatScore": 103
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300285",
+          "name": "国瓷材料",
+          "heatScore": 103
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ300475",
+          "name": "香农芯创",
+          "heatScore": 103
+        },
+        {
+          "rank": 4,
+          "symbol": "SH600378",
+          "name": "昊华科技",
+          "heatScore": 102
+        },
+        {
+          "rank": 5,
+          "symbol": "SH688525",
+          "name": "佰维存储",
+          "heatScore": 100
+        }
+      ]
+    },
+    {
       "date": "2026-06-12",
       "generatedAt": "2026-06-14T08:46:17.309Z",
       "status": "ok",
@@ -39,6 +78,45 @@
     }
   ],
   "lateReports": [
+    {
+      "type": "late",
+      "date": "2026-06-17",
+      "generatedAt": "2026-06-17T15:01:43.444Z",
+      "status": "ok",
+      "totalCandidates": 5527,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH603986",
+          "name": "兆易创新",
+          "heatScore": 103
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300285",
+          "name": "国瓷材料",
+          "heatScore": 103
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ300475",
+          "name": "香农芯创",
+          "heatScore": 103
+        },
+        {
+          "rank": 4,
+          "symbol": "SH600378",
+          "name": "昊华科技",
+          "heatScore": 102
+        },
+        {
+          "rank": 5,
+          "symbol": "SH688525",
+          "name": "佰维存储",
+          "heatScore": 100
+        }
+      ]
+    },
     {
       "type": "late",
       "date": "2026-06-12",
