@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-06-17",
-  "generatedAt": "2026-06-17T17:42:30.422Z",
+  "generatedAt": "2026-06-17T18:02:26.968Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 5527,
@@ -5501,23 +5501,23 @@
   },
   "latePortfolio": {
     "date": "2026-06-17",
-    "netValue": 1,
-    "cash": 0.6,
+    "netValue": 1.0502,
+    "cash": 0.630105,
     "holdings": [
       {
         "symbol": "SZ300285",
         "name": "国瓷材料",
         "entryPrice": 67.43000030517578,
-        "shares": 0.0029660388416852556,
-        "allocation": 0.2,
+        "shares": 0.0031148576683089177,
+        "allocation": 0.21003485352464946,
         "date": "2026-06-17"
       },
       {
         "symbol": "SH688525",
         "name": "佰维存储",
         "entryPrice": 340.4800109863281,
-        "shares": 0.0005874059960836612,
-        "allocation": 0.2,
+        "shares": 0.000616878661734663,
+        "allocation": 0.21003485352464946,
         "date": "2026-06-17"
       }
     ],
@@ -5525,16 +5525,16 @@
       {
         "symbol": "SZ300285",
         "name": "国瓷材料",
-        "entryPrice": 78.5,
+        "entryPrice": 67.43000030517578,
         "sellPrice": 78.5,
-        "returnPct": 0
+        "returnPct": 16.41702453614628
       },
       {
         "symbol": "SH688525",
         "name": "佰维存储",
-        "entryPrice": 370,
+        "entryPrice": 340.4800109863281,
         "sellPrice": 370,
-        "returnPct": 0
+        "returnPct": 8.670109275477332
       }
     ],
     "bought": [
@@ -5549,7 +5549,7 @@
         "name": "国瓷材料",
         "skipped": false,
         "buyPrice": 67.43000030517578,
-        "allocation": 0.2
+        "allocation": 0.21003485352464946
       },
       {
         "symbol": "SH600378",
@@ -5562,7 +5562,7 @@
         "name": "佰维存储",
         "skipped": false,
         "buyPrice": 340.4800109863281,
-        "allocation": 0.2
+        "allocation": 0.21003485352464946
       },
       {
         "symbol": "SZ002491",
