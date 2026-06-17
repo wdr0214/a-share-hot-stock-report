@@ -62,6 +62,9 @@ jobs:
 
       - run: npm install
 
+      - name: Apply GitHub runtime market-data patch
+        run: node scripts/github-runtime-patch.mjs
+
       - name: Run scheduled report
         if: github.event_name == 'schedule'
         run: |
