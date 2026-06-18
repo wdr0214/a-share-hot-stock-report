@@ -2,6 +2,26 @@
   "logs": [
     {
       "jobName": "daily-report",
+      "startedAt": "2026-06-18T13:41:55.190Z",
+      "finishedAt": "2026-06-18T13:41:55.190Z",
+      "status": "failed",
+      "errorMessage": "Eastmoney top 100 fund-flow source failed: Request failed 502: <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx/1.26.2</center>\r\n</body>\r\n</html>\r\n",
+      "reportKey": "2026-06-18",
+      "attempts": 4,
+      "nextRetryHint": "scheduled catchup or one-hour rerun"
+    },
+    {
+      "jobName": "late-report",
+      "startedAt": "2026-06-18T13:41:21.840Z",
+      "finishedAt": "2026-06-18T13:41:21.840Z",
+      "status": "failed",
+      "errorMessage": "Eastmoney top 100 fund-flow source failed: Request failed 502: <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx/1.26.2</center>\r\n</body>\r\n</html>\r\n",
+      "reportKey": "2026-06-18",
+      "attempts": 4,
+      "nextRetryHint": "scheduled catchup or one-hour rerun"
+    },
+    {
+      "jobName": "daily-report",
       "startedAt": "2026-06-18T13:00:05.692Z",
       "finishedAt": "2026-06-18T13:00:05.692Z",
       "status": "failed",
