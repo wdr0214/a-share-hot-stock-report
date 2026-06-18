@@ -8,9 +8,9 @@ const replacements = [
   [
     'const EASTMONEY_FIELDS = "f12,f14,f2,f3,f6,f7,f8,f10,f62,f66,f69,f72,f75,f100";',
     [
-      'const PRIMARY_CANDIDATE_LIMIT = 500;',
-      'const EASTMONEY_PAGE_SIZE = 80;',
-      'const EASTMONEY_PAGE_DELAY_MS = 450;',
+      'const PRIMARY_CANDIDATE_LIMIT = 100;',
+      'const EASTMONEY_PAGE_SIZE = 100;',
+      'const EASTMONEY_PAGE_DELAY_MS = 1000;',
       'const SINA_PAGE_SIZE = 80;',
       'const SINA_PAGE_DELAY_MS = 450;',
       'const MIN_FULL_MARKET_CANDIDATES = 3000;',
@@ -26,25 +26,11 @@ for (const [from, to] of replacements) {
 source = source.replace(
   /async function fetchAllMarketStocks\(\) \{[\s\S]*?\n\}\n\nasync function fetchMarketPage/,
   `async function fetchAllMarketStocks() {
-  let primary = [];
   try {
-    primary = await fetchEastmoneyMarketStocks(PRIMARY_CANDIDATE_LIMIT);
-    const supplement = await fetchSinaMarketStocks();
-    if (supplement.length >= MIN_FULL_MARKET_CANDIDATES) {
-      return mergeStocks(primary, supplement);
-    }
-    console.warn(\`full-market supplement returned only \${supplement.length} candidates; using primary top \${primary.length}\`);
+    return await fetchEastmoneyMarketStocks(PRIMARY_CANDIDATE_LIMIT);
   } catch (error) {
-    if (primary.length) {
-      console.warn(\`full-market supplement failed; using primary top \${primary.length}: \${error.message}\`);
-    } else {
-      console.warn(\`eastmoney primary source failed, falling back to sina full-market source: \${error.message}\`);
-      const fallback = await fetchSinaMarketStocks();
-      if (fallback.length >= MIN_FULL_MARKET_CANDIDATES) return fallback;
-      throw new Error(\`Primary Eastmoney failed and fallback Sina returned only \${fallback.length} candidates\`);
-    }
+    throw new Error(\`Eastmoney top \${PRIMARY_CANDIDATE_LIMIT} fund-flow source failed: \${error.message}\`);
   }
-  return primary;
 }
 
 async function fetchEastmoneyMarketStocks(limit = PRIMARY_CANDIDATE_LIMIT) {
@@ -53,8 +39,13 @@ async function fetchEastmoneyMarketStocks(limit = PRIMARY_CANDIDATE_LIMIT) {
   const total = Math.min(Number(first.total || items.length), limit);
   const pages = Math.ceil(total / EASTMONEY_PAGE_SIZE);
   for (let page = 2; page <= pages; page += 1) {
-    const next = await fetchMarketPage(page, EASTMONEY_PAGE_SIZE);
-    items.push(...next.items);
+    try {
+      const next = await fetchMarketPage(page, EASTMONEY_PAGE_SIZE);
+      items.push(...next.items);
+    } catch (error) {
+      console.warn(\`Eastmoney page \${page} failed after retries; keeping \${items.length} fetched candidates: \${error.message}\`);
+      break;
+    }
     await sleep(EASTMONEY_PAGE_DELAY_MS);
   }
   const bySymbol = new Map();
@@ -153,6 +144,38 @@ async function fetchSinaQuotes(symbols) {
 }
 
 async function fetchKline`
+);
+
+source = source.replace(
+  /function normalizeSina\(item\) \{[\s\S]*?\n\}\n\nfunction parseSinaQuotePayload/,
+  `function normalizeSina(item) {
+  const symbol = normalizeSymbol(item.symbol || item.code);
+  if (!symbol) return null;
+  const settlement = number(item.settlement);
+  const high = number(item.high);
+  const low = number(item.low);
+  const amplitude = settlement ? ((high - low) / settlement) * 100 : 0;
+  return {
+    symbol,
+    name: String(item.name || symbol).trim(),
+    industry: "",
+    changePct: number(item.changepercent),
+    turnoverRate: number(item.turnoverratio),
+    amount: number(item.amount),
+    volumeRatio: 1,
+    amplitude,
+    close: number(item.trade),
+    mainNetInflow: 0,
+    superLargeOrderNetAmount: 0,
+    superLargeOrderNetRatio: 0,
+    largeOrderNetAmount: 0,
+    largeOrderNetRatio: 0,
+    bigOrderNetAmount: 0,
+    dataSource: "sina"
+  };
+}
+
+function parseSinaQuotePayload`
 );
 
 if (!source.includes("function normalizeSina(item)")) {
