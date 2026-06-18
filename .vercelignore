@@ -1,0 +1,7 @@
+src/server.js
+netlify
+.netlify
+.codex_tmp
+work
+node_modules
+npm-debug.log*
