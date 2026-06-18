@@ -47,6 +47,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NETLIFY_DATA_PROXY_BASE: ${{ secrets.NETLIFY_DATA_PROXY_BASE || 'https://xueqiu-hot-stock-report-20260610230434.netlify.app' }}
+      NETLIFY_DATA_PROXY_TOKEN: ${{ secrets.NETLIFY_DATA_PROXY_TOKEN }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
