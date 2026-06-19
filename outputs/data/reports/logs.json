@@ -2,6 +2,14 @@
   "logs": [
     {
       "jobName": "daily-report",
+      "startedAt": "2026-06-19T17:26:30.941Z",
+      "finishedAt": "2026-06-19T17:26:30.941Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-06-19"
+    },
+    {
+      "jobName": "daily-report",
       "startedAt": "2026-06-19T17:08:47.623Z",
       "finishedAt": "2026-06-19T17:08:47.623Z",
       "status": "success",
@@ -250,16 +258,6 @@
       "jobName": "late-report",
       "startedAt": "2026-06-15T14:13:44.073Z",
       "finishedAt": "2026-06-15T14:13:44.073Z",
-      "status": "failed",
-      "errorMessage": "Request failed 502: <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx/1.26.2</center>\r\n</body>\r\n</html>\r\n",
-      "reportKey": "2026-06-15",
-      "attempts": 4,
-      "nextRetryHint": "scheduled catchup or one-hour rerun"
-    },
-    {
-      "jobName": "daily-report",
-      "startedAt": "2026-06-15T13:58:18.352Z",
-      "finishedAt": "2026-06-15T13:58:18.352Z",
       "status": "failed",
       "errorMessage": "Request failed 502: <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx/1.26.2</center>\r\n</body>\r\n</html>\r\n",
       "reportKey": "2026-06-15",
