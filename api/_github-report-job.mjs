@@ -35,7 +35,7 @@ export async function handleReportJob(req, res, type) {
       runtime: "vercel",
       type,
       date,
-      generation,
+      generation: summarizeGeneration(generation),
       committed: commitResults.length,
       files: commitResults.map((item) => item.path)
     });
@@ -47,6 +47,24 @@ export async function handleReportJob(req, res, type) {
       error: error.message
     });
   }
+}
+
+function summarizeGeneration(generation) {
+  const report = generation?.report || generation;
+  const stocks = Array.isArray(report?.stocks) ? report.stocks : [];
+  return {
+    status: generation?.status || report?.status || null,
+    generatedAt: report?.generatedAt || generation?.generatedAt || null,
+    totalCandidates: generation?.totalCandidates || report?.totalCandidates || null,
+    stockCount: stocks.length,
+    stocks: stocks.map((stock) => ({
+      rank: stock.rank,
+      symbol: stock.symbol,
+      name: stock.name,
+      heatScore: stock.heatScore ?? stock.weeklyHeatScore ?? null
+    })),
+    latePortfolioNetValue: report?.latePortfolio?.netValue ?? generation?.latePortfolio?.netValue ?? null
+  };
 }
 
 function assertAuthorized(req) {
