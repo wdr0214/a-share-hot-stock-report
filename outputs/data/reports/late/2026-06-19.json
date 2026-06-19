@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-06-19",
-  "generatedAt": "2026-06-19T16:39:10.070Z",
+  "generatedAt": "2026-06-19T16:41:09.066Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -5573,58 +5573,57 @@
     "previousDate": "2026-06-18",
     "date": "2026-06-19",
     "sourceReportType": "late",
-    "status": "quote_failed",
-    "error": "toSinaSymbol is not defined",
+    "status": "ok",
     "items": [
       {
         "symbol": "SZ000657",
         "name": "中钨高新",
         "yesterdayChangePct": 10,
         "wasLimitUpYesterday": true,
-        "todayChangePct": null,
-        "todayOpen": null,
-        "todayClose": null,
-        "todayCloseVsOpenPct": null
+        "todayChangePct": 10,
+        "todayOpen": 88.75,
+        "todayClose": 98.48,
+        "todayCloseVsOpenPct": 10.963380281690146
       },
       {
         "symbol": "SZ300319",
         "name": "麦捷科技",
         "yesterdayChangePct": 20.02,
         "wasLimitUpYesterday": true,
-        "todayChangePct": null,
-        "todayOpen": null,
-        "todayClose": null,
-        "todayCloseVsOpenPct": null
+        "todayChangePct": 20.02,
+        "todayOpen": 22.99,
+        "todayClose": 27.76,
+        "todayCloseVsOpenPct": 20.748151370160954
       },
       {
         "symbol": "SH600667",
         "name": "太极实业",
         "yesterdayChangePct": 9.99,
         "wasLimitUpYesterday": true,
-        "todayChangePct": null,
-        "todayOpen": null,
-        "todayClose": null,
-        "todayCloseVsOpenPct": null
+        "todayChangePct": 9.99,
+        "todayOpen": 19.03,
+        "todayClose": 20.92,
+        "todayCloseVsOpenPct": 9.93168681029953
       },
       {
         "symbol": "SH600392",
         "name": "盛和资源",
         "yesterdayChangePct": 10.01,
         "wasLimitUpYesterday": true,
-        "todayChangePct": null,
-        "todayOpen": null,
-        "todayClose": null,
-        "todayCloseVsOpenPct": null
+        "todayChangePct": 10.01,
+        "todayOpen": 29,
+        "todayClose": 31.66,
+        "todayCloseVsOpenPct": 9.172413793103448
       },
       {
         "symbol": "SZ301205",
         "name": "联特科技",
         "yesterdayChangePct": 7.39,
         "wasLimitUpYesterday": false,
-        "todayChangePct": null,
-        "todayOpen": null,
-        "todayClose": null,
-        "todayCloseVsOpenPct": null
+        "todayChangePct": 7.39,
+        "todayOpen": 340.98,
+        "todayClose": 361.02,
+        "todayCloseVsOpenPct": 5.877177547070199
       }
     ]
   },
