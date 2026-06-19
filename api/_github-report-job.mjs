@@ -8,6 +8,24 @@ const BRANCH = process.env.GITHUB_REPORT_BRANCH || "main";
 const API_BASE = "https://api.github.com";
 const RAW_BASE = `https://raw.githubusercontent.com/${REPO}/${BRANCH}`;
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
+const DEFAULT_A_SHARE_CLOSED_DATES = new Set([
+  // 2025 exchange holiday weekdays.
+  "2025-01-01",
+  "2025-01-28", "2025-01-29", "2025-01-30", "2025-01-31", "2025-02-03", "2025-02-04",
+  "2025-04-04",
+  "2025-05-01", "2025-05-02", "2025-05-05",
+  "2025-06-02",
+  "2025-10-01", "2025-10-02", "2025-10-03", "2025-10-06", "2025-10-07", "2025-10-08",
+  // 2026 known/planned mainland market holiday weekdays. Override with
+  // A_SHARE_CLOSED_DATES if the exchange publishes later adjustments.
+  "2026-01-01",
+  "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-23",
+  "2026-04-06",
+  "2026-05-01", "2026-05-04", "2026-05-05",
+  "2026-06-19",
+  "2026-09-25",
+  "2026-10-01", "2026-10-02", "2026-10-05", "2026-10-06", "2026-10-07"
+]);
 
 export const runtimeConfig = {
   maxDuration: 60
@@ -21,6 +39,19 @@ export async function handleReportJob(req, res, type) {
     }
 
     const date = String(req.query?.date || shanghaiDate()).slice(0, 10);
+    const tradingDate = getAshareTradingDateStatus(date);
+    if (!tradingDate.isTradingDate) {
+      return res.status(200).json({
+        ok: true,
+        runtime: "vercel",
+        type,
+        date,
+        skipped: true,
+        reason: tradingDate.reason,
+        message: "Not an A-share trading date; report generation and GitHub writeback skipped."
+      });
+    }
+
     const workspace = join("/tmp", `a-share-report-${type}-${date}-${Date.now()}`);
     await rm(workspace, { recursive: true, force: true });
     await mkdir(join(workspace, "data"), { recursive: true });
@@ -65,6 +96,36 @@ function summarizeGeneration(generation) {
     })),
     latePortfolioNetValue: report?.latePortfolio?.netValue ?? generation?.latePortfolio?.netValue ?? null
   };
+}
+
+function getAshareTradingDateStatus(date) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return { isTradingDate: false, reason: "invalid_date" };
+  }
+  if (!isWeekday(date)) {
+    return { isTradingDate: false, reason: "weekend" };
+  }
+  if (aShareClosedDates().has(date)) {
+    return { isTradingDate: false, reason: "market_holiday" };
+  }
+  return { isTradingDate: true, reason: "trading_date" };
+}
+
+function isWeekday(date) {
+  const day = new Date(`${date}T12:00:00+08:00`).getUTCDay();
+  return day >= 1 && day <= 5;
+}
+
+function aShareClosedDates() {
+  const configured = parseDateList(process.env.A_SHARE_CLOSED_DATES || process.env.A_SHARE_NON_TRADING_DATES || "");
+  return new Set([...DEFAULT_A_SHARE_CLOSED_DATES, ...configured]);
+}
+
+function parseDateList(value) {
+  return String(value)
+    .split(/[\s,;]+/)
+    .map((item) => item.trim())
+    .filter((item) => /^\d{4}-\d{2}-\d{2}$/.test(item));
 }
 
 function assertAuthorized(req) {
