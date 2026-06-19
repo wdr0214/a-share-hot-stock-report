@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-06-19",
-  "generatedAt": "2026-06-19T06:54:27.401Z",
+  "generatedAt": "2026-06-19T13:07:40.094Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -5632,15 +5632,7 @@
     "netValue": 1.1642,
     "cash": 1.164162,
     "holdings": [],
-    "sold": [
-      {
-        "symbol": "SZ301205",
-        "name": "联特科技",
-        "entryPrice": 336.19000244140625,
-        "sellPrice": 361.02,
-        "returnPct": 7.385703732496118
-      }
-    ],
+    "sold": [],
     "bought": [
       {
         "symbol": "SH600392",
