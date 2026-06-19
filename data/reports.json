@@ -44840,7 +44840,109 @@
       }
     }
   },
-  "weeklyReports": {},
+  "weeklyReports": {
+    "2026-25": {
+      "week": "2026-25",
+      "rangeStart": "2026-06-13",
+      "rangeEnd": "2026-06-19",
+      "generatedAt": "2026-06-19T20:21:16.795Z",
+      "source": "github-actions-daily-reports",
+      "status": "ok",
+      "ratingPolicy": "周报汇总最近 7 天日报结果，不重复计入尾盘报告。",
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH600392",
+          "name": "盛和资源",
+          "weeklyHeatScore": 286,
+          "appearances": 2,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 大单净流入、主力资金、超大单活跃，累计入选 2 天。"
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ000657",
+          "name": "中钨高新",
+          "weeklyHeatScore": 278,
+          "appearances": 2,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 大单净流入、主力资金、超大单活跃，累计入选 2 天。"
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ002297",
+          "name": "博云新材",
+          "weeklyHeatScore": 278,
+          "appearances": 2,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 大单净流入、主力资金、超大单活跃，累计入选 2 天。"
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ300319",
+          "name": "麦捷科技",
+          "weeklyHeatScore": 278,
+          "appearances": 2,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 大单净流入、主力资金、超大单活跃，累计入选 2 天。"
+        },
+        {
+          "rank": 5,
+          "symbol": "SH600667",
+          "name": "太极实业",
+          "weeklyHeatScore": 278,
+          "appearances": 2,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 大单净流入、主力资金、超大单活跃，累计入选 2 天。"
+        },
+        {
+          "rank": 6,
+          "symbol": "SH603986",
+          "name": "兆易创新",
+          "weeklyHeatScore": 123,
+          "appearances": 1,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        },
+        {
+          "rank": 7,
+          "symbol": "SZ300285",
+          "name": "国瓷材料",
+          "weeklyHeatScore": 123,
+          "appearances": 1,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        },
+        {
+          "rank": 8,
+          "symbol": "SH600378",
+          "name": "昊华科技",
+          "weeklyHeatScore": 122,
+          "appearances": 1,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        },
+        {
+          "rank": 9,
+          "symbol": "SH688525",
+          "name": "佰维存储",
+          "weeklyHeatScore": 120,
+          "appearances": 1,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        },
+        {
+          "rank": 10,
+          "symbol": "SZ002491",
+          "name": "通鼎互联",
+          "weeklyHeatScore": 120,
+          "appearances": 1,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        }
+      ]
+    }
+  },
   "latePortfolio": {
     "netValue": 1.1642,
     "cash": 1.1641623062974973,
@@ -45666,6 +45768,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-06-19"
+    },
+    {
+      "jobName": "weekly-report",
+      "startedAt": "2026-06-19T20:21:16.795Z",
+      "finishedAt": "2026-06-19T20:21:16.795Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-25"
     }
   ]
 }
