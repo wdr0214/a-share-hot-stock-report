@@ -1,7 +1,7 @@
 {
   "type": "daily",
-  "date": "2026-06-18",
-  "generatedAt": "2026-06-18T14:50:25.430Z",
+  "date": "2026-06-19",
+  "generatedAt": "2026-06-19T09:53:30.044Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -2221,7 +2221,7 @@
         },
         {
           "date": "2026-06-18",
-          "open": 80.30999755859375,
+          "open": 88.75,
           "high": 98.4800033569336,
           "low": 88.75,
           "close": 98.4800033569336,
@@ -3333,7 +3333,7 @@
         },
         {
           "date": "2026-06-18",
-          "open": 22,
+          "open": 25.700000762939453,
           "high": 28.360000610351562,
           "low": 25.59000015258789,
           "close": 28.360000610351562,
@@ -4445,7 +4445,7 @@
         },
         {
           "date": "2026-06-18",
-          "open": 21.450000762939453,
+          "open": 22.989999771118164,
           "high": 27.760000228881836,
           "low": 22.90999984741211,
           "close": 27.760000228881836,
@@ -5570,60 +5570,60 @@
     }
   ],
   "previousDayStocksTodayChange": {
-    "previousDate": "2026-06-17",
-    "date": "2026-06-18",
+    "previousDate": "2026-06-18",
+    "date": "2026-06-19",
     "sourceReportType": "daily",
     "status": "ok",
     "items": [
       {
-        "symbol": "SH603986",
-        "name": "兆易创新",
-        "yesterdayChangePct": 10.001,
+        "symbol": "SH600392",
+        "name": "盛和资源",
+        "yesterdayChangePct": 10.01,
         "wasLimitUpYesterday": true,
-        "todayChangePct": 7.33,
-        "todayOpen": 594,
-        "todayClose": 629,
-        "todayCloseVsOpenPct": 5.892255892255893
+        "todayChangePct": 10.01,
+        "todayOpen": 29,
+        "todayClose": 31.66,
+        "todayCloseVsOpenPct": 9.172413793103448
       },
       {
-        "symbol": "SZ300285",
-        "name": "国瓷材料",
-        "yesterdayChangePct": 16.417,
-        "wasLimitUpYesterday": false,
-        "todayChangePct": 14.05,
-        "todayOpen": 82.2,
-        "todayClose": 89.53,
-        "todayCloseVsOpenPct": 8.917274939172746
-      },
-      {
-        "symbol": "SH600378",
-        "name": "昊华科技",
-        "yesterdayChangePct": 10,
-        "wasLimitUpYesterday": true,
-        "todayChangePct": 2.13,
-        "todayOpen": 64.65,
-        "todayClose": 65.16,
-        "todayCloseVsOpenPct": 0.7888631090487097
-      },
-      {
-        "symbol": "SH688525",
-        "name": "佰维存储",
-        "yesterdayChangePct": 8.67,
-        "wasLimitUpYesterday": false,
-        "todayChangePct": 4.38,
-        "todayOpen": 363,
-        "todayClose": 386.2,
-        "todayCloseVsOpenPct": 6.391184573002752
-      },
-      {
-        "symbol": "SZ002491",
-        "name": "通鼎互联",
+        "symbol": "SZ000657",
+        "name": "中钨高新",
         "yesterdayChangePct": 10,
         "wasLimitUpYesterday": true,
         "todayChangePct": 10,
-        "todayOpen": 30.01,
-        "todayClose": 31.58,
-        "todayCloseVsOpenPct": 5.231589470176597
+        "todayOpen": 88.75,
+        "todayClose": 98.48,
+        "todayCloseVsOpenPct": 10.963380281690146
+      },
+      {
+        "symbol": "SZ002297",
+        "name": "博云新材",
+        "yesterdayChangePct": 10.01,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 10.01,
+        "todayOpen": 25.7,
+        "todayClose": 28.36,
+        "todayCloseVsOpenPct": 10.350194552529183
+      },
+      {
+        "symbol": "SZ300319",
+        "name": "麦捷科技",
+        "yesterdayChangePct": 20.02,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 20.02,
+        "todayOpen": 22.99,
+        "todayClose": 27.76,
+        "todayCloseVsOpenPct": 20.748151370160954
+      },
+      {
+        "symbol": "SH600667",
+        "name": "太极实业",
+        "yesterdayChangePct": 9.99,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 9.99,
+        "todayOpen": 19.03,
+        "todayClose": 20.92,
+        "todayCloseVsOpenPct": 9.93168681029953
       }
     ]
   }
