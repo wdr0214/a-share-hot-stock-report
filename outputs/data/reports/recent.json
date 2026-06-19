@@ -119,6 +119,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-06-19",
+      "generatedAt": "2026-06-19T06:54:27.401Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH600392",
+          "name": "盛和资源",
+          "heatScore": 123
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ000657",
+          "name": "中钨高新",
+          "heatScore": 119
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ002297",
+          "name": "博云新材",
+          "heatScore": 119
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ300319",
+          "name": "麦捷科技",
+          "heatScore": 119
+        },
+        {
+          "rank": 5,
+          "symbol": "SH600667",
+          "name": "太极实业",
+          "heatScore": 119
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-06-18",
       "generatedAt": "2026-06-18T18:11:47.140Z",
       "status": "ok",
