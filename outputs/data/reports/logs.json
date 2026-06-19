@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "jobName": "daily-report",
+      "startedAt": "2026-06-19T09:53:30.044Z",
+      "finishedAt": "2026-06-19T09:53:30.044Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-06-19"
+    },
+    {
       "jobName": "late-report",
       "startedAt": "2026-06-19T06:54:27.401Z",
       "finishedAt": "2026-06-19T06:54:28.078Z",
