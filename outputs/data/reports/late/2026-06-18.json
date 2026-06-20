@@ -5584,51 +5584,16 @@
   },
   "latePortfolio": {
     "date": "2026-06-18",
-    "netValue": 1.1472,
-    "cash": 0.917773,
-    "holdings": [
-      {
-        "symbol": "SZ301205",
-        "name": "联特科技",
-        "entryPrice": 336.19000244140625,
-        "shares": 0.0006824809176052272,
-        "allocation": 0.22944326135591453,
-        "date": "2026-06-18"
-      }
-    ],
+    "netValue": 1,
+    "cash": 1,
+    "holdings": [],
     "sold": [],
-    "bought": [
-      {
-        "symbol": "SZ000657",
-        "name": "中钨高新",
-        "skipped": true,
-        "reason": "涨停无法买入"
-      },
-      {
-        "symbol": "SZ300319",
-        "name": "麦捷科技",
-        "skipped": true,
-        "reason": "涨停无法买入"
-      },
-      {
-        "symbol": "SH600667",
-        "name": "太极实业",
-        "skipped": true,
-        "reason": "涨停无法买入"
-      },
-      {
-        "symbol": "SH600392",
-        "name": "盛和资源",
-        "skipped": true,
-        "reason": "涨停无法买入"
-      },
-      {
-        "symbol": "SZ301205",
-        "name": "联特科技",
-        "skipped": false,
-        "buyPrice": 336.19000244140625,
-        "allocation": 0.22944326135591453
-      }
-    ]
-  }
+    "bought": []
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    }
+  ]
 }
