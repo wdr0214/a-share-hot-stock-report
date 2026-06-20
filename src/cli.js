@@ -310,12 +310,13 @@ async function exportStatic(existingDb) {
 
   const recentDaily = Object.values(db.dailyReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
   const recentLate = Object.values(db.lateReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
+  const portfolioHistory = db.latePortfolio?.history || [];
   await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily.map(reportIndexItem), lateReports: recentLate.map(reportIndexItem) });
   await writeJson(join(OUT_DIR, "logs.json"), { logs: db.jobLogs.slice(-30).reverse() });
   for (const report of recentDaily) await writeJson(join(OUT_DIR, "daily", `${report.date}.json`), report);
-  for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), report);
+  for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), withPortfolioHistory(report, portfolioHistory));
   if (recentDaily[0]) await writeJson(join(OUT_DIR, "daily-latest.json"), recentDaily[0]);
-  if (recentLate[0]) await writeJson(join(OUT_DIR, "late-latest.json"), recentLate[0]);
+  if (recentLate[0]) await writeJson(join(OUT_DIR, "late-latest.json"), withPortfolioHistory(recentLate[0], portfolioHistory));
   const latestWeek = Object.values(db.weeklyReports).sort((a, b) => b.week.localeCompare(a.week))[0];
   if (latestWeek) await writeJson(join(OUT_DIR, "weekly-latest.json"), latestWeek);
   return {
@@ -325,6 +326,18 @@ async function exportStatic(existingDb) {
     latestLateDate: recentLate[0]?.date || null,
     hasWeekly: Boolean(latestWeek)
   };
+}
+
+function withPortfolioHistory(report, history) {
+  const cutoff = report?.date || "";
+  const portfolioHistory = (history || [])
+    .filter((item) => !cutoff || String(item.date || "").localeCompare(cutoff) <= 0)
+    .map((item) => ({
+      date: item.date,
+      netValue: item.netValue
+    }))
+    .filter((item) => item.date && Number.isFinite(Number(item.netValue)));
+  return { ...report, portfolioHistory };
 }
 
 async function fetchAllMarketStocks() {
