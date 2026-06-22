@@ -532,15 +532,16 @@ async function fetchKline(symbol) {
 
 async function previousSelectionChange(db, type, date) {
   const previousDate = previousWeekday(date);
-  const preferred = type === "late" ? db.lateReports[previousDate] : db.dailyReports[previousDate];
-  const previous = preferred || db.dailyReports[previousDate] || db.lateReports[previousDate];
+  const previous = findPreviousReport(db, type, date);
+  const sourceDate = previous?.date || previousDate;
   const previousStocks = previous?.stocks || [];
   if (!previousStocks.length) return { previousDate, date, status: "missing_previous_report", items: [] };
   try {
     const quotes = await fetchQuotes(previousStocks.map((stock) => stock.symbol));
     const map = new Map(quotes.map((quote) => [quote.symbol, quote]));
     return {
-      previousDate,
+      previousDate: sourceDate,
+      expectedPreviousDate: previousDate,
       date,
       sourceReportType: previous.type || "daily",
       status: "ok",
@@ -560,7 +561,8 @@ async function previousSelectionChange(db, type, date) {
     };
   } catch (error) {
     return {
-      previousDate,
+      previousDate: sourceDate,
+      expectedPreviousDate: previousDate,
       date,
       sourceReportType: previous.type || "daily",
       status: "quote_failed",
@@ -577,6 +579,23 @@ async function previousSelectionChange(db, type, date) {
       }))
     };
   }
+}
+
+function findPreviousReport(db, type, date) {
+  const exactDate = previousWeekday(date);
+  const primary = type === "late" ? db.lateReports : db.dailyReports;
+  const secondary = type === "late" ? db.dailyReports : db.lateReports;
+  return primary?.[exactDate]
+    || secondary?.[exactDate]
+    || latestReportBefore(primary, date)
+    || latestReportBefore(secondary, date)
+    || null;
+}
+
+function latestReportBefore(collection, date) {
+  return Object.values(collection || {})
+    .filter((report) => report?.date && report.date < date && report?.stocks?.length)
+    .sort((a, b) => b.date.localeCompare(a.date))[0] || null;
 }
 
 function normalizeEastmoney(item) {

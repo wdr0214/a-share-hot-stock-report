@@ -5524,10 +5524,83 @@
     }
   ],
   "previousDayStocksTodayChange": {
-    "previousDate": "2026-06-19",
+    "previousDate": "2026-06-18",
+    "expectedPreviousDate": "2026-06-19",
     "date": "2026-06-22",
-    "status": "missing_previous_report",
-    "items": []
+    "sourceReportType": "daily",
+    "status": "ok",
+    "items": [
+      {
+        "symbol": "SH600392",
+        "name": "盛和资源",
+        "yesterdayChangePct": 10.01,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 8.91,
+        "todayOpen": 32.78,
+        "todayClose": 34.48,
+        "todayCloseVsOpenPct": 5.186089078706515
+      },
+      {
+        "symbol": "SZ000657",
+        "name": "中钨高新",
+        "yesterdayChangePct": 10,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 10,
+        "todayOpen": 103.08,
+        "todayClose": 108.33,
+        "todayCloseVsOpenPct": 5.093131548311991
+      },
+      {
+        "symbol": "SZ002297",
+        "name": "博云新材",
+        "yesterdayChangePct": 10.01,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 10.01,
+        "todayOpen": 31.2,
+        "todayClose": 31.2,
+        "todayCloseVsOpenPct": 0
+      },
+      {
+        "symbol": "SZ300319",
+        "name": "麦捷科技",
+        "yesterdayChangePct": 20.02,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 13.94,
+        "todayOpen": 31.04,
+        "todayClose": 31.63,
+        "todayCloseVsOpenPct": 1.9007731958762881
+      },
+      {
+        "symbol": "SH600667",
+        "name": "太极实业",
+        "yesterdayChangePct": 9.99,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 7.89,
+        "todayOpen": 21.93,
+        "todayClose": 22.57,
+        "todayCloseVsOpenPct": 2.9183766529867787
+      }
+    ]
   },
-  "portfolioHistory": []
+  "dailyPortfolio": {
+    "date": "2026-06-22",
+    "previousDate": "2026-06-19",
+    "netValue": 1,
+    "cash": 1,
+    "holdings": [],
+    "sold": [],
+    "bought": [
+      {
+        "skipped": true,
+        "reason": "missing_previous_daily_report",
+        "previousDate": "2026-06-19"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    }
+  ]
 }

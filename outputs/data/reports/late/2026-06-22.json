@@ -5524,10 +5524,63 @@
     }
   ],
   "previousDayStocksTodayChange": {
-    "previousDate": "2026-06-19",
+    "previousDate": "2026-06-18",
+    "expectedPreviousDate": "2026-06-19",
     "date": "2026-06-22",
-    "status": "missing_previous_report",
-    "items": []
+    "sourceReportType": "late",
+    "status": "ok",
+    "items": [
+      {
+        "symbol": "SZ000657",
+        "name": "中钨高新",
+        "yesterdayChangePct": 10,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 10,
+        "todayOpen": 103.08,
+        "todayClose": 108.33,
+        "todayCloseVsOpenPct": 5.093131548311991
+      },
+      {
+        "symbol": "SZ300319",
+        "name": "麦捷科技",
+        "yesterdayChangePct": 20.02,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 13.94,
+        "todayOpen": 31.04,
+        "todayClose": 31.63,
+        "todayCloseVsOpenPct": 1.9007731958762881
+      },
+      {
+        "symbol": "SH600667",
+        "name": "太极实业",
+        "yesterdayChangePct": 9.99,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 7.89,
+        "todayOpen": 21.93,
+        "todayClose": 22.57,
+        "todayCloseVsOpenPct": 2.9183766529867787
+      },
+      {
+        "symbol": "SH600392",
+        "name": "盛和资源",
+        "yesterdayChangePct": 10.01,
+        "wasLimitUpYesterday": true,
+        "todayChangePct": 8.91,
+        "todayOpen": 32.78,
+        "todayClose": 34.48,
+        "todayCloseVsOpenPct": 5.186089078706515
+      },
+      {
+        "symbol": "SZ301205",
+        "name": "联特科技",
+        "yesterdayChangePct": 7.39,
+        "wasLimitUpYesterday": false,
+        "todayChangePct": -3.22,
+        "todayOpen": 359.9,
+        "todayClose": 349.39,
+        "todayCloseVsOpenPct": -2.920255626562932
+      }
+    ]
   },
   "latePortfolio": {
     "date": "2026-06-22",
