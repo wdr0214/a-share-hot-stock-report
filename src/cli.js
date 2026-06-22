@@ -7,7 +7,7 @@ const REPORT_RETENTION_DAYS = 180;
 const REQUEST_RETRIES = 3;
 const REQUEST_RETRY_DELAY_MS = 10000;
 const EASTMONEY_FIELDS = "f12,f14,f2,f3,f6,f7,f8,f10,f62,f66,f69,f72,f75,f100";
-const QUOTE_FIELDS = "f12,f14,f2,f3,f17";
+const QUOTE_FIELDS = "f12,f14,f2,f3,f15,f16,f17,f18";
 
 const command = process.argv[2] || "check";
 const argDate = process.argv[3];
@@ -171,6 +171,7 @@ async function generateMarketReport(type, date) {
     report.latePortfolio = await updateLatePortfolio(db, report);
     db.lateReports[date] = report;
   } else {
+    report.dailyPortfolio = await updateDailyPortfolio(db, report);
     db.dailyReports[date] = report;
   }
   db.jobLogs.push({
@@ -242,6 +243,111 @@ async function updateLatePortfolio(db, report) {
   return snapshot;
 }
 
+async function updateDailyPortfolio(db, report) {
+  const state = db.dailyPortfolio || { netValue: 1, cash: 1, holdings: [], history: [] };
+  let cash = number(state.cash);
+  const sellRecords = [];
+  if (state.holdings?.length) {
+    const quotes = await fetchQuotes(state.holdings.map((holding) => holding.symbol));
+    const quoteMap = new Map(quotes.map((quote) => [quote.symbol, quote]));
+    for (const holding of state.holdings) {
+      const quote = quoteMap.get(holding.symbol);
+      const sellPrice = quote?.open || holding.entryPrice;
+      const sellValue = number(holding.shares) * sellPrice;
+      cash += sellValue;
+      sellRecords.push({
+        symbol: holding.symbol,
+        name: holding.name,
+        entryPrice: holding.entryPrice,
+        sellPrice,
+        returnPct: holding.entryPrice ? ((sellPrice - holding.entryPrice) / holding.entryPrice) * 100 : null
+      });
+    }
+  }
+
+  const previousDate = previousWeekday(report.date);
+  const previousReport = db.dailyReports?.[previousDate];
+  const previousStocks = previousReport?.stocks || [];
+  const currentNetValue = cash;
+  const holdings = [];
+  const buyRecords = [];
+  if (!previousStocks.length) {
+    buyRecords.push({ skipped: true, reason: "missing_previous_daily_report", previousDate });
+  } else {
+    const quotes = await fetchQuotes(previousStocks.map((stock) => stock.symbol));
+    const quoteMap = new Map(quotes.map((quote) => [quote.symbol, quote]));
+    for (const stock of previousStocks.slice(0, 5)) {
+      const quote = quoteMap.get(stock.symbol);
+      const buyDecision = dailyBuyPrice(stock, quote);
+      if (!buyDecision.price) {
+        buyRecords.push({
+          symbol: stock.symbol,
+          name: stock.name,
+          skipped: true,
+          reason: buyDecision.reason,
+          open: quote?.open ?? null,
+          low: quote?.low ?? null,
+          limitUpPrice: buyDecision.limitUpPrice ?? null
+        });
+        continue;
+      }
+      const allocation = currentNetValue * 0.2;
+      if (allocation <= 0 || cash < allocation) {
+        buyRecords.push({ symbol: stock.symbol, name: stock.name, skipped: true, reason: "cash_or_allocation_insufficient" });
+        continue;
+      }
+      const shares = allocation / buyDecision.price;
+      cash -= allocation;
+      holdings.push({
+        symbol: stock.symbol,
+        name: stock.name,
+        entryPrice: buyDecision.price,
+        shares,
+        allocation,
+        date: report.date,
+        sourceReportDate: previousDate
+      });
+      buyRecords.push({
+        symbol: stock.symbol,
+        name: stock.name,
+        skipped: false,
+        buyPrice: buyDecision.price,
+        allocation,
+        open: quote?.open ?? null,
+        low: quote?.low ?? null,
+        limitUpPrice: buyDecision.limitUpPrice ?? null,
+        buyReason: buyDecision.reason
+      });
+    }
+  }
+
+  const snapshot = {
+    date: report.date,
+    previousDate,
+    netValue: round(currentNetValue, 4),
+    cash: round(cash, 6),
+    holdings,
+    sold: sellRecords,
+    bought: buyRecords
+  };
+  db.dailyPortfolio = { netValue: snapshot.netValue, cash, holdings, history: [...(state.history || []), snapshot].slice(-REPORT_RETENTION_DAYS) };
+  return snapshot;
+}
+
+function dailyBuyPrice(stock, quote) {
+  const open = number(quote?.open);
+  if (!open) return { price: null, reason: "open_price_missing" };
+  const threshold = limitUpThreshold(stock);
+  const previousClose = number(quote?.previousClose || stock.kline?.at(-1)?.close);
+  const limitUpPrice = previousClose ? round(previousClose * (1 + threshold / 100), 2) : null;
+  if (limitUpPrice && open >= limitUpPrice - 0.01) {
+    const low = number(quote?.low);
+    if (low && low < limitUpPrice - 0.01) return { price: limitUpPrice, reason: "limit_up_open_but_tradable_low", limitUpPrice };
+    return { price: null, reason: "limit_up_open_untradable", limitUpPrice };
+  }
+  return { price: open, reason: "open_price", limitUpPrice };
+}
+
 async function generateWeekly(date) {
   const db = await readDb();
   const dates = Array.from({ length: 7 }, (_, index) => addDays(date, -index));
@@ -310,13 +416,14 @@ async function exportStatic(existingDb) {
 
   const recentDaily = Object.values(db.dailyReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
   const recentLate = Object.values(db.lateReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
-  const portfolioHistory = db.latePortfolio?.history || [];
+  const latePortfolioHistory = db.latePortfolio?.history || [];
+  const dailyPortfolioHistory = db.dailyPortfolio?.history || [];
   await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily.map(reportIndexItem), lateReports: recentLate.map(reportIndexItem) });
   await writeJson(join(OUT_DIR, "logs.json"), { logs: db.jobLogs.slice(-30).reverse() });
-  for (const report of recentDaily) await writeJson(join(OUT_DIR, "daily", `${report.date}.json`), report);
-  for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), withPortfolioHistory(report, portfolioHistory));
-  if (recentDaily[0]) await writeJson(join(OUT_DIR, "daily-latest.json"), recentDaily[0]);
-  if (recentLate[0]) await writeJson(join(OUT_DIR, "late-latest.json"), withPortfolioHistory(recentLate[0], portfolioHistory));
+  for (const report of recentDaily) await writeJson(join(OUT_DIR, "daily", `${report.date}.json`), withPortfolioHistory(report, dailyPortfolioHistory));
+  for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), withPortfolioHistory(report, latePortfolioHistory));
+  if (recentDaily[0]) await writeJson(join(OUT_DIR, "daily-latest.json"), withPortfolioHistory(recentDaily[0], dailyPortfolioHistory));
+  if (recentLate[0]) await writeJson(join(OUT_DIR, "late-latest.json"), withPortfolioHistory(recentLate[0], latePortfolioHistory));
   const latestWeek = Object.values(db.weeklyReports).sort((a, b) => b.week.localeCompare(a.week))[0];
   if (latestWeek) await writeJson(join(OUT_DIR, "weekly-latest.json"), latestWeek);
   return {
@@ -388,11 +495,17 @@ async function fetchQuotes(symbols) {
   return all.map((item) => {
     const close = number(item.f2);
     const open = number(item.f17);
+    const high = number(item.f15);
+    const low = number(item.f16);
+    const previousClose = number(item.f18);
     return {
       symbol: normalizeSymbol(item.f12),
       name: String(item.f14 || "").trim(),
       changePct: number(item.f3),
       open,
+      high,
+      low,
+      previousClose,
       close,
       closeVsOpenPct: open ? ((close - open) / open) * 100 : null
     };
@@ -617,10 +730,11 @@ async function readDb() {
       lateReports: db.lateReports || {},
       weeklyReports: db.weeklyReports || {},
       latePortfolio: db.latePortfolio || null,
+      dailyPortfolio: db.dailyPortfolio || null,
       jobLogs: db.jobLogs || []
     };
   } catch {
-    return { dailyReports: {}, lateReports: {}, weeklyReports: {}, latePortfolio: null, jobLogs: [] };
+    return { dailyReports: {}, lateReports: {}, weeklyReports: {}, latePortfolio: null, dailyPortfolio: null, jobLogs: [] };
   }
 }
 
@@ -651,6 +765,9 @@ function pruneDb(db) {
   db.jobLogs = (db.jobLogs || []).slice(-200);
   if (db.latePortfolio?.history) {
     db.latePortfolio.history = db.latePortfolio.history.slice(-REPORT_RETENTION_DAYS);
+  }
+  if (db.dailyPortfolio?.history) {
+    db.dailyPortfolio.history = db.dailyPortfolio.history.slice(-REPORT_RETENTION_DAYS);
   }
 }
 

@@ -138,7 +138,7 @@ function assertAuthorized(req) {
 }
 
 async function seedReportsDb(workspace) {
-  const fallback = { dailyReports: {}, lateReports: {}, weeklyReports: {}, latePortfolio: null, jobLogs: [] };
+  const fallback = { dailyReports: {}, lateReports: {}, weeklyReports: {}, latePortfolio: null, dailyPortfolio: null, jobLogs: [] };
   const payload = await fetchText(`${RAW_BASE}/data/reports.json`).catch(() => JSON.stringify(fallback, null, 2));
   await writeFile(join(workspace, "data", "reports.json"), payload, "utf8");
 }
