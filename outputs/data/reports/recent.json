@@ -43,6 +43,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-06-22",
+      "generatedAt": "2026-06-22T06:50:26.067Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ300857",
+          "name": "协创数据",
+          "heatScore": 124
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300179",
+          "name": "四方达",
+          "heatScore": 124
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ300475",
+          "name": "香农芯创",
+          "heatScore": 123
+        },
+        {
+          "rank": 4,
+          "symbol": "SH603629",
+          "name": "利通电子",
+          "heatScore": 122
+        },
+        {
+          "rank": 5,
+          "symbol": "SH600584",
+          "name": "长电科技",
+          "heatScore": 121
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-06-18",
       "generatedAt": "2026-06-18T18:11:47.140Z",
       "status": "ok",
