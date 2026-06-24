@@ -2,6 +2,45 @@
   "reports": [
     {
       "type": "daily",
+      "date": "2026-06-24",
+      "generatedAt": "2026-06-24T08:00:36.554Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH603986",
+          "name": "兆易创新",
+          "heatScore": 124
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ002428",
+          "name": "云南锗业",
+          "heatScore": 124
+        },
+        {
+          "rank": 3,
+          "symbol": "SH600584",
+          "name": "长电科技",
+          "heatScore": 123
+        },
+        {
+          "rank": 4,
+          "symbol": "SH600105",
+          "name": "永鼎股份",
+          "heatScore": 123
+        },
+        {
+          "rank": 5,
+          "symbol": "SH603083",
+          "name": "剑桥科技",
+          "heatScore": 122
+        }
+      ]
+    },
+    {
+      "type": "daily",
       "date": "2026-06-23",
       "generatedAt": "2026-06-23T08:01:40.152Z",
       "status": "ok",
