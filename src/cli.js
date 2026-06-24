@@ -410,46 +410,85 @@ async function generateWeekly(date) {
 function buildWeeklyPortfolioTrades(db, dates, type) {
   const collection = type === "daily" ? db.dailyReports : db.lateReports;
   const portfolioField = type === "daily" ? "dailyPortfolio" : "latePortfolio";
-  return [...dates].reverse()
-    .map((date) => {
-      const report = collection?.[date];
-      const portfolio = report?.[portfolioField];
-      if (!report || !portfolio) return null;
-      const trades = [
-        ...portfolioTradeRows(report, portfolio.sold || [], "sell", type),
-        ...portfolioTradeRows(report, portfolio.bought || [], "buy", type)
-      ];
-      return {
+  const orderedDates = [...dates].reverse();
+  const groups = [];
+  const openBuys = new Map();
+
+  for (const date of orderedDates) {
+    const report = collection?.[date];
+    const portfolio = report?.[portfolioField];
+    if (!report || !portfolio) continue;
+    const trades = [];
+
+    for (const sold of portfolio.sold || []) {
+      const symbol = normalizeSymbol(sold.symbol);
+      const row = openBuys.get(symbol);
+      if (row) {
+        row.sellDate = date;
+        row.sellPrice = number(sold.sellPrice) || null;
+        row.profitPct = finiteOrNull(sold.returnPct);
+        row.status = "已卖出";
+        openBuys.delete(symbol);
+      } else {
+        trades.push(portfolioTradeRowFromSell(report, sold));
+      }
+    }
+
+    for (const bought of portfolio.bought || []) {
+      const row = portfolioTradeRowFromBuy(report, bought, type);
+      trades.push(row);
+      if (row.action === "buy" && row.symbol) openBuys.set(row.symbol, row);
+    }
+
+    if (trades.length) {
+      groups.push({
         date,
         netValue: portfolio.netValue ?? null,
         trades
-      };
-    })
-    .filter((item) => item && item.trades.length);
+      });
+    }
+  }
+
+  return groups;
 }
 
-function portfolioTradeRows(report, rows, action, type) {
-  return rows.map((row) => {
-    const skipped = Boolean(row.skipped);
-    const symbol = normalizeSymbol(row.symbol);
-    const entryPrice = action === "sell" ? number(row.entryPrice) : number(row.buyPrice);
-    const tradePrice = action === "sell" ? number(row.sellPrice) : entryPrice;
-    const markPrice = action === "buy" && !skipped ? markPriceForReport(report, symbol, type) : null;
-    const profitPct = action === "sell"
-      ? finiteOrNull(row.returnPct)
-      : entryPrice && markPrice ? ((markPrice - entryPrice) / entryPrice) * 100 : null;
-    return {
-      date: report.date,
-      action: skipped ? "skipped" : action,
-      symbol,
-      name: row.name || findReportStock(report, symbol)?.name || "",
-      price: tradePrice || null,
-      markPrice: markPrice || null,
-      profitPct,
-      status: skipped ? "未成交" : action === "sell" ? "已卖出" : "已买入",
-      reason: row.reason || row.buyReason || ""
-    };
-  });
+function portfolioTradeRowFromBuy(report, row, type) {
+  const skipped = Boolean(row.skipped);
+  const symbol = normalizeSymbol(row.symbol);
+  const buyPrice = number(row.buyPrice);
+  const markPrice = !skipped ? markPriceForReport(report, symbol, type) : null;
+  return {
+    date: report.date,
+    buyDate: report.date,
+    sellDate: "",
+    action: skipped ? "skipped" : "buy",
+    symbol,
+    name: row.name || findReportStock(report, symbol)?.name || "",
+    buyPrice: buyPrice || null,
+    sellPrice: null,
+    markPrice: markPrice || null,
+    profitPct: buyPrice && markPrice ? ((markPrice - buyPrice) / buyPrice) * 100 : null,
+    status: skipped ? "未成交" : "持仓中",
+    reason: row.reason || row.buyReason || ""
+  };
+}
+
+function portfolioTradeRowFromSell(report, row) {
+  const symbol = normalizeSymbol(row.symbol);
+  return {
+    date: report.date,
+    buyDate: "",
+    sellDate: report.date,
+    action: "sell",
+    symbol,
+    name: row.name || findReportStock(report, symbol)?.name || "",
+    buyPrice: number(row.entryPrice) || null,
+    sellPrice: number(row.sellPrice) || null,
+    markPrice: null,
+    profitPct: finiteOrNull(row.returnPct),
+    status: "已卖出",
+    reason: ""
+  };
 }
 
 function markPriceForReport(report, symbol, type) {
