@@ -585,8 +585,7 @@ async function rebuildDailyPortfolioSnapshot(db, report, state) {
   let cash = number(state.cash);
   const sellRecords = [];
   for (const holding of state.holdings || []) {
-    const sellMarket = historicalDailyMarketFromReports(db, report.date, holding.symbol)
-      || await historicalDailyMarketFromKline(holding.symbol, report.date);
+    const sellMarket = await dailySellMarketForHolding(db, report.date, holding.symbol);
     const sellPrice = sellMarket?.open || holding.entryPrice;
     const sellValue = number(holding.shares) * sellPrice;
     cash += sellValue;
@@ -665,6 +664,20 @@ async function rebuildDailyPortfolioSnapshot(db, report, state) {
     sold: sellRecords,
     bought: buyRecords
   };
+}
+
+async function dailySellMarketForHolding(db, date, symbol) {
+  const normalized = normalizeSymbol(symbol);
+  if (date === today()) {
+    try {
+      const [quote] = await fetchQuotes([normalized]);
+      if (quote?.open) return quote;
+    } catch {
+      // Fall through to stored report data and historical kline.
+    }
+  }
+  return historicalDailyMarketFromReports(db, date, normalized)
+    || await historicalDailyMarketFromKline(normalized, date);
 }
 
 function historicalOpenFromReports(db, date, symbol) {

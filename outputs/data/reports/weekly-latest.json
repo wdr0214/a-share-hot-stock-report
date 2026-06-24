@@ -2,7 +2,7 @@
   "week": "2026-26",
   "rangeStart": "2026-06-18",
   "rangeEnd": "2026-06-24",
-  "generatedAt": "2026-06-24T14:05:17.730Z",
+  "generatedAt": "2026-06-24T14:25:01.199Z",
   "source": "github-actions-daily-reports",
   "status": "ok",
   "ratingPolicy": "周报汇总最近 7 天日报结果，不重复计入尾盘报告。",
@@ -232,9 +232,9 @@
           "symbol": "SZ300857",
           "name": "协创数据",
           "buyPrice": 320,
-          "sellPrice": 268,
+          "sellPrice": 305,
           "markPrice": 306.5,
-          "profitPct": -16.25,
+          "profitPct": -4.6875,
           "status": "已卖出",
           "reason": "open_price"
         },
@@ -246,9 +246,9 @@
           "symbol": "SZ300475",
           "name": "香农芯创",
           "buyPrice": 283.56,
-          "sellPrice": 250,
+          "sellPrice": 281,
           "markPrice": 283.51,
-          "profitPct": -11.835237692199183,
+          "profitPct": -0.9028071660318813,
           "status": "已卖出",
           "reason": "open_price"
         },
@@ -260,9 +260,9 @@
           "symbol": "SZ300179",
           "name": "四方达",
           "buyPrice": 60.01,
-          "sellPrice": 46.75,
+          "sellPrice": 55,
           "markPrice": 56.99,
-          "profitPct": -22.096317280453256,
+          "profitPct": -8.348608565239124,
           "status": "已卖出",
           "reason": "open_price"
         },
@@ -298,7 +298,7 @@
     },
     {
       "date": "2026-06-24",
-      "netValue": 0.8833,
+      "netValue": 0.9558,
       "trades": [
         {
           "date": "2026-06-24",
