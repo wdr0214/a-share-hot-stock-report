@@ -5627,5 +5627,25 @@
       }
     ]
   },
-  "portfolioHistory": []
+  "dailyPortfolio": {
+    "date": "2026-06-18",
+    "previousDate": "2026-06-17",
+    "netValue": 1,
+    "cash": 1,
+    "holdings": [],
+    "sold": [],
+    "bought": [
+      {
+        "skipped": true,
+        "reason": "missing_previous_daily_report",
+        "previousDate": "2026-06-17"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    }
+  ]
 }

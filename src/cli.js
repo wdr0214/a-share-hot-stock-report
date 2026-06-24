@@ -407,6 +407,8 @@ async function generateWeekly(date) {
 
 async function exportStatic(existingDb) {
   const db = existingDb || await readDb();
+  await backfillMissingDailyPortfolios(db);
+  await writeDb(db);
   await mkdir(join(OUT_DIR, "daily"), { recursive: true });
   await mkdir(join(OUT_DIR, "late"), { recursive: true });
 
@@ -433,6 +435,172 @@ async function exportStatic(existingDb) {
     latestLateDate: recentLate[0]?.date || null,
     hasWeekly: Boolean(latestWeek)
   };
+}
+
+async function backfillMissingDailyPortfolios(db) {
+  const dates = Object.keys(db.dailyReports || {}).sort();
+  if (!dates.length) return;
+  const firstMissingIndex = dates.findIndex((date) => !db.dailyReports[date]?.dailyPortfolio);
+  if (firstMissingIndex < 0) return;
+
+  let state = { netValue: 1, cash: 1, holdings: [], history: [] };
+  const historyByDate = new Map();
+
+  for (let index = 0; index < dates.length; index += 1) {
+    const date = dates[index];
+    const report = db.dailyReports[date];
+    if (!report) continue;
+    const snapshot = index < firstMissingIndex && report.dailyPortfolio
+      ? report.dailyPortfolio
+      : await rebuildDailyPortfolioSnapshot(db, report, state);
+    report.dailyPortfolio = snapshot;
+    state = {
+      netValue: snapshot.netValue,
+      cash: snapshot.cash,
+      holdings: snapshot.holdings,
+      history: [...(state.history || []).filter((item) => item.date !== date), snapshot]
+        .sort((a, b) => String(a.date).localeCompare(String(b.date)))
+        .slice(-REPORT_RETENTION_DAYS)
+    };
+    historyByDate.set(date, snapshot);
+  }
+
+  db.dailyPortfolio = {
+    netValue: state.netValue || 1,
+    cash: state.cash ?? state.netValue ?? 1,
+    holdings: state.holdings || [],
+    history: [...historyByDate.values()]
+      .sort((a, b) => String(a.date).localeCompare(String(b.date)))
+      .slice(-REPORT_RETENTION_DAYS)
+  };
+}
+
+async function rebuildDailyPortfolioSnapshot(db, report, state) {
+  let cash = number(state.cash);
+  const sellRecords = [];
+  for (const holding of state.holdings || []) {
+    const sellMarket = historicalDailyMarketFromReports(db, report.date, holding.symbol)
+      || await historicalDailyMarketFromKline(holding.symbol, report.date);
+    const sellPrice = sellMarket?.open || holding.entryPrice;
+    const sellValue = number(holding.shares) * sellPrice;
+    cash += sellValue;
+    sellRecords.push({
+      symbol: holding.symbol,
+      name: holding.name,
+      entryPrice: holding.entryPrice,
+      sellPrice,
+      returnPct: holding.entryPrice ? ((sellPrice - holding.entryPrice) / holding.entryPrice) * 100 : null
+    });
+  }
+
+  const previous = findPreviousReport(db, "daily", report.date);
+  const previousStocks = previous?.stocks || [];
+  const currentNetValue = cash;
+  const holdings = [];
+  const buyRecords = [];
+  if (!previousStocks.length) {
+    buyRecords.push({ skipped: true, reason: "missing_previous_daily_report", previousDate: previousWeekday(report.date) });
+  } else {
+    for (const stock of previousStocks.slice(0, 5)) {
+      let market = historicalDailyMarketFromReports(db, report.date, stock.symbol);
+      if (!market?.low) {
+        const klineMarket = await historicalDailyMarketFromKline(stock.symbol, report.date);
+        market = market ? { ...klineMarket, ...market, low: market.low || klineMarket?.low || 0, high: market.high || klineMarket?.high || 0 } : klineMarket;
+      }
+      const buyDecision = dailyBuyPrice(stock, market);
+      if (!buyDecision.price) {
+        buyRecords.push({
+          symbol: stock.symbol,
+          name: stock.name,
+          skipped: true,
+          reason: buyDecision.reason,
+          open: market?.open ?? null,
+          low: market?.low ?? null,
+          limitUpPrice: buyDecision.limitUpPrice ?? null
+        });
+        continue;
+      }
+      const allocation = currentNetValue * 0.2;
+      if (allocation <= 0 || cash < allocation) {
+        buyRecords.push({ symbol: stock.symbol, name: stock.name, skipped: true, reason: "cash_or_allocation_insufficient" });
+        continue;
+      }
+      const shares = allocation / buyDecision.price;
+      cash -= allocation;
+      holdings.push({
+        symbol: stock.symbol,
+        name: stock.name,
+        entryPrice: buyDecision.price,
+        shares,
+        allocation,
+        date: report.date,
+        sourceReportDate: previous.date
+      });
+      buyRecords.push({
+        symbol: stock.symbol,
+        name: stock.name,
+        skipped: false,
+        buyPrice: buyDecision.price,
+        allocation,
+        open: market?.open ?? null,
+        low: market?.low ?? null,
+        limitUpPrice: buyDecision.limitUpPrice ?? null,
+        buyReason: buyDecision.reason
+      });
+    }
+  }
+
+  return {
+    date: report.date,
+    previousDate: previous?.date || previousWeekday(report.date),
+    netValue: round(currentNetValue, 4),
+    cash: round(cash, 6),
+    holdings,
+    sold: sellRecords,
+    bought: buyRecords
+  };
+}
+
+function historicalOpenFromReports(db, date, symbol) {
+  return historicalDailyMarketFromReports(db, date, symbol)?.open || null;
+}
+
+function historicalDailyMarketFromReports(db, date, symbol) {
+  const normalized = normalizeSymbol(symbol);
+  const report = db.dailyReports?.[date];
+  const previousItem = (report?.previousDayStocksTodayChange?.items || []).find((item) => normalizeSymbol(item.symbol) === normalized);
+  const currentStock = (report?.stocks || []).find((item) => normalizeSymbol(item.symbol) === normalized);
+  const klineRow = currentStock?.kline?.find((row) => row.date === date);
+  const open = number(previousItem?.todayOpen ?? klineRow?.open);
+  if (!open) return null;
+  return {
+    symbol: normalized,
+    name: previousItem?.name || currentStock?.name || normalized,
+    open,
+    high: number(klineRow?.high),
+    low: number(klineRow?.low),
+    close: number(previousItem?.todayClose ?? klineRow?.close),
+    previousClose: number(klineRow?.previousClose),
+    changePct: previousItem?.todayChangePct ?? currentStock?.changePct ?? null
+  };
+}
+
+async function historicalDailyMarketFromKline(symbol, date) {
+  try {
+    const rows = await fetchKline(symbol);
+    const row = rows.find((item) => item.date === date);
+    if (!row) return null;
+    return {
+      symbol: normalizeSymbol(symbol),
+      open: number(row.open),
+      high: number(row.high),
+      low: number(row.low),
+      close: number(row.close),
+      previousClose: 0
+    };
+  } catch {
+    return null;
+  }
 }
 
 function withPortfolioHistory(report, history) {

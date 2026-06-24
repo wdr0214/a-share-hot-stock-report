@@ -5581,5 +5581,129 @@
       }
     ]
   },
-  "portfolioHistory": []
+  "dailyPortfolio": {
+    "date": "2026-06-23",
+    "previousDate": "2026-06-22",
+    "netValue": 1,
+    "cash": 0,
+    "holdings": [
+      {
+        "symbol": "SZ300857",
+        "name": "协创数据",
+        "entryPrice": 320,
+        "shares": 0.000625,
+        "allocation": 0.2,
+        "date": "2026-06-23",
+        "sourceReportDate": "2026-06-22"
+      },
+      {
+        "symbol": "SZ300475",
+        "name": "香农芯创",
+        "entryPrice": 283.56,
+        "shares": 0.0007053180984624065,
+        "allocation": 0.2,
+        "date": "2026-06-23",
+        "sourceReportDate": "2026-06-22"
+      },
+      {
+        "symbol": "SZ300179",
+        "name": "四方达",
+        "entryPrice": 60.01,
+        "shares": 0.003332777870354941,
+        "allocation": 0.2,
+        "date": "2026-06-23",
+        "sourceReportDate": "2026-06-22"
+      },
+      {
+        "symbol": "SH600584",
+        "name": "长电科技",
+        "entryPrice": 91.96,
+        "shares": 0.002174858634188778,
+        "allocation": 0.2,
+        "date": "2026-06-23",
+        "sourceReportDate": "2026-06-22"
+      },
+      {
+        "symbol": "SH603629",
+        "name": "利通电子",
+        "entryPrice": 195.01,
+        "shares": 0.0010255884313624944,
+        "allocation": 0.2,
+        "date": "2026-06-23",
+        "sourceReportDate": "2026-06-22"
+      }
+    ],
+    "sold": [],
+    "bought": [
+      {
+        "symbol": "SZ300857",
+        "name": "协创数据",
+        "skipped": false,
+        "buyPrice": 320,
+        "allocation": 0.2,
+        "open": 320,
+        "low": 301.9200134277344,
+        "limitUpPrice": 380.17,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ300475",
+        "name": "香农芯创",
+        "skipped": false,
+        "buyPrice": 283.56,
+        "allocation": 0.2,
+        "open": 283.56,
+        "low": 274.3699951171875,
+        "limitUpPrice": 345.36,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ300179",
+        "name": "四方达",
+        "skipped": false,
+        "buyPrice": 60.01,
+        "allocation": 0.2,
+        "open": 60.01,
+        "low": 56.02000045776367,
+        "limitUpPrice": 68.98,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH600584",
+        "name": "长电科技",
+        "skipped": false,
+        "buyPrice": 91.96,
+        "allocation": 0.2,
+        "open": 91.96,
+        "low": 84.37999725341797,
+        "limitUpPrice": 100.46,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH603629",
+        "name": "利通电子",
+        "skipped": false,
+        "buyPrice": 195.01,
+        "allocation": 0.2,
+        "open": 195.01,
+        "low": 185,
+        "limitUpPrice": 213.66,
+        "buyReason": "open_price"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-23",
+      "netValue": 1
+    }
+  ]
 }
