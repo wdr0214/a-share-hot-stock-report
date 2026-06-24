@@ -394,7 +394,9 @@ async function generateWeekly(date) {
     source: "github-actions-daily-reports",
     status: reports.length ? "ok" : "empty",
     ratingPolicy: "周报汇总最近 7 天日报结果，不重复计入尾盘报告。",
-    stocks
+    stocks,
+    dailyPortfolioTrades: buildWeeklyPortfolioTrades(db, dates, "daily"),
+    latePortfolioTrades: buildWeeklyPortfolioTrades(db, dates, "late")
   };
   db.weeklyReports[report.week] = report;
   db.jobLogs.push({ jobName: "weekly-report", startedAt: report.generatedAt, finishedAt: new Date().toISOString(), status: "success", errorMessage: "", reportKey: report.week });
@@ -403,6 +405,71 @@ async function generateWeekly(date) {
   await writeDb(db);
   await exportStatic(db);
   return report;
+}
+
+function buildWeeklyPortfolioTrades(db, dates, type) {
+  const collection = type === "daily" ? db.dailyReports : db.lateReports;
+  const portfolioField = type === "daily" ? "dailyPortfolio" : "latePortfolio";
+  return [...dates].reverse()
+    .map((date) => {
+      const report = collection?.[date];
+      const portfolio = report?.[portfolioField];
+      if (!report || !portfolio) return null;
+      const trades = [
+        ...portfolioTradeRows(report, portfolio.sold || [], "sell", type),
+        ...portfolioTradeRows(report, portfolio.bought || [], "buy", type)
+      ];
+      return {
+        date,
+        netValue: portfolio.netValue ?? null,
+        trades
+      };
+    })
+    .filter((item) => item && item.trades.length);
+}
+
+function portfolioTradeRows(report, rows, action, type) {
+  return rows.map((row) => {
+    const skipped = Boolean(row.skipped);
+    const symbol = normalizeSymbol(row.symbol);
+    const entryPrice = action === "sell" ? number(row.entryPrice) : number(row.buyPrice);
+    const tradePrice = action === "sell" ? number(row.sellPrice) : entryPrice;
+    const markPrice = action === "buy" && !skipped ? markPriceForReport(report, symbol, type) : null;
+    const profitPct = action === "sell"
+      ? finiteOrNull(row.returnPct)
+      : entryPrice && markPrice ? ((markPrice - entryPrice) / entryPrice) * 100 : null;
+    return {
+      date: report.date,
+      action: skipped ? "skipped" : action,
+      symbol,
+      name: row.name || findReportStock(report, symbol)?.name || "",
+      price: tradePrice || null,
+      markPrice: markPrice || null,
+      profitPct,
+      status: skipped ? "未成交" : action === "sell" ? "已卖出" : "已买入",
+      reason: row.reason || row.buyReason || ""
+    };
+  });
+}
+
+function markPriceForReport(report, symbol, type) {
+  const normalized = normalizeSymbol(symbol);
+  if (type === "daily") {
+    const previousItem = (report.previousDayStocksTodayChange?.items || []).find((item) => normalizeSymbol(item.symbol) === normalized);
+    if (previousItem?.todayClose) return number(previousItem.todayClose);
+  }
+  const stock = findReportStock(report, normalized);
+  return number(stock?.close || stock?.kline?.at(-1)?.close);
+}
+
+function findReportStock(report, symbol) {
+  const normalized = normalizeSymbol(symbol);
+  return (report.stocks || []).find((stock) => normalizeSymbol(stock.symbol) === normalized);
+}
+
+function finiteOrNull(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
 }
 
 async function exportStatic(existingDb) {
