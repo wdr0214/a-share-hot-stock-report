@@ -5642,10 +5642,5 @@
       }
     ]
   },
-  "portfolioHistory": [
-    {
-      "date": "2026-06-18",
-      "netValue": 1
-    }
-  ]
+  "portfolioHistory": []
 }
