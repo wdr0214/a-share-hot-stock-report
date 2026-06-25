@@ -252,7 +252,8 @@ async function updateDailyPortfolio(db, report) {
     const quoteMap = new Map(quotes.map((quote) => [quote.symbol, quote]));
     for (const holding of state.holdings) {
       const quote = quoteMap.get(holding.symbol);
-      const sellPrice = quote?.open || holding.entryPrice;
+      const sellMarket = quote?.open ? quote : await dailySellMarketForHolding(db, report.date, holding.symbol);
+      const sellPrice = sellMarket?.open || holding.entryPrice;
       const sellValue = number(holding.shares) * sellPrice;
       cash += sellValue;
       sellRecords.push({
