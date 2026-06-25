@@ -518,22 +518,26 @@ async function exportStatic(existingDb) {
   await writeDb(db);
   await mkdir(join(OUT_DIR, "daily"), { recursive: true });
   await mkdir(join(OUT_DIR, "late"), { recursive: true });
+  await mkdir(join(OUT_DIR, "weekly"), { recursive: true });
 
   pruneDb(db);
   await cleanReportDir(join(OUT_DIR, "daily"));
   await cleanReportDir(join(OUT_DIR, "late"));
+  await cleanReportDir(join(OUT_DIR, "weekly"));
 
   const recentDaily = Object.values(db.dailyReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
   const recentLate = Object.values(db.lateReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
+  const recentWeekly = Object.values(db.weeklyReports || {}).sort((a, b) => String(b.rangeEnd || b.week).localeCompare(String(a.rangeEnd || a.week))).slice(0, REPORT_RETENTION_DAYS);
   const latePortfolioHistory = db.latePortfolio?.history || [];
   const dailyPortfolioHistory = db.dailyPortfolio?.history || [];
-  await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily.map(reportIndexItem), lateReports: recentLate.map(reportIndexItem) });
+  await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily.map(reportIndexItem), lateReports: recentLate.map(reportIndexItem), weeklyReports: recentWeekly.map(weeklyIndexItem) });
   await writeJson(join(OUT_DIR, "logs.json"), { logs: db.jobLogs.slice(-30).reverse() });
   for (const report of recentDaily) await writeJson(join(OUT_DIR, "daily", `${report.date}.json`), withPortfolioHistory(report, dailyPortfolioHistory));
   for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), withPortfolioHistory(report, latePortfolioHistory));
+  for (const report of recentWeekly) await writeJson(join(OUT_DIR, "weekly", `${report.week}.json`), report);
   if (recentDaily[0]) await writeJson(join(OUT_DIR, "daily-latest.json"), withPortfolioHistory(recentDaily[0], dailyPortfolioHistory));
   if (recentLate[0]) await writeJson(join(OUT_DIR, "late-latest.json"), withPortfolioHistory(recentLate[0], latePortfolioHistory));
-  const latestWeek = Object.values(db.weeklyReports).sort((a, b) => b.week.localeCompare(a.week))[0];
+  const latestWeek = recentWeekly[0];
   if (latestWeek) await writeJson(join(OUT_DIR, "weekly-latest.json"), latestWeek);
   return {
     recentDailyCount: recentDaily.length,
@@ -541,6 +545,23 @@ async function exportStatic(existingDb) {
     latestDailyDate: recentDaily[0]?.date || null,
     latestLateDate: recentLate[0]?.date || null,
     hasWeekly: Boolean(latestWeek)
+  };
+}
+
+function weeklyIndexItem(report) {
+  return {
+    week: report.week,
+    rangeStart: report.rangeStart,
+    rangeEnd: report.rangeEnd,
+    generatedAt: report.generatedAt,
+    status: report.status,
+    stocks: (report.stocks || []).slice(0, 5).map((stock) => ({
+      rank: stock.rank,
+      symbol: stock.symbol,
+      name: stock.name,
+      appearances: stock.appearances,
+      weeklyHeatScore: stock.weeklyHeatScore
+    }))
   };
 }
 
