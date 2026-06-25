@@ -5578,5 +5578,174 @@
         "todayCloseVsOpenPct": 0.1538461538461451
       }
     ]
-  }
+  },
+  "dailyPortfolio": {
+    "date": "2026-06-25",
+    "previousDate": "2026-06-24",
+    "netValue": 0.9558,
+    "cash": 0,
+    "holdings": [
+      {
+        "symbol": "SH603986",
+        "name": "兆易创新",
+        "entryPrice": 740,
+        "shares": 0.00025833125036658493,
+        "allocation": 0.19116512527127286,
+        "date": "2026-06-25",
+        "sourceReportDate": "2026-06-24"
+      },
+      {
+        "symbol": "SZ002428",
+        "name": "云南锗业",
+        "entryPrice": 124.55,
+        "shares": 0.0015348464493879796,
+        "allocation": 0.19116512527127286,
+        "date": "2026-06-25",
+        "sourceReportDate": "2026-06-24"
+      },
+      {
+        "symbol": "SH600584",
+        "name": "长电科技",
+        "entryPrice": 100,
+        "shares": 0.0019116512527127287,
+        "allocation": 0.19116512527127286,
+        "date": "2026-06-25",
+        "sourceReportDate": "2026-06-24"
+      },
+      {
+        "symbol": "SH600105",
+        "name": "永鼎股份",
+        "entryPrice": 70.5,
+        "shares": 0.0027115620605854306,
+        "allocation": 0.19116512527127286,
+        "date": "2026-06-25",
+        "sourceReportDate": "2026-06-24"
+      },
+      {
+        "symbol": "SH603083",
+        "name": "剑桥科技",
+        "entryPrice": 260,
+        "shares": 0.0007352504818125879,
+        "allocation": 0.19116512527127286,
+        "date": "2026-06-25",
+        "sourceReportDate": "2026-06-24"
+      }
+    ],
+    "sold": [
+      {
+        "symbol": "SZ002008",
+        "name": "大族激光",
+        "entryPrice": 136.73,
+        "sellPrice": 136.73,
+        "returnPct": 0
+      },
+      {
+        "symbol": "SH600909",
+        "name": "华安证券",
+        "entryPrice": 10.2,
+        "sellPrice": 10.2,
+        "returnPct": 0
+      },
+      {
+        "symbol": "SH600707",
+        "name": "彩虹股份",
+        "entryPrice": 13,
+        "sellPrice": 13,
+        "returnPct": 0
+      },
+      {
+        "symbol": "SZ001267",
+        "name": "汇绿生态",
+        "entryPrice": 58.21,
+        "sellPrice": 58.21,
+        "returnPct": 0
+      },
+      {
+        "symbol": "SZ300302",
+        "name": "同有科技",
+        "entryPrice": 53.51,
+        "sellPrice": 53.51,
+        "returnPct": 0
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SH603986",
+        "name": "兆易创新",
+        "skipped": false,
+        "buyPrice": 740,
+        "allocation": 0.19116512527127286,
+        "open": 740,
+        "low": 0,
+        "limitUpPrice": 775.6,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ002428",
+        "name": "云南锗业",
+        "skipped": false,
+        "buyPrice": 124.55,
+        "allocation": 0.19116512527127286,
+        "open": 124.55,
+        "low": 0,
+        "limitUpPrice": 135.4,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH600584",
+        "name": "长电科技",
+        "skipped": false,
+        "buyPrice": 100,
+        "allocation": 0.19116512527127286,
+        "open": 100,
+        "low": 0,
+        "limitUpPrice": 104.17,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH600105",
+        "name": "永鼎股份",
+        "skipped": false,
+        "buyPrice": 70.5,
+        "allocation": 0.19116512527127286,
+        "open": 70.5,
+        "low": 0,
+        "limitUpPrice": 75.61,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH603083",
+        "name": "剑桥科技",
+        "skipped": false,
+        "buyPrice": 260,
+        "allocation": 0.19116512527127286,
+        "open": 260,
+        "low": 0,
+        "limitUpPrice": 288.43,
+        "buyReason": "open_price"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-23",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-24",
+      "netValue": 0.9558
+    },
+    {
+      "date": "2026-06-25",
+      "netValue": 0.9558
+    }
+  ]
 }
