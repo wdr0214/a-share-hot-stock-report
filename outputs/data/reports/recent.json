@@ -160,6 +160,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-06-25",
+      "generatedAt": "2026-06-25T06:50:27.058Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ300223",
+          "name": "北京君正",
+          "heatScore": 124
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ000636",
+          "name": "风华高科",
+          "heatScore": 123
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ001309",
+          "name": "德明利",
+          "heatScore": 123
+        },
+        {
+          "rank": 4,
+          "symbol": "SH600522",
+          "name": "中天科技",
+          "heatScore": 121
+        },
+        {
+          "rank": 5,
+          "symbol": "SH600330",
+          "name": "天通股份",
+          "heatScore": 121
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-06-24",
       "generatedAt": "2026-06-24T06:50:30.124Z",
       "status": "ok",
