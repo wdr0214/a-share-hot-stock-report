@@ -253,7 +253,8 @@ async function updateDailyPortfolio(db, report) {
     for (const holding of state.holdings) {
       const quote = quoteMap.get(holding.symbol);
       const sellMarket = quote?.open ? quote : await dailySellMarketForHolding(db, report.date, holding.symbol);
-      const sellPrice = sellMarket?.open || holding.entryPrice;
+      if (!sellMarket?.open) throw new Error(`Missing daily sell open price for ${holding.symbol} on ${report.date}`);
+      const sellPrice = sellMarket.open;
       const sellValue = number(holding.shares) * sellPrice;
       cash += sellValue;
       sellRecords.push({
@@ -608,7 +609,8 @@ async function rebuildDailyPortfolioSnapshot(db, report, state) {
   const sellRecords = [];
   for (const holding of state.holdings || []) {
     const sellMarket = await dailySellMarketForHolding(db, report.date, holding.symbol);
-    const sellPrice = sellMarket?.open || holding.entryPrice;
+    if (!sellMarket?.open) throw new Error(`Missing daily sell open price for ${holding.symbol} on ${report.date}`);
+    const sellPrice = sellMarket.open;
     const sellValue = number(holding.shares) * sellPrice;
     cash += sellValue;
     sellRecords.push({
