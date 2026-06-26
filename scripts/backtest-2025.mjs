@@ -17,32 +17,35 @@ const stocks = await fetchStockList();
 const universe = MAX_STOCKS ? stocks.slice(0, MAX_STOCKS) : stocks;
 console.log(`universe=${universe.length}, start=${START}, end=${END}, concurrency=${CONCURRENCY}`);
 
-const byDate = new Map();
+const candidatesByDate = new Map();
+const marketRowsByDate = new Map();
 let completed = 0;
 await mapLimit(universe, CONCURRENCY, async (stock) => {
   const rows = await loadStockHistory(stock);
   for (const row of rows) {
-    if (row.date < START || row.date > END || row.changePct < 0) continue;
-    if (!byDate.has(row.date)) byDate.set(row.date, []);
-    byDate.get(row.date).push(row);
+    if (row.date < START || row.date > END) continue;
+    if (!marketRowsByDate.has(row.date)) marketRowsByDate.set(row.date, []);
+    marketRowsByDate.get(row.date).push(marketRow(row));
+    if (row.changePct < 0) continue;
+    if (!candidatesByDate.has(row.date)) candidatesByDate.set(row.date, []);
+    candidatesByDate.get(row.date).push(candidateRow(row));
   }
   completed += 1;
   if (completed % 100 === 0 || completed === universe.length) {
-    console.log(`loaded ${completed}/${universe.length}, dates=${byDate.size}`);
+    console.log(`loaded ${completed}/${universe.length}, dates=${marketRowsByDate.size}`);
   }
 });
 
-const dates = [...byDate.keys()].sort();
+const dates = [...marketRowsByDate.keys()].sort();
 const selections = dates.map((date) => {
-  const rows = byDate.get(date) || [];
+  const rows = candidatesByDate.get(date) || [];
   const top = rows
-    .map((stock) => ({ ...stock, heatScore: scoreStock(stock, stock.history) }))
     .sort((a, b) => b.heatScore - a.heatScore)
     .slice(0, 5);
   return { date, stocks: top };
 });
 
-const marketByDate = new Map([...byDate.entries()].map(([date, rows]) => [date, new Map(rows.map((row) => [row.symbol, row]))]));
+const marketByDate = new Map([...marketRowsByDate.entries()].map(([date, rows]) => [date, new Map(rows.map((row) => [row.symbol, row]))]));
 const lateCurve = simulateLate(selections, marketByDate);
 const dailyCurve = simulateDaily(selections, marketByDate);
 const fundFlowFirstDate = minDate(universe.map((stock) => stock._fundFlowFirstDate).filter(Boolean));
@@ -55,7 +58,7 @@ const result = {
   dataSource: {
     kline: "Eastmoney historical daily kline",
     fundFlow: "Eastmoney individual fund-flow daykline where available",
-    limitation: "Free Eastmoney fund-flow endpoint returned only recent rows during validation; earlier dates use real OHLC/turnover/amount/volume metrics with fund-flow fields left at 0."
+    limitation: "Free Eastmoney fund-flow endpoint returned only recent rows during validation; earlier dates use real OHLC/turnover/amount/volume metrics with fund-flow fields left at 0. Historical intraday 14:55 prices are not available from the free daily dataset; late-session backtest uses daily close as the 14:55 price proxy."
   },
   fundFlowFirstDate: fundFlowFirstDate || null,
   selectionFundFlowCoverage: fundFlowCoverage(selections),
@@ -132,8 +135,8 @@ async function loadStockHistory(stock) {
   const fundMap = new Map(funds.map((row) => [row.date, row]));
   const rows = kline.map((row, index) => {
     const fund = fundMap.get(row.date) || {};
-    const history = kline.slice(Math.max(0, index - 119), index + 1).map((item) => ({ close: item.close }));
     const volumeRatio = average(kline.slice(Math.max(0, index - 5), index).map((item) => item.volume));
+    const history = kline.slice(Math.max(0, index - 119), index + 1).map((item) => ({ close: item.close }));
     return {
       ...stock,
       ...row,
@@ -143,13 +146,52 @@ async function loadStockHistory(stock) {
       superLargeOrderNetAmount: fund.superLargeOrderNetAmount || 0,
       largeOrderNetRatio: fund.largeOrderNetRatio || 0,
       bigOrderNetAmount: (fund.largeOrderNetAmount || 0) + (fund.superLargeOrderNetAmount || 0),
-      history
+      trendValue: trendScore(history)
     };
   });
   const fundFlowFirstDate = minDate(funds.map((row) => row.date));
   stock._fundFlowFirstDate = fundFlowFirstDate;
   await writeJson(file, { symbol: stock.symbol, end: END, fundFlowFirstDate, rows });
   return rows;
+}
+
+function marketRow(row) {
+  return {
+    symbol: row.symbol,
+    name: row.name,
+    date: row.date,
+    open: row.open,
+    close: row.close,
+    high: row.high,
+    low: row.low,
+    changePct: row.changePct
+  };
+}
+
+function candidateRow(row) {
+  return {
+    symbol: row.symbol,
+    name: row.name,
+    industry: row.industry,
+    date: row.date,
+    open: row.open,
+    close: row.close,
+    high: row.high,
+    low: row.low,
+    amount: row.amount,
+    volume: row.volume,
+    changePct: row.changePct,
+    turnoverRate: row.turnoverRate,
+    amplitude: row.amplitude,
+    volumeRatio: row.volumeRatio,
+    mainNetInflow: row.mainNetInflow,
+    largeOrderNetAmount: row.largeOrderNetAmount,
+    superLargeOrderNetAmount: row.superLargeOrderNetAmount,
+    largeOrderNetRatio: row.largeOrderNetRatio,
+    bigOrderNetAmount: row.bigOrderNetAmount,
+    trendValue: row.trendValue,
+    heatScore: scoreStock(row, row.history || [])
+  };
 }
 
 async function fetchKline(stock) {
@@ -278,14 +320,14 @@ function reportStock(stock) {
   };
 }
 
-function scoreStock(stock, history) {
+function scoreStock(stock, history = []) {
   const amount = clamp(Math.log10(Math.max(stock.amount, 1)) * 9 - 55, 0, 35);
   const change = clamp(stock.changePct * 2.5, 0, 25);
   const turnover = clamp(stock.turnoverRate * 1.8, 0, 15);
   const volume = clamp((stock.volumeRatio - 1) * 6, 0, 12);
   const amplitude = clamp(stock.amplitude * 0.8, 0, 8);
   const bigOrder = clamp(Math.max(stock.bigOrderNetAmount || 0, 0) / 100000000 * 5 + Math.max(stock.largeOrderNetRatio || 0, 0), 0, 20);
-  return Math.round(amount + change + turnover + volume + amplitude + bigOrder + trendScore(history));
+  return Math.round(amount + change + turnover + volume + amplitude + bigOrder + (stock.trendValue ?? trendScore(history)));
 }
 
 function trendScore(history) {
@@ -350,7 +392,7 @@ function renderHtml(result) {
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>2025 至今模拟盘回测</title>
 <style>body{margin:0;background:#eef2f6;color:#17202c;font-family:"Microsoft YaHei",Arial,sans-serif}main{max-width:1180px;margin:0 auto;padding:24px}h1{margin:0 0 12px}.meta,.panel{background:#fff;border:1px solid #d8dee8;border-radius:8px;box-shadow:0 10px 28px rgba(26,32,44,.08);padding:16px;margin-bottom:14px}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:#fff;border:1px solid #d8dee8;border-radius:8px;padding:14px}.card span{display:block;color:#667085;font-size:13px}.card b{font-size:26px}canvas{width:100%;height:420px;background:#fbfcfe;border:1px solid #e2e7ef;border-radius:8px}.warn{color:#92400e;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 12px;line-height:1.6}@media(max-width:640px){main{padding:16px}.cards{grid-template-columns:1fr}}</style></head>
-<body><main><h1>2025 至今模拟盘回测</h1><div class="meta"><div>区间：${result.start} 至 ${result.end}；股票数：${result.universeCount}；交易日：${result.tradingDays}</div><div class="warn">说明：历史日行情为真实东方财富数据；免费资金流接口在 Top5 中有资金流覆盖的交易日为 ${result.selectionFundFlowCoverage.daysWithAnyFundFlow}/${result.selectionFundFlowCoverage.days}，最早覆盖 ${result.selectionFundFlowCoverage.firstDateWithAnyFundFlow || "无"}。无资金流日期不伪造，按 0 参与原评分公式。尾盘回测使用当日行情信号，结果天然偏乐观。</div></div>
+<body><main><h1>2025 至今模拟盘回测</h1><div class="meta"><div>区间：${result.start} 至 ${result.end}；股票数：${result.universeCount}；交易日：${result.tradingDays}</div><div class="warn">说明：历史日行情为真实东方财富数据；免费资金流接口在 Top5 中有资金流覆盖的交易日为 ${result.selectionFundFlowCoverage.daysWithAnyFundFlow}/${result.selectionFundFlowCoverage.days}，最早覆盖 ${result.selectionFundFlowCoverage.firstDateWithAnyFundFlow || "无"}。无资金流日期不伪造，按 0 参与原评分公式。免费日线数据没有历史 14:55 价格，尾盘回测用当日收盘价作为 14:55 价格代理。</div></div>
 <div class="cards"><div class="card"><span>尾盘模拟盘最终净值</span><b>${result.late.endNetValue}</b><span>收益 ${result.late.totalReturnPct}% / 最大回撤 ${result.late.maxDrawdownPct}%</span></div><div class="card"><span>日报模拟盘最终净值</span><b>${result.daily.endNetValue}</b><span>收益 ${result.daily.totalReturnPct}% / 最大回撤 ${result.daily.maxDrawdownPct}%</span></div></div>
 <div class="panel"><canvas id="chart" width="1180" height="520"></canvas></div></main>
 <script>const DATA=${payload};const c=document.getElementById('chart'),x=c.getContext('2d'),w=c.width,h=c.height,p={l:58,r:24,t:24,b:42};const rows=DATA.lateCurve.map((r,i)=>({date:r.date,late:r.netValue,daily:DATA.dailyCurve[i]?.netValue}));const vals=rows.flatMap(r=>[r.late,r.daily]).filter(Number.isFinite);const mn=Math.min(...vals,1)*.98,mx=Math.max(...vals,1)*1.02,span=mx-mn||1;const y=v=>p.t+(mx-v)/span*(h-p.t-p.b),px=i=>p.l+i/(rows.length-1)*(w-p.l-p.r);x.clearRect(0,0,w,h);x.fillStyle='#fbfcfe';x.fillRect(0,0,w,h);x.strokeStyle='#e4e9f0';x.fillStyle='#657082';x.font='12px Arial';for(let k=0;k<=5;k++){const gy=p.t+k*(h-p.t-p.b)/5;x.beginPath();x.moveTo(p.l,gy);x.lineTo(w-p.r,gy);x.stroke();x.fillText((mx-k*span/5).toFixed(3),8,gy+4)}function line(key,color){x.strokeStyle=color;x.lineWidth=2;x.beginPath();rows.forEach((r,i)=>{const yy=y(r[key]);if(i)x.lineTo(px(i),yy);else x.moveTo(px(i),yy)});x.stroke()}line('late','#d84b47');line('daily','#1769aa');x.fillStyle='#d84b47';x.fillRect(p.l,12,18,4);x.fillText('尾盘',p.l+24,18);x.fillStyle='#1769aa';x.fillRect(p.l+74,12,18,4);x.fillText('日报',p.l+98,18);x.fillStyle='#657082';x.fillText(rows[0]?.date||'',p.l,h-14);x.fillText(rows.at(-1)?.date||'',w-p.r-80,h-14);</script></body></html>`;
