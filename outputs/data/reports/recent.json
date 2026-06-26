@@ -474,9 +474,9 @@
   "weeklyReports": [
     {
       "week": "2026-26",
-      "rangeStart": "2026-06-18",
-      "rangeEnd": "2026-06-24",
-      "generatedAt": "2026-06-24T14:25:01.199Z",
+      "rangeStart": "2026-06-20",
+      "rangeEnd": "2026-06-26",
+      "generatedAt": "2026-06-26T20:23:08.847Z",
       "status": "ok",
       "stocks": [
         {
@@ -495,22 +495,22 @@
         },
         {
           "rank": 3,
-          "symbol": "SH603986",
-          "name": "兆易创新",
+          "symbol": "SZ300088",
+          "name": "长信科技",
           "appearances": 1,
-          "weeklyHeatScore": 144
+          "weeklyHeatScore": 145
         },
         {
           "rank": 4,
-          "symbol": "SZ002428",
-          "name": "云南锗业",
+          "symbol": "SZ300223",
+          "name": "北京君正",
           "appearances": 1,
           "weeklyHeatScore": 144
         },
         {
           "rank": 5,
-          "symbol": "SH600909",
-          "name": "华安证券",
+          "symbol": "SH603986",
+          "name": "兆易创新",
           "appearances": 1,
           "weeklyHeatScore": 144
         }
