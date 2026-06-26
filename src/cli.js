@@ -569,7 +569,7 @@ async function backfillMissingDailyPortfolios(db) {
   const dates = Object.keys(db.dailyReports || {}).sort();
   if (!dates.length) return;
   const firstMissingIndex = dates.findIndex((date) => !db.dailyReports[date]?.dailyPortfolio);
-  if (firstMissingIndex < 0) return;
+  const firstRebuildIndex = firstMissingIndex < 0 ? dates.length : firstMissingIndex;
 
   let state = { netValue: 1, cash: 1, holdings: [], history: [] };
   const historyByDate = new Map();
@@ -578,7 +578,7 @@ async function backfillMissingDailyPortfolios(db) {
     const date = dates[index];
     const report = db.dailyReports[date];
     if (!report) continue;
-    const snapshot = index < firstMissingIndex && report.dailyPortfolio
+    const snapshot = index < firstRebuildIndex && report.dailyPortfolio
       ? report.dailyPortfolio
       : await rebuildDailyPortfolioSnapshot(db, report, state);
     report.dailyPortfolio = snapshot;

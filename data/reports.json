@@ -63193,7 +63193,494 @@
       }
     ]
   },
-  "dailyPortfolio": null,
+  "dailyPortfolio": {
+    "netValue": 1.0656,
+    "cash": 0,
+    "holdings": [
+      {
+        "symbol": "SH603986",
+        "name": "兆易创新",
+        "entryPrice": 740,
+        "shares": 0.0002880069820467441,
+        "allocation": 0.21312516671459064,
+        "date": "2026-06-25",
+        "sourceReportDate": "2026-06-24"
+      },
+      {
+        "symbol": "SZ002428",
+        "name": "云南锗业",
+        "entryPrice": 124.55,
+        "shares": 0.001711161515171342,
+        "allocation": 0.21312516671459064,
+        "date": "2026-06-25",
+        "sourceReportDate": "2026-06-24"
+      },
+      {
+        "symbol": "SH600584",
+        "name": "长电科技",
+        "entryPrice": 100,
+        "shares": 0.0021312516671459065,
+        "allocation": 0.21312516671459064,
+        "date": "2026-06-25",
+        "sourceReportDate": "2026-06-24"
+      },
+      {
+        "symbol": "SH600105",
+        "name": "永鼎股份",
+        "entryPrice": 70.5,
+        "shares": 0.0030230520101360374,
+        "allocation": 0.21312516671459064,
+        "date": "2026-06-25",
+        "sourceReportDate": "2026-06-24"
+      },
+      {
+        "symbol": "SH603083",
+        "name": "剑桥科技",
+        "entryPrice": 260,
+        "shares": 0.0008197121796715025,
+        "allocation": 0.21312516671459064,
+        "date": "2026-06-25",
+        "sourceReportDate": "2026-06-24"
+      }
+    ],
+    "history": [
+      {
+        "date": "2026-06-18",
+        "previousDate": "2026-06-17",
+        "netValue": 1,
+        "cash": 1,
+        "holdings": [],
+        "sold": [],
+        "bought": [
+          {
+            "skipped": true,
+            "reason": "missing_previous_daily_report",
+            "previousDate": "2026-06-17"
+          }
+        ]
+      },
+      {
+        "date": "2026-06-22",
+        "previousDate": "2026-06-19",
+        "netValue": 1,
+        "cash": 1,
+        "holdings": [],
+        "sold": [],
+        "bought": [
+          {
+            "skipped": true,
+            "reason": "missing_previous_daily_report",
+            "previousDate": "2026-06-19"
+          }
+        ]
+      },
+      {
+        "date": "2026-06-23",
+        "previousDate": "2026-06-22",
+        "netValue": 1,
+        "cash": 0,
+        "holdings": [
+          {
+            "symbol": "SZ300857",
+            "name": "协创数据",
+            "entryPrice": 320,
+            "shares": 0.000625,
+            "allocation": 0.2,
+            "date": "2026-06-23",
+            "sourceReportDate": "2026-06-22"
+          },
+          {
+            "symbol": "SZ300475",
+            "name": "香农芯创",
+            "entryPrice": 283.56,
+            "shares": 0.0007053180984624065,
+            "allocation": 0.2,
+            "date": "2026-06-23",
+            "sourceReportDate": "2026-06-22"
+          },
+          {
+            "symbol": "SZ300179",
+            "name": "四方达",
+            "entryPrice": 60.01,
+            "shares": 0.003332777870354941,
+            "allocation": 0.2,
+            "date": "2026-06-23",
+            "sourceReportDate": "2026-06-22"
+          },
+          {
+            "symbol": "SH600584",
+            "name": "长电科技",
+            "entryPrice": 91.96,
+            "shares": 0.002174858634188778,
+            "allocation": 0.2,
+            "date": "2026-06-23",
+            "sourceReportDate": "2026-06-22"
+          },
+          {
+            "symbol": "SH603629",
+            "name": "利通电子",
+            "entryPrice": 195.01,
+            "shares": 0.0010255884313624944,
+            "allocation": 0.2,
+            "date": "2026-06-23",
+            "sourceReportDate": "2026-06-22"
+          }
+        ],
+        "sold": [],
+        "bought": [
+          {
+            "symbol": "SZ300857",
+            "name": "协创数据",
+            "skipped": false,
+            "buyPrice": 320,
+            "allocation": 0.2,
+            "open": 320,
+            "low": 301.9200134277344,
+            "limitUpPrice": 380.17,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ300475",
+            "name": "香农芯创",
+            "skipped": false,
+            "buyPrice": 283.56,
+            "allocation": 0.2,
+            "open": 283.56,
+            "low": 274.3699951171875,
+            "limitUpPrice": 345.36,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ300179",
+            "name": "四方达",
+            "skipped": false,
+            "buyPrice": 60.01,
+            "allocation": 0.2,
+            "open": 60.01,
+            "low": 56.02000045776367,
+            "limitUpPrice": 68.98,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SH600584",
+            "name": "长电科技",
+            "skipped": false,
+            "buyPrice": 91.96,
+            "allocation": 0.2,
+            "open": 91.96,
+            "low": 84.37999725341797,
+            "limitUpPrice": 100.46,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SH603629",
+            "name": "利通电子",
+            "skipped": false,
+            "buyPrice": 195.01,
+            "allocation": 0.2,
+            "open": 195.01,
+            "low": 185,
+            "limitUpPrice": 213.66,
+            "buyReason": "open_price"
+          }
+        ]
+      },
+      {
+        "date": "2026-06-24",
+        "previousDate": "2026-06-23",
+        "netValue": 0.9558,
+        "cash": 0,
+        "holdings": [
+          {
+            "symbol": "SZ002008",
+            "name": "大族激光",
+            "entryPrice": 136.73,
+            "shares": 0.0013981212994315284,
+            "allocation": 0.19116512527127286,
+            "date": "2026-06-24",
+            "sourceReportDate": "2026-06-23"
+          },
+          {
+            "symbol": "SH600909",
+            "name": "华安证券",
+            "entryPrice": 10.2,
+            "shares": 0.018741678948164007,
+            "allocation": 0.19116512527127286,
+            "date": "2026-06-24",
+            "sourceReportDate": "2026-06-23"
+          },
+          {
+            "symbol": "SH600707",
+            "name": "彩虹股份",
+            "entryPrice": 13,
+            "shares": 0.014705009636251758,
+            "allocation": 0.19116512527127286,
+            "date": "2026-06-24",
+            "sourceReportDate": "2026-06-23"
+          },
+          {
+            "symbol": "SZ001267",
+            "name": "汇绿生态",
+            "entryPrice": 58.21,
+            "shares": 0.0032840598740984856,
+            "allocation": 0.19116512527127286,
+            "date": "2026-06-24",
+            "sourceReportDate": "2026-06-23"
+          },
+          {
+            "symbol": "SZ300302",
+            "name": "同有科技",
+            "entryPrice": 53.51,
+            "shares": 0.0035725121523317673,
+            "allocation": 0.19116512527127286,
+            "date": "2026-06-24",
+            "sourceReportDate": "2026-06-23"
+          }
+        ],
+        "sold": [
+          {
+            "symbol": "SZ300857",
+            "name": "协创数据",
+            "entryPrice": 320,
+            "sellPrice": 305,
+            "returnPct": -4.6875
+          },
+          {
+            "symbol": "SZ300475",
+            "name": "香农芯创",
+            "entryPrice": 283.56,
+            "sellPrice": 281,
+            "returnPct": -0.9028071660318813
+          },
+          {
+            "symbol": "SZ300179",
+            "name": "四方达",
+            "entryPrice": 60.01,
+            "sellPrice": 55,
+            "returnPct": -8.348608565239124
+          },
+          {
+            "symbol": "SH600584",
+            "name": "长电科技",
+            "entryPrice": 91.96,
+            "sellPrice": 84,
+            "returnPct": -8.65593736407133
+          },
+          {
+            "symbol": "SH603629",
+            "name": "利通电子",
+            "entryPrice": 195.01,
+            "sellPrice": 196,
+            "returnPct": 0.5076662735244393
+          }
+        ],
+        "bought": [
+          {
+            "symbol": "SZ002008",
+            "name": "大族激光",
+            "skipped": false,
+            "buyPrice": 136.73,
+            "allocation": 0.19116512527127286,
+            "open": 136.73,
+            "low": 135,
+            "limitUpPrice": 159.62,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SH600909",
+            "name": "华安证券",
+            "skipped": false,
+            "buyPrice": 10.2,
+            "allocation": 0.19116512527127286,
+            "open": 10.2,
+            "low": 10.199999809265137,
+            "limitUpPrice": 11.51,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SH600707",
+            "name": "彩虹股份",
+            "skipped": false,
+            "buyPrice": 13,
+            "allocation": 0.19116512527127286,
+            "open": 13,
+            "low": 13,
+            "limitUpPrice": 15,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ001267",
+            "name": "汇绿生态",
+            "skipped": false,
+            "buyPrice": 58.21,
+            "allocation": 0.19116512527127286,
+            "open": 58.21,
+            "low": 57.5,
+            "limitUpPrice": 67.5,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ300302",
+            "name": "同有科技",
+            "skipped": false,
+            "buyPrice": 53.51,
+            "allocation": 0.19116512527127286,
+            "open": 53.51,
+            "low": 51.61000061035156,
+            "limitUpPrice": 67.08,
+            "buyReason": "open_price"
+          }
+        ]
+      },
+      {
+        "date": "2026-06-25",
+        "previousDate": "2026-06-24",
+        "netValue": 1.0656,
+        "cash": 0,
+        "holdings": [
+          {
+            "symbol": "SH603986",
+            "name": "兆易创新",
+            "entryPrice": 740,
+            "shares": 0.0002880069820467441,
+            "allocation": 0.21312516671459064,
+            "date": "2026-06-25",
+            "sourceReportDate": "2026-06-24"
+          },
+          {
+            "symbol": "SZ002428",
+            "name": "云南锗业",
+            "entryPrice": 124.55,
+            "shares": 0.001711161515171342,
+            "allocation": 0.21312516671459064,
+            "date": "2026-06-25",
+            "sourceReportDate": "2026-06-24"
+          },
+          {
+            "symbol": "SH600584",
+            "name": "长电科技",
+            "entryPrice": 100,
+            "shares": 0.0021312516671459065,
+            "allocation": 0.21312516671459064,
+            "date": "2026-06-25",
+            "sourceReportDate": "2026-06-24"
+          },
+          {
+            "symbol": "SH600105",
+            "name": "永鼎股份",
+            "entryPrice": 70.5,
+            "shares": 0.0030230520101360374,
+            "allocation": 0.21312516671459064,
+            "date": "2026-06-25",
+            "sourceReportDate": "2026-06-24"
+          },
+          {
+            "symbol": "SH603083",
+            "name": "剑桥科技",
+            "entryPrice": 260,
+            "shares": 0.0008197121796715025,
+            "allocation": 0.21312516671459064,
+            "date": "2026-06-25",
+            "sourceReportDate": "2026-06-24"
+          }
+        ],
+        "sold": [
+          {
+            "symbol": "SZ002008",
+            "name": "大族激光",
+            "entryPrice": 136.73,
+            "sellPrice": 153.75,
+            "returnPct": 12.447890002194113
+          },
+          {
+            "symbol": "SH600909",
+            "name": "华安证券",
+            "entryPrice": 10.2,
+            "sellPrice": 11.99,
+            "returnPct": 17.549019607843146
+          },
+          {
+            "symbol": "SH600707",
+            "name": "彩虹股份",
+            "entryPrice": 13,
+            "sellPrice": 13.79,
+            "returnPct": 6.07692307692307
+          },
+          {
+            "symbol": "SZ001267",
+            "name": "汇绿生态",
+            "entryPrice": 58.21,
+            "sellPrice": 61.41,
+            "returnPct": 5.4973372272805285
+          },
+          {
+            "symbol": "SZ300302",
+            "name": "同有科技",
+            "entryPrice": 53.51,
+            "sellPrice": 62,
+            "returnPct": 15.866193234909368
+          }
+        ],
+        "bought": [
+          {
+            "symbol": "SH603986",
+            "name": "兆易创新",
+            "skipped": false,
+            "buyPrice": 740,
+            "allocation": 0.21312516671459064,
+            "open": 740,
+            "low": 735,
+            "limitUpPrice": 775.6,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ002428",
+            "name": "云南锗业",
+            "skipped": false,
+            "buyPrice": 124.55,
+            "allocation": 0.21312516671459064,
+            "open": 124.55,
+            "low": 123.08999633789062,
+            "limitUpPrice": 135.4,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SH600584",
+            "name": "长电科技",
+            "skipped": false,
+            "buyPrice": 100,
+            "allocation": 0.21312516671459064,
+            "open": 100,
+            "low": 99.98999786376953,
+            "limitUpPrice": 104.17,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SH600105",
+            "name": "永鼎股份",
+            "skipped": false,
+            "buyPrice": 70.5,
+            "allocation": 0.21312516671459064,
+            "open": 70.5,
+            "low": 68.0999984741211,
+            "limitUpPrice": 75.61,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SH603083",
+            "name": "剑桥科技",
+            "skipped": false,
+            "buyPrice": 260,
+            "allocation": 0.21312516671459064,
+            "open": 260,
+            "low": 253.02999877929688,
+            "limitUpPrice": 288.43,
+            "buyReason": "open_price"
+          }
+        ]
+      }
+    ]
+  },
   "jobLogs": [
     {
       "jobName": "late-report",
