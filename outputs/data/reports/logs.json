@@ -1,6 +1,16 @@
 {
   "logs": [
     {
+      "jobName": "late-report",
+      "startedAt": "2026-06-26T06:50:04.347Z",
+      "finishedAt": "2026-06-26T06:50:04.347Z",
+      "status": "failed",
+      "errorMessage": "NETLIFY_DATA_PROXY_BASE is not defined",
+      "reportKey": "2026-06-26",
+      "attempts": 4,
+      "nextRetryHint": "scheduled catchup or one-hour rerun"
+    },
+    {
       "jobName": "daily-report",
       "startedAt": "2026-06-25T08:00:39.114Z",
       "finishedAt": "2026-06-25T08:00:39.115Z",

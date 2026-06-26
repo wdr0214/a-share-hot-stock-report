@@ -58045,6 +58045,16 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-06-25"
+    },
+    {
+      "jobName": "late-report",
+      "startedAt": "2026-06-26T06:50:04.347Z",
+      "finishedAt": "2026-06-26T06:50:04.347Z",
+      "status": "failed",
+      "errorMessage": "NETLIFY_DATA_PROXY_BASE is not defined",
+      "reportKey": "2026-06-26",
+      "attempts": 4,
+      "nextRetryHint": "scheduled catchup or one-hour rerun"
     }
   ]
 }
