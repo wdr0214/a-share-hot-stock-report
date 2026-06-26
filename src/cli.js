@@ -6,6 +6,8 @@ const OUT_DIR = "outputs/data/reports";
 const REPORT_RETENTION_DAYS = 180;
 const REQUEST_RETRIES = 3;
 const REQUEST_RETRY_DELAY_MS = 10000;
+const DAILY_SELL_OPEN_RETRIES = 2;
+const DAILY_SELL_OPEN_RETRY_DELAY_MS = 120000;
 const EASTMONEY_FIELDS = "f12,f14,f2,f3,f6,f7,f8,f10,f62,f66,f69,f72,f75,f100";
 const QUOTE_FIELDS = "f12,f14,f2,f3,f15,f16,f17,f18";
 
@@ -252,8 +254,7 @@ async function updateDailyPortfolio(db, report) {
     const quoteMap = new Map(quotes.map((quote) => [quote.symbol, quote]));
     for (const holding of state.holdings) {
       const quote = quoteMap.get(holding.symbol);
-      const sellMarket = quote?.open ? quote : await dailySellMarketForHolding(db, report.date, holding.symbol);
-      if (!sellMarket?.open) throw new Error(`Missing daily sell open price for ${holding.symbol} on ${report.date}`);
+      const sellMarket = await dailySellMarketWithRetry(db, report.date, holding.symbol, quote);
       const sellPrice = sellMarket.open;
       const sellValue = number(holding.shares) * sellPrice;
       cash += sellValue;
@@ -348,6 +349,21 @@ function dailyBuyPrice(stock, quote) {
     return { price: null, reason: "limit_up_open_untradable", limitUpPrice };
   }
   return { price: open, reason: "open_price", limitUpPrice };
+}
+
+async function dailySellMarketWithRetry(db, date, symbol, initialMarket = null) {
+  if (initialMarket?.open) return initialMarket;
+  let sellMarket = null;
+  const retryDelay = date === today() ? DAILY_SELL_OPEN_RETRY_DELAY_MS : 0;
+  for (let attempt = 0; attempt <= DAILY_SELL_OPEN_RETRIES; attempt += 1) {
+    if (attempt > 0 && retryDelay) {
+      console.warn(`Missing daily sell open price for ${symbol} on ${date}, retrying in ${retryDelay / 1000}s (${attempt}/${DAILY_SELL_OPEN_RETRIES})`);
+      await sleep(retryDelay);
+    }
+    sellMarket = await dailySellMarketForHolding(db, date, symbol);
+    if (sellMarket?.open) return sellMarket;
+  }
+  throw new Error(`Missing daily sell open price for ${symbol} on ${date} after ${DAILY_SELL_OPEN_RETRIES} retries`);
 }
 
 async function generateWeekly(date) {
@@ -608,8 +624,7 @@ async function rebuildDailyPortfolioSnapshot(db, report, state) {
   let cash = number(state.cash);
   const sellRecords = [];
   for (const holding of state.holdings || []) {
-    const sellMarket = await dailySellMarketForHolding(db, report.date, holding.symbol);
-    if (!sellMarket?.open) throw new Error(`Missing daily sell open price for ${holding.symbol} on ${report.date}`);
+    const sellMarket = await dailySellMarketWithRetry(db, report.date, holding.symbol);
     const sellPrice = sellMarket.open;
     const sellValue = number(holding.shares) * sellPrice;
     cash += sellValue;
