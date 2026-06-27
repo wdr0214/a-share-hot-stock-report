@@ -34,12 +34,12 @@ export const runtimeConfig = {
 export async function handleReportJob(req, res, type) {
   try {
     assertAuthorized(req);
-    if (!["late", "daily"].includes(type)) {
+    if (!["late", "daily", "weekly"].includes(type)) {
       return res.status(400).json({ ok: false, error: "unsupported report type" });
     }
 
     const date = String(req.query?.date || shanghaiDate()).slice(0, 10);
-    const tradingDate = getAshareTradingDateStatus(date);
+    const tradingDate = type === "weekly" ? { isTradingDate: true, reason: "weekly_report" } : getAshareTradingDateStatus(date);
     if (!tradingDate.isTradingDate) {
       return res.status(200).json({
         ok: true,
@@ -121,6 +121,15 @@ function aShareClosedDates() {
   return new Set([...DEFAULT_A_SHARE_CLOSED_DATES, ...configured]);
 }
 
+function weekKey(date) {
+  const d = new Date(`${date}T12:00:00+08:00`);
+  const day = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - day);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  return `${d.getUTCFullYear()}-${String(week).padStart(2, "0")}`;
+}
+
 function parseDateList(value) {
   return String(value)
     .split(/[\s,;]+/)
@@ -178,11 +187,12 @@ function spawnNode(script, args, cwd, env) {
 }
 
 async function collectChangedFiles(workspace, type, date) {
+  const reportKey = type === "weekly" ? weekKey(date) : date;
   const files = [
     "data/reports.json",
     "outputs/data/reports/recent.json",
     "outputs/data/reports/logs.json",
-    `outputs/data/reports/${type}/${date}.json`,
+    `outputs/data/reports/${type}/${reportKey}.json`,
     `outputs/data/reports/${type}-latest.json`
   ];
   const existing = [];
