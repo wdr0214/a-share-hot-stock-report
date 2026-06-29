@@ -247,6 +247,11 @@ async function updateLatePortfolio(db, report) {
 
 async function updateDailyPortfolio(db, report) {
   const state = db.dailyPortfolio || { netValue: 1, cash: 1, holdings: [], history: [] };
+  const expectedStateDate = latestDailyReportDateBefore(db, report.date);
+  const latestStateDate = latestPortfolioStateDate(state);
+  if (latestStateDate && latestStateDate !== expectedStateDate) {
+    throw new Error(`Missing daily portfolio state for ${expectedStateDate}; latest state is ${latestStateDate}`);
+  }
   let cash = number(state.cash);
   const sellRecords = [];
   if (state.holdings?.length) {
@@ -595,9 +600,16 @@ async function backfillMissingDailyPortfolios(db) {
     const date = dates[index];
     const report = db.dailyReports[date];
     if (!report) continue;
-    const snapshot = index < firstRebuildIndex && report.dailyPortfolio
-      ? report.dailyPortfolio
-      : await rebuildDailyPortfolioSnapshot(db, report, state);
+    let snapshot = index < firstRebuildIndex && report.dailyPortfolio ? report.dailyPortfolio : null;
+    if (!snapshot) {
+      try {
+        snapshot = await rebuildDailyPortfolioSnapshot(db, report, state);
+      } catch (error) {
+        report.dailyPortfolioError = error.message;
+        console.warn(`daily portfolio backfill skipped for ${date}: ${error.message}`);
+        continue;
+      }
+    }
     report.dailyPortfolio = snapshot;
     state = {
       netValue: snapshot.netValue,
@@ -618,6 +630,15 @@ async function backfillMissingDailyPortfolios(db) {
       .sort((a, b) => String(a.date).localeCompare(String(b.date)))
       .slice(-REPORT_RETENTION_DAYS)
   };
+}
+
+function latestPortfolioStateDate(state) {
+  const history = (state?.history || []).filter((item) => item?.date).sort((a, b) => String(a.date).localeCompare(String(b.date)));
+  return history.at(-1)?.date || null;
+}
+
+function latestDailyReportDateBefore(db, date) {
+  return Object.keys(db.dailyReports || {}).filter((item) => item < date).sort().at(-1) || null;
 }
 
 async function rebuildDailyPortfolioSnapshot(db, report, state) {
