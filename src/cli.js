@@ -259,13 +259,7 @@ async function updateDailyPortfolio(db, report) {
     const quoteMap = new Map(quotes.map((quote) => [quote.symbol, quote]));
     for (const holding of state.holdings) {
       const quote = quoteMap.get(holding.symbol);
-      const sellMarket = await dailySellMarketWithRetry(db, report.date, holding.symbol, quote).catch((error) => ({ error }));
-      if (!sellMarket?.open) {
-        const previousDate = previousWeekday(report.date);
-        const snapshot = pendingDailyPortfolioSnapshot(report, previousDate, state, state.holdings, sellMarket?.error);
-        db.dailyPortfolio = { netValue: snapshot.netValue, cash: snapshot.cash, holdings: [], history: [...(state.history || []), snapshot].slice(-REPORT_RETENTION_DAYS) };
-        return snapshot;
-      }
+      const sellMarket = await dailySellMarketWithRetry(db, report.date, holding.symbol, quote);
       const sellPrice = sellMarket.open;
       const sellValue = number(holding.shares) * sellPrice;
       cash += sellValue;
@@ -360,34 +354,6 @@ function dailyBuyPrice(stock, quote) {
     return { price: null, reason: "limit_up_open_untradable", limitUpPrice };
   }
   return { price: open, reason: "open_price", limitUpPrice };
-}
-
-function pendingDailyPortfolioSnapshot(report, previousDate, state, holdings, error) {
-  const netValue = number(state?.netValue || state?.cash || 1) || 1;
-  const reason = error?.message || "daily_sell_open_price_missing";
-  return {
-    date: report.date,
-    previousDate,
-    netValue: round(netValue, 4),
-    cash: round(netValue, 6),
-    holdings: [],
-    status: "pricing_pending",
-    errorMessage: `日报模拟盘卖出开盘价缺失，净值沿用上一交易日：${reason}`,
-    sold: (holdings || []).map((holding) => ({
-      symbol: holding.symbol,
-      name: holding.name,
-      entryPrice: holding.entryPrice,
-      sellPrice: null,
-      returnPct: null,
-      skipped: true,
-      reason: "daily_sell_open_price_missing"
-    })),
-    bought: [{
-      skipped: true,
-      reason: "daily_sell_open_price_missing",
-      message: "卖出开盘价缺失，当日不买入新标的，净值沿用上一交易日。"
-    }]
-  };
 }
 
 async function dailySellMarketWithRetry(db, date, symbol, initialMarket = null) {
@@ -624,7 +590,10 @@ function weeklyIndexItem(report) {
 async function backfillMissingDailyPortfolios(db) {
   const dates = Object.keys(db.dailyReports || {}).sort();
   if (!dates.length) return;
-  const firstMissingIndex = dates.findIndex((date) => !db.dailyReports[date]?.dailyPortfolio);
+  const firstMissingIndex = dates.findIndex((date) => {
+    const portfolio = db.dailyReports[date]?.dailyPortfolio;
+    return !portfolio || portfolio.status === "pricing_pending";
+  });
   const firstRebuildIndex = firstMissingIndex < 0 ? dates.length : firstMissingIndex;
 
   let state = { netValue: 1, cash: 1, holdings: [], history: [] };
@@ -639,6 +608,7 @@ async function backfillMissingDailyPortfolios(db) {
       try {
         snapshot = await rebuildDailyPortfolioSnapshot(db, report, state);
       } catch (error) {
+        delete report.dailyPortfolio;
         report.dailyPortfolioError = error.message;
         console.warn(`daily portfolio backfill skipped for ${date}: ${error.message}`);
         continue;
@@ -679,10 +649,7 @@ async function rebuildDailyPortfolioSnapshot(db, report, state) {
   let cash = number(state.cash);
   const sellRecords = [];
   for (const holding of state.holdings || []) {
-    const sellMarket = await dailySellMarketWithRetry(db, report.date, holding.symbol).catch((error) => ({ error }));
-    if (!sellMarket?.open) {
-      return pendingDailyPortfolioSnapshot(report, previousWeekday(report.date), state, state.holdings || [], sellMarket?.error);
-    }
+    const sellMarket = await dailySellMarketWithRetry(db, report.date, holding.symbol);
     const sellPrice = sellMarket.open;
     const sellValue = number(holding.shares) * sellPrice;
     cash += sellValue;
