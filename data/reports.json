@@ -5582,7 +5582,70 @@
           }
         ]
       },
-      "dailyPortfolioError": "Missing daily sell open price for SZ300223 on 2026-06-29 after 2 retries"
+      "dailyPortfolioError": "Missing daily sell open price for SZ300223 on 2026-06-29 after 2 retries",
+      "dailyPortfolio": {
+        "date": "2026-06-29",
+        "previousDate": "2026-06-26",
+        "netValue": 1.0945,
+        "cash": 1.0945,
+        "holdings": [],
+        "status": "pricing_pending",
+        "errorMessage": "日报模拟盘卖出开盘价缺失，净值沿用上一交易日：Missing daily sell open price for SZ300223 on 2026-06-29 after 2 retries",
+        "sold": [
+          {
+            "symbol": "SZ300223",
+            "name": "北京君正",
+            "entryPrice": 240,
+            "sellPrice": null,
+            "returnPct": null,
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing"
+          },
+          {
+            "symbol": "SZ000636",
+            "name": "风华高科",
+            "entryPrice": 77.5,
+            "sellPrice": null,
+            "returnPct": null,
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing"
+          },
+          {
+            "symbol": "SH600522",
+            "name": "中天科技",
+            "entryPrice": 65.66,
+            "sellPrice": null,
+            "returnPct": null,
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing"
+          },
+          {
+            "symbol": "SZ001309",
+            "name": "德明利",
+            "entryPrice": 881.1,
+            "sellPrice": null,
+            "returnPct": null,
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing"
+          },
+          {
+            "symbol": "SZ300323",
+            "name": "华灿光电",
+            "entryPrice": 17.97,
+            "sellPrice": null,
+            "returnPct": null,
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing"
+          }
+        ],
+        "bought": [
+          {
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing",
+            "message": "卖出开盘价缺失，当日不买入新标的，净值沿用上一交易日。"
+          }
+        ]
+      }
     },
     "2026-06-26": {
       "type": "daily",
@@ -80568,54 +80631,8 @@
   },
   "dailyPortfolio": {
     "netValue": 1.0945,
-    "cash": 0,
-    "holdings": [
-      {
-        "symbol": "SZ300223",
-        "name": "北京君正",
-        "entryPrice": 240,
-        "shares": 0.0009120916151083643,
-        "allocation": 0.21890198762600743,
-        "date": "2026-06-26",
-        "sourceReportDate": "2026-06-25"
-      },
-      {
-        "symbol": "SZ000636",
-        "name": "风华高科",
-        "entryPrice": 77.5,
-        "shares": 0.0028245417758194506,
-        "allocation": 0.21890198762600743,
-        "date": "2026-06-26",
-        "sourceReportDate": "2026-06-25"
-      },
-      {
-        "symbol": "SH600522",
-        "name": "中天科技",
-        "entryPrice": 65.66,
-        "shares": 0.0033338712705758065,
-        "allocation": 0.21890198762600743,
-        "date": "2026-06-26",
-        "sourceReportDate": "2026-06-25"
-      },
-      {
-        "symbol": "SZ001309",
-        "name": "德明利",
-        "entryPrice": 881.1,
-        "shares": 0.0002484417065327516,
-        "allocation": 0.21890198762600743,
-        "date": "2026-06-26",
-        "sourceReportDate": "2026-06-25"
-      },
-      {
-        "symbol": "SZ300323",
-        "name": "华灿光电",
-        "entryPrice": 17.97,
-        "shares": 0.012181524074903029,
-        "allocation": 0.21890198762600743,
-        "date": "2026-06-26",
-        "sourceReportDate": "2026-06-25"
-      }
-    ],
+    "cash": 1.0945,
+    "holdings": [],
     "history": [
       {
         "date": "2026-06-18",
@@ -81196,6 +81213,69 @@
             "low": 17.78,
             "limitUpPrice": 21.98,
             "buyReason": "open_price"
+          }
+        ]
+      },
+      {
+        "date": "2026-06-29",
+        "previousDate": "2026-06-26",
+        "netValue": 1.0945,
+        "cash": 1.0945,
+        "holdings": [],
+        "status": "pricing_pending",
+        "errorMessage": "日报模拟盘卖出开盘价缺失，净值沿用上一交易日：Missing daily sell open price for SZ300223 on 2026-06-29 after 2 retries",
+        "sold": [
+          {
+            "symbol": "SZ300223",
+            "name": "北京君正",
+            "entryPrice": 240,
+            "sellPrice": null,
+            "returnPct": null,
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing"
+          },
+          {
+            "symbol": "SZ000636",
+            "name": "风华高科",
+            "entryPrice": 77.5,
+            "sellPrice": null,
+            "returnPct": null,
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing"
+          },
+          {
+            "symbol": "SH600522",
+            "name": "中天科技",
+            "entryPrice": 65.66,
+            "sellPrice": null,
+            "returnPct": null,
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing"
+          },
+          {
+            "symbol": "SZ001309",
+            "name": "德明利",
+            "entryPrice": 881.1,
+            "sellPrice": null,
+            "returnPct": null,
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing"
+          },
+          {
+            "symbol": "SZ300323",
+            "name": "华灿光电",
+            "entryPrice": 17.97,
+            "sellPrice": null,
+            "returnPct": null,
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing"
+          }
+        ],
+        "bought": [
+          {
+            "skipped": true,
+            "reason": "daily_sell_open_price_missing",
+            "message": "卖出开盘价缺失，当日不买入新标的，净值沿用上一交易日。"
           }
         ]
       }
