@@ -5580,5 +5580,32 @@
         "todayCloseVsOpenPct": -2.6242173970960425
       }
     ]
-  }
+  },
+  "dailyPortfolioError": "Missing daily sell open price for SZ300223 on 2026-06-30 after 2 retries",
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-23",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-24",
+      "netValue": 0.9558
+    },
+    {
+      "date": "2026-06-25",
+      "netValue": 1.0656
+    },
+    {
+      "date": "2026-06-26",
+      "netValue": 1.0945
+    }
+  ]
 }
