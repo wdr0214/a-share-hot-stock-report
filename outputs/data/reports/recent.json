@@ -277,6 +277,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-06-30",
+      "generatedAt": "2026-06-30T06:50:26.479Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ000725",
+          "name": "京东方Ａ",
+          "heatScore": 123
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300975",
+          "name": "商络电子",
+          "heatScore": 123
+        },
+        {
+          "rank": 3,
+          "symbol": "SH600378",
+          "name": "昊华科技",
+          "heatScore": 122
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ301297",
+          "name": "富乐德",
+          "heatScore": 121
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ300503",
+          "name": "昊志机电",
+          "heatScore": 120
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-06-29",
       "generatedAt": "2026-06-29T06:50:26.438Z",
       "status": "ok",
@@ -545,52 +584,6 @@
           "symbol": "SZ301205",
           "name": "联特科技",
           "heatScore": 118
-        }
-      ]
-    }
-  ],
-  "weeklyReports": [
-    {
-      "week": "2026-26",
-      "rangeStart": "2026-06-20",
-      "rangeEnd": "2026-06-26",
-      "generatedAt": "2026-06-26T20:23:08.847Z",
-      "status": "ok",
-      "stocks": [
-        {
-          "rank": 1,
-          "symbol": "SH600584",
-          "name": "长电科技",
-          "appearances": 2,
-          "weeklyHeatScore": 285
-        },
-        {
-          "rank": 2,
-          "symbol": "SZ002008",
-          "name": "大族激光",
-          "appearances": 1,
-          "weeklyHeatScore": 147
-        },
-        {
-          "rank": 3,
-          "symbol": "SZ300088",
-          "name": "长信科技",
-          "appearances": 1,
-          "weeklyHeatScore": 145
-        },
-        {
-          "rank": 4,
-          "symbol": "SZ300223",
-          "name": "北京君正",
-          "appearances": 1,
-          "weeklyHeatScore": 144
-        },
-        {
-          "rank": 5,
-          "symbol": "SH603986",
-          "name": "兆易创新",
-          "appearances": 1,
-          "weeklyHeatScore": 144
         }
       ]
     }
