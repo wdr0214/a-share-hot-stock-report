@@ -831,6 +831,42 @@ async function fetchMarketPage(page, pageSize) {
 }
 
 async function fetchQuotes(symbols) {
+  const primary = await fetchEastmoneyQuotes(symbols).catch((error) => {
+    console.warn(`eastmoney quote source failed, falling back to sina: ${error.message}`);
+    return [];
+  });
+  const bySymbol = new Map(primary.map((item) => [item.symbol, item]));
+  const missing = [...new Set(symbols.map(normalizeSymbol).filter(Boolean))]
+    .filter((symbol) => {
+      const quote = bySymbol.get(symbol);
+      return !quote || !quote.open || !quote.close || !quote.high || !quote.low;
+    });
+  if (missing.length) {
+    const fallback = await fetchSinaQuotes(missing).catch((error) => {
+      console.warn(`sina quote fallback failed: ${error.message}`);
+      return [];
+    });
+    for (const quote of fallback) {
+      const current = bySymbol.get(quote.symbol) || {};
+      bySymbol.set(quote.symbol, {
+        ...current,
+        symbol: quote.symbol,
+        name: current.name || quote.name,
+        changePct: current.changePct ?? quote.changePct,
+        open: current.open || quote.open,
+        high: current.high || quote.high,
+        low: current.low || quote.low,
+        previousClose: current.previousClose || quote.previousClose,
+        close: current.close || quote.close,
+        closeVsOpenPct: current.closeVsOpenPct ?? quote.closeVsOpenPct,
+        dataSource: current.dataSource || quote.dataSource
+      });
+    }
+  }
+  return [...bySymbol.values()].filter((item) => item.symbol);
+}
+
+async function fetchEastmoneyQuotes(symbols) {
   const secids = symbols.map(toEastmoneySecid).filter(Boolean);
   const all = [];
   for (let i = 0; i < secids.length; i += 80) {
@@ -843,24 +879,67 @@ async function fetchQuotes(symbols) {
     if (!Array.isArray(items)) throw new Error("Eastmoney quote response missing data.diff");
     all.push(...items);
   }
-  return all.map((item) => {
-    const close = number(item.f2);
-    const open = number(item.f17);
-    const high = number(item.f15);
-    const low = number(item.f16);
-    const previousClose = number(item.f18);
-    return {
-      symbol: normalizeSymbol(item.f12),
-      name: String(item.f14 || "").trim(),
-      changePct: number(item.f3),
+  return all.map(normalizeEastmoneyQuote).filter((item) => item.symbol);
+}
+
+function normalizeEastmoneyQuote(item) {
+  const close = number(item.f2);
+  const open = number(item.f17);
+  const high = number(item.f15);
+  const low = number(item.f16);
+  const previousClose = number(item.f18);
+  return {
+    symbol: normalizeSymbol(item.f12),
+    name: String(item.f14 || "").trim(),
+    changePct: number(item.f3),
+    open,
+    high,
+    low,
+    previousClose,
+    close,
+    closeVsOpenPct: open ? ((close - open) / open) * 100 : null
+  };
+}
+
+async function fetchSinaQuotes(symbols) {
+  const all = [];
+  const sinaSymbols = symbols.map(toSinaSymbol).filter(Boolean);
+  for (let i = 0; i < sinaSymbols.length; i += 80) {
+    const batch = sinaSymbols.slice(i, i + 80);
+    const payload = await fetchText(`https://hq.sinajs.cn/list=${batch.join(",")}`);
+    all.push(...parseSinaQuotePayload(payload));
+    await sleep(250);
+  }
+  return all;
+}
+
+function parseSinaQuotePayload(payload) {
+  const rows = [];
+  const pattern = /var hq_str_([a-z]{2}\d{6})="([^"]*)";/g;
+  let match;
+  while ((match = pattern.exec(payload))) {
+    const symbol = normalizeSymbol(match[1]);
+    const fields = match[2].split(",");
+    if (!symbol || fields.length < 32 || !fields[0]) continue;
+    const open = number(fields[1]);
+    const previousClose = number(fields[2]);
+    const close = number(fields[3]);
+    const high = number(fields[4]);
+    const low = number(fields[5]);
+    rows.push({
+      symbol,
+      name: fields[0],
+      changePct: previousClose ? ((close - previousClose) / previousClose) * 100 : null,
       open,
       high,
       low,
       previousClose,
       close,
-      closeVsOpenPct: open ? ((close - open) / open) * 100 : null
-    };
-  }).filter((item) => item.symbol);
+      closeVsOpenPct: open ? ((close - open) / open) * 100 : null,
+      dataSource: "sina"
+    });
+  }
+  return rows;
 }
 
 async function fetchKline(symbol) {
@@ -1073,6 +1152,30 @@ async function fetchJson(url) {
   throw lastError;
 }
 
+async function fetchText(url) {
+  let lastError;
+  for (let attempt = 0; attempt <= REQUEST_RETRIES; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Accept: "text/plain,*/*",
+          Referer: "https://finance.sina.com.cn/",
+          "User-Agent": "Mozilla/5.0 github-pages-stock-report/1.0"
+        }
+      });
+      if (!response.ok) throw new Error(`Request failed ${response.status}: ${(await response.text()).slice(0, 160)}`);
+      return response.text();
+    } catch (error) {
+      lastError = error;
+      if (attempt < REQUEST_RETRIES) {
+        console.warn(`external text request failed, retrying in ${REQUEST_RETRY_DELAY_MS / 1000}s: ${error.message}`);
+        await sleep(REQUEST_RETRY_DELAY_MS);
+      }
+    }
+  }
+  throw lastError;
+}
+
 async function recordFailureLog(jobName, reportKey, error) {
   const db = await readDb();
   const now = new Date().toISOString();
@@ -1264,6 +1367,15 @@ function toEastmoneySecid(symbol) {
   const code = normalized.slice(2);
   if (normalized.startsWith("SH")) return `1.${code}`;
   if (normalized.startsWith("SZ") || normalized.startsWith("BJ")) return `0.${code}`;
+  return "";
+}
+
+function toSinaSymbol(symbol) {
+  const normalized = normalizeSymbol(symbol);
+  const code = normalized.slice(2);
+  if (normalized.startsWith("SH")) return `sh${code}`;
+  if (normalized.startsWith("SZ")) return `sz${code}`;
+  if (normalized.startsWith("BJ")) return `bj${code}`;
   return "";
 }
 

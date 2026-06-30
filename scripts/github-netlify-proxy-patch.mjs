@@ -57,19 +57,49 @@ function ensureProxyQuotes(text) {
   return text.replace(
     /async function fetchQuotes\(symbols\) \{[\s\S]*?\n\}\n\nasync function fetchEastmoneyQuotes/,
     `async function fetchQuotes(symbols) {
+  let primary = [];
   if (NETLIFY_DATA_PROXY_BASE) {
     try {
-      return await fetchProxyQuotes(symbols);
+      primary = await fetchProxyQuotes(symbols);
     } catch (error) {
       console.warn(\`netlify market-data proxy quotes failed, falling back to direct quotes: \${error.message}\`);
     }
   }
-  try {
-    return await fetchEastmoneyQuotes(symbols);
-  } catch (error) {
-    console.warn(\`eastmoney quote source failed, falling back to sina: \${error.message}\`);
-    return fetchSinaQuotes(symbols);
+  if (!primary.length) {
+    primary = await fetchEastmoneyQuotes(symbols).catch((error) => {
+      console.warn(\`eastmoney quote source failed, falling back to sina: \${error.message}\`);
+      return [];
+    });
   }
+  const bySymbol = new Map(primary.map((item) => [item.symbol, item]));
+  const missing = [...new Set(symbols.map(normalizeSymbol).filter(Boolean))]
+    .filter((symbol) => {
+      const quote = bySymbol.get(symbol);
+      return !quote || !quote.open || !quote.close || !quote.high || !quote.low;
+    });
+  if (missing.length) {
+    const fallback = await fetchSinaQuotes(missing).catch((error) => {
+      console.warn(\`sina quote fallback failed: \${error.message}\`);
+      return [];
+    });
+    for (const quote of fallback) {
+      const current = bySymbol.get(quote.symbol) || {};
+      bySymbol.set(quote.symbol, {
+        ...current,
+        symbol: quote.symbol,
+        name: current.name || quote.name,
+        changePct: current.changePct ?? quote.changePct,
+        open: current.open || quote.open,
+        high: current.high || quote.high,
+        low: current.low || quote.low,
+        previousClose: current.previousClose || quote.previousClose,
+        close: current.close || quote.close,
+        closeVsOpenPct: current.closeVsOpenPct ?? quote.closeVsOpenPct,
+        dataSource: current.dataSource || quote.dataSource
+      });
+    }
+  }
+  return [...bySymbol.values()].filter((item) => item.symbol);
 }
 
 async function fetchProxyQuotes(symbols) {
@@ -165,12 +195,18 @@ function normalizeProxyQuote(item) {
   const symbol = normalizeSymbol(item.symbol || item.stockSymbol || item.code || item.tsCode);
   if (!symbol) return null;
   const open = number(item.open);
+  const high = number(item.high);
+  const low = number(item.low);
+  const previousClose = number(item.previousClose ?? item.preClose ?? item.pre_close);
   const close = number(item.close ?? item.price ?? item.last);
   return {
     symbol,
     name: String(item.name || item.stockName || item.symbolName || symbol).trim(),
     changePct: number(item.changePct ?? item.pctChg ?? item.percent ?? item.chgPct),
     open,
+    high,
+    low,
+    previousClose,
     close,
     closeVsOpenPct: item.closeVsOpenPct ?? (open ? ((close - open) / open) * 100 : null)
   };

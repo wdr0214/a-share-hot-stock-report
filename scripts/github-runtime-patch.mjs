@@ -96,12 +96,39 @@ function mergeStocks(primary, supplement) {
 }
 
 async function fetchQuotes(symbols) {
-  try {
-    return await fetchEastmoneyQuotes(symbols);
-  } catch (error) {
+  const primary = await fetchEastmoneyQuotes(symbols).catch((error) => {
     console.warn(\`eastmoney quote source failed, falling back to sina: \${error.message}\`);
-    return fetchSinaQuotes(symbols);
+    return [];
+  });
+  const bySymbol = new Map(primary.map((item) => [item.symbol, item]));
+  const missing = [...new Set(symbols.map(normalizeSymbol).filter(Boolean))]
+    .filter((symbol) => {
+      const quote = bySymbol.get(symbol);
+      return !quote || !quote.open || !quote.close || !quote.high || !quote.low;
+    });
+  if (missing.length) {
+    const fallback = await fetchSinaQuotes(missing).catch((error) => {
+      console.warn(\`sina quote fallback failed: \${error.message}\`);
+      return [];
+    });
+    for (const quote of fallback) {
+      const current = bySymbol.get(quote.symbol) || {};
+      bySymbol.set(quote.symbol, {
+        ...current,
+        symbol: quote.symbol,
+        name: current.name || quote.name,
+        changePct: current.changePct ?? quote.changePct,
+        open: current.open || quote.open,
+        high: current.high || quote.high,
+        low: current.low || quote.low,
+        previousClose: current.previousClose || quote.previousClose,
+        close: current.close || quote.close,
+        closeVsOpenPct: current.closeVsOpenPct ?? quote.closeVsOpenPct,
+        dataSource: current.dataSource || quote.dataSource
+      });
+    }
   }
+  return [...bySymbol.values()].filter((item) => item.symbol);
 }
 
 async function fetchEastmoneyQuotes(symbols) {
@@ -120,11 +147,17 @@ async function fetchEastmoneyQuotes(symbols) {
   return all.map((item) => {
     const close = number(item.f2);
     const open = number(item.f17);
+    const high = number(item.f15);
+    const low = number(item.f16);
+    const previousClose = number(item.f18);
     return {
       symbol: normalizeSymbol(item.f12),
       name: String(item.f14 || "").trim(),
       changePct: number(item.f3),
       open,
+      high,
+      low,
+      previousClose,
       close,
       closeVsOpenPct: open ? ((close - open) / open) * 100 : null
     };
@@ -219,13 +252,19 @@ function parseSinaQuotePayload(payload) {
     const open = number(fields[1]);
     const prevClose = number(fields[2]);
     const close = number(fields[3]);
+    const high = number(fields[4]);
+    const low = number(fields[5]);
     rows.push({
       symbol,
       name: fields[0],
       changePct: prevClose ? ((close - prevClose) / prevClose) * 100 : null,
       open,
+      high,
+      low,
+      previousClose: prevClose,
       close,
-      closeVsOpenPct: open ? ((close - open) / open) * 100 : null
+      closeVsOpenPct: open ? ((close - open) / open) * 100 : null,
+      dataSource: "sina"
     });
   }
   return rows;
