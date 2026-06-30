@@ -5580,7 +5580,153 @@
       }
     ]
   },
-  "dailyPortfolioError": "Missing daily sell open price for SZ300223 on 2026-06-29 after 2 retries",
+  "dailyPortfolio": {
+    "date": "2026-06-29",
+    "previousDate": "2026-06-26",
+    "netValue": 1.1143,
+    "cash": 0,
+    "holdings": [
+      {
+        "symbol": "SZ300088",
+        "name": "长信科技",
+        "entryPrice": 11.72,
+        "shares": 0.0190146161717035,
+        "allocation": 0.22285130153236504,
+        "date": "2026-06-29",
+        "sourceReportDate": "2026-06-26"
+      },
+      {
+        "symbol": "SH600367",
+        "name": "红星发展",
+        "entryPrice": 58.71,
+        "shares": 0.0037957980162215132,
+        "allocation": 0.22285130153236504,
+        "date": "2026-06-29",
+        "sourceReportDate": "2026-06-26"
+      },
+      {
+        "symbol": "SH600552",
+        "name": "凯盛科技",
+        "entryPrice": 30.99,
+        "shares": 0.007191071362773961,
+        "allocation": 0.22285130153236504,
+        "date": "2026-06-29",
+        "sourceReportDate": "2026-06-26"
+      },
+      {
+        "symbol": "SZ002119",
+        "name": "康强电子",
+        "entryPrice": 37.93,
+        "shares": 0.00587533091305998,
+        "allocation": 0.22285130153236504,
+        "date": "2026-06-29",
+        "sourceReportDate": "2026-06-26"
+      },
+      {
+        "symbol": "SZ300776",
+        "name": "帝尔激光",
+        "entryPrice": 203,
+        "shares": 0.00109778966272101,
+        "allocation": 0.22285130153236504,
+        "date": "2026-06-29",
+        "sourceReportDate": "2026-06-26"
+      }
+    ],
+    "sold": [
+      {
+        "symbol": "SZ300223",
+        "name": "北京君正",
+        "entryPrice": 240,
+        "sellPrice": 232,
+        "returnPct": -3.3333333333333335
+      },
+      {
+        "symbol": "SZ000636",
+        "name": "风华高科",
+        "entryPrice": 77.5,
+        "sellPrice": 78.52999877929688,
+        "returnPct": 1.3290306829637097
+      },
+      {
+        "symbol": "SH600522",
+        "name": "中天科技",
+        "entryPrice": 65.66,
+        "sellPrice": 60,
+        "returnPct": -8.620164483703926
+      },
+      {
+        "symbol": "SZ001309",
+        "name": "德明利",
+        "entryPrice": 881.1,
+        "sellPrice": 939.9500122070312,
+        "returnPct": 6.679152446604383
+      },
+      {
+        "symbol": "SZ300323",
+        "name": "华灿光电",
+        "entryPrice": 17.97,
+        "sellPrice": 20.299999237060547,
+        "returnPct": 12.966050289708114
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SZ300088",
+        "name": "长信科技",
+        "skipped": false,
+        "buyPrice": 11.72,
+        "allocation": 0.22285130153236504,
+        "open": 11.72,
+        "low": 10.729999542236328,
+        "limitUpPrice": 14,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH600367",
+        "name": "红星发展",
+        "skipped": false,
+        "buyPrice": 58.71,
+        "allocation": 0.22285130153236504,
+        "open": 58.71,
+        "low": 55.0099983215332,
+        "limitUpPrice": 64.11,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH600552",
+        "name": "凯盛科技",
+        "skipped": false,
+        "buyPrice": 30.99,
+        "allocation": 0.22285130153236504,
+        "open": 30.99,
+        "low": 29.479999542236328,
+        "limitUpPrice": 32.56,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ002119",
+        "name": "康强电子",
+        "skipped": false,
+        "buyPrice": 37.93,
+        "allocation": 0.22285130153236504,
+        "open": 37.93,
+        "low": 33.31999969482422,
+        "limitUpPrice": 40.72,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ300776",
+        "name": "帝尔激光",
+        "skipped": false,
+        "buyPrice": 203,
+        "allocation": 0.22285130153236504,
+        "open": 203,
+        "low": 193.97999572753906,
+        "limitUpPrice": 233.4,
+        "buyReason": "open_price"
+      }
+    ]
+  },
   "portfolioHistory": [
     {
       "date": "2026-06-18",
@@ -5605,6 +5751,10 @@
     {
       "date": "2026-06-26",
       "netValue": 1.0945
+    },
+    {
+      "date": "2026-06-29",
+      "netValue": 1.1143
     }
   ]
 }

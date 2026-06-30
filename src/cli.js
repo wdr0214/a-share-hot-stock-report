@@ -615,6 +615,7 @@ async function backfillMissingDailyPortfolios(db) {
       }
     }
     report.dailyPortfolio = snapshot;
+    delete report.dailyPortfolioError;
     state = {
       netValue: snapshot.netValue,
       cash: snapshot.cash,
@@ -675,6 +676,10 @@ async function rebuildDailyPortfolioSnapshot(db, report, state) {
       if (!market?.low) {
         const klineMarket = await historicalDailyMarketFromKline(stock.symbol, report.date);
         market = market ? { ...klineMarket, ...market, low: market.low || klineMarket?.low || 0, high: market.high || klineMarket?.high || 0 } : klineMarket;
+      }
+      if (!market?.low) {
+        const sinaMarket = await sinaMarketForDate(stock.symbol, report.date);
+        market = market ? { ...sinaMarket, ...market, low: market.low || sinaMarket?.low || 0, high: market.high || sinaMarket?.high || 0 } : sinaMarket;
       }
       const buyDecision = dailyBuyPrice(stock, market);
       if (!buyDecision.price) {
@@ -741,7 +746,8 @@ async function dailySellMarketForHolding(db, date, symbol) {
     }
   }
   return historicalDailyMarketFromReports(db, date, normalized)
-    || await historicalDailyMarketFromKline(normalized, date);
+    || await historicalDailyMarketFromKline(normalized, date)
+    || await sinaMarketForDate(normalized, date);
 }
 
 function historicalOpenFromReports(db, date, symbol) {
@@ -784,6 +790,16 @@ async function historicalDailyMarketFromKline(symbol, date) {
   } catch {
     return null;
   }
+}
+
+async function sinaMarketForDate(symbol, date) {
+  try {
+    const [quote] = await fetchSinaQuotes([symbol]);
+    if (quote?.open && quote.date === date) return quote;
+  } catch {
+    // Sina is a fallback only; keep normal missing-price handling if it fails.
+  }
+  return null;
 }
 
 function withPortfolioHistory(report, history) {
@@ -929,6 +945,8 @@ function parseSinaQuotePayload(payload) {
     rows.push({
       symbol,
       name: fields[0],
+      date: fields[30] || "",
+      time: fields[31] || "",
       changePct: previousClose ? ((close - previousClose) / previousClose) * 100 : null,
       open,
       high,

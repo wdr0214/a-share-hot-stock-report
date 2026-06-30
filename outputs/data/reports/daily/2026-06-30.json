@@ -5581,7 +5581,153 @@
       }
     ]
   },
-  "dailyPortfolioError": "Missing daily sell open price for SZ300223 on 2026-06-30 after 2 retries",
+  "dailyPortfolio": {
+    "date": "2026-06-30",
+    "previousDate": "2026-06-29",
+    "netValue": 1.0981,
+    "cash": 0,
+    "holdings": [
+      {
+        "symbol": "SZ000988",
+        "name": "华工科技",
+        "entryPrice": 179,
+        "shares": 0.0012269382407588104,
+        "allocation": 0.21962194509582705,
+        "date": "2026-06-30",
+        "sourceReportDate": "2026-06-29"
+      },
+      {
+        "symbol": "SZ000021",
+        "name": "深科技",
+        "entryPrice": 59.45,
+        "shares": 0.003694229522217444,
+        "allocation": 0.21962194509582705,
+        "date": "2026-06-30",
+        "sourceReportDate": "2026-06-29"
+      },
+      {
+        "symbol": "SH600378",
+        "name": "昊华科技",
+        "entryPrice": 71.77,
+        "shares": 0.003060080048708751,
+        "allocation": 0.21962194509582705,
+        "date": "2026-06-30",
+        "sourceReportDate": "2026-06-29"
+      },
+      {
+        "symbol": "SH603986",
+        "name": "兆易创新",
+        "entryPrice": 810,
+        "shares": 0.00027113820382200873,
+        "allocation": 0.21962194509582705,
+        "date": "2026-06-30",
+        "sourceReportDate": "2026-06-29"
+      },
+      {
+        "symbol": "SZ002138",
+        "name": "顺络电子",
+        "entryPrice": 75.07,
+        "shares": 0.0029255620766727997,
+        "allocation": 0.21962194509582705,
+        "date": "2026-06-30",
+        "sourceReportDate": "2026-06-29"
+      }
+    ],
+    "sold": [
+      {
+        "symbol": "SZ300088",
+        "name": "长信科技",
+        "entryPrice": 11.72,
+        "sellPrice": 11.48,
+        "returnPct": -2.047781569965872
+      },
+      {
+        "symbol": "SH600367",
+        "name": "红星发展",
+        "entryPrice": 58.71,
+        "sellPrice": 56.88,
+        "returnPct": -3.117015840572302
+      },
+      {
+        "symbol": "SH600552",
+        "name": "凯盛科技",
+        "entryPrice": 30.99,
+        "sellPrice": 31.46,
+        "returnPct": 1.5166182639561228
+      },
+      {
+        "symbol": "SZ002119",
+        "name": "康强电子",
+        "entryPrice": 37.93,
+        "sellPrice": 35.82,
+        "returnPct": -5.562878987608752
+      },
+      {
+        "symbol": "SZ300776",
+        "name": "帝尔激光",
+        "entryPrice": 203,
+        "sellPrice": 206.99,
+        "returnPct": 1.9655172413793147
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SZ000988",
+        "name": "华工科技",
+        "skipped": false,
+        "buyPrice": 179,
+        "allocation": 0.21962194509582705,
+        "open": 179,
+        "low": 173.03,
+        "limitUpPrice": 194.73,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ000021",
+        "name": "深科技",
+        "skipped": false,
+        "buyPrice": 59.45,
+        "allocation": 0.21962194509582705,
+        "open": 59.45,
+        "low": 57.6,
+        "limitUpPrice": 64.75,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH600378",
+        "name": "昊华科技",
+        "skipped": false,
+        "buyPrice": 71.77,
+        "allocation": 0.21962194509582705,
+        "open": 71.77,
+        "low": 69.54000091552734,
+        "limitUpPrice": 75.38,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH603986",
+        "name": "兆易创新",
+        "skipped": false,
+        "buyPrice": 810,
+        "allocation": 0.21962194509582705,
+        "open": 810,
+        "low": 781.11,
+        "limitUpPrice": 924,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ002138",
+        "name": "顺络电子",
+        "skipped": false,
+        "buyPrice": 75.07,
+        "allocation": 0.21962194509582705,
+        "open": 75.07,
+        "low": 70.4,
+        "limitUpPrice": 82.21,
+        "buyReason": "open_price"
+      }
+    ]
+  },
   "portfolioHistory": [
     {
       "date": "2026-06-18",
@@ -5606,6 +5752,14 @@
     {
       "date": "2026-06-26",
       "netValue": 1.0945
+    },
+    {
+      "date": "2026-06-29",
+      "netValue": 1.1143
+    },
+    {
+      "date": "2026-06-30",
+      "netValue": 1.0981
     }
   ]
 }

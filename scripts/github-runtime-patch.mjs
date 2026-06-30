@@ -257,6 +257,8 @@ function parseSinaQuotePayload(payload) {
     rows.push({
       symbol,
       name: fields[0],
+      date: fields[30] || "",
+      time: fields[31] || "",
       changePct: prevClose ? ((close - prevClose) / prevClose) * 100 : null,
       open,
       high,
