@@ -5577,5 +5577,180 @@
         "todayCloseVsOpenPct": -4.275256222547587
       }
     ]
-  }
+  },
+  "dailyPortfolio": {
+    "date": "2026-07-02",
+    "previousDate": "2026-07-01",
+    "netValue": 1.0834,
+    "cash": 0.216679,
+    "holdings": [
+      {
+        "symbol": "SH600667",
+        "name": "太极实业",
+        "entryPrice": 29.62,
+        "shares": 0.007315281511721715,
+        "allocation": 0.21667863837719722,
+        "date": "2026-07-02",
+        "sourceReportDate": "2026-07-01"
+      },
+      {
+        "symbol": "SH600641",
+        "name": "先导基电",
+        "entryPrice": 48.23,
+        "shares": 0.00449261120417162,
+        "allocation": 0.21667863837719722,
+        "date": "2026-07-02",
+        "sourceReportDate": "2026-07-01"
+      },
+      {
+        "symbol": "SZ300751",
+        "name": "迈为股份",
+        "entryPrice": 292.55,
+        "shares": 0.0007406550619627319,
+        "allocation": 0.21667863837719722,
+        "date": "2026-07-02",
+        "sourceReportDate": "2026-07-01"
+      },
+      {
+        "symbol": "SH603629",
+        "name": "利通电子",
+        "entryPrice": 184,
+        "shares": 0.0011776012955282459,
+        "allocation": 0.21667863837719722,
+        "date": "2026-07-02",
+        "sourceReportDate": "2026-07-01"
+      }
+    ],
+    "sold": [
+      {
+        "symbol": "SZ300975",
+        "name": "商络电子",
+        "entryPrice": 52.5,
+        "sellPrice": 46.01,
+        "returnPct": -12.361904761904766
+      },
+      {
+        "symbol": "SZ000725",
+        "name": "京东方Ａ",
+        "entryPrice": 8.49,
+        "sellPrice": 8.15,
+        "returnPct": -4.004711425206123
+      },
+      {
+        "symbol": "SH600378",
+        "name": "昊华科技",
+        "entryPrice": 76.81,
+        "sellPrice": 76.81,
+        "returnPct": 0
+      },
+      {
+        "symbol": "SZ301297",
+        "name": "富乐德",
+        "entryPrice": 59,
+        "sellPrice": 60.14,
+        "returnPct": 1.9322033898305095
+      },
+      {
+        "symbol": "SH603005",
+        "name": "晶方科技",
+        "entryPrice": 54,
+        "sellPrice": 49.49,
+        "returnPct": -8.351851851851848
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SH600667",
+        "name": "太极实业",
+        "skipped": false,
+        "buyPrice": 29.62,
+        "allocation": 0.21667863837719722,
+        "open": 29.62,
+        "low": 28.89,
+        "limitUpPrice": 35.31,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH600641",
+        "name": "先导基电",
+        "skipped": false,
+        "buyPrice": 48.23,
+        "allocation": 0.21667863837719722,
+        "open": 48.24,
+        "low": 44.98,
+        "limitUpPrice": 48.23,
+        "buyReason": "limit_up_open_but_tradable_low"
+      },
+      {
+        "symbol": "SZ300751",
+        "name": "迈为股份",
+        "skipped": false,
+        "buyPrice": 292.55,
+        "allocation": 0.21667863837719722,
+        "open": 292.55,
+        "low": 265.65,
+        "limitUpPrice": 367.8,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH603629",
+        "name": "利通电子",
+        "skipped": false,
+        "buyPrice": 184,
+        "allocation": 0.21667863837719722,
+        "open": 184,
+        "low": 174.06,
+        "limitUpPrice": 212.74,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH600961",
+        "name": "株冶集团",
+        "skipped": true,
+        "reason": "cash_or_allocation_insufficient"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-23",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-24",
+      "netValue": 0.9558
+    },
+    {
+      "date": "2026-06-25",
+      "netValue": 1.0656
+    },
+    {
+      "date": "2026-06-26",
+      "netValue": 1.0945
+    },
+    {
+      "date": "2026-06-29",
+      "netValue": 1.1143
+    },
+    {
+      "date": "2026-06-30",
+      "netValue": 1.0981
+    },
+    {
+      "date": "2026-07-01",
+      "netValue": 1.1351
+    },
+    {
+      "date": "2026-07-02",
+      "netValue": 1.0834
+    }
+  ]
 }
