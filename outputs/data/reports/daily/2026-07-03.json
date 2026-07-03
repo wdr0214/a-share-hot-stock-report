@@ -5623,5 +5623,177 @@
         "todayCloseVsOpenPct": -2.065289806795473
       }
     ]
-  }
+  },
+  "dailyPortfolio": {
+    "date": "2026-07-03",
+    "previousDate": "2026-07-02",
+    "netValue": 1.029,
+    "cash": 0.205795,
+    "holdings": [
+      {
+        "symbol": "SH600172",
+        "name": "黄河旋风",
+        "entryPrice": 17.66,
+        "shares": 0.011653193989122852,
+        "allocation": 0.20579540584790956,
+        "date": "2026-07-03",
+        "sourceReportDate": "2026-07-02"
+      },
+      {
+        "symbol": "SZ300418",
+        "name": "昆仑万维",
+        "entryPrice": 44.3,
+        "shares": 0.00464549448866613,
+        "allocation": 0.20579540584790956,
+        "date": "2026-07-03",
+        "sourceReportDate": "2026-07-02"
+      },
+      {
+        "symbol": "SZ002378",
+        "name": "章源钨业",
+        "entryPrice": 35.3,
+        "shares": 0.005829898182660328,
+        "allocation": 0.20579540584790956,
+        "date": "2026-07-03",
+        "sourceReportDate": "2026-07-02"
+      },
+      {
+        "symbol": "SZ002842",
+        "name": "翔鹭钨业",
+        "entryPrice": 50.06,
+        "shares": 0.004110974947021765,
+        "allocation": 0.20579540584790956,
+        "date": "2026-07-03",
+        "sourceReportDate": "2026-07-02"
+      }
+    ],
+    "sold": [
+      {
+        "symbol": "SH600667",
+        "name": "太极实业",
+        "entryPrice": 29.62,
+        "sellPrice": 28.31,
+        "returnPct": -4.422687373396361
+      },
+      {
+        "symbol": "SH600641",
+        "name": "先导基电",
+        "entryPrice": 48.23,
+        "sellPrice": 47.76,
+        "returnPct": -0.974497200912293
+      },
+      {
+        "symbol": "SZ300751",
+        "name": "迈为股份",
+        "entryPrice": 292.55,
+        "sellPrice": 271.66,
+        "returnPct": -7.140659716287809
+      },
+      {
+        "symbol": "SH603629",
+        "name": "利通电子",
+        "entryPrice": 184,
+        "sellPrice": 160.86,
+        "returnPct": -12.576086956521731
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SH600172",
+        "name": "黄河旋风",
+        "skipped": false,
+        "buyPrice": 17.66,
+        "allocation": 0.20579540584790956,
+        "open": 17.66,
+        "low": 16.24,
+        "limitUpPrice": 19.83,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ300418",
+        "name": "昆仑万维",
+        "skipped": false,
+        "buyPrice": 44.3,
+        "allocation": 0.20579540584790956,
+        "open": 44.3,
+        "low": 42.42,
+        "limitUpPrice": 54.66,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ002378",
+        "name": "章源钨业",
+        "skipped": false,
+        "buyPrice": 35.3,
+        "allocation": 0.20579540584790956,
+        "open": 35.3,
+        "low": 32.7,
+        "limitUpPrice": 38.97,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ002842",
+        "name": "翔鹭钨业",
+        "skipped": false,
+        "buyPrice": 50.06,
+        "allocation": 0.20579540584790956,
+        "open": 50.06,
+        "low": 45.15,
+        "limitUpPrice": 55.19,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH603928",
+        "name": "兴业股份",
+        "skipped": true,
+        "reason": "cash_or_allocation_insufficient"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-23",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-24",
+      "netValue": 0.9558
+    },
+    {
+      "date": "2026-06-25",
+      "netValue": 1.0656
+    },
+    {
+      "date": "2026-06-26",
+      "netValue": 1.0945
+    },
+    {
+      "date": "2026-06-29",
+      "netValue": 1.1143
+    },
+    {
+      "date": "2026-06-30",
+      "netValue": 1.0981
+    },
+    {
+      "date": "2026-07-01",
+      "netValue": 1.1351
+    },
+    {
+      "date": "2026-07-02",
+      "netValue": 1.0834
+    },
+    {
+      "date": "2026-07-03",
+      "netValue": 1.029
+    }
+  ]
 }
