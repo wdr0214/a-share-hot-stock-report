@@ -124903,9 +124903,9 @@
   "weeklyReports": {
     "2026-27": {
       "week": "2026-27",
-      "rangeStart": "2026-06-27",
-      "rangeEnd": "2026-07-03",
-      "generatedAt": "2026-07-05T14:54:46.038Z",
+      "rangeStart": "2026-06-29",
+      "rangeEnd": "2026-07-05",
+      "generatedAt": "2026-07-05T15:12:48.353Z",
       "source": "github-actions-daily-reports",
       "status": "ok",
       "ratingPolicy": "周报汇总最近 7 天日报结果，不重复计入尾盘报告。",
@@ -129229,6 +129229,14 @@
       "jobName": "weekly-report",
       "startedAt": "2026-07-05T14:54:46.038Z",
       "finishedAt": "2026-07-05T14:54:46.043Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-27"
+    },
+    {
+      "jobName": "weekly-report",
+      "startedAt": "2026-07-05T15:12:48.353Z",
+      "finishedAt": "2026-07-05T15:12:48.354Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-27"
