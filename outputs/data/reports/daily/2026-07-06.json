@@ -5621,5 +5621,195 @@
         "todayCloseVsOpenPct": 6.136626785025086
       }
     ]
-  }
+  },
+  "dailyPortfolio": {
+    "date": "2026-07-06",
+    "previousDate": "2026-07-03",
+    "netValue": 0.9792,
+    "cash": 0,
+    "holdings": [
+      {
+        "symbol": "SZ002747",
+        "name": "埃斯顿",
+        "entryPrice": 45.11,
+        "shares": 0.0043415998079050335,
+        "allocation": 0.19584956733459605,
+        "date": "2026-07-06",
+        "sourceReportDate": "2026-07-03"
+      },
+      {
+        "symbol": "SZ300503",
+        "name": "昊志机电",
+        "entryPrice": 110.09,
+        "shares": 0.0017789950707112004,
+        "allocation": 0.19584956733459605,
+        "date": "2026-07-06",
+        "sourceReportDate": "2026-07-03"
+      },
+      {
+        "symbol": "SZ001309",
+        "name": "德明利",
+        "entryPrice": 877.1,
+        "shares": 0.0002232921757320671,
+        "allocation": 0.19584956733459605,
+        "date": "2026-07-06",
+        "sourceReportDate": "2026-07-03"
+      },
+      {
+        "symbol": "SZ301165",
+        "name": "锐捷网络",
+        "entryPrice": 96.78,
+        "shares": 0.0020236574430109117,
+        "allocation": 0.19584956733459605,
+        "date": "2026-07-06",
+        "sourceReportDate": "2026-07-03"
+      },
+      {
+        "symbol": "SZ002536",
+        "name": "飞龙股份",
+        "entryPrice": 51.82,
+        "shares": 0.0037794204425819385,
+        "allocation": 0.19584956733459605,
+        "date": "2026-07-06",
+        "sourceReportDate": "2026-07-03"
+      }
+    ],
+    "sold": [
+      {
+        "symbol": "SH600172",
+        "name": "黄河旋风",
+        "entryPrice": 17.66,
+        "sellPrice": 17,
+        "returnPct": -3.737259343148359
+      },
+      {
+        "symbol": "SZ300418",
+        "name": "昆仑万维",
+        "entryPrice": 44.3,
+        "sellPrice": 42.9,
+        "returnPct": -3.1602708803611703
+      },
+      {
+        "symbol": "SZ002378",
+        "name": "章源钨业",
+        "entryPrice": 35.3,
+        "sellPrice": 32.78,
+        "returnPct": -7.138810198300273
+      },
+      {
+        "symbol": "SZ002842",
+        "name": "翔鹭钨业",
+        "entryPrice": 50.06,
+        "sellPrice": 44.99,
+        "returnPct": -10.127846584099082
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SZ002747",
+        "name": "埃斯顿",
+        "skipped": false,
+        "buyPrice": 45.11,
+        "allocation": 0.19584956733459605,
+        "open": 45.11,
+        "low": 45.11,
+        "limitUpPrice": 49.25,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ300503",
+        "name": "昊志机电",
+        "skipped": false,
+        "buyPrice": 110.09,
+        "allocation": 0.19584956733459605,
+        "open": 110.09,
+        "low": 106.81,
+        "limitUpPrice": 133.2,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ001309",
+        "name": "德明利",
+        "skipped": false,
+        "buyPrice": 877.1,
+        "allocation": 0.19584956733459605,
+        "open": 877.1,
+        "low": 860,
+        "limitUpPrice": 970.1,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ301165",
+        "name": "锐捷网络",
+        "skipped": false,
+        "buyPrice": 96.78,
+        "allocation": 0.19584956733459605,
+        "open": 96.78,
+        "low": 93.13,
+        "limitUpPrice": 113.87,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ002536",
+        "name": "飞龙股份",
+        "skipped": false,
+        "buyPrice": 51.82,
+        "allocation": 0.19584956733459605,
+        "open": 51.82,
+        "low": 51.66,
+        "limitUpPrice": 57.16,
+        "buyReason": "open_price"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-23",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-24",
+      "netValue": 0.9558
+    },
+    {
+      "date": "2026-06-25",
+      "netValue": 1.0656
+    },
+    {
+      "date": "2026-06-26",
+      "netValue": 1.0945
+    },
+    {
+      "date": "2026-06-29",
+      "netValue": 1.1143
+    },
+    {
+      "date": "2026-06-30",
+      "netValue": 1.0981
+    },
+    {
+      "date": "2026-07-01",
+      "netValue": 1.1351
+    },
+    {
+      "date": "2026-07-02",
+      "netValue": 1.0834
+    },
+    {
+      "date": "2026-07-03",
+      "netValue": 1.029
+    },
+    {
+      "date": "2026-07-06",
+      "netValue": 0.9792
+    }
+  ]
 }
