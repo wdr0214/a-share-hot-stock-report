@@ -5624,5 +5624,206 @@
         "todayCloseVsOpenPct": 7.920333487725803
       }
     ]
-  }
+  },
+  "dailyPortfolio": {
+    "date": "2026-07-07",
+    "previousDate": "2026-07-06",
+    "netValue": 0.9963,
+    "cash": 0,
+    "holdings": [
+      {
+        "symbol": "SH600172",
+        "name": "黄河旋风",
+        "entryPrice": 17.99,
+        "shares": 0.011076425930925256,
+        "allocation": 0.19926490249734533,
+        "date": "2026-07-07",
+        "sourceReportDate": "2026-07-06"
+      },
+      {
+        "symbol": "SZ300684",
+        "name": "中石科技",
+        "entryPrice": 72.19,
+        "shares": 0.0027602840074434872,
+        "allocation": 0.19926490249734533,
+        "date": "2026-07-07",
+        "sourceReportDate": "2026-07-06"
+      },
+      {
+        "symbol": "SZ000938",
+        "name": "紫光股份",
+        "entryPrice": 31.66,
+        "shares": 0.006293900900105664,
+        "allocation": 0.19926490249734533,
+        "date": "2026-07-07",
+        "sourceReportDate": "2026-07-06"
+      },
+      {
+        "symbol": "SZ001309",
+        "name": "德明利",
+        "entryPrice": 870,
+        "shares": 0.00022904011781304062,
+        "allocation": 0.19926490249734533,
+        "date": "2026-07-07",
+        "sourceReportDate": "2026-07-06"
+      },
+      {
+        "symbol": "SZ300821",
+        "name": "东岳硅材",
+        "entryPrice": 21.59,
+        "shares": 0.009229499884082693,
+        "allocation": 0.19926490249734533,
+        "date": "2026-07-07",
+        "sourceReportDate": "2026-07-06"
+      }
+    ],
+    "sold": [
+      {
+        "symbol": "SZ002747",
+        "name": "埃斯顿",
+        "entryPrice": 45.11,
+        "sellPrice": 45.69,
+        "returnPct": 1.2857459543338468
+      },
+      {
+        "symbol": "SZ300503",
+        "name": "昊志机电",
+        "entryPrice": 110.09,
+        "sellPrice": 108,
+        "returnPct": -1.8984467254064885
+      },
+      {
+        "symbol": "SZ001309",
+        "name": "德明利",
+        "entryPrice": 877.1,
+        "sellPrice": 870,
+        "returnPct": -0.8094858054953851
+      },
+      {
+        "symbol": "SZ301165",
+        "name": "锐捷网络",
+        "entryPrice": 96.78,
+        "sellPrice": 100.88,
+        "returnPct": 4.236412481917746
+      },
+      {
+        "symbol": "SZ002536",
+        "name": "飞龙股份",
+        "entryPrice": 51.82,
+        "sellPrice": 54.88,
+        "returnPct": 5.905055962948673
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SH600172",
+        "name": "黄河旋风",
+        "skipped": false,
+        "buyPrice": 17.99,
+        "allocation": 0.19926490249734533,
+        "open": 17.99,
+        "low": 17.96,
+        "limitUpPrice": 20.4,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ300684",
+        "name": "中石科技",
+        "skipped": false,
+        "buyPrice": 72.19,
+        "allocation": 0.19926490249734533,
+        "open": 72.19,
+        "low": 67.77,
+        "limitUpPrice": 89.29,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ000938",
+        "name": "紫光股份",
+        "skipped": false,
+        "buyPrice": 31.66,
+        "allocation": 0.19926490249734533,
+        "open": 31.66,
+        "low": 30.9,
+        "limitUpPrice": 36.64,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ001309",
+        "name": "德明利",
+        "skipped": false,
+        "buyPrice": 870,
+        "allocation": 0.19926490249734533,
+        "open": 870,
+        "low": 845.28,
+        "limitUpPrice": 1028.5,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ300821",
+        "name": "东岳硅材",
+        "skipped": false,
+        "buyPrice": 21.59,
+        "allocation": 0.19926490249734533,
+        "open": 21.59,
+        "low": 21.2,
+        "limitUpPrice": 26.42,
+        "buyReason": "open_price"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-23",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-24",
+      "netValue": 0.9558
+    },
+    {
+      "date": "2026-06-25",
+      "netValue": 1.0656
+    },
+    {
+      "date": "2026-06-26",
+      "netValue": 1.0945
+    },
+    {
+      "date": "2026-06-29",
+      "netValue": 1.1143
+    },
+    {
+      "date": "2026-06-30",
+      "netValue": 1.0981
+    },
+    {
+      "date": "2026-07-01",
+      "netValue": 1.1351
+    },
+    {
+      "date": "2026-07-02",
+      "netValue": 1.0834
+    },
+    {
+      "date": "2026-07-03",
+      "netValue": 1.029
+    },
+    {
+      "date": "2026-07-06",
+      "netValue": 0.9792
+    },
+    {
+      "date": "2026-07-07",
+      "netValue": 0.9963
+    }
+  ]
 }
