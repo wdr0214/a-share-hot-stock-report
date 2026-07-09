@@ -7,6 +7,8 @@
     "run:late": "node src/cli.js late",
     "run:daily": "node src/cli.js daily",
     "run:weekly": "node src/cli.js weekly",
+    "run:news-midday": "node src/cli.js news-midday",
+    "run:news-close": "node src/cli.js news-close",
     "run:catchup": "node src/cli.js catchup",
     "export:static": "node src/cli.js export-static",
     "check": "node src/cli.js check"

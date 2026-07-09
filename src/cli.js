@@ -17,6 +17,8 @@ const argDate = process.argv[3];
 if (command === "late") console.log(JSON.stringify(await runReportJob("late", argDate || today(), { force: true }), null, 2));
 else if (command === "daily") console.log(JSON.stringify(await runReportJob("daily", argDate || today(), { force: true }), null, 2));
 else if (command === "weekly") console.log(JSON.stringify(await runWeeklyJob(argDate || today()), null, 2));
+else if (command === "news-midday") console.log(JSON.stringify(await runNewsJob("midday", argDate || today()), null, 2));
+else if (command === "news-close") console.log(JSON.stringify(await runNewsJob("close", argDate || today()), null, 2));
 else if (command === "catchup") console.log(JSON.stringify(await catchupReports(), null, 2));
 else if (command === "export-static") console.log(JSON.stringify(await exportStatic(), null, 2));
 else if (command === "check") console.log(JSON.stringify({ ok: true, runtime: "github-pages-actions" }, null, 2));
@@ -56,6 +58,15 @@ async function runWeeklyJob(date) {
     return await generateWeekly(date);
   } catch (error) {
     await recordFailureLog("weekly-report", weekKey(date), error);
+    throw error;
+  }
+}
+
+async function runNewsJob(session, date) {
+  try {
+    return await generateNewsReport(session, date);
+  } catch (error) {
+    await recordFailureLog(`news-${session}`, `${date}-${session}`, error);
     throw error;
   }
 }
@@ -430,6 +441,91 @@ async function generateWeekly(date) {
   return report;
 }
 
+async function generateNewsReport(session, date) {
+  if (!["midday", "close"].includes(session)) throw new Error("unsupported news session");
+  const db = await readDb();
+  db.newsReports ||= {};
+  if (!isWeekday(date)) {
+    const skipped = {
+      type: "sector-news",
+      session,
+      date,
+      generatedAt: new Date().toISOString(),
+      status: "skipped",
+      reason: "weekend",
+      message: "资讯报告仅在周一至周五更新；本次未覆盖历史报告。"
+    };
+    db.jobLogs.push({ jobName: `news-${session}`, startedAt: skipped.generatedAt, finishedAt: new Date().toISOString(), status: "skipped", errorMessage: "weekend", reportKey: `${date}-${session}` });
+    db.jobLogs = db.jobLogs.slice(-200);
+    pruneDb(db);
+    await writeDb(db);
+    await exportStatic(db);
+    return skipped;
+  }
+
+  const candidates = await fetchMarketStocksForNews(db, date);
+  const existingDay = db.newsReports[date] || {};
+  const midday = session === "close" ? existingDay.midday : null;
+  const excludedSectorNames = new Set((midday?.sectors || []).map((sector) => sector.name));
+  const excludedNewsKeys = new Set((midday?.sectors || []).flatMap((sector) => (sector.news || []).map(newsFingerprint)));
+  const sectors = buildHotSectors(candidates, {
+    excludeNames: session === "close" ? excludedSectorNames : new Set()
+  }).slice(0, 3);
+
+  const enrichedSectors = [];
+  for (const sector of sectors) {
+    const rawNews = await collectSectorNews(sector, date);
+    const news = selectSectorNews(rawNews, {
+      excludeKeys: session === "close" ? excludedNewsKeys : new Set()
+    }).slice(0, 3);
+    const deepseek = await analyzeSectorWithDeepSeek(sector, news, session, date);
+    enrichedSectors.push({ ...sector, news, deepseek });
+    for (const item of news) excludedNewsKeys.add(newsFingerprint(item));
+  }
+
+  const report = {
+    type: "sector-news",
+    session,
+    date,
+    generatedAt: new Date().toISOString(),
+    source: "free-sources-gdelt-rss-plus-market-sector-heat",
+    dataPolicy: "免费源优先 + 结合现有行情行业/概念推导热门板块",
+    status: enrichedSectors.length ? "ok" : "partial",
+    totalCandidates: candidates.length,
+    model: process.env.DEEPSEEK_MODEL || "deepseek-v4-flash",
+    sectors: enrichedSectors,
+    excludedMidday: session === "close" ? { sectorCount: excludedSectorNames.size, newsCount: excludedNewsKeys.size } : null,
+    notice: "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+  };
+
+  db.newsReports[date] = { ...existingDay, [session]: report };
+  db.jobLogs.push({ jobName: `news-${session}`, startedAt: report.generatedAt, finishedAt: new Date().toISOString(), status: "success", errorMessage: "", reportKey: `${date}-${session}` });
+  db.jobLogs = db.jobLogs.slice(-200);
+  pruneDb(db);
+  await writeDb(db);
+  await exportStatic(db);
+  return report;
+}
+
+async function fetchMarketStocksForNews(db, date) {
+  try {
+    return await fetchAllMarketStocks();
+  } catch (error) {
+    const sameDayReports = [db.lateReports?.[date], db.dailyReports?.[date]].filter(Boolean);
+    const stocks = sameDayReports.flatMap((report) => report.stocks || []);
+    if (!stocks.length) throw error;
+    const bySymbol = new Map();
+    for (const stock of stocks) {
+      bySymbol.set(normalizeSymbol(stock.symbol), {
+        ...stock,
+        symbol: normalizeSymbol(stock.symbol),
+        heatScore: stock.heatScore || scoreStock(stock, stock.kline || [])
+      });
+    }
+    return [...bySymbol.values()];
+  }
+}
+
 function buildWeeklyPortfolioTrades(db, dates, type) {
   const collection = type === "daily" ? db.dailyReports : db.lateReports;
   const portfolioField = type === "daily" ? "dailyPortfolio" : "latePortfolio";
@@ -541,31 +637,47 @@ async function exportStatic(existingDb) {
   await mkdir(join(OUT_DIR, "daily"), { recursive: true });
   await mkdir(join(OUT_DIR, "late"), { recursive: true });
   await mkdir(join(OUT_DIR, "weekly"), { recursive: true });
+  await mkdir(join(OUT_DIR, "news"), { recursive: true });
 
   pruneDb(db);
   await cleanReportDir(join(OUT_DIR, "daily"));
   await cleanReportDir(join(OUT_DIR, "late"));
   await cleanReportDir(join(OUT_DIR, "weekly"));
+  await cleanReportDir(join(OUT_DIR, "news"));
 
   const recentDaily = Object.values(db.dailyReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
   const recentLate = Object.values(db.lateReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
   const recentWeekly = Object.values(db.weeklyReports || {}).sort((a, b) => String(b.rangeEnd || b.week).localeCompare(String(a.rangeEnd || a.week))).slice(0, REPORT_RETENTION_DAYS);
+  const recentNews = Object.entries(db.newsReports || {})
+    .map(([date, report]) => ({ date, midday: report.midday || null, close: report.close || null }))
+    .filter((item) => item.midday || item.close)
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .slice(0, REPORT_RETENTION_DAYS);
   const latePortfolioHistory = db.latePortfolio?.history || [];
   const dailyPortfolioHistory = db.dailyPortfolio?.history || [];
-  await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily.map(reportIndexItem), lateReports: recentLate.map(reportIndexItem), weeklyReports: recentWeekly.map(weeklyIndexItem) });
+  await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily.map(reportIndexItem), lateReports: recentLate.map(reportIndexItem), weeklyReports: recentWeekly.map(weeklyIndexItem), newsReports: recentNews.map(newsIndexItem) });
   await writeJson(join(OUT_DIR, "logs.json"), { logs: db.jobLogs.slice(-30).reverse() });
   for (const report of recentDaily) await writeJson(join(OUT_DIR, "daily", `${report.date}.json`), withPortfolioHistory(report, dailyPortfolioHistory));
   for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), withPortfolioHistory(report, latePortfolioHistory));
   for (const report of recentWeekly) await writeJson(join(OUT_DIR, "weekly", `${report.week}.json`), report);
+  for (const item of recentNews) {
+    if (item.midday) await writeJson(join(OUT_DIR, "news", `${item.date}-midday.json`), item.midday);
+    if (item.close) await writeJson(join(OUT_DIR, "news", `${item.date}-close.json`), item.close);
+    await writeJson(join(OUT_DIR, "news", `${item.date}.json`), item);
+  }
   if (recentDaily[0]) await writeJson(join(OUT_DIR, "daily-latest.json"), withPortfolioHistory(recentDaily[0], dailyPortfolioHistory));
   if (recentLate[0]) await writeJson(join(OUT_DIR, "late-latest.json"), withPortfolioHistory(recentLate[0], latePortfolioHistory));
   const latestWeek = recentWeekly[0];
   if (latestWeek) await writeJson(join(OUT_DIR, "weekly-latest.json"), latestWeek);
+  await writeJson(join(OUT_DIR, "news-index.json"), { reports: recentNews.map(newsIndexItem) });
+  if (recentNews[0]) await writeJson(join(OUT_DIR, "news-latest.json"), recentNews[0]);
   return {
     recentDailyCount: recentDaily.length,
     recentLateCount: recentLate.length,
+    recentNewsCount: recentNews.length,
     latestDailyDate: recentDaily[0]?.date || null,
     latestLateDate: recentLate[0]?.date || null,
+    latestNewsDate: recentNews[0]?.date || null,
     hasWeekly: Boolean(latestWeek)
   };
 }
@@ -812,6 +924,293 @@ function withPortfolioHistory(report, history) {
     }))
     .filter((item) => item.date && Number.isFinite(Number(item.netValue)));
   return { ...report, portfolioHistory };
+}
+
+function buildHotSectors(candidates, { excludeNames = new Set() } = {}) {
+  const map = new Map();
+  for (const stock of candidates || []) {
+    const labels = sectorLabels(stock);
+    const stockScore = scoreStock(stock, []);
+    for (const label of labels) {
+      if (!label || excludeNames.has(label)) continue;
+      const item = map.get(label) || { name: label, heatScore: 0, stockCount: 0, amount: 0, bigOrderNetAmount: 0, stocks: [] };
+      item.heatScore += stockScore + Math.max(number(stock.changePct), 0) * 2 + clamp(Math.log10(Math.max(number(stock.amount), 1)) * 4 - 25, 0, 25);
+      item.stockCount += 1;
+      item.amount += number(stock.amount);
+      item.bigOrderNetAmount += number(stock.bigOrderNetAmount);
+      item.stocks.push({
+        symbol: stock.symbol,
+        name: stock.name,
+        heatScore: stockScore,
+        changePct: stock.changePct,
+        amount: stock.amount,
+        turnoverRate: stock.turnoverRate,
+        bigOrderNetAmount: stock.bigOrderNetAmount
+      });
+      map.set(label, item);
+    }
+  }
+  return [...map.values()]
+    .map((item) => ({
+      ...item,
+      heatScore: Math.round(item.heatScore),
+      amount: round(item.amount, 2),
+      bigOrderNetAmount: round(item.bigOrderNetAmount, 2),
+      topStocks: item.stocks.sort((a, b) => b.heatScore - a.heatScore).slice(0, 5),
+      stocks: undefined
+    }))
+    .sort((a, b) => b.heatScore - a.heatScore || b.amount - a.amount);
+}
+
+function sectorLabels(stock) {
+  const labels = [];
+  if (stock.industry) labels.push(String(stock.industry).trim());
+  for (const label of businessConcepts(stock) || []) labels.push(String(label).trim());
+  return [...new Set(labels.filter(Boolean))].slice(0, 3);
+}
+
+async function collectSectorNews(sector, date) {
+  const queries = [sector.name, ...(sector.topStocks || []).slice(0, 3).map((stock) => stock.name)].filter(Boolean);
+  const results = [];
+  for (const query of queries.slice(0, 4)) {
+    const gdelt = await fetchGdeltNews(query, date).catch((error) => {
+      console.warn(`gdelt news failed for ${query}: ${error.message}`);
+      return [];
+    });
+    results.push(...gdelt);
+  }
+  const rss = await fetchConfiguredRssNews(queries, date).catch((error) => {
+    console.warn(`rss news failed for ${sector.name}: ${error.message}`);
+    return [];
+  });
+  results.push(...rss);
+  return results;
+}
+
+async function fetchGdeltNews(query, date) {
+  const url = new URL("https://api.gdeltproject.org/api/v2/doc/doc");
+  url.searchParams.set("query", query);
+  url.searchParams.set("mode", "artlist");
+  url.searchParams.set("format", "json");
+  url.searchParams.set("maxrecords", "25");
+  url.searchParams.set("sort", "hybridrel");
+  url.searchParams.set("startdatetime", `${date.replace(/-/g, "")}000000`);
+  url.searchParams.set("enddatetime", `${date.replace(/-/g, "")}235959`);
+  const data = await fetchJson(url);
+  return (data?.articles || []).map((article) => normalizeNewsArticle({
+    title: article.title,
+    url: article.url,
+    source: article.domain || article.sourceCountry || "GDELT",
+    publishedAt: gdeltDate(article.seendate),
+    summary: article.snippet || "",
+    provider: "gdelt",
+    query
+  })).filter(Boolean);
+}
+
+async function fetchConfiguredRssNews(queries, date) {
+  const urls = newsRssUrls();
+  if (!urls.length) return [];
+  const rows = [];
+  for (const url of urls) {
+    const xml = await fetchText(url).catch((error) => {
+      console.warn(`rss source failed ${url}: ${error.message}`);
+      return "";
+    });
+    if (!xml) continue;
+    rows.push(...parseRssItems(xml, url)
+      .filter((item) => isNewsOnDate(item, date))
+      .filter((item) => queries.some((query) => newsText(item).includes(query)))
+      .map((item) => normalizeNewsArticle({ ...item, provider: "rss", query: queries[0] })));
+  }
+  return rows;
+}
+
+function newsRssUrls() {
+  const configured = String(process.env.NEWS_RSS_URLS || "").split(/[\s,]+/).map((item) => item.trim()).filter(Boolean);
+  if (configured.length) return configured;
+  return [
+    "https://www.chinanews.com.cn/rss/finance.xml",
+    "https://www.gov.cn/rss/yaowen.xml"
+  ];
+}
+
+function parseRssItems(xml, sourceUrl) {
+  const items = [];
+  for (const match of String(xml).matchAll(/<item\b[\s\S]*?<\/item>/gi)) {
+    const item = match[0];
+    items.push({
+      title: xmlText(item, "title"),
+      url: xmlText(item, "link") || xmlText(item, "guid"),
+      source: hostname(sourceUrl),
+      publishedAt: parseRssDate(xmlText(item, "pubDate") || xmlText(item, "published") || xmlText(item, "updated")),
+      summary: xmlText(item, "description")
+    });
+  }
+  return items;
+}
+
+function selectSectorNews(items, { excludeKeys = new Set() } = {}) {
+  const byKey = new Map();
+  for (const item of items.map(normalizeNewsArticle).filter(Boolean)) {
+    const key = newsFingerprint(item);
+    if (!key || excludeKeys.has(key) || byKey.has(key)) continue;
+    byKey.set(key, item);
+  }
+  const rows = [...byKey.values()].map((item) => {
+    const related = [...byKey.values()]
+      .filter((other) => other !== item && similarNews(item, other))
+      .slice(0, 3)
+      .map(compactRelatedNews);
+    return {
+      ...item,
+      discussionScore: 1 + related.length,
+      impactScore: newsImpactScore(item, related),
+      relatedReports: related.slice(0, 3)
+    };
+  });
+  return rows.sort((a, b) => b.impactScore - a.impactScore || String(b.publishedAt).localeCompare(String(a.publishedAt)))
+    .map((item, index) => ({ ...item, rank: index + 1 }));
+}
+
+async function analyzeSectorWithDeepSeek(sector, news, session, date) {
+  const apiKey = process.env.DEEPSEEK_API_KEY || "";
+  const model = process.env.DEEPSEEK_MODEL || "deepseek-v4-flash";
+  if (!apiKey) return { status: "skipped", reason: "DEEPSEEK_API_KEY is not configured", model };
+  if (!news.length) return { status: "skipped", reason: "no news to analyze", model };
+  const payload = {
+    model,
+    messages: [
+      { role: "system", content: "你是A股资讯分析助手。只基于用户提供的新闻标题、摘要、来源和行情板块信息做简洁总结，不编造事实，不输出投资建议。" },
+      { role: "user", content: JSON.stringify({ date, session, sector, news }, null, 2) }
+    ],
+    temperature: 0.2,
+    max_tokens: 900
+  };
+  try {
+    const response = await fetch("https://api.deepseek.com/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) throw new Error(`DeepSeek request failed ${response.status}: ${(await response.text()).slice(0, 160)}`);
+    const data = await response.json();
+    return { status: "ok", model, summary: data?.choices?.[0]?.message?.content || "" };
+  } catch (error) {
+    return { status: "failed", model, error: error.message };
+  }
+}
+
+function normalizeNewsArticle(input) {
+  const title = decodeEntities(String(input?.title || "").replace(/\s+/g, " ").trim());
+  const url = String(input?.url || "").trim();
+  if (!title || !url) return null;
+  return {
+    title,
+    url,
+    source: String(input.source || hostname(url) || "").trim(),
+    publishedAt: input.publishedAt || "",
+    summary: decodeEntities(String(input.summary || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()).slice(0, 220),
+    provider: input.provider || "",
+    query: input.query || ""
+  };
+}
+
+function newsIndexItem(item) {
+  return {
+    date: item.date,
+    midday: item.midday ? newsSessionIndexItem(item.midday) : null,
+    close: item.close ? newsSessionIndexItem(item.close) : null
+  };
+}
+
+function newsSessionIndexItem(report) {
+  return {
+    session: report.session,
+    generatedAt: report.generatedAt,
+    status: report.status,
+    sectorCount: (report.sectors || []).length,
+    sectors: (report.sectors || []).map((sector) => ({ name: sector.name, heatScore: sector.heatScore, newsCount: (sector.news || []).length }))
+  };
+}
+
+function compactRelatedNews(item) {
+  return {
+    title: item.title,
+    url: item.url,
+    source: item.source,
+    publishedAt: item.publishedAt
+  };
+}
+
+function newsFingerprint(item) {
+  const url = String(item?.url || "").replace(/^https?:\/\//, "").replace(/[?#].*$/, "").replace(/\/$/, "").toLowerCase();
+  if (url) return url;
+  return normalizeNewsTitle(item?.title || "");
+}
+
+function normalizeNewsTitle(title) {
+  return String(title || "").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "").slice(0, 80);
+}
+
+function similarNews(a, b) {
+  const ta = normalizeNewsTitle(a.title);
+  const tb = normalizeNewsTitle(b.title);
+  if (!ta || !tb) return false;
+  return ta.includes(tb.slice(0, 16)) || tb.includes(ta.slice(0, 16)) || a.source !== b.source && a.query && a.query === b.query;
+}
+
+function newsImpactScore(item, related) {
+  const sourceBoost = /新华社|证券|财经|财联社|上证|中证|时报|gov|xinhuanet|stcn|cnstock|cs\.com/.test(`${item.source} ${item.url}`) ? 3 : 0;
+  const recencyBoost = item.publishedAt ? 2 : 0;
+  return 10 + related.length * 8 + sourceBoost + recencyBoost;
+}
+
+function newsText(item) {
+  return `${item.title || ""}${item.summary || ""}`;
+}
+
+function isNewsOnDate(item, date) {
+  if (!item.publishedAt) return true;
+  return String(item.publishedAt).slice(0, 10) === date;
+}
+
+function gdeltDate(value) {
+  const raw = String(value || "");
+  if (/^\d{8}T\d{6}Z$/.test(raw)) return `${raw.slice(0, 4)}-${raw.slice(4, 6)}-${raw.slice(6, 8)}T${raw.slice(9, 11)}:${raw.slice(11, 13)}:${raw.slice(13, 15)}Z`;
+  return raw;
+}
+
+function parseRssDate(value) {
+  const time = Date.parse(value || "");
+  return Number.isFinite(time) ? new Date(time).toISOString() : "";
+}
+
+function xmlText(xml, tag) {
+  const match = String(xml).match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i"));
+  if (!match) return "";
+  return decodeEntities(match[1].replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1").trim());
+}
+
+function decodeEntities(value) {
+  return String(value || "")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, "\"")
+    .replace(/&#39;/g, "'");
+}
+
+function hostname(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return "";
+  }
 }
 
 async function fetchAllMarketStocks() {
@@ -1220,12 +1619,13 @@ async function readDb() {
       dailyReports: db.dailyReports || {},
       lateReports: db.lateReports || {},
       weeklyReports: db.weeklyReports || {},
+      newsReports: db.newsReports || {},
       latePortfolio: db.latePortfolio || null,
       dailyPortfolio: db.dailyPortfolio || null,
       jobLogs: db.jobLogs || []
     };
   } catch {
-    return { dailyReports: {}, lateReports: {}, weeklyReports: {}, latePortfolio: null, dailyPortfolio: null, jobLogs: [] };
+    return { dailyReports: {}, lateReports: {}, weeklyReports: {}, newsReports: {}, latePortfolio: null, dailyPortfolio: null, jobLogs: [] };
   }
 }
 
@@ -1253,6 +1653,7 @@ function pruneDb(db) {
   db.dailyReports = pruneReportMap(db.dailyReports || {}, "date", REPORT_RETENTION_DAYS);
   db.lateReports = pruneReportMap(db.lateReports || {}, "date", REPORT_RETENTION_DAYS);
   db.weeklyReports = pruneReportMap(db.weeklyReports || {}, "rangeEnd", REPORT_RETENTION_DAYS);
+  db.newsReports = pruneNewsReports(db.newsReports || {}, REPORT_RETENTION_DAYS);
   db.jobLogs = (db.jobLogs || []).slice(-200);
   if (db.latePortfolio?.history) {
     db.latePortfolio.history = db.latePortfolio.history.slice(-REPORT_RETENTION_DAYS);
@@ -1260,6 +1661,14 @@ function pruneDb(db) {
   if (db.dailyPortfolio?.history) {
     db.dailyPortfolio.history = db.dailyPortfolio.history.slice(-REPORT_RETENTION_DAYS);
   }
+}
+
+function pruneNewsReports(map, limit) {
+  return Object.fromEntries(
+    Object.entries(map)
+      .sort(([a], [b]) => b.localeCompare(a))
+      .slice(0, limit)
+  );
 }
 
 function pruneReportMap(map, dateField, limit) {
