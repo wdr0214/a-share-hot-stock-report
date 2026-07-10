@@ -1,0 +1,128 @@
+{
+  "date": "2026-07-10",
+  "midday": {
+    "type": "sector-news",
+    "session": "midday",
+    "date": "2026-07-10",
+    "generatedAt": "2026-07-10T08:55:22.175Z",
+    "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+    "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+    "status": "ok",
+    "totalCandidates": 6,
+    "model": "deepseek-v4-flash",
+    "sectors": [
+      {
+        "name": "医药生物",
+        "heatScore": 261,
+        "stockCount": 2,
+        "amount": 4407763929,
+        "bigOrderNetAmount": 710880969,
+        "topStocks": [
+          {
+            "symbol": "SH603127",
+            "name": "昭衍新药",
+            "heatScore": 101,
+            "changePct": 10,
+            "amount": 2273105195,
+            "turnoverRate": 8.5,
+            "bigOrderNetAmount": 396561440
+          },
+          {
+            "symbol": "SH603538",
+            "name": "美诺华",
+            "heatScore": 95,
+            "changePct": 10.01,
+            "amount": 2134658734,
+            "turnoverRate": 21.23,
+            "bigOrderNetAmount": 314319529
+          }
+        ],
+        "news": [],
+        "deepseek": {
+          "status": "skipped",
+          "reason": "DEEPSEEK_API_KEY is not configured",
+          "model": "deepseek-v4-flash"
+        }
+      },
+      {
+        "name": "航海装备Ⅱ",
+        "heatScore": 157,
+        "stockCount": 1,
+        "amount": 3279324850.92,
+        "bigOrderNetAmount": 892367328,
+        "topStocks": [
+          {
+            "symbol": "SZ300065",
+            "name": "海兰信",
+            "heatScore": 104,
+            "changePct": 20.01,
+            "amount": 3279324850.92,
+            "turnoverRate": 18.8,
+            "bigOrderNetAmount": 892367328
+          }
+        ],
+        "news": [
+          {
+            "title": "俄烏戰爭現況 -- 開欄文 - 時事論壇",
+            "url": "https://city.udn.com/2976/7210328?raid=7296962",
+            "source": "city.udn.com",
+            "publishedAt": "2026-07-10T05:30:00Z",
+            "summary": "",
+            "provider": "gdelt",
+            "query": "海兰信",
+            "discussionScore": 1,
+            "impactScore": 12,
+            "relatedReports": [],
+            "rank": 1
+          }
+        ],
+        "deepseek": {
+          "status": "skipped",
+          "reason": "DEEPSEEK_API_KEY is not configured",
+          "model": "deepseek-v4-flash"
+        }
+      },
+      {
+        "name": "汽车零部件",
+        "heatScore": 142,
+        "stockCount": 1,
+        "amount": 3347213636.19,
+        "bigOrderNetAmount": 436990704,
+        "topStocks": [
+          {
+            "symbol": "SZ301005",
+            "name": "超捷股份",
+            "heatScore": 106,
+            "changePct": 11.64,
+            "amount": 3347213636.19,
+            "turnoverRate": 15.8,
+            "bigOrderNetAmount": 436990704
+          }
+        ],
+        "news": [
+          {
+            "title": "俄烏戰爭現況 -- 開欄文 - 時事論壇",
+            "url": "https://city.udn.com/2976/7210328?raid=7296962",
+            "source": "city.udn.com",
+            "publishedAt": "2026-07-10T05:30:00Z",
+            "summary": "",
+            "provider": "gdelt",
+            "query": "超捷股份",
+            "discussionScore": 1,
+            "impactScore": 12,
+            "relatedReports": [],
+            "rank": 1
+          }
+        ],
+        "deepseek": {
+          "status": "skipped",
+          "reason": "DEEPSEEK_API_KEY is not configured",
+          "model": "deepseek-v4-flash"
+        }
+      }
+    ],
+    "excludedMidday": null,
+    "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+  },
+  "close": null
+}

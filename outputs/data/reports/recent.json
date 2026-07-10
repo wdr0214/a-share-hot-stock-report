@@ -1341,5 +1341,33 @@
       ]
     }
   ],
-  "newsReports": []
+  "newsReports": [
+    {
+      "date": "2026-07-10",
+      "midday": {
+        "session": "midday",
+        "generatedAt": "2026-07-10T08:55:22.175Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "医药生物",
+            "heatScore": 261,
+            "newsCount": 0
+          },
+          {
+            "name": "航海装备Ⅱ",
+            "heatScore": 157,
+            "newsCount": 1
+          },
+          {
+            "name": "汽车零部件",
+            "heatScore": 142,
+            "newsCount": 1
+          }
+        ]
+      },
+      "close": null
+    }
+  ]
 }
