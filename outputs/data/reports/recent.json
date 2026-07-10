@@ -1367,7 +1367,29 @@
           }
         ]
       },
-      "close": null
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-07-10T15:40:37.004Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "汽车与新能源",
+            "heatScore": 142,
+            "newsCount": 0
+          },
+          {
+            "name": "医疗服务",
+            "heatScore": 133,
+            "newsCount": 0
+          },
+          {
+            "name": "IT服务Ⅱ",
+            "heatScore": 129,
+            "newsCount": 0
+          }
+        ]
+      }
     }
   ]
 }
