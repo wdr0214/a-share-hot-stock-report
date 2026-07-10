@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "jobName": "weekly-report",
+      "startedAt": "2026-07-10T19:09:48.931Z",
+      "finishedAt": "2026-07-10T19:09:48.932Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-28"
+    },
+    {
       "jobName": "news-close",
       "startedAt": "2026-07-10T15:40:37.004Z",
       "finishedAt": "2026-07-10T15:40:37.004Z",
@@ -233,14 +241,6 @@
       "reportKey": "2026-06-26",
       "attempts": 4,
       "nextRetryHint": "scheduled catchup or one-hour rerun"
-    },
-    {
-      "jobName": "daily-report",
-      "startedAt": "2026-06-25T08:00:39.114Z",
-      "finishedAt": "2026-06-25T08:00:39.115Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-06-25"
     }
   ]
 }
