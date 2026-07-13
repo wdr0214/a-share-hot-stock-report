@@ -25,7 +25,29 @@
           }
         ]
       },
-      "close": null
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-07-13T15:51:39.125Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "消费",
+            "heatScore": 134,
+            "newsCount": 1
+          },
+          {
+            "name": "化学制品",
+            "heatScore": 121,
+            "newsCount": 0
+          },
+          {
+            "name": "电网设备",
+            "heatScore": 119,
+            "newsCount": 0
+          }
+        ]
+      }
     }
   ]
 }
