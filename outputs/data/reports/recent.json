@@ -1463,5 +1463,33 @@
       ]
     }
   ],
-  "newsReports": []
+  "newsReports": [
+    {
+      "date": "2026-07-13",
+      "midday": {
+        "session": "midday",
+        "generatedAt": "2026-07-13T08:39:11.575Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "IT服务Ⅱ",
+            "heatScore": 138,
+            "newsCount": 1
+          },
+          {
+            "name": "软件与信息服务",
+            "heatScore": 138,
+            "newsCount": 0
+          },
+          {
+            "name": "黑色家电",
+            "heatScore": 134,
+            "newsCount": 0
+          }
+        ]
+      },
+      "close": null
+    }
+  ]
 }
