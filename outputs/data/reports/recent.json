@@ -1541,5 +1541,33 @@
       ]
     }
   ],
-  "newsReports": []
+  "newsReports": [
+    {
+      "date": "2026-07-14",
+      "midday": null,
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-07-14T15:02:44.066Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "元件",
+            "heatScore": 414,
+            "newsCount": 0
+          },
+          {
+            "name": "软件开发",
+            "heatScore": 161,
+            "newsCount": 0
+          },
+          {
+            "name": "软件与信息服务",
+            "heatScore": 161,
+            "newsCount": 3
+          }
+        ]
+      }
+    }
+  ]
 }

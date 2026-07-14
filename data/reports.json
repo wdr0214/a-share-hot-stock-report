@@ -208267,7 +208267,215 @@
       ]
     }
   },
-  "newsReports": {},
+  "newsReports": {
+    "2026-07-14": {
+      "close": {
+        "type": "sector-news",
+        "session": "close",
+        "date": "2026-07-14",
+        "generatedAt": "2026-07-14T15:02:44.066Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 5,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "元件",
+            "heatScore": 414,
+            "stockCount": 3,
+            "amount": 34770966933.61,
+            "bigOrderNetAmount": 5015860560,
+            "topStocks": [
+              {
+                "symbol": "SZ000636",
+                "name": "风华高科",
+                "heatScore": 106,
+                "changePct": 10,
+                "amount": 7331329499.61,
+                "turnoverRate": 11.5,
+                "bigOrderNetAmount": 515643552
+              },
+              {
+                "symbol": "SH603186",
+                "name": "华正新材",
+                "heatScore": 104,
+                "changePct": 10,
+                "amount": 3583366373,
+                "turnoverRate": 13.24,
+                "bigOrderNetAmount": 318798000
+              },
+              {
+                "symbol": "SZ002384",
+                "name": "东山精密",
+                "heatScore": 100,
+                "changePct": 10,
+                "amount": 23856271061,
+                "turnoverRate": 6.89,
+                "bigOrderNetAmount": 4181419008
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "软件开发",
+            "heatScore": 161,
+            "stockCount": 1,
+            "amount": 3732478467.31,
+            "bigOrderNetAmount": 506713520,
+            "topStocks": [
+              {
+                "symbol": "SZ300209",
+                "name": "行云科技",
+                "heatScore": 108,
+                "changePct": 20,
+                "amount": 3732478467.31,
+                "turnoverRate": 17.79,
+                "bigOrderNetAmount": 506713520
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "软件与信息服务",
+            "heatScore": 161,
+            "stockCount": 1,
+            "amount": 3732478467.31,
+            "bigOrderNetAmount": 506713520,
+            "topStocks": [
+              {
+                "symbol": "SZ300209",
+                "name": "行云科技",
+                "heatScore": 108,
+                "changePct": 20,
+                "amount": 3732478467.31,
+                "turnoverRate": 17.79,
+                "bigOrderNetAmount": 506713520
+              }
+            ],
+            "news": [
+              {
+                "title": "人工智能縱橫談 -- 開欄文 - 時事論壇",
+                "url": "https://city.udn.com/2976/7205038?raid=7297110",
+                "source": "city.udn.com",
+                "publishedAt": "2026-07-14T09:45:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "行云科技",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "Hsinchu County magistrate acquitted in corruption case",
+                    "url": "https://focustaiwan.tw:443/society/202607140006",
+                    "source": "focustaiwan.tw",
+                    "publishedAt": "2026-07-14T06:30:00Z"
+                  },
+                  {
+                    "title": "Hsinchu County magistrate acquitted in corruption case",
+                    "url": "https://focustaiwan.tw/society/202607140006",
+                    "source": "focustaiwan.tw",
+                    "publishedAt": "2026-07-14T06:30:00Z"
+                  },
+                  {
+                    "title": "Mitsubishi UFJ Overtakes Toyota as Japan Most Valuable Company",
+                    "url": "https://newsonjapan.com/article/149969.php",
+                    "source": "newsonjapan.com",
+                    "publishedAt": "2026-07-14T05:15:00Z"
+                  }
+                ],
+                "rank": 1
+              },
+              {
+                "title": "Hsinchu County magistrate acquitted in corruption case",
+                "url": "https://focustaiwan.tw:443/society/202607140006",
+                "source": "focustaiwan.tw",
+                "publishedAt": "2026-07-14T06:30:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "行云科技",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "Hsinchu County magistrate acquitted in corruption case",
+                    "url": "https://focustaiwan.tw/society/202607140006",
+                    "source": "focustaiwan.tw",
+                    "publishedAt": "2026-07-14T06:30:00Z"
+                  },
+                  {
+                    "title": "Mitsubishi UFJ Overtakes Toyota as Japan Most Valuable Company",
+                    "url": "https://newsonjapan.com/article/149969.php",
+                    "source": "newsonjapan.com",
+                    "publishedAt": "2026-07-14T05:15:00Z"
+                  },
+                  {
+                    "title": "人工智能縱橫談 -- 開欄文 - 時事論壇",
+                    "url": "https://city.udn.com/2976/7205038?raid=7297110",
+                    "source": "city.udn.com",
+                    "publishedAt": "2026-07-14T09:45:00Z"
+                  }
+                ],
+                "rank": 2
+              },
+              {
+                "title": "Hsinchu County magistrate acquitted in corruption case",
+                "url": "https://focustaiwan.tw/society/202607140006",
+                "source": "focustaiwan.tw",
+                "publishedAt": "2026-07-14T06:30:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "行云科技",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "Hsinchu County magistrate acquitted in corruption case",
+                    "url": "https://focustaiwan.tw:443/society/202607140006",
+                    "source": "focustaiwan.tw",
+                    "publishedAt": "2026-07-14T06:30:00Z"
+                  },
+                  {
+                    "title": "Mitsubishi UFJ Overtakes Toyota as Japan Most Valuable Company",
+                    "url": "https://newsonjapan.com/article/149969.php",
+                    "source": "newsonjapan.com",
+                    "publishedAt": "2026-07-14T05:15:00Z"
+                  },
+                  {
+                    "title": "人工智能縱橫談 -- 開欄文 - 時事論壇",
+                    "url": "https://city.udn.com/2976/7205038?raid=7297110",
+                    "source": "city.udn.com",
+                    "publishedAt": "2026-07-14T09:45:00Z"
+                  }
+                ],
+                "rank": 3
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": {
+          "sectorCount": 0,
+          "newsCount": 3
+        },
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      }
+    }
+  },
   "latePortfolio": {
     "netValue": 0.9436,
     "cash": 0.7548779933532143,
@@ -212248,6 +212456,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-07-14"
+    },
+    {
+      "jobName": "news-close",
+      "startedAt": "2026-07-14T15:02:44.066Z",
+      "finishedAt": "2026-07-14T15:02:44.066Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-07-14-close"
     }
   ]
 }
