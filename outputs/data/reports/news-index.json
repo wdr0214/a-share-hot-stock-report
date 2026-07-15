@@ -1,3 +1,31 @@
 {
-  "reports": []
+  "reports": [
+    {
+      "date": "2026-07-15",
+      "midday": null,
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-07-15T15:02:07.868Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "医药生物",
+            "heatScore": 659,
+            "newsCount": 3
+          },
+          {
+            "name": "医疗服务",
+            "heatScore": 532,
+            "newsCount": 3
+          },
+          {
+            "name": "化学制药",
+            "heatScore": 127,
+            "newsCount": 0
+          }
+        ]
+      }
+    }
+  ]
 }
