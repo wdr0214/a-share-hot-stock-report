@@ -1,3 +1,31 @@
 {
-  "reports": []
+  "reports": [
+    {
+      "date": "2026-07-16",
+      "midday": null,
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-07-16T15:14:01.322Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "医药生物",
+            "heatScore": 499,
+            "newsCount": 2
+          },
+          {
+            "name": "化学制药",
+            "heatScore": 251,
+            "newsCount": 2
+          },
+          {
+            "name": "IT服务Ⅱ",
+            "heatScore": 133,
+            "newsCount": 0
+          }
+        ]
+      }
+    }
+  ]
 }

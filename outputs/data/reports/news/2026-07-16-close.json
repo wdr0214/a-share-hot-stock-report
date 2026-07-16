@@ -1,0 +1,208 @@
+{
+  "type": "sector-news",
+  "session": "close",
+  "date": "2026-07-16",
+  "generatedAt": "2026-07-16T15:14:01.322Z",
+  "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+  "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+  "status": "ok",
+  "totalCandidates": 7,
+  "model": "deepseek-v4-flash",
+  "sectors": [
+    {
+      "name": "医药生物",
+      "heatScore": 499,
+      "stockCount": 4,
+      "amount": 12211058845.44,
+      "bigOrderNetAmount": 1007414275,
+      "topStocks": [
+        {
+          "symbol": "SZ300255",
+          "name": "常山药业",
+          "heatScore": 102,
+          "changePct": 10.45,
+          "amount": 3548073338.24,
+          "turnoverRate": 12.87,
+          "bigOrderNetAmount": 275455584
+        },
+        {
+          "symbol": "SZ002432",
+          "name": "九安医疗",
+          "heatScore": 95,
+          "changePct": 7.48,
+          "amount": 4735746732.66,
+          "turnoverRate": 14.13,
+          "bigOrderNetAmount": 212524624
+        },
+        {
+          "symbol": "SH600436",
+          "name": "片仔癀",
+          "heatScore": 92,
+          "changePct": 10,
+          "amount": 2315698978,
+          "turnoverRate": 2.84,
+          "bigOrderNetAmount": 405797008
+        },
+        {
+          "symbol": "SZ000566",
+          "name": "海南海药",
+          "heatScore": 83,
+          "changePct": 10.1,
+          "amount": 1611539796.54,
+          "turnoverRate": 22.7,
+          "bigOrderNetAmount": 113637059
+        }
+      ],
+      "news": [
+        {
+          "title": "Air force officers sentenced over China espionage",
+          "url": "https://www.taipeitimes.com/News/taiwan/archives/2026/07/16/2003860849",
+          "source": "taipeitimes.com",
+          "publishedAt": "2026-07-16T08:15:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "九安医疗",
+          "discussionScore": 2,
+          "impactScore": 20,
+          "relatedReports": [
+            {
+              "title": "Real - Time PA Highway Camera Updates : Your Complete Guide To Pennsylvania Traffic And Road Conditions",
+              "url": "https://www.unitaid.eu/time-pa-highway-camera-updates-b9x0.html",
+              "source": "unitaid.eu",
+              "publishedAt": "2026-07-16T05:45:00Z"
+            }
+          ],
+          "rank": 1
+        },
+        {
+          "title": "Real - Time PA Highway Camera Updates : Your Complete Guide To Pennsylvania Traffic And Road Conditions",
+          "url": "https://www.unitaid.eu/time-pa-highway-camera-updates-b9x0.html",
+          "source": "unitaid.eu",
+          "publishedAt": "2026-07-16T05:45:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "九安医疗",
+          "discussionScore": 2,
+          "impactScore": 20,
+          "relatedReports": [
+            {
+              "title": "Air force officers sentenced over China espionage",
+              "url": "https://www.taipeitimes.com/News/taiwan/archives/2026/07/16/2003860849",
+              "source": "taipeitimes.com",
+              "publishedAt": "2026-07-16T08:15:00Z"
+            }
+          ],
+          "rank": 2
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "化学制药",
+      "heatScore": 251,
+      "stockCount": 2,
+      "amount": 5159613134.78,
+      "bigOrderNetAmount": 389092643,
+      "topStocks": [
+        {
+          "symbol": "SZ300255",
+          "name": "常山药业",
+          "heatScore": 102,
+          "changePct": 10.45,
+          "amount": 3548073338.24,
+          "turnoverRate": 12.87,
+          "bigOrderNetAmount": 275455584
+        },
+        {
+          "symbol": "SZ000566",
+          "name": "海南海药",
+          "heatScore": 83,
+          "changePct": 10.1,
+          "amount": 1611539796.54,
+          "turnoverRate": 22.7,
+          "bigOrderNetAmount": 113637059
+        }
+      ],
+      "news": [
+        {
+          "title": "Remembering Neighbors : Latest Updates On Deaths In Macon , GA This Week And Community Memorials",
+          "url": "https://www.unitaid.eu/macon-ga-this-week-community-m8ld.html",
+          "source": "unitaid.eu",
+          "publishedAt": "2026-07-16T09:00:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "化学制药",
+          "discussionScore": 2,
+          "impactScore": 20,
+          "relatedReports": [
+            {
+              "title": "人際關係篇 -- 開欄文 ： 討人喜的5秒鐘聊天撇步 - Alessia Fransisca - 時事論壇",
+              "url": "https://city.udn.com/2976/7248223?raid=7297144",
+              "source": "city.udn.com",
+              "publishedAt": "2026-07-16T05:15:00Z"
+            }
+          ],
+          "rank": 1
+        },
+        {
+          "title": "人際關係篇 -- 開欄文 ： 討人喜的5秒鐘聊天撇步 - Alessia Fransisca - 時事論壇",
+          "url": "https://city.udn.com/2976/7248223?raid=7297144",
+          "source": "city.udn.com",
+          "publishedAt": "2026-07-16T05:15:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "化学制药",
+          "discussionScore": 2,
+          "impactScore": 20,
+          "relatedReports": [
+            {
+              "title": "Remembering Neighbors : Latest Updates On Deaths In Macon , GA This Week And Community Memorials",
+              "url": "https://www.unitaid.eu/macon-ga-this-week-community-m8ld.html",
+              "source": "unitaid.eu",
+              "publishedAt": "2026-07-16T09:00:00Z"
+            }
+          ],
+          "rank": 2
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "IT服务Ⅱ",
+      "heatScore": 133,
+      "stockCount": 1,
+      "amount": 17116810187.83,
+      "bigOrderNetAmount": 1399561056,
+      "topStocks": [
+        {
+          "symbol": "SZ000938",
+          "name": "紫光股份",
+          "heatScore": 100,
+          "changePct": 8.61,
+          "amount": 17116810187.83,
+          "turnoverRate": 15.8,
+          "bigOrderNetAmount": 1399561056
+        }
+      ],
+      "news": [],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    }
+  ],
+  "excludedMidday": {
+    "sectorCount": 0,
+    "newsCount": 4
+  },
+  "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+}
