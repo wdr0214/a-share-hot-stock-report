@@ -1658,5 +1658,33 @@
       ]
     }
   ],
-  "newsReports": []
+  "newsReports": [
+    {
+      "date": "2026-07-16",
+      "midday": {
+        "session": "midday",
+        "generatedAt": "2026-07-16T07:43:27.751Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "医药生物",
+            "heatScore": 245,
+            "newsCount": 1
+          },
+          {
+            "name": "医疗器械",
+            "heatScore": 130,
+            "newsCount": 0
+          },
+          {
+            "name": "IT服务Ⅱ",
+            "heatScore": 126,
+            "newsCount": 1
+          }
+        ]
+      },
+      "close": null
+    }
+  ]
 }
