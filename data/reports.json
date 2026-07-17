@@ -241776,7 +241776,373 @@
       ]
     }
   },
-  "newsReports": {},
+  "newsReports": {
+    "2026-07-17": {
+      "close": {
+        "type": "sector-news",
+        "session": "close",
+        "date": "2026-07-17",
+        "generatedAt": "2026-07-17T14:54:13.488Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 5,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "通信设备",
+            "heatScore": 244,
+            "stockCount": 2,
+            "amount": 7777944189.57,
+            "bigOrderNetAmount": 1231853504,
+            "topStocks": [
+              {
+                "symbol": "SH603118",
+                "name": "共进股份",
+                "heatScore": 98,
+                "changePct": 10.01,
+                "amount": 1784261519,
+                "turnoverRate": 15.57,
+                "bigOrderNetAmount": 535237552
+              },
+              {
+                "symbol": "SZ002396",
+                "name": "星网锐捷",
+                "heatScore": 90,
+                "changePct": 5.05,
+                "amount": 5993682670.57,
+                "turnoverRate": 26.43,
+                "bigOrderNetAmount": 696615952
+              }
+            ],
+            "news": [
+              {
+                "title": "科學方法論 ： 開欄文 - 時事論壇 - udn城市",
+                "url": "https://city.udn.com/2976/5014522?raid=7297202",
+                "source": "city.udn.com",
+                "publishedAt": "2026-07-17T09:00:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "通信设备",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "相约费城 ！ 浙大管院AOM招聘现场等你来",
+                    "url": "https://www.163.com/dy/article/L21UMI240516ATFG.html",
+                    "source": "163.com",
+                    "publishedAt": "2026-07-17T06:30:00Z"
+                  },
+                  {
+                    "title": "男子搭高铁被错拿500万元现金背包 _ 百度搜索",
+                    "url": "https://www.baidu.com/s?wd=%E7%94%B7%E5%AD%90%E6%90%AD%E9%AB%98%E9%93%81%E8%A2%AB%E9%94%99%E6%8B%BF500%E4%B8%87%E5%85%83%E7%8E%B0%E9%87%91%E8%83%8C%E5%8C%85",
+                    "source": "baidu.com",
+                    "publishedAt": "2026-07-17T04:30:00Z"
+                  },
+                  {
+                    "title": "Global Anti - Corruption Insights : Summer 2026",
+                    "url": "https://www.mondaq.com:443/unitedstates/white-collar-crime-anti-corruption-fraud/1818642/global-anti-corruption-insights-summer-2026",
+                    "source": "mondaq.com",
+                    "publishedAt": "2026-07-17T01:30:00Z"
+                  }
+                ],
+                "rank": 1
+              },
+              {
+                "title": "相约费城 ！ 浙大管院AOM招聘现场等你来",
+                "url": "https://www.163.com/dy/article/L21UMI240516ATFG.html",
+                "source": "163.com",
+                "publishedAt": "2026-07-17T06:30:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "通信设备",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "科學方法論 ： 開欄文 - 時事論壇 - udn城市",
+                    "url": "https://city.udn.com/2976/5014522?raid=7297202",
+                    "source": "city.udn.com",
+                    "publishedAt": "2026-07-17T09:00:00Z"
+                  },
+                  {
+                    "title": "男子搭高铁被错拿500万元现金背包 _ 百度搜索",
+                    "url": "https://www.baidu.com/s?wd=%E7%94%B7%E5%AD%90%E6%90%AD%E9%AB%98%E9%93%81%E8%A2%AB%E9%94%99%E6%8B%BF500%E4%B8%87%E5%85%83%E7%8E%B0%E9%87%91%E8%83%8C%E5%8C%85",
+                    "source": "baidu.com",
+                    "publishedAt": "2026-07-17T04:30:00Z"
+                  },
+                  {
+                    "title": "Global Anti - Corruption Insights : Summer 2026",
+                    "url": "https://www.mondaq.com:443/unitedstates/white-collar-crime-anti-corruption-fraud/1818642/global-anti-corruption-insights-summer-2026",
+                    "source": "mondaq.com",
+                    "publishedAt": "2026-07-17T01:30:00Z"
+                  }
+                ],
+                "rank": 2
+              },
+              {
+                "title": "男子搭高铁被错拿500万元现金背包 _ 百度搜索",
+                "url": "https://www.baidu.com/s?wd=%E7%94%B7%E5%AD%90%E6%90%AD%E9%AB%98%E9%93%81%E8%A2%AB%E9%94%99%E6%8B%BF500%E4%B8%87%E5%85%83%E7%8E%B0%E9%87%91%E8%83%8C%E5%8C%85",
+                "source": "baidu.com",
+                "publishedAt": "2026-07-17T04:30:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "通信设备",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "相约费城 ！ 浙大管院AOM招聘现场等你来",
+                    "url": "https://www.163.com/dy/article/L21UMI240516ATFG.html",
+                    "source": "163.com",
+                    "publishedAt": "2026-07-17T06:30:00Z"
+                  },
+                  {
+                    "title": "科學方法論 ： 開欄文 - 時事論壇 - udn城市",
+                    "url": "https://city.udn.com/2976/5014522?raid=7297202",
+                    "source": "city.udn.com",
+                    "publishedAt": "2026-07-17T09:00:00Z"
+                  },
+                  {
+                    "title": "Global Anti - Corruption Insights : Summer 2026",
+                    "url": "https://www.mondaq.com:443/unitedstates/white-collar-crime-anti-corruption-fraud/1818642/global-anti-corruption-insights-summer-2026",
+                    "source": "mondaq.com",
+                    "publishedAt": "2026-07-17T01:30:00Z"
+                  }
+                ],
+                "rank": 3
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "TMT",
+            "heatScore": 244,
+            "stockCount": 2,
+            "amount": 7777944189.57,
+            "bigOrderNetAmount": 1231853504,
+            "topStocks": [
+              {
+                "symbol": "SH603118",
+                "name": "共进股份",
+                "heatScore": 98,
+                "changePct": 10.01,
+                "amount": 1784261519,
+                "turnoverRate": 15.57,
+                "bigOrderNetAmount": 535237552
+              },
+              {
+                "symbol": "SZ002396",
+                "name": "星网锐捷",
+                "heatScore": 90,
+                "changePct": 5.05,
+                "amount": 5993682670.57,
+                "turnoverRate": 26.43,
+                "bigOrderNetAmount": 696615952
+              }
+            ],
+            "news": [
+              {
+                "title": "CEAT Share Price : Aarnav Fashions और IOL Chemicals समेत इन शेयरों में भारी बिकवाली , 12 % तक टूट गए स्टॉक्स | Stock Market Update Nifty Smallcap Aarnav Fashions Ceat Iol Chemicals Share Price Drop",
+                "url": "https://www.patrika.com/business-news/stock-market-update-nifty-smallcap-aarnav-fashions-ceat-iol-chemicals-share-price-drop-20755171",
+                "source": "patrika.com",
+                "publishedAt": "2026-07-17T10:30:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "TMT",
+                "discussionScore": 3,
+                "impactScore": 28,
+                "relatedReports": [
+                  {
+                    "title": "Shyam Steel to invest Rs 15 , 000 crore in West Bengal expansion",
+                    "url": "https://economictimes.indiatimes.com/industry/indl-goods/svs/steel/shyam-steel-to-invest-rs-15000-crore-in-west-bengal-expansion/articleshow/132458074.cms",
+                    "source": "economictimes.indiatimes.com",
+                    "publishedAt": "2026-07-17T10:15:00Z"
+                  },
+                  {
+                    "title": "Superday AI Upgrades Its Investment Banking Interview Prep Platform : Smarter Mock Interviews , Deeper Resume Reviews , Adaptive Drills",
+                    "url": "https://www.manilatimes.net/2026/07/17/tmt-newswire/globenewswire/superday-ai-upgrades-its-investment-banking-interview-prep-platform-smarter-mock-interviews-deeper-resume-reviews-adaptive-drills/2386385",
+                    "source": "manilatimes.net",
+                    "publishedAt": "2026-07-17T05:45:00Z"
+                  }
+                ],
+                "rank": 1
+              },
+              {
+                "title": "Shyam Steel to invest Rs 15 , 000 crore in West Bengal expansion",
+                "url": "https://economictimes.indiatimes.com/industry/indl-goods/svs/steel/shyam-steel-to-invest-rs-15000-crore-in-west-bengal-expansion/articleshow/132458074.cms",
+                "source": "economictimes.indiatimes.com",
+                "publishedAt": "2026-07-17T10:15:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "TMT",
+                "discussionScore": 3,
+                "impactScore": 28,
+                "relatedReports": [
+                  {
+                    "title": "CEAT Share Price : Aarnav Fashions और IOL Chemicals समेत इन शेयरों में भारी बिकवाली , 12 % तक टूट गए स्टॉक्स | Stock Market Update Nifty Smallcap Aarnav Fashions Ceat Iol Chemicals Share Price Drop",
+                    "url": "https://www.patrika.com/business-news/stock-market-update-nifty-smallcap-aarnav-fashions-ceat-iol-chemicals-share-price-drop-20755171",
+                    "source": "patrika.com",
+                    "publishedAt": "2026-07-17T10:30:00Z"
+                  },
+                  {
+                    "title": "Superday AI Upgrades Its Investment Banking Interview Prep Platform : Smarter Mock Interviews , Deeper Resume Reviews , Adaptive Drills",
+                    "url": "https://www.manilatimes.net/2026/07/17/tmt-newswire/globenewswire/superday-ai-upgrades-its-investment-banking-interview-prep-platform-smarter-mock-interviews-deeper-resume-reviews-adaptive-drills/2386385",
+                    "source": "manilatimes.net",
+                    "publishedAt": "2026-07-17T05:45:00Z"
+                  }
+                ],
+                "rank": 2
+              },
+              {
+                "title": "Superday AI Upgrades Its Investment Banking Interview Prep Platform : Smarter Mock Interviews , Deeper Resume Reviews , Adaptive Drills",
+                "url": "https://www.manilatimes.net/2026/07/17/tmt-newswire/globenewswire/superday-ai-upgrades-its-investment-banking-interview-prep-platform-smarter-mock-interviews-deeper-resume-reviews-adaptive-drills/2386385",
+                "source": "manilatimes.net",
+                "publishedAt": "2026-07-17T05:45:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "TMT",
+                "discussionScore": 3,
+                "impactScore": 28,
+                "relatedReports": [
+                  {
+                    "title": "CEAT Share Price : Aarnav Fashions और IOL Chemicals समेत इन शेयरों में भारी बिकवाली , 12 % तक टूट गए स्टॉक्स | Stock Market Update Nifty Smallcap Aarnav Fashions Ceat Iol Chemicals Share Price Drop",
+                    "url": "https://www.patrika.com/business-news/stock-market-update-nifty-smallcap-aarnav-fashions-ceat-iol-chemicals-share-price-drop-20755171",
+                    "source": "patrika.com",
+                    "publishedAt": "2026-07-17T10:30:00Z"
+                  },
+                  {
+                    "title": "Shyam Steel to invest Rs 15 , 000 crore in West Bengal expansion",
+                    "url": "https://economictimes.indiatimes.com/industry/indl-goods/svs/steel/shyam-steel-to-invest-rs-15000-crore-in-west-bengal-expansion/articleshow/132458074.cms",
+                    "source": "economictimes.indiatimes.com",
+                    "publishedAt": "2026-07-17T10:15:00Z"
+                  }
+                ],
+                "rank": 3
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "电力",
+            "heatScore": 139,
+            "stockCount": 1,
+            "amount": 681958473.26,
+            "bigOrderNetAmount": 65708896,
+            "topStocks": [
+              {
+                "symbol": "SZ300317",
+                "name": "珈伟新能",
+                "heatScore": 97,
+                "changePct": 16.01,
+                "amount": 681958473.26,
+                "turnoverRate": 20.48,
+                "bigOrderNetAmount": 65708896
+              }
+            ],
+            "news": [
+              {
+                "title": "Individual opinion : India hits back at ex - Japan minister over sheer recklessnes remarks on bullet train delay",
+                "url": "https://www.moneycontrol.com/news/india/individual-opinion-india-hits-back-at-ex-japan-minister-over-sheer-recklessness-remarks-on-bullet-train-project-13976985.html",
+                "source": "moneycontrol.com",
+                "publishedAt": "2026-07-17T14:00:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "珈伟新能",
+                "discussionScore": 3,
+                "impactScore": 28,
+                "relatedReports": [
+                  {
+                    "title": "Research Map Shows Japan Faces Scorching Summers",
+                    "url": "https://newsonjapan.com/article/150007.php",
+                    "source": "newsonjapan.com",
+                    "publishedAt": "2026-07-17T00:30:00Z"
+                  },
+                  {
+                    "title": "Finding Recent Obituaries Minneapolis MN : A Local Guide To Remembering Loved Ones",
+                    "url": "https://www.unitaid.eu/recent-obituaries-minneapolis-mn-local-zl5r.html",
+                    "source": "unitaid.eu",
+                    "publishedAt": "2026-07-17T07:30:00Z"
+                  }
+                ],
+                "rank": 1
+              },
+              {
+                "title": "Finding Recent Obituaries Minneapolis MN : A Local Guide To Remembering Loved Ones",
+                "url": "https://www.unitaid.eu/recent-obituaries-minneapolis-mn-local-zl5r.html",
+                "source": "unitaid.eu",
+                "publishedAt": "2026-07-17T07:30:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "珈伟新能",
+                "discussionScore": 3,
+                "impactScore": 28,
+                "relatedReports": [
+                  {
+                    "title": "Research Map Shows Japan Faces Scorching Summers",
+                    "url": "https://newsonjapan.com/article/150007.php",
+                    "source": "newsonjapan.com",
+                    "publishedAt": "2026-07-17T00:30:00Z"
+                  },
+                  {
+                    "title": "Individual opinion : India hits back at ex - Japan minister over sheer recklessnes remarks on bullet train delay",
+                    "url": "https://www.moneycontrol.com/news/india/individual-opinion-india-hits-back-at-ex-japan-minister-over-sheer-recklessness-remarks-on-bullet-train-project-13976985.html",
+                    "source": "moneycontrol.com",
+                    "publishedAt": "2026-07-17T14:00:00Z"
+                  }
+                ],
+                "rank": 2
+              },
+              {
+                "title": "Research Map Shows Japan Faces Scorching Summers",
+                "url": "https://newsonjapan.com/article/150007.php",
+                "source": "newsonjapan.com",
+                "publishedAt": "2026-07-17T00:30:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "珈伟新能",
+                "discussionScore": 3,
+                "impactScore": 28,
+                "relatedReports": [
+                  {
+                    "title": "Individual opinion : India hits back at ex - Japan minister over sheer recklessnes remarks on bullet train delay",
+                    "url": "https://www.moneycontrol.com/news/india/individual-opinion-india-hits-back-at-ex-japan-minister-over-sheer-recklessness-remarks-on-bullet-train-project-13976985.html",
+                    "source": "moneycontrol.com",
+                    "publishedAt": "2026-07-17T14:00:00Z"
+                  },
+                  {
+                    "title": "Finding Recent Obituaries Minneapolis MN : A Local Guide To Remembering Loved Ones",
+                    "url": "https://www.unitaid.eu/recent-obituaries-minneapolis-mn-local-zl5r.html",
+                    "source": "unitaid.eu",
+                    "publishedAt": "2026-07-17T07:30:00Z"
+                  }
+                ],
+                "rank": 3
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": {
+          "sectorCount": 0,
+          "newsCount": 9
+        },
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      }
+    }
+  },
   "latePortfolio": {
     "netValue": 0.9008,
     "cash": 0.36032407455650983,
@@ -246524,6 +246890,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-07-17"
+    },
+    {
+      "jobName": "news-close",
+      "startedAt": "2026-07-17T14:54:13.488Z",
+      "finishedAt": "2026-07-17T14:54:13.488Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-07-17-close"
     }
   ]
 }
