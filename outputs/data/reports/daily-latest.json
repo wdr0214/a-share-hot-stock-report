@@ -5623,5 +5623,224 @@
         "todayCloseVsOpenPct": 2.718038528896669
       }
     ]
-  }
+  },
+  "dailyPortfolio": {
+    "date": "2026-07-17",
+    "previousDate": "2026-07-16",
+    "netValue": 0.7737,
+    "cash": 0.154743,
+    "holdings": [
+      {
+        "symbol": "SZ000938",
+        "name": "紫光股份",
+        "entryPrice": 37.49,
+        "shares": 0.004127580203406537,
+        "allocation": 0.15474298182571108,
+        "date": "2026-07-17",
+        "sourceReportDate": "2026-07-16"
+      },
+      {
+        "symbol": "SZ300255",
+        "name": "常山药业",
+        "entryPrice": 30.66,
+        "shares": 0.005047063986487642,
+        "allocation": 0.15474298182571108,
+        "date": "2026-07-17",
+        "sourceReportDate": "2026-07-16"
+      },
+      {
+        "symbol": "SH603459",
+        "name": "红板科技",
+        "entryPrice": 86.95,
+        "shares": 0.0017796777668281896,
+        "allocation": 0.15474298182571108,
+        "date": "2026-07-17",
+        "sourceReportDate": "2026-07-16"
+      },
+      {
+        "symbol": "SZ002432",
+        "name": "九安医疗",
+        "entryPrice": 79.2,
+        "shares": 0.0019538255281024127,
+        "allocation": 0.15474298182571108,
+        "date": "2026-07-17",
+        "sourceReportDate": "2026-07-16"
+      }
+    ],
+    "sold": [
+      {
+        "symbol": "SZ002821",
+        "name": "凯莱英",
+        "entryPrice": 191.08,
+        "sellPrice": 176.38,
+        "returnPct": -7.69311283232155
+      },
+      {
+        "symbol": "SZ300759",
+        "name": "康龙化成",
+        "entryPrice": 38.29,
+        "sellPrice": 38.48,
+        "returnPct": 0.4962131104727024
+      },
+      {
+        "symbol": "SH603538",
+        "name": "美诺华",
+        "entryPrice": 37.8,
+        "sellPrice": 37,
+        "returnPct": -2.116402116402109
+      },
+      {
+        "symbol": "SH603127",
+        "name": "昭衍新药",
+        "entryPrice": 51.58,
+        "sellPrice": 51,
+        "returnPct": -1.1244668476153514
+      },
+      {
+        "symbol": "SH601869",
+        "name": "长飞光纤",
+        "entryPrice": 391.2,
+        "sellPrice": 385,
+        "returnPct": -1.5848670756646188
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SZ000938",
+        "name": "紫光股份",
+        "skipped": false,
+        "buyPrice": 37.49,
+        "allocation": 0.15474298182571108,
+        "open": 37.49,
+        "low": 34.74,
+        "limitUpPrice": 42.45,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ300255",
+        "name": "常山药业",
+        "skipped": false,
+        "buyPrice": 30.66,
+        "allocation": 0.15474298182571108,
+        "open": 30.66,
+        "low": 29,
+        "limitUpPrice": 38.04,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH603459",
+        "name": "红板科技",
+        "skipped": false,
+        "buyPrice": 86.95,
+        "allocation": 0.15474298182571108,
+        "open": 86.95,
+        "low": 82.31,
+        "limitUpPrice": 100.59,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ002432",
+        "name": "九安医疗",
+        "skipped": false,
+        "buyPrice": 79.2,
+        "allocation": 0.15474298182571108,
+        "open": 79.2,
+        "low": 76.88999938964844,
+        "limitUpPrice": 79.2,
+        "buyReason": "limit_up_open_but_tradable_low"
+      },
+      {
+        "symbol": "SH600436",
+        "name": "片仔癀",
+        "skipped": true,
+        "reason": "cash_or_allocation_insufficient"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-23",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-24",
+      "netValue": 0.9558
+    },
+    {
+      "date": "2026-06-25",
+      "netValue": 1.0656
+    },
+    {
+      "date": "2026-06-26",
+      "netValue": 1.0945
+    },
+    {
+      "date": "2026-06-29",
+      "netValue": 1.1143
+    },
+    {
+      "date": "2026-06-30",
+      "netValue": 1.0981
+    },
+    {
+      "date": "2026-07-01",
+      "netValue": 1.1351
+    },
+    {
+      "date": "2026-07-02",
+      "netValue": 1.0834
+    },
+    {
+      "date": "2026-07-03",
+      "netValue": 1.029
+    },
+    {
+      "date": "2026-07-06",
+      "netValue": 0.9792
+    },
+    {
+      "date": "2026-07-07",
+      "netValue": 0.9963
+    },
+    {
+      "date": "2026-07-08",
+      "netValue": 0.9858
+    },
+    {
+      "date": "2026-07-09",
+      "netValue": 0.9461
+    },
+    {
+      "date": "2026-07-10",
+      "netValue": 0.9717
+    },
+    {
+      "date": "2026-07-13",
+      "netValue": 0.9057
+    },
+    {
+      "date": "2026-07-14",
+      "netValue": 0.8528
+    },
+    {
+      "date": "2026-07-15",
+      "netValue": 0.88
+    },
+    {
+      "date": "2026-07-16",
+      "netValue": 0.7928
+    },
+    {
+      "date": "2026-07-17",
+      "netValue": 0.7737
+    }
+  ]
 }
