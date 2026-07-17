@@ -1643,6 +1643,50 @@
   ],
   "weeklyReports": [
     {
+      "week": "2026-29",
+      "rangeStart": "2026-07-11",
+      "rangeEnd": "2026-07-17",
+      "generatedAt": "2026-07-17T15:37:14.557Z",
+      "status": "ok",
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ002396",
+          "name": "星网锐捷",
+          "appearances": 2,
+          "weeklyHeatScore": 260
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ002432",
+          "name": "九安医疗",
+          "appearances": 2,
+          "weeklyHeatScore": 253
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ300209",
+          "name": "行云科技",
+          "appearances": 1,
+          "weeklyHeatScore": 148
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ000636",
+          "name": "风华高科",
+          "appearances": 1,
+          "weeklyHeatScore": 144
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ301526",
+          "name": "国际复材",
+          "appearances": 1,
+          "weeklyHeatScore": 142
+        }
+      ]
+    },
+    {
       "week": "2026-28",
       "rangeStart": "2026-07-04",
       "rangeEnd": "2026-07-10",
