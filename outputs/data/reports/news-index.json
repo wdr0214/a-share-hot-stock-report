@@ -1,3 +1,31 @@
 {
-  "reports": []
+  "reports": [
+    {
+      "date": "2026-07-20",
+      "midday": {
+        "session": "midday",
+        "generatedAt": "2026-07-20T08:28:44.162Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "能源电力",
+            "heatScore": 269,
+            "newsCount": 2
+          },
+          {
+            "name": "电力",
+            "heatScore": 136,
+            "newsCount": 3
+          },
+          {
+            "name": "软件开发",
+            "heatScore": 134,
+            "newsCount": 1
+          }
+        ]
+      },
+      "close": null
+    }
+  ]
 }

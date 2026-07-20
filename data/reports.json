@@ -254338,7 +254338,187 @@
       ]
     }
   },
-  "newsReports": {},
+  "newsReports": {
+    "2026-07-20": {
+      "midday": {
+        "type": "sector-news",
+        "session": "midday",
+        "date": "2026-07-20",
+        "generatedAt": "2026-07-20T08:28:44.162Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 5,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "能源电力",
+            "heatScore": 269,
+            "stockCount": 2,
+            "amount": 6128548356.49,
+            "bigOrderNetAmount": 470615324,
+            "topStocks": [
+              {
+                "symbol": "SH600396",
+                "name": "华电辽能",
+                "heatScore": 103,
+                "changePct": 10.04,
+                "amount": 3422560130,
+                "turnoverRate": 19.15,
+                "bigOrderNetAmount": 354253549
+              },
+              {
+                "symbol": "SZ300164",
+                "name": "通源石油",
+                "heatScore": 87,
+                "changePct": 16.41,
+                "amount": 2705988226.49,
+                "turnoverRate": 39.4,
+                "bigOrderNetAmount": 116361775
+              }
+            ],
+            "news": [
+              {
+                "title": "Mecklenburg County Whos In Jail : How To Search Arrest Records And Track Inmate Status In Charlotte Today",
+                "url": "https://www.unitaid.eu/track-inmate-status-charlotte-today-y498.html",
+                "source": "unitaid.eu",
+                "publishedAt": "2026-07-20T07:00:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "通源石油",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              },
+              {
+                "title": "川普官司纏身 – 開欄文 ( 補增 ) - 時事論壇",
+                "url": "https://city.udn.com/2976/7219178?raid=7297269",
+                "source": "city.udn.com",
+                "publishedAt": "2026-07-20T06:45:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "能源电力",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 2
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "电力",
+            "heatScore": 136,
+            "stockCount": 1,
+            "amount": 3422560130,
+            "bigOrderNetAmount": 354253549,
+            "topStocks": [
+              {
+                "symbol": "SH600396",
+                "name": "华电辽能",
+                "heatScore": 103,
+                "changePct": 10.04,
+                "amount": 3422560130,
+                "turnoverRate": 19.15,
+                "bigOrderNetAmount": 354253549
+              }
+            ],
+            "news": [
+              {
+                "title": "川普官司纏身 – 開欄文 ( 補增 ) - 時事論壇",
+                "url": "https://city.udn.com/2976/7219178?raid=7297269",
+                "source": "city.udn.com",
+                "publishedAt": "2026-07-20T06:45:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "华电辽能",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              },
+              {
+                "title": "（经济观察）年中盘点：中国能源体系经住“风浪”显韧性",
+                "url": "https://www.chinanews.com.cn/cj/2026/07-20/10662885.shtml",
+                "source": "chinanews.com.cn",
+                "publishedAt": "2026-07-20T05:42:04.000Z",
+                "summary": "中新社北京7月20日电 (记者 王梦瑶)今年2月底以来，中东局势持续紧张，国际能源市场剧烈波动，而中国能源体系经受住了冲击。上半年中国全社会用电量同比增长了5.3%，叠加近期高温天气影响，在用电负荷连创新高情况下，全国电力供需形势依然保持平稳。",
+                "provider": "rss",
+                "query": "电力",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 2
+              },
+              {
+                "title": "A股午评：超2900只个股飘红，三大指数集体收涨",
+                "url": "https://www.chinanews.com.cn/cj/2026/07-20/10662852.shtml",
+                "source": "chinanews.com.cn",
+                "publishedAt": "2026-07-20T04:02:52.000Z",
+                "summary": "A股午评：超2900只个股飘红，三大指数集体收涨；白酒、电力、创新药概念拉升，煤炭、保险、贵金属上涨，电子元器件、半导体下跌",
+                "provider": "rss",
+                "query": "电力",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 3
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "软件开发",
+            "heatScore": 134,
+            "stockCount": 1,
+            "amount": 3602358815.32,
+            "bigOrderNetAmount": 163058608,
+            "topStocks": [
+              {
+                "symbol": "SZ300209",
+                "name": "行云科技",
+                "heatScore": 90,
+                "changePct": 15.51,
+                "amount": 3602358815.32,
+                "turnoverRate": 18.82,
+                "bigOrderNetAmount": 163058608
+              }
+            ],
+            "news": [
+              {
+                "title": "温德姆奖赏计划 | 在全球各地获取积分",
+                "url": "https://k.sina.com.cn/article_7857141524_1d4527714019047seu.html",
+                "source": "k.sina.com.cn",
+                "publishedAt": "2026-07-20T06:45:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "软件开发",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": null,
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      }
+    }
+  },
   "latePortfolio": {
     "netValue": 0.8948,
     "cash": 0.17896379748036176,
@@ -259350,6 +259530,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-07-20"
+    },
+    {
+      "jobName": "news-midday",
+      "startedAt": "2026-07-20T08:28:44.162Z",
+      "finishedAt": "2026-07-20T08:28:44.162Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-07-20-midday"
     }
   ]
 }
