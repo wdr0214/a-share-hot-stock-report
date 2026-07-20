@@ -25,7 +25,29 @@
           }
         ]
       },
-      "close": null
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-07-20T15:19:18.329Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "软件与信息服务",
+            "heatScore": 134,
+            "newsCount": 3
+          },
+          {
+            "name": "油服工程",
+            "heatScore": 133,
+            "newsCount": 1
+          },
+          {
+            "name": "IT服务Ⅱ",
+            "heatScore": 124,
+            "newsCount": 3
+          }
+        ]
+      }
     }
   ]
 }
