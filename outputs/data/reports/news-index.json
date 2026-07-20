@@ -1,31 +1,3 @@
 {
-  "reports": [
-    {
-      "date": "2026-07-17",
-      "midday": null,
-      "close": {
-        "session": "close",
-        "generatedAt": "2026-07-17T14:54:13.488Z",
-        "status": "ok",
-        "sectorCount": 3,
-        "sectors": [
-          {
-            "name": "通信设备",
-            "heatScore": 244,
-            "newsCount": 3
-          },
-          {
-            "name": "TMT",
-            "heatScore": 244,
-            "newsCount": 3
-          },
-          {
-            "name": "电力",
-            "heatScore": 139,
-            "newsCount": 3
-          }
-        ]
-      }
-    }
-  ]
+  "reports": []
 }
