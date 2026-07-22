@@ -1,3 +1,31 @@
 {
-  "reports": []
+  "reports": [
+    {
+      "date": "2026-07-22",
+      "midday": null,
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-07-22T15:14:11.953Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "通信设备",
+            "heatScore": 274,
+            "newsCount": 0
+          },
+          {
+            "name": "软件与信息服务",
+            "heatScore": 274,
+            "newsCount": 1
+          },
+          {
+            "name": "半导体",
+            "heatScore": 273,
+            "newsCount": 1
+          }
+        ]
+      }
+    }
+  ]
 }

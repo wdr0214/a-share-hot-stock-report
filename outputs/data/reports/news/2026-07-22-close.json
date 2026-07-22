@@ -1,0 +1,145 @@
+{
+  "type": "sector-news",
+  "session": "close",
+  "date": "2026-07-22",
+  "generatedAt": "2026-07-22T15:14:11.953Z",
+  "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+  "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+  "status": "ok",
+  "totalCandidates": 5,
+  "model": "deepseek-v4-flash",
+  "sectors": [
+    {
+      "name": "通信设备",
+      "heatScore": 274,
+      "stockCount": 2,
+      "amount": 13710752076.08,
+      "bigOrderNetAmount": 1192654816,
+      "topStocks": [
+        {
+          "symbol": "SZ002396",
+          "name": "星网锐捷",
+          "heatScore": 101,
+          "changePct": 9.43,
+          "amount": 7349901454.42,
+          "turnoverRate": 28.9,
+          "bigOrderNetAmount": 408965968
+        },
+        {
+          "symbol": "SZ301165",
+          "name": "锐捷网络",
+          "heatScore": 98,
+          "changePct": 13.66,
+          "amount": 6360850621.66,
+          "turnoverRate": 4.57,
+          "bigOrderNetAmount": 783688848
+        }
+      ],
+      "news": [],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "软件与信息服务",
+      "heatScore": 274,
+      "stockCount": 2,
+      "amount": 11392164919.5,
+      "bigOrderNetAmount": 972188336,
+      "topStocks": [
+        {
+          "symbol": "SZ301165",
+          "name": "锐捷网络",
+          "heatScore": 98,
+          "changePct": 13.66,
+          "amount": 6360850621.66,
+          "turnoverRate": 4.57,
+          "bigOrderNetAmount": 783688848
+        },
+        {
+          "symbol": "SZ301536",
+          "name": "星宸科技",
+          "heatScore": 96,
+          "changePct": 12.13,
+          "amount": 5031314297.84,
+          "turnoverRate": 20.19,
+          "bigOrderNetAmount": 188499488
+        }
+      ],
+      "news": [
+        {
+          "title": "中東風雲錄 -- 開欄文 ： 埃及的加薩重建方案 -- Al Jazeera - 時事論壇",
+          "url": "https://city.udn.com/2976/7247690?raid=7297303",
+          "source": "city.udn.com",
+          "publishedAt": "2026-07-22T03:15:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "星宸科技",
+          "discussionScore": 1,
+          "impactScore": 12,
+          "relatedReports": [],
+          "rank": 1
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "半导体",
+      "heatScore": 273,
+      "stockCount": 2,
+      "amount": 13367979024.84,
+      "bigOrderNetAmount": 1227881760,
+      "topStocks": [
+        {
+          "symbol": "SH603893",
+          "name": "瑞芯微",
+          "heatScore": 104,
+          "changePct": 10,
+          "amount": 8336664727,
+          "turnoverRate": 8.82,
+          "bigOrderNetAmount": 1039382272
+        },
+        {
+          "symbol": "SZ301536",
+          "name": "星宸科技",
+          "heatScore": 96,
+          "changePct": 12.13,
+          "amount": 5031314297.84,
+          "turnoverRate": 20.19,
+          "bigOrderNetAmount": 188499488
+        }
+      ],
+      "news": [
+        {
+          "title": "How Switzerland could become a hub for Chinese e - commerce",
+          "url": "https://www.swissinfo.ch/eng/global-trade/as-its-tax-system-is-not-aligned-with-that-of-the-eu-switzerland-could-become-a-hub-for-chinese-e-commerce/91783591",
+          "source": "swissinfo.ch",
+          "publishedAt": "2026-07-22T13:45:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "瑞芯微",
+          "discussionScore": 1,
+          "impactScore": 12,
+          "relatedReports": [],
+          "rank": 1
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    }
+  ],
+  "excludedMidday": {
+    "sectorCount": 0,
+    "newsCount": 2
+  },
+  "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+}
