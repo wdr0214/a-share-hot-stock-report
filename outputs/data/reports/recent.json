@@ -2131,5 +2131,33 @@
       ]
     }
   ],
-  "newsReports": []
+  "newsReports": [
+    {
+      "date": "2026-07-23",
+      "midday": null,
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-07-23T15:18:17.188Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "电网设备",
+            "heatScore": 134,
+            "newsCount": 0
+          },
+          {
+            "name": "IT服务Ⅱ",
+            "heatScore": 130,
+            "newsCount": 3
+          },
+          {
+            "name": "软件与信息服务",
+            "heatScore": 130,
+            "newsCount": 2
+          }
+        ]
+      }
+    }
+  ]
 }

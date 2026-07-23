@@ -288759,7 +288759,238 @@
       ]
     }
   },
-  "newsReports": {},
+  "newsReports": {
+    "2026-07-23": {
+      "close": {
+        "type": "sector-news",
+        "session": "close",
+        "date": "2026-07-23",
+        "generatedAt": "2026-07-23T15:18:17.188Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 5,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "电网设备",
+            "heatScore": 134,
+            "stockCount": 1,
+            "amount": 6017459717,
+            "bigOrderNetAmount": 538618592,
+            "topStocks": [
+              {
+                "symbol": "SH600089",
+                "name": "特变电工",
+                "heatScore": 102,
+                "changePct": 8.85,
+                "amount": 6017459717,
+                "turnoverRate": 5.69,
+                "bigOrderNetAmount": 538618592
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "IT服务Ⅱ",
+            "heatScore": 130,
+            "stockCount": 1,
+            "amount": 2101806933.71,
+            "bigOrderNetAmount": 174796256,
+            "topStocks": [
+              {
+                "symbol": "SZ000815",
+                "name": "美利云",
+                "heatScore": 98,
+                "changePct": 9.98,
+                "amount": 2101806933.71,
+                "turnoverRate": 17.62,
+                "bigOrderNetAmount": 174796256
+              }
+            ],
+            "news": [
+              {
+                "title": "Χατζηβασιλείου στο Βίλνιους : Στο επίκεντρο η προετοιμασία της Ελληνικής Προεδρίας της Ε . Ε .",
+                "url": "https://www.protothema.gr/politics/article/1855162/hatzivasileiou-sto-vilnious-sto-epikedro-i-proetoimasia-tis-ellinikis-proedrias-tis-ee/",
+                "source": "protothema.gr",
+                "publishedAt": "2026-07-23T14:45:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "IT服务Ⅱ",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "Смерть сутенера : найден мертвым поставлявший модели педофилу Эпштейну деятель",
+                    "url": "https://www.mk.ru/incident/2026/07/23/smert-sutenera-nayden-mertvym-postavlyavshiy-modeli-pedofilu-epshteynu-deyatel.html",
+                    "source": "mk.ru",
+                    "publishedAt": "2026-07-23T06:45:00Z"
+                  },
+                  {
+                    "title": "Στρατηγική Συνεργασία μεταξύ Επιτρόπου Επικοινωνιών και Chief Scientist για ΑΙ",
+                    "url": "https://www.sigmalive.com/news/scitech/1323123/stratighiki-sinerghasia-metaksy-epitropoy-epikoinoniwn-kai-chief-scientist-ghia-ai",
+                    "source": "sigmalive.com",
+                    "publishedAt": "2026-07-23T08:30:00Z"
+                  },
+                  {
+                    "title": "Народ это не забудет : Россия жестко отреагировала на слова Плющенко - РИА Новости Спорт , 23 . 07 . 2026",
+                    "url": "https://ria.ru/20260723/plyuschenko-2106482545.html",
+                    "source": "ria.ru",
+                    "publishedAt": "2026-07-23T14:15:00Z"
+                  }
+                ],
+                "rank": 1
+              },
+              {
+                "title": "Народ это не забудет : Россия жестко отреагировала на слова Плющенко - РИА Новости Спорт , 23 . 07 . 2026",
+                "url": "https://ria.ru/20260723/plyuschenko-2106482545.html",
+                "source": "ria.ru",
+                "publishedAt": "2026-07-23T14:15:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "IT服务Ⅱ",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "Смерть сутенера : найден мертвым поставлявший модели педофилу Эпштейну деятель",
+                    "url": "https://www.mk.ru/incident/2026/07/23/smert-sutenera-nayden-mertvym-postavlyavshiy-modeli-pedofilu-epshteynu-deyatel.html",
+                    "source": "mk.ru",
+                    "publishedAt": "2026-07-23T06:45:00Z"
+                  },
+                  {
+                    "title": "Στρατηγική Συνεργασία μεταξύ Επιτρόπου Επικοινωνιών και Chief Scientist για ΑΙ",
+                    "url": "https://www.sigmalive.com/news/scitech/1323123/stratighiki-sinerghasia-metaksy-epitropoy-epikoinoniwn-kai-chief-scientist-ghia-ai",
+                    "source": "sigmalive.com",
+                    "publishedAt": "2026-07-23T08:30:00Z"
+                  },
+                  {
+                    "title": "Dia da Ignomínia",
+                    "url": "https://em-defesa-do-benfica.blogspot.com/2026/07/dia-da-ignominia.html",
+                    "source": "em-defesa-do-benfica.blogspot.com",
+                    "publishedAt": "2026-07-23T00:30:00Z"
+                  }
+                ],
+                "rank": 2
+              },
+              {
+                "title": "Европейские полицейские обсуждали интимные связи с подозреваемыми : попало на скрытую камеру",
+                "url": "https://www.mk.ru/incident/2026/07/23/evropeyskie-policeyskie-obsuzhdali-intimnye-svyazi-s-podozrevaemymi-popalo-na-skrytuyu-kameru.html",
+                "source": "mk.ru",
+                "publishedAt": "2026-07-23T12:15:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "IT服务Ⅱ",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "Στρατηγική Συνεργασία μεταξύ Επιτρόπου Επικοινωνιών και Chief Scientist για ΑΙ",
+                    "url": "https://www.sigmalive.com/news/scitech/1323123/stratighiki-sinerghasia-metaksy-epitropoy-epikoinoniwn-kai-chief-scientist-ghia-ai",
+                    "source": "sigmalive.com",
+                    "publishedAt": "2026-07-23T08:30:00Z"
+                  },
+                  {
+                    "title": "Народ это не забудет : Россия жестко отреагировала на слова Плющенко - РИА Новости Спорт , 23 . 07 . 2026",
+                    "url": "https://ria.ru/20260723/plyuschenko-2106482545.html",
+                    "source": "ria.ru",
+                    "publishedAt": "2026-07-23T14:15:00Z"
+                  },
+                  {
+                    "title": "Dia da Ignomínia",
+                    "url": "https://em-defesa-do-benfica.blogspot.com/2026/07/dia-da-ignominia.html",
+                    "source": "em-defesa-do-benfica.blogspot.com",
+                    "publishedAt": "2026-07-23T00:30:00Z"
+                  }
+                ],
+                "rank": 3
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "软件与信息服务",
+            "heatScore": 130,
+            "stockCount": 1,
+            "amount": 2101806933.71,
+            "bigOrderNetAmount": 174796256,
+            "topStocks": [
+              {
+                "symbol": "SZ000815",
+                "name": "美利云",
+                "heatScore": 98,
+                "changePct": 9.98,
+                "amount": 2101806933.71,
+                "turnoverRate": 17.62,
+                "bigOrderNetAmount": 174796256
+              }
+            ],
+            "news": [
+              {
+                "title": "美國 「 政 、 經 」 備忘錄 – 開欄文 - 時事論壇",
+                "url": "https://city.udn.com/2976/7295372?raid=7297326",
+                "source": "city.udn.com",
+                "publishedAt": "2026-07-23T04:15:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "软件与信息服务",
+                "discussionScore": 2,
+                "impactScore": 20,
+                "relatedReports": [
+                  {
+                    "title": "Public Notices 7 / 22 / 2026",
+                    "url": "https://thebusinessjournal.com/public-notices-7-22-2026/",
+                    "source": "thebusinessjournal.com",
+                    "publishedAt": "2026-07-23T02:15:00Z"
+                  }
+                ],
+                "rank": 1
+              },
+              {
+                "title": "Public Notices 7 / 22 / 2026",
+                "url": "https://thebusinessjournal.com/public-notices-7-22-2026/",
+                "source": "thebusinessjournal.com",
+                "publishedAt": "2026-07-23T02:15:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "软件与信息服务",
+                "discussionScore": 2,
+                "impactScore": 20,
+                "relatedReports": [
+                  {
+                    "title": "美國 「 政 、 經 」 備忘錄 – 開欄文 - 時事論壇",
+                    "url": "https://city.udn.com/2976/7295372?raid=7297326",
+                    "source": "city.udn.com",
+                    "publishedAt": "2026-07-23T04:15:00Z"
+                  }
+                ],
+                "rank": 2
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": {
+          "sectorCount": 0,
+          "newsCount": 5
+        },
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      }
+    }
+  },
   "latePortfolio": {
     "netValue": 0.9281,
     "cash": 0.37125209167258155,
@@ -294507,6 +294738,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-07-23"
+    },
+    {
+      "jobName": "news-close",
+      "startedAt": "2026-07-23T15:18:17.188Z",
+      "finishedAt": "2026-07-23T15:18:17.188Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-07-23-close"
     }
   ]
 }
