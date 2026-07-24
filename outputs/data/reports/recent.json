@@ -2033,6 +2033,50 @@
   ],
   "weeklyReports": [
     {
+      "week": "2026-30",
+      "rangeStart": "2026-07-18",
+      "rangeEnd": "2026-07-24",
+      "generatedAt": "2026-07-24T15:42:30.992Z",
+      "status": "ok",
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH600396",
+          "name": "华电辽能",
+          "appearances": 2,
+          "weeklyHeatScore": 282
+        },
+        {
+          "rank": 2,
+          "symbol": "SH603629",
+          "name": "利通电子",
+          "appearances": 2,
+          "weeklyHeatScore": 273
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ002396",
+          "name": "星网锐捷",
+          "appearances": 1,
+          "weeklyHeatScore": 141
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ000977",
+          "name": "浪潮信息",
+          "appearances": 1,
+          "weeklyHeatScore": 140
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ300604",
+          "name": "长川科技",
+          "appearances": 1,
+          "weeklyHeatScore": 139
+        }
+      ]
+    },
+    {
       "week": "2026-29",
       "rangeStart": "2026-07-11",
       "rangeEnd": "2026-07-17",
