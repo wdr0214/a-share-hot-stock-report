@@ -1,31 +1,3 @@
 {
-  "reports": [
-    {
-      "date": "2026-07-24",
-      "midday": {
-        "session": "midday",
-        "generatedAt": "2026-07-24T08:00:23.452Z",
-        "status": "ok",
-        "sectorCount": 3,
-        "sectors": [
-          {
-            "name": "半导体",
-            "heatScore": 138,
-            "newsCount": 2
-          },
-          {
-            "name": "化学制品",
-            "heatScore": 132,
-            "newsCount": 0
-          },
-          {
-            "name": "消费电子",
-            "heatScore": 127,
-            "newsCount": 1
-          }
-        ]
-      },
-      "close": null
-    }
-  ]
+  "reports": []
 }
