@@ -294488,7 +294488,138 @@
       ]
     }
   },
-  "newsReports": {},
+  "newsReports": {
+    "2026-07-24": {
+      "midday": {
+        "type": "sector-news",
+        "session": "midday",
+        "date": "2026-07-24",
+        "generatedAt": "2026-07-24T08:00:23.452Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 5,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "半导体",
+            "heatScore": 138,
+            "stockCount": 1,
+            "amount": 19022778114.67,
+            "bigOrderNetAmount": 2498942848,
+            "topStocks": [
+              {
+                "symbol": "SZ002156",
+                "name": "通富微电",
+                "heatScore": 103,
+                "changePct": 9.55,
+                "amount": 19022778114.67,
+                "turnoverRate": 16.67,
+                "bigOrderNetAmount": 2498942848
+              }
+            ],
+            "news": [
+              {
+                "title": "A股收评：超4900只个股飘绿，三大指数集体收跌",
+                "url": "https://www.chinanews.com.cn/cj/2026/07-24/10665661.shtml",
+                "source": "chinanews.com.cn",
+                "publishedAt": "2026-07-24T07:05:10.000Z",
+                "summary": "A股收评：超4900只个股飘绿，三大指数集体收跌；长鑫存储概念股大涨，半导体、银行部分上涨；贵金属全天领跌，制药、煤炭、券商下跌",
+                "provider": "rss",
+                "query": "半导体",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              },
+              {
+                "title": "A股午评：超4900只个股飘绿，三大指数收跌",
+                "url": "https://www.chinanews.com.cn/cj/2026/07-24/10665564.shtml",
+                "source": "chinanews.com.cn",
+                "publishedAt": "2026-07-24T03:35:06.000Z",
+                "summary": "A股午评：超4900只个股飘绿，三大指数收跌；能源设备、半导体、电信板块上涨，贵金属重挫，互联网、发电设备、通信设备下跌",
+                "provider": "rss",
+                "query": "半导体",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 2
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "化学制品",
+            "heatScore": 132,
+            "stockCount": 1,
+            "amount": 1010460532.23,
+            "bigOrderNetAmount": 50429544,
+            "topStocks": [
+              {
+                "symbol": "SZ300214",
+                "name": "日科化学",
+                "heatScore": 87,
+                "changePct": 16.86,
+                "amount": 1010460532.23,
+                "turnoverRate": 18.54,
+                "bigOrderNetAmount": 50429544
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "消费电子",
+            "heatScore": 127,
+            "stockCount": 1,
+            "amount": 8148621674.73,
+            "bigOrderNetAmount": 596419408,
+            "topStocks": [
+              {
+                "symbol": "SZ000021",
+                "name": "深科技",
+                "heatScore": 97,
+                "changePct": 7.57,
+                "amount": 8148621674.73,
+                "turnoverRate": 12.65,
+                "bigOrderNetAmount": 596419408
+              }
+            ],
+            "news": [
+              {
+                "title": "端正觀念篇 -- 開欄文 ： 8 個錯誤的老生常談 -- Singh Bhai - 時事論壇",
+                "url": "https://city.udn.com/2976/7253553?raid=7297342",
+                "source": "city.udn.com",
+                "publishedAt": "2026-07-24T04:30:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "消费电子",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": null,
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      }
+    }
+  },
   "latePortfolio": {
     "netValue": 0.921,
     "cash": 5.551115123125783e-17,
@@ -300375,6 +300506,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-07-24"
+    },
+    {
+      "jobName": "news-midday",
+      "startedAt": "2026-07-24T08:00:23.452Z",
+      "finishedAt": "2026-07-24T08:00:23.452Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-07-24-midday"
     }
   ]
 }
