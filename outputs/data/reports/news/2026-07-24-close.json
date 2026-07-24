@@ -1,0 +1,195 @@
+{
+  "type": "sector-news",
+  "session": "close",
+  "date": "2026-07-24",
+  "generatedAt": "2026-07-24T15:00:26.583Z",
+  "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+  "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+  "status": "ok",
+  "totalCandidates": 5,
+  "model": "deepseek-v4-flash",
+  "sectors": [
+    {
+      "name": "半导体",
+      "heatScore": 140,
+      "stockCount": 1,
+      "amount": 19817875817.69,
+      "bigOrderNetAmount": 2471768784,
+      "topStocks": [
+        {
+          "symbol": "SZ002156",
+          "name": "通富微电",
+          "heatScore": 104,
+          "changePct": 9.77,
+          "amount": 19817875817.69,
+          "turnoverRate": 17.36,
+          "bigOrderNetAmount": 2471768784
+        }
+      ],
+      "news": [
+        {
+          "title": "CWA issues sea warning for Tropical Storm Noul",
+          "url": "https://www.taipeitimes.com/News/taiwan/archives/2026/07/24/2003861314",
+          "source": "taipeitimes.com",
+          "publishedAt": "2026-07-24T04:45:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "半导体",
+          "discussionScore": 1,
+          "impactScore": 12,
+          "relatedReports": [],
+          "rank": 1
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "化学制品",
+      "heatScore": 129,
+      "stockCount": 1,
+      "amount": 1036713164.23,
+      "bigOrderNetAmount": 51364968,
+      "topStocks": [
+        {
+          "symbol": "SZ300214",
+          "name": "日科化学",
+          "heatScore": 87,
+          "changePct": 15.59,
+          "amount": 1036713164.23,
+          "turnoverRate": 19.02,
+          "bigOrderNetAmount": 51364968
+        }
+      ],
+      "news": [
+        {
+          "title": "端正觀念篇 -- 開欄文 ： 8 個錯誤的老生常談 -- Singh Bhai - 時事論壇",
+          "url": "https://city.udn.com/2976/7253553?raid=7297342",
+          "source": "city.udn.com",
+          "publishedAt": "2026-07-24T04:30:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "化学制品",
+          "discussionScore": 4,
+          "impactScore": 36,
+          "relatedReports": [
+            {
+              "title": "Kamui - san Directly Behind You Anime Previews 4th Episode",
+              "url": "https://www.fandompost.com/2026/07/23/kamui-san-directly-behind-you-anime-previews-4th-episode/",
+              "source": "fandompost.com",
+              "publishedAt": "2026-07-24T03:00:00Z"
+            },
+            {
+              "title": "Mastering Your Benefits : The Complete Guide To CVS Aetna OTC Login And Maximizing Your 2024 Health Rewards",
+              "url": "https://www.unitaid.eu/aetna-otc-login-maximizing-your-b2x7.html",
+              "source": "unitaid.eu",
+              "publishedAt": "2026-07-24T03:00:00Z"
+            },
+            {
+              "title": "Lynch And Sons Lapeer MI : A Compassionate Guide To Local Funeral Services And Obituaries",
+              "url": "https://www.unitaid.eu/compassionate-guide-local-funeral-services-7bjt.html",
+              "source": "unitaid.eu",
+              "publishedAt": "2026-07-24T03:00:00Z"
+            }
+          ],
+          "rank": 1
+        },
+        {
+          "title": "Kamui - san Directly Behind You Anime Previews 4th Episode",
+          "url": "https://www.fandompost.com/2026/07/23/kamui-san-directly-behind-you-anime-previews-4th-episode/",
+          "source": "fandompost.com",
+          "publishedAt": "2026-07-24T03:00:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "化学制品",
+          "discussionScore": 4,
+          "impactScore": 36,
+          "relatedReports": [
+            {
+              "title": "Mastering Your Benefits : The Complete Guide To CVS Aetna OTC Login And Maximizing Your 2024 Health Rewards",
+              "url": "https://www.unitaid.eu/aetna-otc-login-maximizing-your-b2x7.html",
+              "source": "unitaid.eu",
+              "publishedAt": "2026-07-24T03:00:00Z"
+            },
+            {
+              "title": "Lynch And Sons Lapeer MI : A Compassionate Guide To Local Funeral Services And Obituaries",
+              "url": "https://www.unitaid.eu/compassionate-guide-local-funeral-services-7bjt.html",
+              "source": "unitaid.eu",
+              "publishedAt": "2026-07-24T03:00:00Z"
+            },
+            {
+              "title": "端正觀念篇 -- 開欄文 ： 8 個錯誤的老生常談 -- Singh Bhai - 時事論壇",
+              "url": "https://city.udn.com/2976/7253553?raid=7297342",
+              "source": "city.udn.com",
+              "publishedAt": "2026-07-24T04:30:00Z"
+            }
+          ],
+          "rank": 2
+        },
+        {
+          "title": "Mastering Your Benefits : The Complete Guide To CVS Aetna OTC Login And Maximizing Your 2024 Health Rewards",
+          "url": "https://www.unitaid.eu/aetna-otc-login-maximizing-your-b2x7.html",
+          "source": "unitaid.eu",
+          "publishedAt": "2026-07-24T03:00:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "化学制品",
+          "discussionScore": 3,
+          "impactScore": 28,
+          "relatedReports": [
+            {
+              "title": "Kamui - san Directly Behind You Anime Previews 4th Episode",
+              "url": "https://www.fandompost.com/2026/07/23/kamui-san-directly-behind-you-anime-previews-4th-episode/",
+              "source": "fandompost.com",
+              "publishedAt": "2026-07-24T03:00:00Z"
+            },
+            {
+              "title": "端正觀念篇 -- 開欄文 ： 8 個錯誤的老生常談 -- Singh Bhai - 時事論壇",
+              "url": "https://city.udn.com/2976/7253553?raid=7297342",
+              "source": "city.udn.com",
+              "publishedAt": "2026-07-24T04:30:00Z"
+            }
+          ],
+          "rank": 3
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "消费电子",
+      "heatScore": 127,
+      "stockCount": 1,
+      "amount": 8593148112.45,
+      "bigOrderNetAmount": 588682192,
+      "topStocks": [
+        {
+          "symbol": "SZ000021",
+          "name": "深科技",
+          "heatScore": 97,
+          "changePct": 7.42,
+          "amount": 8593148112.45,
+          "turnoverRate": 13.32,
+          "bigOrderNetAmount": 588682192
+        }
+      ],
+      "news": [],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    }
+  ],
+  "excludedMidday": {
+    "sectorCount": 0,
+    "newsCount": 4
+  },
+  "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+}
