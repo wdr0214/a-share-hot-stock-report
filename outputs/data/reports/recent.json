@@ -2331,5 +2331,33 @@
       ]
     }
   ],
-  "newsReports": []
+  "newsReports": [
+    {
+      "date": "2026-07-27",
+      "midday": {
+        "session": "midday",
+        "generatedAt": "2026-07-27T08:59:50.379Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "玻璃玻纤",
+            "heatScore": 157,
+            "newsCount": 0
+          },
+          {
+            "name": "半导体",
+            "heatScore": 139,
+            "newsCount": 2
+          },
+          {
+            "name": "软件与信息服务",
+            "heatScore": 139,
+            "newsCount": 0
+          }
+        ]
+      },
+      "close": null
+    }
+  ]
 }

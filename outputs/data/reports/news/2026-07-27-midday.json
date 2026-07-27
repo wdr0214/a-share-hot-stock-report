@@ -1,0 +1,128 @@
+{
+  "type": "sector-news",
+  "session": "midday",
+  "date": "2026-07-27",
+  "generatedAt": "2026-07-27T08:59:50.379Z",
+  "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+  "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+  "status": "ok",
+  "totalCandidates": 6,
+  "model": "deepseek-v4-flash",
+  "sectors": [
+    {
+      "name": "玻璃玻纤",
+      "heatScore": 157,
+      "stockCount": 1,
+      "amount": 6471469115.82,
+      "bigOrderNetAmount": 1144868912,
+      "topStocks": [
+        {
+          "symbol": "SZ301526",
+          "name": "国际复材",
+          "heatScore": 103,
+          "changePct": 20,
+          "amount": 6471469115.82,
+          "turnoverRate": 16.06,
+          "bigOrderNetAmount": 1144868912
+        }
+      ],
+      "news": [],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "半导体",
+      "heatScore": 139,
+      "stockCount": 1,
+      "amount": 8579165121.39,
+      "bigOrderNetAmount": 1174972912,
+      "topStocks": [
+        {
+          "symbol": "SZ002409",
+          "name": "雅克科技",
+          "heatScore": 104,
+          "changePct": 10,
+          "amount": 8579165121.39,
+          "turnoverRate": 16.45,
+          "bigOrderNetAmount": 1174972912
+        }
+      ],
+      "news": [
+        {
+          "title": "资本市场押注硬科技 中国半导体企业首登A股市值榜首",
+          "url": "https://www.chinanews.com.cn/cj/2026/07-27/10667308.shtml",
+          "source": "chinanews.com.cn",
+          "publishedAt": "2026-07-27T08:33:23.000Z",
+          "summary": "A股新市值王诞生！",
+          "provider": "rss",
+          "query": "半导体",
+          "discussionScore": 2,
+          "impactScore": 20,
+          "relatedReports": [
+            {
+              "title": "Ucentral Stanleyblackanddecker",
+              "url": "https://www.unitaid.eu/ucentral-stanleyblackanddecker-3k6x.html",
+              "source": "unitaid.eu",
+              "publishedAt": "2026-07-27T08:15:00Z"
+            }
+          ],
+          "rank": 1
+        },
+        {
+          "title": "Ucentral Stanleyblackanddecker",
+          "url": "https://www.unitaid.eu/ucentral-stanleyblackanddecker-3k6x.html",
+          "source": "unitaid.eu",
+          "publishedAt": "2026-07-27T08:15:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "半导体",
+          "discussionScore": 2,
+          "impactScore": 20,
+          "relatedReports": [
+            {
+              "title": "资本市场押注硬科技 中国半导体企业首登A股市值榜首",
+              "url": "https://www.chinanews.com.cn/cj/2026/07-27/10667308.shtml",
+              "source": "chinanews.com.cn",
+              "publishedAt": "2026-07-27T08:33:23.000Z"
+            }
+          ],
+          "rank": 2
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "软件与信息服务",
+      "heatScore": 139,
+      "stockCount": 1,
+      "amount": 8579165121.39,
+      "bigOrderNetAmount": 1174972912,
+      "topStocks": [
+        {
+          "symbol": "SZ002409",
+          "name": "雅克科技",
+          "heatScore": 104,
+          "changePct": 10,
+          "amount": 8579165121.39,
+          "turnoverRate": 16.45,
+          "bigOrderNetAmount": 1174972912
+        }
+      ],
+      "news": [],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    }
+  ],
+  "excludedMidday": null,
+  "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+}
