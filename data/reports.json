@@ -312933,6 +312933,110 @@
         ],
         "excludedMidday": null,
         "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      },
+      "close": {
+        "type": "sector-news",
+        "session": "close",
+        "date": "2026-07-27",
+        "generatedAt": "2026-07-27T15:50:21.998Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 6,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "化学制品",
+            "heatScore": 138,
+            "stockCount": 1,
+            "amount": 6656065210.34,
+            "bigOrderNetAmount": 482164560,
+            "topStocks": [
+              {
+                "symbol": "SZ002407",
+                "name": "多氟多",
+                "heatScore": 104,
+                "changePct": 9.99,
+                "amount": 6656065210.34,
+                "turnoverRate": 19.54,
+                "bigOrderNetAmount": 482164560
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "地面兵装Ⅱ",
+            "heatScore": 136,
+            "stockCount": 1,
+            "amount": 2455893259,
+            "bigOrderNetAmount": 196087920,
+            "topStocks": [
+              {
+                "symbol": "SH601606",
+                "name": "长城军工",
+                "heatScore": 103,
+                "changePct": 10.02,
+                "amount": 2455893259,
+                "turnoverRate": 9.83,
+                "bigOrderNetAmount": 196087920
+              }
+            ],
+            "news": [
+              {
+                "title": "Charting a New Course : Countering China Dominance in Global Shipbuilding | Hellenic Shipping News Worldwide",
+                "url": "https://www.hellenicshippingnews.com/charting-a-new-course-countering-chinas-dominance-in-global-shipbuilding/",
+                "source": "hellenicshippingnews.com",
+                "publishedAt": "2026-07-27T00:00:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "长城军工",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "军工装备",
+            "heatScore": 136,
+            "stockCount": 1,
+            "amount": 2455893259,
+            "bigOrderNetAmount": 196087920,
+            "topStocks": [
+              {
+                "symbol": "SH601606",
+                "name": "长城军工",
+                "heatScore": 103,
+                "changePct": 10.02,
+                "amount": 2455893259,
+                "turnoverRate": 9.83,
+                "bigOrderNetAmount": 196087920
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": {
+          "sectorCount": 3,
+          "newsCount": 3
+        },
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
       }
     }
   },
@@ -319206,6 +319310,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-07-27-midday"
+    },
+    {
+      "jobName": "news-close",
+      "startedAt": "2026-07-27T15:50:21.998Z",
+      "finishedAt": "2026-07-27T15:50:21.998Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-07-27-close"
     }
   ]
 }
