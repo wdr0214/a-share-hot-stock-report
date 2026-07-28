@@ -1,0 +1,158 @@
+{
+  "type": "sector-news",
+  "session": "close",
+  "date": "2026-07-28",
+  "generatedAt": "2026-07-28T15:31:27.133Z",
+  "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+  "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+  "status": "ok",
+  "totalCandidates": 7,
+  "model": "deepseek-v4-flash",
+  "sectors": [
+    {
+      "name": "软件与信息服务",
+      "heatScore": 238,
+      "stockCount": 2,
+      "amount": 1378737637.87,
+      "bigOrderNetAmount": 240727352,
+      "topStocks": [
+        {
+          "symbol": "SH600756",
+          "name": "浪潮软件",
+          "heatScore": 89,
+          "changePct": 10.01,
+          "amount": 632635769,
+          "turnoverRate": 13.05,
+          "bigOrderNetAmount": 149873044
+        },
+        {
+          "symbol": "SZ300369",
+          "name": "绿盟科技",
+          "heatScore": 89,
+          "changePct": 9.84,
+          "amount": 746101868.87,
+          "turnoverRate": 13.62,
+          "bigOrderNetAmount": 90854308
+        }
+      ],
+      "news": [
+        {
+          "title": "Sales halted as more camellia oil fails carcinogen test",
+          "url": "https://www.taipeitimes.com/News/taiwan/archives/2026/07/28/2003861527",
+          "source": "taipeitimes.com",
+          "publishedAt": "2026-07-28T04:15:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "绿盟科技",
+          "discussionScore": 1,
+          "impactScore": 12,
+          "relatedReports": [],
+          "rank": 1
+        },
+        {
+          "title": "Public Notices 7 / 27 / 2026",
+          "url": "https://thebusinessjournal.com/public-notices-7-27-2026/",
+          "source": "thebusinessjournal.com",
+          "publishedAt": "2026-07-28T03:45:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "软件与信息服务",
+          "discussionScore": 1,
+          "impactScore": 12,
+          "relatedReports": [],
+          "rank": 2
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "电力",
+      "heatScore": 226,
+      "stockCount": 2,
+      "amount": 6584661316.72,
+      "bigOrderNetAmount": 303819350,
+      "topStocks": [
+        {
+          "symbol": "SZ002310",
+          "name": "东方新能",
+          "heatScore": 89,
+          "changePct": 9.96,
+          "amount": 1057893752.72,
+          "turnoverRate": 9.26,
+          "bigOrderNetAmount": 100833270
+        },
+        {
+          "symbol": "SH600396",
+          "name": "华电辽能",
+          "heatScore": 81,
+          "changePct": 5.74,
+          "amount": 5526767564,
+          "turnoverRate": 23.53,
+          "bigOrderNetAmount": 202986080
+        }
+      ],
+      "news": [],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "能源电力",
+      "heatScore": 226,
+      "stockCount": 2,
+      "amount": 6584661316.72,
+      "bigOrderNetAmount": 303819350,
+      "topStocks": [
+        {
+          "symbol": "SZ002310",
+          "name": "东方新能",
+          "heatScore": 89,
+          "changePct": 9.96,
+          "amount": 1057893752.72,
+          "turnoverRate": 9.26,
+          "bigOrderNetAmount": 100833270
+        },
+        {
+          "symbol": "SH600396",
+          "name": "华电辽能",
+          "heatScore": 81,
+          "changePct": 5.74,
+          "amount": 5526767564,
+          "turnoverRate": 23.53,
+          "bigOrderNetAmount": 202986080
+        }
+      ],
+      "news": [
+        {
+          "title": "Xiaomi unveils Skynomad Kunlun EREV specs : 92 - octane gas and 5 . 7L fuel economy ahead of July 30 debut",
+          "url": "https://carnewschina.com/2026/07/28/xiaomi-unveils-skynomad-kunlun-erev-specs-92-octane-gas-and-5-7l-fuel-economy-ahead-of-july-30-debut/",
+          "source": "carnewschina.com",
+          "publishedAt": "2026-07-28T10:15:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "东方新能",
+          "discussionScore": 1,
+          "impactScore": 12,
+          "relatedReports": [],
+          "rank": 1
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    }
+  ],
+  "excludedMidday": {
+    "sectorCount": 0,
+    "newsCount": 3
+  },
+  "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+}
