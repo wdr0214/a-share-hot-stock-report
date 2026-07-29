@@ -25,7 +25,24 @@
           }
         ]
       },
-      "close": null
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-07-29T15:13:20.113Z",
+        "status": "ok",
+        "sectorCount": 2,
+        "sectors": [
+          {
+            "name": "电网设备",
+            "heatScore": 131,
+            "newsCount": 0
+          },
+          {
+            "name": "农化制品",
+            "heatScore": 119,
+            "newsCount": 3
+          }
+        ]
+      }
     }
   ]
 }
