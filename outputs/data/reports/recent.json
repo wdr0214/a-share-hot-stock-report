@@ -2487,5 +2487,33 @@
       ]
     }
   ],
-  "newsReports": []
+  "newsReports": [
+    {
+      "date": "2026-07-29",
+      "midday": {
+        "session": "midday",
+        "generatedAt": "2026-07-29T08:10:39.746Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "元件",
+            "heatScore": 261,
+            "newsCount": 0
+          },
+          {
+            "name": "电池",
+            "heatScore": 138,
+            "newsCount": 0
+          },
+          {
+            "name": "汽车与新能源",
+            "heatScore": 138,
+            "newsCount": 1
+          }
+        ]
+      },
+      "close": null
+    }
+  ]
 }
