@@ -2423,6 +2423,50 @@
   ],
   "weeklyReports": [
     {
+      "week": "2026-31",
+      "rangeStart": "2026-07-25",
+      "rangeEnd": "2026-07-31",
+      "generatedAt": "2026-07-31T16:09:54.794Z",
+      "status": "ok",
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ301526",
+          "name": "国际复材",
+          "appearances": 2,
+          "weeklyHeatScore": 281
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300058",
+          "name": "蓝色光标",
+          "appearances": 1,
+          "weeklyHeatScore": 135
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ300454",
+          "name": "深信服",
+          "appearances": 1,
+          "weeklyHeatScore": 133
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ002141",
+          "name": "贤丰控股",
+          "appearances": 1,
+          "weeklyHeatScore": 132
+        },
+        {
+          "rank": 5,
+          "symbol": "SH601606",
+          "name": "长城军工",
+          "appearances": 1,
+          "weeklyHeatScore": 131
+        }
+      ]
+    },
+    {
       "week": "2026-30",
       "rangeStart": "2026-07-18",
       "rangeEnd": "2026-07-24",
