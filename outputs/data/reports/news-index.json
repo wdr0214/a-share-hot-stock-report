@@ -1,3 +1,31 @@
 {
-  "reports": []
+  "reports": [
+    {
+      "date": "2026-07-31",
+      "midday": {
+        "session": "midday",
+        "generatedAt": "2026-07-31T08:23:14.233Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "广告营销",
+            "heatScore": 320,
+            "newsCount": 1
+          },
+          {
+            "name": "软件与信息服务",
+            "heatScore": 300,
+            "newsCount": 2
+          },
+          {
+            "name": "数字媒体",
+            "heatScore": 164,
+            "newsCount": 1
+          }
+        ]
+      },
+      "close": null
+    }
+  ]
 }
