@@ -2669,7 +2669,24 @@
           }
         ]
       },
-      "close": null
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-07-31T15:24:50.693Z",
+        "status": "ok",
+        "sectorCount": 2,
+        "sectors": [
+          {
+            "name": "IT服务Ⅱ",
+            "heatScore": 155,
+            "newsCount": 3
+          },
+          {
+            "name": "软件开发",
+            "heatScore": 144,
+            "newsCount": 0
+          }
+        ]
+      }
     }
   ]
 }
