@@ -5619,5 +5619,257 @@
         "todayCloseVsOpenPct": 13.080568720379137
       }
     ]
-  }
+  },
+  "dailyPortfolio": {
+    "date": "2026-07-31",
+    "previousDate": "2026-07-30",
+    "netValue": 0.6555,
+    "cash": 0.131092,
+    "holdings": [
+      {
+        "symbol": "SZ301526",
+        "name": "国际复材",
+        "entryPrice": 35.88,
+        "shares": 0.003653624885224856,
+        "allocation": 0.13109206088186784,
+        "date": "2026-07-31",
+        "sourceReportDate": "2026-07-30"
+      },
+      {
+        "symbol": "SH600105",
+        "name": "永鼎股份",
+        "entryPrice": 35.26,
+        "shares": 0.0037178689983513287,
+        "allocation": 0.13109206088186784,
+        "date": "2026-07-31",
+        "sourceReportDate": "2026-07-30"
+      },
+      {
+        "symbol": "SZ001309",
+        "name": "德明利",
+        "entryPrice": 429.04,
+        "shares": 0.000305547410222515,
+        "allocation": 0.13109206088186784,
+        "date": "2026-07-31",
+        "sourceReportDate": "2026-07-30"
+      },
+      {
+        "symbol": "SH603137",
+        "name": "恒尚节能",
+        "entryPrice": 28.83,
+        "shares": 0.004547071137074847,
+        "allocation": 0.13109206088186784,
+        "date": "2026-07-31",
+        "sourceReportDate": "2026-07-30"
+      }
+    ],
+    "sold": [
+      {
+        "symbol": "SZ002141",
+        "name": "贤丰控股",
+        "entryPrice": 6.4,
+        "sellPrice": 5.82,
+        "returnPct": -9.062500000000002
+      },
+      {
+        "symbol": "SZ002580",
+        "name": "圣阳股份",
+        "entryPrice": 18.54,
+        "sellPrice": 17.56,
+        "returnPct": -5.285868392664512
+      },
+      {
+        "symbol": "SZ002498",
+        "name": "汉缆股份",
+        "entryPrice": 7,
+        "sellPrice": 6.74,
+        "returnPct": -3.714285714285711
+      },
+      {
+        "symbol": "SH600227",
+        "name": "赤天化",
+        "entryPrice": 3.38,
+        "sellPrice": 3.13,
+        "returnPct": -7.396449704142012
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SZ301526",
+        "name": "国际复材",
+        "skipped": false,
+        "buyPrice": 35.88,
+        "allocation": 0.13109206088186784,
+        "open": 35.88,
+        "low": 31.89,
+        "limitUpPrice": 39.52,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH600105",
+        "name": "永鼎股份",
+        "skipped": false,
+        "buyPrice": 35.26,
+        "allocation": 0.13109206088186784,
+        "open": 35.26,
+        "low": 32.01,
+        "limitUpPrice": 36.26,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ001309",
+        "name": "德明利",
+        "skipped": false,
+        "buyPrice": 429.04,
+        "allocation": 0.13109206088186784,
+        "open": 429.04,
+        "low": 385.04,
+        "limitUpPrice": 429.04,
+        "buyReason": "limit_up_open_but_tradable_low"
+      },
+      {
+        "symbol": "SH603137",
+        "name": "恒尚节能",
+        "skipped": false,
+        "buyPrice": 28.83,
+        "allocation": 0.13109206088186784,
+        "open": 28.83,
+        "low": 24.91,
+        "limitUpPrice": 28.83,
+        "buyReason": "limit_up_open_but_tradable_low"
+      },
+      {
+        "symbol": "SZ300164",
+        "name": "通源石油",
+        "skipped": true,
+        "reason": "cash_or_allocation_insufficient"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-23",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-24",
+      "netValue": 0.9558
+    },
+    {
+      "date": "2026-06-25",
+      "netValue": 1.0656
+    },
+    {
+      "date": "2026-06-26",
+      "netValue": 1.0945
+    },
+    {
+      "date": "2026-06-29",
+      "netValue": 1.1143
+    },
+    {
+      "date": "2026-06-30",
+      "netValue": 1.0981
+    },
+    {
+      "date": "2026-07-01",
+      "netValue": 1.1351
+    },
+    {
+      "date": "2026-07-02",
+      "netValue": 1.0834
+    },
+    {
+      "date": "2026-07-03",
+      "netValue": 1.029
+    },
+    {
+      "date": "2026-07-06",
+      "netValue": 0.9792
+    },
+    {
+      "date": "2026-07-07",
+      "netValue": 0.9963
+    },
+    {
+      "date": "2026-07-08",
+      "netValue": 0.9858
+    },
+    {
+      "date": "2026-07-09",
+      "netValue": 0.9461
+    },
+    {
+      "date": "2026-07-10",
+      "netValue": 0.9717
+    },
+    {
+      "date": "2026-07-13",
+      "netValue": 0.9057
+    },
+    {
+      "date": "2026-07-14",
+      "netValue": 0.8528
+    },
+    {
+      "date": "2026-07-15",
+      "netValue": 0.88
+    },
+    {
+      "date": "2026-07-16",
+      "netValue": 0.7928
+    },
+    {
+      "date": "2026-07-17",
+      "netValue": 0.7737
+    },
+    {
+      "date": "2026-07-20",
+      "netValue": 0.7686
+    },
+    {
+      "date": "2026-07-21",
+      "netValue": 0.6865
+    },
+    {
+      "date": "2026-07-22",
+      "netValue": 0.7365
+    },
+    {
+      "date": "2026-07-23",
+      "netValue": 0.7508
+    },
+    {
+      "date": "2026-07-24",
+      "netValue": 0.7099
+    },
+    {
+      "date": "2026-07-27",
+      "netValue": 0.6981
+    },
+    {
+      "date": "2026-07-28",
+      "netValue": 0.7469
+    },
+    {
+      "date": "2026-07-29",
+      "netValue": 0.7132
+    },
+    {
+      "date": "2026-07-30",
+      "netValue": 0.6906
+    },
+    {
+      "date": "2026-07-31",
+      "netValue": 0.6555
+    }
+  ]
 }
