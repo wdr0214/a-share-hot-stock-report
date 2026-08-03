@@ -1,3 +1,31 @@
 {
-  "reports": []
+  "reports": [
+    {
+      "date": "2026-08-03",
+      "midday": {
+        "session": "midday",
+        "generatedAt": "2026-08-03T08:54:45.219Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "化学制品",
+            "heatScore": 248,
+            "newsCount": 1
+          },
+          {
+            "name": "电力",
+            "heatScore": 132,
+            "newsCount": 0
+          },
+          {
+            "name": "能源电力",
+            "heatScore": 132,
+            "newsCount": 0
+          }
+        ]
+      },
+      "close": null
+    }
+  ]
 }

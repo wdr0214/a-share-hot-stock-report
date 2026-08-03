@@ -371150,7 +371150,120 @@
       ]
     }
   },
-  "newsReports": {},
+  "newsReports": {
+    "2026-08-03": {
+      "midday": {
+        "type": "sector-news",
+        "session": "midday",
+        "date": "2026-08-03",
+        "generatedAt": "2026-08-03T08:54:45.219Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 6,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "化学制品",
+            "heatScore": 248,
+            "stockCount": 2,
+            "amount": 2554731697.75,
+            "bigOrderNetAmount": 244866589,
+            "topStocks": [
+              {
+                "symbol": "SZ300214",
+                "name": "日科化学",
+                "heatScore": 93,
+                "changePct": 10.95,
+                "amount": 1015412528.75,
+                "turnoverRate": 17.66,
+                "bigOrderNetAmount": 162885837
+              },
+              {
+                "symbol": "SH603823",
+                "name": "百合花",
+                "heatScore": 90,
+                "changePct": 10,
+                "amount": 1539319169,
+                "turnoverRate": 7.66,
+                "bigOrderNetAmount": 81980752
+              }
+            ],
+            "news": [
+              {
+                "title": "中東風雲錄 -- 開欄文 ： 埃及的加薩重建方案 -- Al Jazeera - 時事論壇",
+                "url": "https://city.udn.com/2976/7247690?raid=7297526",
+                "source": "city.udn.com",
+                "publishedAt": "2026-08-03T04:00:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "日科化学",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "电力",
+            "heatScore": 132,
+            "stockCount": 1,
+            "amount": 3410004641,
+            "bigOrderNetAmount": 960662056,
+            "topStocks": [
+              {
+                "symbol": "SH600396",
+                "name": "华电辽能",
+                "heatScore": 99,
+                "changePct": 10,
+                "amount": 3410004641,
+                "turnoverRate": 15.62,
+                "bigOrderNetAmount": 960662056
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "能源电力",
+            "heatScore": 132,
+            "stockCount": 1,
+            "amount": 3410004641,
+            "bigOrderNetAmount": 960662056,
+            "topStocks": [
+              {
+                "symbol": "SH600396",
+                "name": "华电辽能",
+                "heatScore": 99,
+                "changePct": 10,
+                "amount": 3410004641,
+                "turnoverRate": 15.62,
+                "bigOrderNetAmount": 960662056
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": null,
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      }
+    }
+  },
   "latePortfolio": {
     "netValue": 0.9201,
     "cash": 0.5520637836522464,
@@ -378573,6 +378686,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-08-03"
+    },
+    {
+      "jobName": "news-midday",
+      "startedAt": "2026-08-03T08:54:45.219Z",
+      "finishedAt": "2026-08-03T08:54:45.219Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-08-03-midday"
     }
   ]
 }
