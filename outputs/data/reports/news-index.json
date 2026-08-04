@@ -1,3 +1,31 @@
 {
-  "reports": []
+  "reports": [
+    {
+      "date": "2026-08-04",
+      "midday": null,
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-08-04T15:30:06.872Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "软件与信息服务",
+            "heatScore": 309,
+            "newsCount": 3
+          },
+          {
+            "name": "软件开发",
+            "heatScore": 159,
+            "newsCount": 3
+          },
+          {
+            "name": "光学光电子",
+            "heatScore": 150,
+            "newsCount": 0
+          }
+        ]
+      }
+    }
+  ]
 }
