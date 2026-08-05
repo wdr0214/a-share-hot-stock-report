@@ -1291,6 +1291,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-08-05",
+      "generatedAt": "2026-08-05T06:50:25.463Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ301526",
+          "name": "国际复材",
+          "heatScore": 123
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300489",
+          "name": "光智科技",
+          "heatScore": 116
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ301396",
+          "name": "宏景科技",
+          "heatScore": 115
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ000636",
+          "name": "风华高科",
+          "heatScore": 110
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ300285",
+          "name": "国瓷材料",
+          "heatScore": 109
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-08-04",
       "generatedAt": "2026-08-04T06:50:25.113Z",
       "status": "ok",
@@ -2575,301 +2614,6 @@
           "heatScore": 118
         }
       ]
-    }
-  ],
-  "weeklyReports": [
-    {
-      "week": "2026-31",
-      "rangeStart": "2026-07-25",
-      "rangeEnd": "2026-07-31",
-      "generatedAt": "2026-07-31T16:09:54.794Z",
-      "status": "ok",
-      "stocks": [
-        {
-          "rank": 1,
-          "symbol": "SZ301526",
-          "name": "国际复材",
-          "appearances": 2,
-          "weeklyHeatScore": 281
-        },
-        {
-          "rank": 2,
-          "symbol": "SZ300058",
-          "name": "蓝色光标",
-          "appearances": 1,
-          "weeklyHeatScore": 135
-        },
-        {
-          "rank": 3,
-          "symbol": "SZ300454",
-          "name": "深信服",
-          "appearances": 1,
-          "weeklyHeatScore": 133
-        },
-        {
-          "rank": 4,
-          "symbol": "SZ002141",
-          "name": "贤丰控股",
-          "appearances": 1,
-          "weeklyHeatScore": 132
-        },
-        {
-          "rank": 5,
-          "symbol": "SH601606",
-          "name": "长城军工",
-          "appearances": 1,
-          "weeklyHeatScore": 131
-        }
-      ]
-    },
-    {
-      "week": "2026-30",
-      "rangeStart": "2026-07-18",
-      "rangeEnd": "2026-07-24",
-      "generatedAt": "2026-07-24T15:42:30.992Z",
-      "status": "ok",
-      "stocks": [
-        {
-          "rank": 1,
-          "symbol": "SH600396",
-          "name": "华电辽能",
-          "appearances": 2,
-          "weeklyHeatScore": 282
-        },
-        {
-          "rank": 2,
-          "symbol": "SH603629",
-          "name": "利通电子",
-          "appearances": 2,
-          "weeklyHeatScore": 273
-        },
-        {
-          "rank": 3,
-          "symbol": "SZ002396",
-          "name": "星网锐捷",
-          "appearances": 1,
-          "weeklyHeatScore": 141
-        },
-        {
-          "rank": 4,
-          "symbol": "SZ000977",
-          "name": "浪潮信息",
-          "appearances": 1,
-          "weeklyHeatScore": 140
-        },
-        {
-          "rank": 5,
-          "symbol": "SZ300604",
-          "name": "长川科技",
-          "appearances": 1,
-          "weeklyHeatScore": 139
-        }
-      ]
-    },
-    {
-      "week": "2026-29",
-      "rangeStart": "2026-07-11",
-      "rangeEnd": "2026-07-17",
-      "generatedAt": "2026-07-17T15:37:14.557Z",
-      "status": "ok",
-      "stocks": [
-        {
-          "rank": 1,
-          "symbol": "SZ002396",
-          "name": "星网锐捷",
-          "appearances": 2,
-          "weeklyHeatScore": 260
-        },
-        {
-          "rank": 2,
-          "symbol": "SZ002432",
-          "name": "九安医疗",
-          "appearances": 2,
-          "weeklyHeatScore": 253
-        },
-        {
-          "rank": 3,
-          "symbol": "SZ300209",
-          "name": "行云科技",
-          "appearances": 1,
-          "weeklyHeatScore": 148
-        },
-        {
-          "rank": 4,
-          "symbol": "SZ000636",
-          "name": "风华高科",
-          "appearances": 1,
-          "weeklyHeatScore": 144
-        },
-        {
-          "rank": 5,
-          "symbol": "SZ301526",
-          "name": "国际复材",
-          "appearances": 1,
-          "weeklyHeatScore": 142
-        }
-      ]
-    },
-    {
-      "week": "2026-28",
-      "rangeStart": "2026-07-04",
-      "rangeEnd": "2026-07-10",
-      "generatedAt": "2026-07-10T19:09:48.931Z",
-      "status": "ok",
-      "stocks": [
-        {
-          "rank": 1,
-          "symbol": "SZ000938",
-          "name": "紫光股份",
-          "appearances": 3,
-          "weeklyHeatScore": 407
-        },
-        {
-          "rank": 2,
-          "symbol": "SZ002185",
-          "name": "华天科技",
-          "appearances": 2,
-          "weeklyHeatScore": 287
-        },
-        {
-          "rank": 3,
-          "symbol": "SH600584",
-          "name": "长电科技",
-          "appearances": 2,
-          "weeklyHeatScore": 277
-        },
-        {
-          "rank": 4,
-          "symbol": "SZ300821",
-          "name": "东岳硅材",
-          "appearances": 2,
-          "weeklyHeatScore": 263
-        },
-        {
-          "rank": 5,
-          "symbol": "SZ000977",
-          "name": "浪潮信息",
-          "appearances": 1,
-          "weeklyHeatScore": 148
-        }
-      ]
-    },
-    {
-      "week": "2026-27",
-      "rangeStart": "2026-06-29",
-      "rangeEnd": "2026-07-05",
-      "generatedAt": "2026-07-05T15:12:48.353Z",
-      "status": "ok",
-      "stocks": [
-        {
-          "rank": 1,
-          "symbol": "SH600378",
-          "name": "昊华科技",
-          "appearances": 2,
-          "weeklyHeatScore": 283
-        },
-        {
-          "rank": 2,
-          "symbol": "SH600667",
-          "name": "太极实业",
-          "appearances": 1,
-          "weeklyHeatScore": 144
-        },
-        {
-          "rank": 3,
-          "symbol": "SZ300975",
-          "name": "商络电子",
-          "appearances": 1,
-          "weeklyHeatScore": 144
-        },
-        {
-          "rank": 4,
-          "symbol": "SZ000988",
-          "name": "华工科技",
-          "appearances": 1,
-          "weeklyHeatScore": 143
-        },
-        {
-          "rank": 5,
-          "symbol": "SZ002747",
-          "name": "埃斯顿",
-          "appearances": 1,
-          "weeklyHeatScore": 142
-        }
-      ]
-    },
-    {
-      "week": "2026-26",
-      "rangeStart": "2026-06-20",
-      "rangeEnd": "2026-06-26",
-      "generatedAt": "2026-06-26T20:23:08.847Z",
-      "status": "ok",
-      "stocks": [
-        {
-          "rank": 1,
-          "symbol": "SH600584",
-          "name": "长电科技",
-          "appearances": 2,
-          "weeklyHeatScore": 285
-        },
-        {
-          "rank": 2,
-          "symbol": "SZ002008",
-          "name": "大族激光",
-          "appearances": 1,
-          "weeklyHeatScore": 147
-        },
-        {
-          "rank": 3,
-          "symbol": "SZ300088",
-          "name": "长信科技",
-          "appearances": 1,
-          "weeklyHeatScore": 145
-        },
-        {
-          "rank": 4,
-          "symbol": "SZ300223",
-          "name": "北京君正",
-          "appearances": 1,
-          "weeklyHeatScore": 144
-        },
-        {
-          "rank": 5,
-          "symbol": "SH603986",
-          "name": "兆易创新",
-          "appearances": 1,
-          "weeklyHeatScore": 144
-        }
-      ]
-    }
-  ],
-  "newsReports": [
-    {
-      "date": "2026-08-04",
-      "midday": null,
-      "close": {
-        "session": "close",
-        "generatedAt": "2026-08-04T15:30:06.872Z",
-        "status": "ok",
-        "sectorCount": 3,
-        "sectors": [
-          {
-            "name": "软件与信息服务",
-            "heatScore": 309,
-            "newsCount": 3
-          },
-          {
-            "name": "软件开发",
-            "heatScore": 159,
-            "newsCount": 3
-          },
-          {
-            "name": "光学光电子",
-            "heatScore": 150,
-            "newsCount": 0
-          }
-        ]
-      }
     }
   ]
 }
