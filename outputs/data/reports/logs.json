@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "jobName": "daily-report",
+      "startedAt": "2026-08-06T08:01:00.784Z",
+      "finishedAt": "2026-08-06T08:01:00.784Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-08-06"
+    },
+    {
       "jobName": "late-report",
       "startedAt": "2026-08-06T06:50:24.496Z",
       "finishedAt": "2026-08-06T06:50:25.344Z",
@@ -231,14 +239,6 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-07-27-midday"
-    },
-    {
-      "jobName": "daily-report",
-      "startedAt": "2026-07-27T08:00:32.241Z",
-      "finishedAt": "2026-07-27T08:00:32.241Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-07-27"
     }
   ]
 }
