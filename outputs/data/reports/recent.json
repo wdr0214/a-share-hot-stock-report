@@ -2813,6 +2813,50 @@
   ],
   "weeklyReports": [
     {
+      "week": "2026-32",
+      "rangeStart": "2026-08-01",
+      "rangeEnd": "2026-08-07",
+      "generatedAt": "2026-08-07T15:07:27.661Z",
+      "status": "ok",
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ300489",
+          "name": "光智科技",
+          "appearances": 3,
+          "weeklyHeatScore": 409
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ301526",
+          "name": "国际复材",
+          "appearances": 2,
+          "weeklyHeatScore": 282
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ301319",
+          "name": "唯特偶",
+          "appearances": 2,
+          "weeklyHeatScore": 279
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ301217",
+          "name": "铜冠铜箔",
+          "appearances": 1,
+          "weeklyHeatScore": 149
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ300209",
+          "name": "行云科技",
+          "appearances": 1,
+          "weeklyHeatScore": 145
+        }
+      ]
+    },
+    {
       "week": "2026-31",
       "rangeStart": "2026-07-25",
       "rangeEnd": "2026-07-31",
