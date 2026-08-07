@@ -5624,5 +5624,284 @@
         "todayCloseVsOpenPct": -2.7956989247311994
       }
     ]
-  }
+  },
+  "dailyPortfolio": {
+    "date": "2026-08-07",
+    "previousDate": "2026-08-06",
+    "netValue": 0.6417,
+    "cash": 0.128339,
+    "holdings": [
+      {
+        "symbol": "SZ300489",
+        "name": "光智科技",
+        "entryPrice": 206.01,
+        "shares": 0.0006229766356658203,
+        "allocation": 0.12833941671351565,
+        "date": "2026-08-07",
+        "sourceReportDate": "2026-08-06"
+      },
+      {
+        "symbol": "SH601678",
+        "name": "滨化股份",
+        "entryPrice": 7.28,
+        "shares": 0.01762904075735105,
+        "allocation": 0.12833941671351565,
+        "date": "2026-08-07",
+        "sourceReportDate": "2026-08-06"
+      },
+      {
+        "symbol": "SZ301319",
+        "name": "唯特偶",
+        "entryPrice": 105.5,
+        "shares": 0.0012164873622134184,
+        "allocation": 0.12833941671351565,
+        "date": "2026-08-07",
+        "sourceReportDate": "2026-08-06"
+      },
+      {
+        "symbol": "SZ002428",
+        "name": "云南锗业",
+        "entryPrice": 97,
+        "shares": 0.0013230867702424293,
+        "allocation": 0.12833941671351565,
+        "date": "2026-08-07",
+        "sourceReportDate": "2026-08-06"
+      }
+    ],
+    "sold": [
+      {
+        "symbol": "SZ301526",
+        "name": "国际复材",
+        "entryPrice": 32.89,
+        "sellPrice": 27.760000228881836,
+        "returnPct": -15.59744533632765
+      },
+      {
+        "symbol": "SZ300489",
+        "name": "光智科技",
+        "entryPrice": 182,
+        "sellPrice": 206.01,
+        "returnPct": 13.192307692307686
+      },
+      {
+        "symbol": "SZ301396",
+        "name": "宏景科技",
+        "entryPrice": 197.84,
+        "sellPrice": 199.02,
+        "returnPct": 0.5964415689446051
+      },
+      {
+        "symbol": "SZ300285",
+        "name": "国瓷材料",
+        "entryPrice": 64.51,
+        "sellPrice": 68.88,
+        "returnPct": 6.7741435436366295
+      },
+      {
+        "symbol": "SZ300476",
+        "name": "胜宏科技",
+        "entryPrice": 228.01,
+        "sellPrice": 256,
+        "returnPct": 12.275777378185172
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SZ300489",
+        "name": "光智科技",
+        "skipped": false,
+        "buyPrice": 206.01,
+        "allocation": 0.12833941671351565,
+        "open": 206.01,
+        "low": 206.01,
+        "limitUpPrice": 242.4,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH601678",
+        "name": "滨化股份",
+        "skipped": false,
+        "buyPrice": 7.28,
+        "allocation": 0.12833941671351565,
+        "open": 7.28,
+        "low": 7.07,
+        "limitUpPrice": 8.01,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ301319",
+        "name": "唯特偶",
+        "skipped": false,
+        "buyPrice": 105.5,
+        "allocation": 0.12833941671351565,
+        "open": 105.5,
+        "low": 101.30999755859375,
+        "limitUpPrice": 129.96,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ002428",
+        "name": "云南锗业",
+        "skipped": false,
+        "buyPrice": 97,
+        "allocation": 0.12833941671351565,
+        "open": 97,
+        "low": 95.5,
+        "limitUpPrice": 100.08,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH603106",
+        "name": "恒银科技",
+        "skipped": true,
+        "reason": "cash_or_allocation_insufficient"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-23",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-24",
+      "netValue": 0.9558
+    },
+    {
+      "date": "2026-06-25",
+      "netValue": 1.0656
+    },
+    {
+      "date": "2026-06-26",
+      "netValue": 1.0945
+    },
+    {
+      "date": "2026-06-29",
+      "netValue": 1.1143
+    },
+    {
+      "date": "2026-06-30",
+      "netValue": 1.0981
+    },
+    {
+      "date": "2026-07-01",
+      "netValue": 1.1351
+    },
+    {
+      "date": "2026-07-02",
+      "netValue": 1.0834
+    },
+    {
+      "date": "2026-07-03",
+      "netValue": 1.029
+    },
+    {
+      "date": "2026-07-06",
+      "netValue": 0.9792
+    },
+    {
+      "date": "2026-07-07",
+      "netValue": 0.9963
+    },
+    {
+      "date": "2026-07-08",
+      "netValue": 0.9858
+    },
+    {
+      "date": "2026-07-09",
+      "netValue": 0.9461
+    },
+    {
+      "date": "2026-07-10",
+      "netValue": 0.9717
+    },
+    {
+      "date": "2026-07-13",
+      "netValue": 0.9057
+    },
+    {
+      "date": "2026-07-14",
+      "netValue": 0.8528
+    },
+    {
+      "date": "2026-07-15",
+      "netValue": 0.88
+    },
+    {
+      "date": "2026-07-16",
+      "netValue": 0.7928
+    },
+    {
+      "date": "2026-07-17",
+      "netValue": 0.7737
+    },
+    {
+      "date": "2026-07-20",
+      "netValue": 0.7686
+    },
+    {
+      "date": "2026-07-21",
+      "netValue": 0.6865
+    },
+    {
+      "date": "2026-07-22",
+      "netValue": 0.7365
+    },
+    {
+      "date": "2026-07-23",
+      "netValue": 0.7508
+    },
+    {
+      "date": "2026-07-24",
+      "netValue": 0.7099
+    },
+    {
+      "date": "2026-07-27",
+      "netValue": 0.6981
+    },
+    {
+      "date": "2026-07-28",
+      "netValue": 0.7469
+    },
+    {
+      "date": "2026-07-29",
+      "netValue": 0.7132
+    },
+    {
+      "date": "2026-07-30",
+      "netValue": 0.6906
+    },
+    {
+      "date": "2026-07-31",
+      "netValue": 0.6555
+    },
+    {
+      "date": "2026-08-03",
+      "netValue": 0.5847
+    },
+    {
+      "date": "2026-08-04",
+      "netValue": 0.5876
+    },
+    {
+      "date": "2026-08-05",
+      "netValue": 0.5961
+    },
+    {
+      "date": "2026-08-06",
+      "netValue": 0.6203
+    },
+    {
+      "date": "2026-08-07",
+      "netValue": 0.6417
+    }
+  ]
 }

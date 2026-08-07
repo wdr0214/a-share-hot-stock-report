@@ -1,0 +1,180 @@
+{
+  "type": "sector-news",
+  "session": "close",
+  "date": "2026-08-07",
+  "generatedAt": "2026-08-07T14:19:44.318Z",
+  "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+  "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+  "status": "ok",
+  "totalCandidates": 5,
+  "model": "deepseek-v4-flash",
+  "sectors": [
+    {
+      "name": "电池",
+      "heatScore": 312,
+      "stockCount": 2,
+      "amount": 14774355014.71,
+      "bigOrderNetAmount": 2023570672,
+      "topStocks": [
+        {
+          "symbol": "SZ301217",
+          "name": "铜冠铜箔",
+          "heatScore": 109,
+          "changePct": 16.98,
+          "amount": 8837197513.17,
+          "turnoverRate": 9.57,
+          "bigOrderNetAmount": 1445036400
+        },
+        {
+          "symbol": "SZ301511",
+          "name": "德福科技",
+          "heatScore": 108,
+          "changePct": 16.21,
+          "amount": 5937157501.54,
+          "turnoverRate": 18.07,
+          "bigOrderNetAmount": 578534272
+        }
+      ],
+      "news": [
+        {
+          "title": "Taipei issues NT$3 million fine in latest tainted oil scandal",
+          "url": "https://www.taipeitimes.com/News/taiwan/archives/2026/08/07/2003862115",
+          "source": "taipeitimes.com",
+          "publishedAt": "2026-08-07T12:30:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "德福科技",
+          "discussionScore": 3,
+          "impactScore": 28,
+          "relatedReports": [
+            {
+              "title": "Minister seeks posthumous citation for publisher Charles Kao",
+              "url": "https://focustaiwan.tw/society/202608070019",
+              "source": "focustaiwan.tw",
+              "publishedAt": "2026-08-07T12:30:00Z"
+            },
+            {
+              "title": "U . S . congressman upbeat about Taiwan - U . S . drone partnership",
+              "url": "https://focustaiwan.tw:443/politics/202608070007",
+              "source": "focustaiwan.tw",
+              "publishedAt": "2026-08-07T05:45:00Z"
+            }
+          ],
+          "rank": 1
+        },
+        {
+          "title": "Minister seeks posthumous citation for publisher Charles Kao",
+          "url": "https://focustaiwan.tw/society/202608070019",
+          "source": "focustaiwan.tw",
+          "publishedAt": "2026-08-07T12:30:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "德福科技",
+          "discussionScore": 2,
+          "impactScore": 20,
+          "relatedReports": [
+            {
+              "title": "Taipei issues NT$3 million fine in latest tainted oil scandal",
+              "url": "https://www.taipeitimes.com/News/taiwan/archives/2026/08/07/2003862115",
+              "source": "taipeitimes.com",
+              "publishedAt": "2026-08-07T12:30:00Z"
+            }
+          ],
+          "rank": 2
+        },
+        {
+          "title": "U . S . congressman upbeat about Taiwan - U . S . drone partnership",
+          "url": "https://focustaiwan.tw:443/politics/202608070007",
+          "source": "focustaiwan.tw",
+          "publishedAt": "2026-08-07T05:45:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "德福科技",
+          "discussionScore": 2,
+          "impactScore": 20,
+          "relatedReports": [
+            {
+              "title": "Taipei issues NT$3 million fine in latest tainted oil scandal",
+              "url": "https://www.taipeitimes.com/News/taiwan/archives/2026/08/07/2003862115",
+              "source": "taipeitimes.com",
+              "publishedAt": "2026-08-07T12:30:00Z"
+            }
+          ],
+          "rank": 3
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "电子铜箔",
+      "heatScore": 158,
+      "stockCount": 1,
+      "amount": 8837197513.17,
+      "bigOrderNetAmount": 1445036400,
+      "topStocks": [
+        {
+          "symbol": "SZ301217",
+          "name": "铜冠铜箔",
+          "heatScore": 109,
+          "changePct": 16.98,
+          "amount": 8837197513.17,
+          "turnoverRate": 9.57,
+          "bigOrderNetAmount": 1445036400
+        }
+      ],
+      "news": [
+        {
+          "title": "China Inspects Over 145 , 000 Public Charging Piles in H1 , Tightens Oversight of Metering Irregulariti",
+          "url": "https://autonews.gasgoo.com/articles/market-industry/china-inspects-over-145000-public-charging-piles-in-h1-tightens-oversight-of-metering-irregulariti-2085554120608944129",
+          "source": "autonews.gasgoo.com",
+          "publishedAt": "2026-08-07T04:00:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "电子铜箔",
+          "discussionScore": 1,
+          "impactScore": 12,
+          "relatedReports": [],
+          "rank": 1
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "锂电材料",
+      "heatScore": 158,
+      "stockCount": 1,
+      "amount": 8837197513.17,
+      "bigOrderNetAmount": 1445036400,
+      "topStocks": [
+        {
+          "symbol": "SZ301217",
+          "name": "铜冠铜箔",
+          "heatScore": 109,
+          "changePct": 16.98,
+          "amount": 8837197513.17,
+          "turnoverRate": 9.57,
+          "bigOrderNetAmount": 1445036400
+        }
+      ],
+      "news": [],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    }
+  ],
+  "excludedMidday": {
+    "sectorCount": 0,
+    "newsCount": 4
+  },
+  "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+}
