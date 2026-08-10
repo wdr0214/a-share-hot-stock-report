@@ -1,3 +1,31 @@
 {
-  "reports": []
+  "reports": [
+    {
+      "date": "2026-08-10",
+      "midday": null,
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-08-10T14:27:39.905Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "电网设备",
+            "heatScore": 267,
+            "newsCount": 2
+          },
+          {
+            "name": "汽车与新能源",
+            "heatScore": 256,
+            "newsCount": 3
+          },
+          {
+            "name": "地面兵装Ⅱ",
+            "heatScore": 150,
+            "newsCount": 0
+          }
+        ]
+      }
+    }
+  ]
 }
