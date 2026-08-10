@@ -1,31 +1,3 @@
 {
-  "reports": [
-    {
-      "date": "2026-08-07",
-      "midday": null,
-      "close": {
-        "session": "close",
-        "generatedAt": "2026-08-07T14:19:44.318Z",
-        "status": "ok",
-        "sectorCount": 3,
-        "sectors": [
-          {
-            "name": "电池",
-            "heatScore": 312,
-            "newsCount": 3
-          },
-          {
-            "name": "电子铜箔",
-            "heatScore": 158,
-            "newsCount": 1
-          },
-          {
-            "name": "锂电材料",
-            "heatScore": 158,
-            "newsCount": 0
-          }
-        ]
-      }
-    }
-  ]
+  "reports": []
 }
