@@ -1,0 +1,290 @@
+{
+  "type": "sector-news",
+  "session": "close",
+  "date": "2026-08-12",
+  "generatedAt": "2026-08-12T14:31:12.330Z",
+  "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+  "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+  "status": "ok",
+  "totalCandidates": 6,
+  "model": "deepseek-v4-flash",
+  "sectors": [
+    {
+      "name": "元件",
+      "heatScore": 378,
+      "stockCount": 3,
+      "amount": 11273223432.27,
+      "bigOrderNetAmount": 1365651826,
+      "topStocks": [
+        {
+          "symbol": "SH603228",
+          "name": "景旺电子",
+          "heatScore": 99,
+          "changePct": 10,
+          "amount": 6144858140,
+          "turnoverRate": 6.77,
+          "bigOrderNetAmount": 715577424
+        },
+        {
+          "symbol": "SZ002552",
+          "name": "宝鼎科技",
+          "heatScore": 96,
+          "changePct": 10,
+          "amount": 2053271665.98,
+          "turnoverRate": 9.88,
+          "bigOrderNetAmount": 264794130
+        },
+        {
+          "symbol": "SZ300903",
+          "name": "科翔股份",
+          "heatScore": 90,
+          "changePct": 6.63,
+          "amount": 3075093626.29,
+          "turnoverRate": 11.14,
+          "bigOrderNetAmount": 385280272
+        }
+      ],
+      "news": [],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "TMT",
+      "heatScore": 269,
+      "stockCount": 2,
+      "amount": 9425049991.59,
+      "bigOrderNetAmount": 1112781776,
+      "topStocks": [
+        {
+          "symbol": "SZ002792",
+          "name": "通宇通讯",
+          "heatScore": 103,
+          "changePct": 9.99,
+          "amount": 3280191851.59,
+          "turnoverRate": 27.19,
+          "bigOrderNetAmount": 397204352
+        },
+        {
+          "symbol": "SH603228",
+          "name": "景旺电子",
+          "heatScore": 99,
+          "changePct": 10,
+          "amount": 6144858140,
+          "turnoverRate": 6.77,
+          "bigOrderNetAmount": 715577424
+        }
+      ],
+      "news": [
+        {
+          "title": "Shree TMT Receives ADCL and APCRDA Approvals for TMT Steel Supply to Amaravati Infrastructure Projects",
+          "url": "https://aninews.in/news/business/shree-tmt-receives-adcl-and-apcrda-approvals-for-tmt-steel-supply-to-amaravati-infrastructure-projects20260812180922/",
+          "source": "aninews.in",
+          "publishedAt": "2026-08-12T13:30:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "TMT",
+          "discussionScore": 4,
+          "impactScore": 36,
+          "relatedReports": [
+            {
+              "title": "IPO lock - in expiry could bring shares worth $7 . 6 billion to D - Street",
+              "url": "https://economictimes.indiatimes.com/markets/ipos/fpos/ipo-lock-in-expiry-could-bring-7-6-billion-of-shares-to-d-street/articleshow/133167350.cms",
+              "source": "economictimes.indiatimes.com",
+              "publishedAt": "2026-08-12T01:15:00Z"
+            },
+            {
+              "title": "Nearly 90 pc Indian GCCs confident about retaining global leadership through 2030",
+              "url": "https://www.prokerala.com/news/articles/a1799558.html",
+              "source": "prokerala.com",
+              "publishedAt": "2026-08-12T13:30:00Z"
+            },
+            {
+              "title": "Managing Director of Consumer Markets Appointment | Company Announcement",
+              "url": "https://www.investegate.co.uk/announcement/rns/norman-broadbent--nbb/managing-director-of-consumer-markets-appointment/9716775",
+              "source": "investegate.co.uk",
+              "publishedAt": "2026-08-12T06:30:00Z"
+            }
+          ],
+          "rank": 1
+        },
+        {
+          "title": "Nearly 90 pc Indian GCCs confident about retaining global leadership through 2030",
+          "url": "https://www.prokerala.com/news/articles/a1799558.html",
+          "source": "prokerala.com",
+          "publishedAt": "2026-08-12T13:30:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "TMT",
+          "discussionScore": 4,
+          "impactScore": 36,
+          "relatedReports": [
+            {
+              "title": "Shree TMT Receives ADCL and APCRDA Approvals for TMT Steel Supply to Amaravati Infrastructure Projects",
+              "url": "https://aninews.in/news/business/shree-tmt-receives-adcl-and-apcrda-approvals-for-tmt-steel-supply-to-amaravati-infrastructure-projects20260812180922/",
+              "source": "aninews.in",
+              "publishedAt": "2026-08-12T13:30:00Z"
+            },
+            {
+              "title": "IPO lock - in expiry could bring shares worth $7 . 6 billion to D - Street",
+              "url": "https://economictimes.indiatimes.com/markets/ipos/fpos/ipo-lock-in-expiry-could-bring-7-6-billion-of-shares-to-d-street/articleshow/133167350.cms",
+              "source": "economictimes.indiatimes.com",
+              "publishedAt": "2026-08-12T01:15:00Z"
+            },
+            {
+              "title": "Managing Director of Consumer Markets Appointment | Company Announcement",
+              "url": "https://www.investegate.co.uk/announcement/rns/norman-broadbent--nbb/managing-director-of-consumer-markets-appointment/9716775",
+              "source": "investegate.co.uk",
+              "publishedAt": "2026-08-12T06:30:00Z"
+            }
+          ],
+          "rank": 2
+        },
+        {
+          "title": "Managing Director of Consumer Markets Appointment | Company Announcement",
+          "url": "https://www.investegate.co.uk/announcement/rns/norman-broadbent--nbb/managing-director-of-consumer-markets-appointment/9716775",
+          "source": "investegate.co.uk",
+          "publishedAt": "2026-08-12T06:30:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "TMT",
+          "discussionScore": 4,
+          "impactScore": 36,
+          "relatedReports": [
+            {
+              "title": "Shree TMT Receives ADCL and APCRDA Approvals for TMT Steel Supply to Amaravati Infrastructure Projects",
+              "url": "https://aninews.in/news/business/shree-tmt-receives-adcl-and-apcrda-approvals-for-tmt-steel-supply-to-amaravati-infrastructure-projects20260812180922/",
+              "source": "aninews.in",
+              "publishedAt": "2026-08-12T13:30:00Z"
+            },
+            {
+              "title": "IPO lock - in expiry could bring shares worth $7 . 6 billion to D - Street",
+              "url": "https://economictimes.indiatimes.com/markets/ipos/fpos/ipo-lock-in-expiry-could-bring-7-6-billion-of-shares-to-d-street/articleshow/133167350.cms",
+              "source": "economictimes.indiatimes.com",
+              "publishedAt": "2026-08-12T01:15:00Z"
+            },
+            {
+              "title": "Nearly 90 pc Indian GCCs confident about retaining global leadership through 2030",
+              "url": "https://www.prokerala.com/news/articles/a1799558.html",
+              "source": "prokerala.com",
+              "publishedAt": "2026-08-12T13:30:00Z"
+            }
+          ],
+          "rank": 3
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "软件与信息服务",
+      "heatScore": 265,
+      "stockCount": 2,
+      "amount": 6217820497.48,
+      "bigOrderNetAmount": 721359970,
+      "topStocks": [
+        {
+          "symbol": "SZ300489",
+          "name": "光智科技",
+          "heatScore": 100,
+          "changePct": 11.71,
+          "amount": 4164548831.5,
+          "turnoverRate": 12.62,
+          "bigOrderNetAmount": 456565840
+        },
+        {
+          "symbol": "SZ002552",
+          "name": "宝鼎科技",
+          "heatScore": 96,
+          "changePct": 10,
+          "amount": 2053271665.98,
+          "turnoverRate": 9.88,
+          "bigOrderNetAmount": 264794130
+        }
+      ],
+      "news": [
+        {
+          "title": "Shenzhen Dapeng New District Sports Center opens to public",
+          "url": "https://goguangdong.southcn.com/node_34d0836583/ac96579fbd.shtml",
+          "source": "goguangdong.southcn.com",
+          "publishedAt": "2026-08-12T04:30:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "光智科技",
+          "discussionScore": 3,
+          "impactScore": 28,
+          "relatedReports": [
+            {
+              "title": "Colorado Rockies @ Arizona Diamondbacks : Tomoyuki Sugano vs Mitch Bratt",
+              "url": "https://www.purplerow.com/colorado-rockies-game-information/99655/colorado-rockies-arizona-diamondbacks-tomoyuki-sugano-vs-mitch-bratt",
+              "source": "purplerow.com",
+              "publishedAt": "2026-08-12T04:15:00Z"
+            },
+            {
+              "title": "Rockies have a party at the snake farm , strike the D - backs 3 - 2",
+              "url": "https://www.purplerow.com/colorado-rockies-scores-standings/99852/colorado-rockies-have-a-party-at-the-snake-farm-strike-the-arizona-diamondbacks-3-2",
+              "source": "purplerow.com",
+              "publishedAt": "2026-08-12T09:15:00Z"
+            }
+          ],
+          "rank": 1
+        },
+        {
+          "title": "Rockies have a party at the snake farm , strike the D - backs 3 - 2",
+          "url": "https://www.purplerow.com/colorado-rockies-scores-standings/99852/colorado-rockies-have-a-party-at-the-snake-farm-strike-the-arizona-diamondbacks-3-2",
+          "source": "purplerow.com",
+          "publishedAt": "2026-08-12T09:15:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "光智科技",
+          "discussionScore": 2,
+          "impactScore": 20,
+          "relatedReports": [
+            {
+              "title": "Shenzhen Dapeng New District Sports Center opens to public",
+              "url": "https://goguangdong.southcn.com/node_34d0836583/ac96579fbd.shtml",
+              "source": "goguangdong.southcn.com",
+              "publishedAt": "2026-08-12T04:30:00Z"
+            }
+          ],
+          "rank": 2
+        },
+        {
+          "title": "Colorado Rockies @ Arizona Diamondbacks : Tomoyuki Sugano vs Mitch Bratt",
+          "url": "https://www.purplerow.com/colorado-rockies-game-information/99655/colorado-rockies-arizona-diamondbacks-tomoyuki-sugano-vs-mitch-bratt",
+          "source": "purplerow.com",
+          "publishedAt": "2026-08-12T04:15:00Z",
+          "summary": "",
+          "provider": "gdelt",
+          "query": "光智科技",
+          "discussionScore": 2,
+          "impactScore": 20,
+          "relatedReports": [
+            {
+              "title": "Shenzhen Dapeng New District Sports Center opens to public",
+              "url": "https://goguangdong.southcn.com/node_34d0836583/ac96579fbd.shtml",
+              "source": "goguangdong.southcn.com",
+              "publishedAt": "2026-08-12T04:30:00Z"
+            }
+          ],
+          "rank": 3
+        }
+      ],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    }
+  ],
+  "excludedMidday": {
+    "sectorCount": 0,
+    "newsCount": 6
+  },
+  "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+}
