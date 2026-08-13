@@ -1,31 +1,3 @@
 {
-  "reports": [
-    {
-      "date": "2026-08-12",
-      "midday": null,
-      "close": {
-        "session": "close",
-        "generatedAt": "2026-08-12T14:31:12.330Z",
-        "status": "ok",
-        "sectorCount": 3,
-        "sectors": [
-          {
-            "name": "元件",
-            "heatScore": 378,
-            "newsCount": 0
-          },
-          {
-            "name": "TMT",
-            "heatScore": 269,
-            "newsCount": 3
-          },
-          {
-            "name": "软件与信息服务",
-            "heatScore": 265,
-            "newsCount": 3
-          }
-        ]
-      }
-    }
-  ]
+  "reports": []
 }
