@@ -1,3 +1,31 @@
 {
-  "reports": []
+  "reports": [
+    {
+      "date": "2026-08-13",
+      "midday": {
+        "session": "midday",
+        "generatedAt": "2026-08-13T07:05:17.870Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "医药生物",
+            "heatScore": 265,
+            "newsCount": 0
+          },
+          {
+            "name": "中药Ⅱ",
+            "heatScore": 145,
+            "newsCount": 0
+          },
+          {
+            "name": "电力",
+            "heatScore": 141,
+            "newsCount": 0
+          }
+        ]
+      },
+      "close": null
+    }
+  ]
 }
