@@ -1,0 +1,117 @@
+{
+  "type": "sector-news",
+  "session": "close",
+  "date": "2026-08-13",
+  "generatedAt": "2026-08-13T14:32:57.376Z",
+  "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+  "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+  "status": "ok",
+  "totalCandidates": 6,
+  "model": "deepseek-v4-flash",
+  "sectors": [
+    {
+      "name": "电力",
+      "heatScore": 274,
+      "stockCount": 2,
+      "amount": 8338220253,
+      "bigOrderNetAmount": 2174694780,
+      "topStocks": [
+        {
+          "symbol": "SH601991",
+          "name": "大唐发电",
+          "heatScore": 107,
+          "changePct": 10.02,
+          "amount": 5966665946,
+          "turnoverRate": 7.24,
+          "bigOrderNetAmount": 1771362224
+        },
+        {
+          "symbol": "SH600578",
+          "name": "京能电力",
+          "heatScore": 101,
+          "changePct": 9.83,
+          "amount": 2371554307,
+          "turnoverRate": 5.63,
+          "bigOrderNetAmount": 403332556
+        }
+      ],
+      "news": [],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "能源电力",
+      "heatScore": 274,
+      "stockCount": 2,
+      "amount": 8338220253,
+      "bigOrderNetAmount": 2174694780,
+      "topStocks": [
+        {
+          "symbol": "SH601991",
+          "name": "大唐发电",
+          "heatScore": 107,
+          "changePct": 10.02,
+          "amount": 5966665946,
+          "turnoverRate": 7.24,
+          "bigOrderNetAmount": 1771362224
+        },
+        {
+          "symbol": "SH600578",
+          "name": "京能电力",
+          "heatScore": 101,
+          "changePct": 9.83,
+          "amount": 2371554307,
+          "turnoverRate": 5.63,
+          "bigOrderNetAmount": 403332556
+        }
+      ],
+      "news": [],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "name": "医药生物",
+      "heatScore": 265,
+      "stockCount": 2,
+      "amount": 3847112481.26,
+      "bigOrderNetAmount": 575506666,
+      "topStocks": [
+        {
+          "symbol": "SZ300534",
+          "name": "陇神戎发",
+          "heatScore": 93,
+          "changePct": 19.97,
+          "amount": 1730725301.31,
+          "turnoverRate": 34.11,
+          "bigOrderNetAmount": 308582215
+        },
+        {
+          "symbol": "SZ301080",
+          "name": "百普赛斯",
+          "heatScore": 92,
+          "changePct": 7.74,
+          "amount": 2116387179.95,
+          "turnoverRate": 18.92,
+          "bigOrderNetAmount": 266924451
+        }
+      ],
+      "news": [],
+      "deepseek": {
+        "status": "skipped",
+        "reason": "DEEPSEEK_API_KEY is not configured",
+        "model": "deepseek-v4-flash"
+      }
+    }
+  ],
+  "excludedMidday": {
+    "sectorCount": 0,
+    "newsCount": 0
+  },
+  "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+}
