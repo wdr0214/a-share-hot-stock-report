@@ -3203,6 +3203,50 @@
   ],
   "weeklyReports": [
     {
+      "week": "2026-33",
+      "rangeStart": "2026-08-08",
+      "rangeEnd": "2026-08-14",
+      "generatedAt": "2026-08-14T15:05:42.889Z",
+      "status": "ok",
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ300903",
+          "name": "科翔股份",
+          "appearances": 2,
+          "weeklyHeatScore": 259
+        },
+        {
+          "rank": 2,
+          "symbol": "SH603629",
+          "name": "利通电子",
+          "appearances": 1,
+          "weeklyHeatScore": 145
+        },
+        {
+          "rank": 3,
+          "symbol": "SH601991",
+          "name": "大唐发电",
+          "appearances": 1,
+          "weeklyHeatScore": 144
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ300209",
+          "name": "行云科技",
+          "appearances": 1,
+          "weeklyHeatScore": 142
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ300319",
+          "name": "麦捷科技",
+          "appearances": 1,
+          "weeklyHeatScore": 140
+        }
+      ]
+    },
+    {
       "week": "2026-32",
       "rangeStart": "2026-08-01",
       "rangeEnd": "2026-08-07",
