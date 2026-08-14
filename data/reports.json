@@ -469710,7 +469710,169 @@
       ]
     }
   },
-  "newsReports": {},
+  "newsReports": {
+    "2026-08-14": {
+      "midday": {
+        "type": "sector-news",
+        "session": "midday",
+        "date": "2026-08-14",
+        "generatedAt": "2026-08-14T07:00:04.114Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 5,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "软件与信息服务",
+            "heatScore": 408,
+            "stockCount": 3,
+            "amount": 17402664324.82,
+            "bigOrderNetAmount": 2264230832,
+            "topStocks": [
+              {
+                "symbol": "SH603083",
+                "name": "剑桥科技",
+                "heatScore": 105,
+                "changePct": 10,
+                "amount": 7115108148,
+                "turnoverRate": 14.4,
+                "bigOrderNetAmount": 1245002224
+              },
+              {
+                "symbol": "SZ300319",
+                "name": "麦捷科技",
+                "heatScore": 102,
+                "changePct": 10.8,
+                "amount": 3901387128.48,
+                "turnoverRate": 24.48,
+                "bigOrderNetAmount": 443009520
+              },
+              {
+                "symbol": "SZ300209",
+                "name": "行云科技",
+                "heatScore": 99,
+                "changePct": 9.02,
+                "amount": 6386169048.34,
+                "turnoverRate": 23.29,
+                "bigOrderNetAmount": 576219088
+              }
+            ],
+            "news": [
+              {
+                "title": "BYD launches Qin Max in China to compete with its own Seal 06",
+                "url": "https://carnewschina.com/2026/08/14/byd-launches-qin-max-in-china-to-compete-with-its-own-seal-06/",
+                "source": "carnewschina.com",
+                "publishedAt": "2026-08-14T06:15:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "软件与信息服务",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "消费电子",
+            "heatScore": 140,
+            "stockCount": 1,
+            "amount": 8831546797,
+            "bigOrderNetAmount": 529161520,
+            "topStocks": [
+              {
+                "symbol": "SH603629",
+                "name": "利通电子",
+                "heatScore": 105,
+                "changePct": 10,
+                "amount": 8831546797,
+                "turnoverRate": 18.75,
+                "bigOrderNetAmount": 529161520
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "消费",
+            "heatScore": 140,
+            "stockCount": 1,
+            "amount": 8831546797,
+            "bigOrderNetAmount": 529161520,
+            "topStocks": [
+              {
+                "symbol": "SH603629",
+                "name": "利通电子",
+                "heatScore": 105,
+                "changePct": 10,
+                "amount": 8831546797,
+                "turnoverRate": 18.75,
+                "bigOrderNetAmount": 529161520
+              }
+            ],
+            "news": [
+              {
+                "title": "（活力中国调研行）湖南夜“亮”了 消费“活”了",
+                "url": "https://www.chinanews.com.cn/cj/2026/08-14/10677601.shtml",
+                "source": "chinanews.com.cn",
+                "publishedAt": "2026-08-14T06:23:04.000Z",
+                "summary": "中新社湖南常德8月14日电 (陈舒一 李盈)中新社记者近日走进湖南，探寻当地如何将“越夜越精彩”的规划转化成落地有效的举措和实实在在的收入。",
+                "provider": "rss",
+                "query": "消费",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              },
+              {
+                "title": "中国保温杯温暖美好生活",
+                "url": "https://www.chinanews.com.cn/cj/2026/08-14/10677489.shtml",
+                "source": "chinanews.com.cn",
+                "publishedAt": "2026-08-14T03:06:36.000Z",
+                "summary": "“用保温杯喝热水感觉自己的‘中式DNA’动了”“中式养生让我的生活如此规律”……今年上半年，成为中国人(Becoming Chinese)等话题在海外社交平台火出圈，喝热水、泡茶、泡枸杞等带有鲜明中式印记的健康生活方式，通过一个个保温杯，走进海外众多消费者的日常。",
+                "provider": "rss",
+                "query": "消费",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 2
+              },
+              {
+                "title": "开局起步“十五五”：海南做优三篇消费文章",
+                "url": "https://www.chinanews.com.cn/cj/2026/08-14/10677418.shtml",
+                "source": "chinanews.com.cn",
+                "publishedAt": "2026-08-14T01:44:26.000Z",
+                "summary": "中新网海口8月14日电 (张茜翼 张芷懿)到海南，买全球精品、享全球医疗、学全球专业，正在从愿景变为现实。海南近日出台的《“十五五”海南国际旅游消费中心规划》明确，“十五五”期间，海南将通过旅游融合商业、医疗、教育等业态，持续做优“三篇消费文章”。",
+                "provider": "rss",
+                "query": "消费",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 3
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": null,
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      }
+    }
+  },
   "latePortfolio": {
     "netValue": 0.9833,
     "cash": 0.5899560752761907,
@@ -479187,6 +479349,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-08-14"
+    },
+    {
+      "jobName": "news-midday",
+      "startedAt": "2026-08-14T07:00:04.114Z",
+      "finishedAt": "2026-08-14T07:00:04.114Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-08-14-midday"
     }
   ]
 }
