@@ -475465,7 +475465,212 @@
       ]
     }
   },
-  "newsReports": {},
+  "newsReports": {
+    "2026-08-14": {
+      "close": {
+        "type": "sector-news",
+        "session": "close",
+        "date": "2026-08-14",
+        "generatedAt": "2026-08-14T14:26:07.052Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 5,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "软件与信息服务",
+            "heatScore": 414,
+            "stockCount": 3,
+            "amount": 17867828077.14,
+            "bigOrderNetAmount": 2311267536,
+            "topStocks": [
+              {
+                "symbol": "SH603083",
+                "name": "剑桥科技",
+                "heatScore": 105,
+                "changePct": 10,
+                "amount": 7130649388,
+                "turnoverRate": 14.44,
+                "bigOrderNetAmount": 1253609408
+              },
+              {
+                "symbol": "SZ300319",
+                "name": "麦捷科技",
+                "heatScore": 102,
+                "changePct": 11.09,
+                "amount": 4038567496.8,
+                "turnoverRate": 25.32,
+                "bigOrderNetAmount": 453318320
+              },
+              {
+                "symbol": "SZ300209",
+                "name": "行云科技",
+                "heatScore": 102,
+                "changePct": 10.13,
+                "amount": 6698611192.34,
+                "turnoverRate": 24.37,
+                "bigOrderNetAmount": 604339808
+              }
+            ],
+            "news": [
+              {
+                "title": "这居然是2026年的国产动画 _ 百度搜索",
+                "url": "https://www.baidu.com/s?wd=%E8%BF%99%E5%B1%85%E7%84%B6%E6%98%AF2026%E5%B9%B4%E7%9A%84%E5%9B%BD%E4%BA%A7%E5%8A%A8%E7%94%BB",
+                "source": "baidu.com",
+                "publishedAt": "2026-08-14T09:45:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "软件与信息服务",
+                "discussionScore": 2,
+                "impactScore": 20,
+                "relatedReports": [
+                  {
+                    "title": "BYD launches Qin Max in China to compete with its own Seal 06",
+                    "url": "https://carnewschina.com/2026/08/14/byd-launches-qin-max-in-china-to-compete-with-its-own-seal-06/",
+                    "source": "carnewschina.com",
+                    "publishedAt": "2026-08-14T06:15:00Z"
+                  }
+                ],
+                "rank": 1
+              },
+              {
+                "title": "BYD launches Qin Max in China to compete with its own Seal 06",
+                "url": "https://carnewschina.com/2026/08/14/byd-launches-qin-max-in-china-to-compete-with-its-own-seal-06/",
+                "source": "carnewschina.com",
+                "publishedAt": "2026-08-14T06:15:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "软件与信息服务",
+                "discussionScore": 2,
+                "impactScore": 20,
+                "relatedReports": [
+                  {
+                    "title": "这居然是2026年的国产动画 _ 百度搜索",
+                    "url": "https://www.baidu.com/s?wd=%E8%BF%99%E5%B1%85%E7%84%B6%E6%98%AF2026%E5%B9%B4%E7%9A%84%E5%9B%BD%E4%BA%A7%E5%8A%A8%E7%94%BB",
+                    "source": "baidu.com",
+                    "publishedAt": "2026-08-14T09:45:00Z"
+                  }
+                ],
+                "rank": 2
+              },
+              {
+                "title": "經濟活動實務篇 -- 開欄文 - 時事論壇",
+                "url": "https://city.udn.com/2976/7297290?raid=7297777",
+                "source": "city.udn.com",
+                "publishedAt": "2026-08-14T11:45:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "麦捷科技",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 3
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "消费电子",
+            "heatScore": 140,
+            "stockCount": 1,
+            "amount": 8869939547,
+            "bigOrderNetAmount": 546530512,
+            "topStocks": [
+              {
+                "symbol": "SH603629",
+                "name": "利通电子",
+                "heatScore": 105,
+                "changePct": 10,
+                "amount": 8869939547,
+                "turnoverRate": 18.83,
+                "bigOrderNetAmount": 546530512
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "消费",
+            "heatScore": 140,
+            "stockCount": 1,
+            "amount": 8869939547,
+            "bigOrderNetAmount": 546530512,
+            "topStocks": [
+              {
+                "symbol": "SH603629",
+                "name": "利通电子",
+                "heatScore": 105,
+                "changePct": 10,
+                "amount": 8869939547,
+                "turnoverRate": 18.83,
+                "bigOrderNetAmount": 546530512
+              }
+            ],
+            "news": [
+              {
+                "title": "游园品吉粮 吉林优质粮食打通文旅消费新赛道",
+                "url": "https://www.chinanews.com.cn/cj/2026/08-14/10677894.shtml",
+                "source": "chinanews.com.cn",
+                "publishedAt": "2026-08-14T13:02:47.000Z",
+                "summary": "中新网长春8月14日电 (李钊 金乔)14日，长春市动植物公园内飘出一缕不同于寻常的香气——是鲜食玉米蒸煮时散发出的清甜。循着味道，不少游客在一处特装展位前停下脚步。",
+                "provider": "rss",
+                "query": "消费",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              },
+              {
+                "title": "7月中国快递发展指数同比提升2.4%",
+                "url": "https://www.chinanews.com.cn/cj/2026/08-14/10677856.shtml",
+                "source": "chinanews.com.cn",
+                "publishedAt": "2026-08-14T11:56:03.000Z",
+                "summary": "中新社北京8月14日电 (记者 王梦瑶)中国国家邮政局14日发布的报告显示，7月中国快递发展指数为424.2，同比提升2.4%。行业运行平稳有序，市场规模持续扩容，服务质效稳步提升，创新动能不断蓄积，综合竞争实力明显增强，有力支撑消费提质扩容，为经济社会发展添力赋能。",
+                "provider": "rss",
+                "query": "消费",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 2
+              },
+              {
+                "title": "共筑消费新生态 平台与实体并非“你死我活”",
+                "url": "https://www.chinanews.com.cn/cj/2026/08-14/10677752.shtml",
+                "source": "chinanews.com.cn",
+                "publishedAt": "2026-08-14T09:20:51.000Z",
+                "summary": "近日，农夫山泉创始人钟睒睒做客央视财经《对话》栏目，再次将矛头对准电商平台。",
+                "provider": "rss",
+                "query": "消费",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 3
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": {
+          "sectorCount": 0,
+          "newsCount": 6
+        },
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      }
+    }
+  },
   "latePortfolio": {
     "netValue": 0.9833,
     "cash": 0.5899560752761907,
@@ -485084,6 +485289,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-08-14"
+    },
+    {
+      "jobName": "news-close",
+      "startedAt": "2026-08-14T14:26:07.052Z",
+      "finishedAt": "2026-08-14T14:26:07.052Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-08-14-close"
     }
   ]
 }
