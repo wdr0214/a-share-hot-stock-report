@@ -3633,5 +3633,33 @@
       ]
     }
   ],
-  "newsReports": []
+  "newsReports": [
+    {
+      "date": "2026-08-17",
+      "midday": null,
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-08-17T13:48:42.848Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "TMT",
+            "heatScore": 287,
+            "newsCount": 3
+          },
+          {
+            "name": "半导体",
+            "heatScore": 274,
+            "newsCount": 1
+          },
+          {
+            "name": "通信设备",
+            "heatScore": 156,
+            "newsCount": 0
+          }
+        ]
+      }
+    }
+  ]
 }

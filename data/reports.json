@@ -488109,7 +488109,199 @@
       ]
     }
   },
-  "newsReports": {},
+  "newsReports": {
+    "2026-08-17": {
+      "close": {
+        "type": "sector-news",
+        "session": "close",
+        "date": "2026-08-17",
+        "generatedAt": "2026-08-17T13:48:42.848Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 7,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "TMT",
+            "heatScore": 287,
+            "stockCount": 2,
+            "amount": 7520441257.81,
+            "bigOrderNetAmount": 1030339104,
+            "topStocks": [
+              {
+                "symbol": "SZ300570",
+                "name": "太辰光",
+                "heatScore": 102,
+                "changePct": 20,
+                "amount": 4498431862.81,
+                "turnoverRate": 12.68,
+                "bigOrderNetAmount": 603921808
+              },
+              {
+                "symbol": "SH600330",
+                "name": "天通股份",
+                "heatScore": 98,
+                "changePct": 10.01,
+                "amount": 3022009395,
+                "turnoverRate": 9.28,
+                "bigOrderNetAmount": 426417296
+              }
+            ],
+            "news": [
+              {
+                "title": "टीएमटीच्या ताफ्यात १० इलेक्ट्रिक बस दाखल , लवकरच प्रवाशांच्या सेवेत",
+                "url": "https://www.saamana.com/10-electric-buses-added-to-tmt-fleet-to-enter-passenger-service-soon/",
+                "source": "saamana.com",
+                "publishedAt": "2026-08-17T04:45:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "TMT",
+                "discussionScore": 3,
+                "impactScore": 28,
+                "relatedReports": [
+                  {
+                    "title": "ΕΟΚΑ : Ο Οζ Καραχάν γράφει για το θαυμασμό του Κάστρο",
+                    "url": "https://www.philenews.com/kipros/koinonia/article/1758966/eoka-i-epanastasi-pou-charise-i-kipros-ston-kosmo-o-oz-karachan-grafi-gia-to-thavmasmo-tou-kastro-tous-panafrikanistes-ke-ton-ira/",
+                    "source": "philenews.com",
+                    "publishedAt": "2026-08-17T04:30:00Z"
+                  },
+                  {
+                    "title": "Τουρκική εισβολή : Η κατάληψη της Αιγιαλούσας",
+                    "url": "https://www.philenews.com/kipros/koinonia/article/1759093/i-katalipsi-tis-egialousas-i-tourki-stratiotes-bikan-peripatontas-ke-gelontas-i-komopoli-tis-karpasias-epese-amachiti-17-avgoustou-1974/",
+                    "source": "philenews.com",
+                    "publishedAt": "2026-08-17T04:30:00Z"
+                  }
+                ],
+                "rank": 1
+              },
+              {
+                "title": "ΕΟΚΑ : Ο Οζ Καραχάν γράφει για το θαυμασμό του Κάστρο",
+                "url": "https://www.philenews.com/kipros/koinonia/article/1758966/eoka-i-epanastasi-pou-charise-i-kipros-ston-kosmo-o-oz-karachan-grafi-gia-to-thavmasmo-tou-kastro-tous-panafrikanistes-ke-ton-ira/",
+                "source": "philenews.com",
+                "publishedAt": "2026-08-17T04:30:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "TMT",
+                "discussionScore": 2,
+                "impactScore": 20,
+                "relatedReports": [
+                  {
+                    "title": "टीएमटीच्या ताफ्यात १० इलेक्ट्रिक बस दाखल , लवकरच प्रवाशांच्या सेवेत",
+                    "url": "https://www.saamana.com/10-electric-buses-added-to-tmt-fleet-to-enter-passenger-service-soon/",
+                    "source": "saamana.com",
+                    "publishedAt": "2026-08-17T04:45:00Z"
+                  }
+                ],
+                "rank": 2
+              },
+              {
+                "title": "Τουρκική εισβολή : Η κατάληψη της Αιγιαλούσας",
+                "url": "https://www.philenews.com/kipros/koinonia/article/1759093/i-katalipsi-tis-egialousas-i-tourki-stratiotes-bikan-peripatontas-ke-gelontas-i-komopoli-tis-karpasias-epese-amachiti-17-avgoustou-1974/",
+                "source": "philenews.com",
+                "publishedAt": "2026-08-17T04:30:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "TMT",
+                "discussionScore": 2,
+                "impactScore": 20,
+                "relatedReports": [
+                  {
+                    "title": "टीएमटीच्या ताफ्यात १० इलेक्ट्रिक बस दाखल , लवकरच प्रवाशांच्या सेवेत",
+                    "url": "https://www.saamana.com/10-electric-buses-added-to-tmt-fleet-to-enter-passenger-service-soon/",
+                    "source": "saamana.com",
+                    "publishedAt": "2026-08-17T04:45:00Z"
+                  }
+                ],
+                "rank": 3
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "半导体",
+            "heatScore": 274,
+            "stockCount": 2,
+            "amount": 7153929128.65,
+            "bigOrderNetAmount": 1544722016,
+            "topStocks": [
+              {
+                "symbol": "SZ300672",
+                "name": "国科微",
+                "heatScore": 103,
+                "changePct": 12.57,
+                "amount": 3417668292.65,
+                "turnoverRate": 8.86,
+                "bigOrderNetAmount": 474804384
+              },
+              {
+                "symbol": "SH600206",
+                "name": "有研新材",
+                "heatScore": 99,
+                "changePct": 10,
+                "amount": 3736260836,
+                "turnoverRate": 8.13,
+                "bigOrderNetAmount": 1069917632
+              }
+            ],
+            "news": [
+              {
+                "title": "國際現勢 -- 開欄文 - 時事論壇",
+                "url": "https://city.udn.com/2976/7291863?raid=7297844",
+                "source": "city.udn.com",
+                "publishedAt": "2026-08-17T04:00:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "有研新材",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "通信设备",
+            "heatScore": 156,
+            "stockCount": 1,
+            "amount": 4498431862.81,
+            "bigOrderNetAmount": 603921808,
+            "topStocks": [
+              {
+                "symbol": "SZ300570",
+                "name": "太辰光",
+                "heatScore": 102,
+                "changePct": 20,
+                "amount": 4498431862.81,
+                "turnoverRate": 12.68,
+                "bigOrderNetAmount": 603921808
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": {
+          "sectorCount": 0,
+          "newsCount": 4
+        },
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      }
+    }
+  },
   "latePortfolio": {
     "netValue": 0.9852,
     "cash": 0.9851538688122083,
@@ -497946,6 +498138,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-08-17"
+    },
+    {
+      "jobName": "news-close",
+      "startedAt": "2026-08-17T13:48:42.848Z",
+      "finishedAt": "2026-08-17T13:48:42.848Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-08-17-close"
     }
   ]
 }
