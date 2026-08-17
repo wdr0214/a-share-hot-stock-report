@@ -5669,5 +5669,315 @@
         "todayCloseVsOpenPct": 4.041204437400964
       }
     ]
-  }
+  },
+  "dailyPortfolio": {
+    "date": "2026-08-17",
+    "previousDate": "2026-08-14",
+    "netValue": 0.6571,
+    "cash": 0,
+    "holdings": [
+      {
+        "symbol": "SH603629",
+        "name": "利通电子",
+        "entryPrice": 137.8,
+        "shares": 0.0009537503466590978,
+        "allocation": 0.13142679776962368,
+        "date": "2026-08-17",
+        "sourceReportDate": "2026-08-14"
+      },
+      {
+        "symbol": "SZ300209",
+        "name": "行云科技",
+        "entryPrice": 38.78,
+        "shares": 0.003389035527839703,
+        "allocation": 0.13142679776962368,
+        "date": "2026-08-17",
+        "sourceReportDate": "2026-08-14"
+      },
+      {
+        "symbol": "SZ300319",
+        "name": "麦捷科技",
+        "entryPrice": 19.52,
+        "shares": 0.006732930213607771,
+        "allocation": 0.13142679776962368,
+        "date": "2026-08-17",
+        "sourceReportDate": "2026-08-14"
+      },
+      {
+        "symbol": "SH603083",
+        "name": "剑桥科技",
+        "entryPrice": 190,
+        "shares": 0.0006917199882611772,
+        "allocation": 0.13142679776962368,
+        "date": "2026-08-17",
+        "sourceReportDate": "2026-08-14"
+      },
+      {
+        "symbol": "SH600186",
+        "name": "莲花控股",
+        "entryPrice": 12.62,
+        "shares": 0.010414167810588248,
+        "allocation": 0.13142679776962368,
+        "date": "2026-08-17",
+        "sourceReportDate": "2026-08-14"
+      }
+    ],
+    "sold": [
+      {
+        "symbol": "SH601991",
+        "name": "大唐发电",
+        "entryPrice": 6.93,
+        "sellPrice": 6.35,
+        "returnPct": -8.36940836940837
+      },
+      {
+        "symbol": "SZ002400",
+        "name": "省广集团",
+        "entryPrice": 7.52,
+        "sellPrice": 6.98,
+        "returnPct": -7.180851063829777
+      },
+      {
+        "symbol": "SH600578",
+        "name": "京能电力",
+        "entryPrice": 6.39,
+        "sellPrice": 5.94,
+        "returnPct": -7.042253521126749
+      },
+      {
+        "symbol": "SZ300534",
+        "name": "陇神戎发",
+        "entryPrice": 18.92,
+        "sellPrice": 19.25,
+        "returnPct": 1.7441860465116188
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SH603629",
+        "name": "利通电子",
+        "skipped": false,
+        "buyPrice": 137.8,
+        "allocation": 0.13142679776962368,
+        "open": 137.8,
+        "low": 135.55,
+        "limitUpPrice": 151.25,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ300209",
+        "name": "行云科技",
+        "skipped": false,
+        "buyPrice": 38.78,
+        "allocation": 0.13142679776962368,
+        "open": 38.78,
+        "low": 37.42,
+        "limitUpPrice": 46.72,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SZ300319",
+        "name": "麦捷科技",
+        "skipped": false,
+        "buyPrice": 19.52,
+        "allocation": 0.13142679776962368,
+        "open": 19.52,
+        "low": 18.4,
+        "limitUpPrice": 23.09,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH603083",
+        "name": "剑桥科技",
+        "skipped": false,
+        "buyPrice": 190,
+        "allocation": 0.13142679776962368,
+        "open": 190,
+        "low": 184,
+        "limitUpPrice": 204.49,
+        "buyReason": "open_price"
+      },
+      {
+        "symbol": "SH600186",
+        "name": "莲花控股",
+        "skipped": false,
+        "buyPrice": 12.62,
+        "allocation": 0.13142679776962368,
+        "open": 12.62,
+        "low": 12.34,
+        "limitUpPrice": 13.22,
+        "buyReason": "open_price"
+      }
+    ]
+  },
+  "portfolioHistory": [
+    {
+      "date": "2026-06-18",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-22",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-23",
+      "netValue": 1
+    },
+    {
+      "date": "2026-06-24",
+      "netValue": 0.9558
+    },
+    {
+      "date": "2026-06-25",
+      "netValue": 1.0656
+    },
+    {
+      "date": "2026-06-26",
+      "netValue": 1.0945
+    },
+    {
+      "date": "2026-06-29",
+      "netValue": 1.1143
+    },
+    {
+      "date": "2026-06-30",
+      "netValue": 1.0981
+    },
+    {
+      "date": "2026-07-01",
+      "netValue": 1.1351
+    },
+    {
+      "date": "2026-07-02",
+      "netValue": 1.0834
+    },
+    {
+      "date": "2026-07-03",
+      "netValue": 1.029
+    },
+    {
+      "date": "2026-07-06",
+      "netValue": 0.9792
+    },
+    {
+      "date": "2026-07-07",
+      "netValue": 0.9963
+    },
+    {
+      "date": "2026-07-08",
+      "netValue": 0.9858
+    },
+    {
+      "date": "2026-07-09",
+      "netValue": 0.9461
+    },
+    {
+      "date": "2026-07-10",
+      "netValue": 0.9717
+    },
+    {
+      "date": "2026-07-13",
+      "netValue": 0.9057
+    },
+    {
+      "date": "2026-07-14",
+      "netValue": 0.8528
+    },
+    {
+      "date": "2026-07-15",
+      "netValue": 0.88
+    },
+    {
+      "date": "2026-07-16",
+      "netValue": 0.7928
+    },
+    {
+      "date": "2026-07-17",
+      "netValue": 0.7737
+    },
+    {
+      "date": "2026-07-20",
+      "netValue": 0.7686
+    },
+    {
+      "date": "2026-07-21",
+      "netValue": 0.6865
+    },
+    {
+      "date": "2026-07-22",
+      "netValue": 0.7365
+    },
+    {
+      "date": "2026-07-23",
+      "netValue": 0.7508
+    },
+    {
+      "date": "2026-07-24",
+      "netValue": 0.7099
+    },
+    {
+      "date": "2026-07-27",
+      "netValue": 0.6981
+    },
+    {
+      "date": "2026-07-28",
+      "netValue": 0.7469
+    },
+    {
+      "date": "2026-07-29",
+      "netValue": 0.7132
+    },
+    {
+      "date": "2026-07-30",
+      "netValue": 0.6906
+    },
+    {
+      "date": "2026-07-31",
+      "netValue": 0.6555
+    },
+    {
+      "date": "2026-08-03",
+      "netValue": 0.5847
+    },
+    {
+      "date": "2026-08-04",
+      "netValue": 0.5876
+    },
+    {
+      "date": "2026-08-05",
+      "netValue": 0.5961
+    },
+    {
+      "date": "2026-08-06",
+      "netValue": 0.6203
+    },
+    {
+      "date": "2026-08-07",
+      "netValue": 0.6417
+    },
+    {
+      "date": "2026-08-10",
+      "netValue": 0.6831
+    },
+    {
+      "date": "2026-08-11",
+      "netValue": 0.6595
+    },
+    {
+      "date": "2026-08-12",
+      "netValue": 0.6711
+    },
+    {
+      "date": "2026-08-13",
+      "netValue": 0.6997
+    },
+    {
+      "date": "2026-08-14",
+      "netValue": 0.6857
+    },
+    {
+      "date": "2026-08-17",
+      "netValue": 0.6571
+    }
+  ]
 }
