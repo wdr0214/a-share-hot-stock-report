@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "jobName": "news-close",
+      "startedAt": "2026-08-18T13:50:17.922Z",
+      "finishedAt": "2026-08-18T13:50:17.922Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-08-18-close"
+    },
+    {
       "jobName": "daily-report",
       "startedAt": "2026-08-18T08:01:45.963Z",
       "finishedAt": "2026-08-18T08:01:45.963Z",
@@ -228,14 +236,6 @@
       "jobName": "daily-report",
       "startedAt": "2026-08-06T08:01:00.784Z",
       "finishedAt": "2026-08-06T08:01:00.784Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-08-06"
-    },
-    {
-      "jobName": "late-report",
-      "startedAt": "2026-08-06T06:50:24.496Z",
-      "finishedAt": "2026-08-06T06:50:25.344Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-08-06"
