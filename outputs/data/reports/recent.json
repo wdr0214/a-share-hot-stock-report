@@ -3789,5 +3789,33 @@
       ]
     }
   ],
-  "newsReports": []
+  "newsReports": [
+    {
+      "date": "2026-08-19",
+      "midday": null,
+      "close": {
+        "session": "close",
+        "generatedAt": "2026-08-19T13:51:44.049Z",
+        "status": "ok",
+        "sectorCount": 3,
+        "sectors": [
+          {
+            "name": "化学制药",
+            "heatScore": 281,
+            "newsCount": 3
+          },
+          {
+            "name": "医药生物",
+            "heatScore": 281,
+            "newsCount": 2
+          },
+          {
+            "name": "半导体",
+            "heatScore": 141,
+            "newsCount": 1
+          }
+        ]
+      }
+    }
+  ]
 }
