@@ -1,31 +1,3 @@
 {
-  "reports": [
-    {
-      "date": "2026-08-18",
-      "midday": null,
-      "close": {
-        "session": "close",
-        "generatedAt": "2026-08-18T13:50:17.922Z",
-        "status": "ok",
-        "sectorCount": 3,
-        "sectors": [
-          {
-            "name": "TMT",
-            "heatScore": 267,
-            "newsCount": 1
-          },
-          {
-            "name": "种植业",
-            "heatScore": 156,
-            "newsCount": 0
-          },
-          {
-            "name": "光学光电子",
-            "heatScore": 143,
-            "newsCount": 1
-          }
-        ]
-      }
-    }
-  ]
+  "reports": []
 }
