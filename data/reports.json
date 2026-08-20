@@ -523303,7 +523303,233 @@
       ]
     }
   },
-  "newsReports": {},
+  "newsReports": {
+    "2026-08-20": {
+      "close": {
+        "type": "sector-news",
+        "session": "close",
+        "date": "2026-08-20",
+        "generatedAt": "2026-08-20T13:56:33.893Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 5,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "医药生物",
+            "heatScore": 429,
+            "stockCount": 3,
+            "amount": 7326206531.8,
+            "bigOrderNetAmount": 1271606985,
+            "topStocks": [
+              {
+                "symbol": "SZ300009",
+                "name": "安科生物",
+                "heatScore": 109,
+                "changePct": 19.98,
+                "amount": 1966375312.99,
+                "turnoverRate": 16.32,
+                "bigOrderNetAmount": 414139561
+              },
+              {
+                "symbol": "SZ301080",
+                "name": "百普赛斯",
+                "heatScore": 102,
+                "changePct": 12.72,
+                "amount": 3137719681.82,
+                "turnoverRate": 26.11,
+                "bigOrderNetAmount": 349887152
+              },
+              {
+                "symbol": "SZ002437",
+                "name": "誉衡药业",
+                "heatScore": 95,
+                "changePct": 10,
+                "amount": 2222111536.99,
+                "turnoverRate": 22.96,
+                "bigOrderNetAmount": 507580272
+              }
+            ],
+            "news": [
+              {
+                "title": "Shenzhen Huaqiangbei : A global gateway for Chinese smart technology",
+                "url": "http://en.people.cn/n3/2026/0820/c90000-20490605.html",
+                "source": "en.people.cn",
+                "publishedAt": "2026-08-20T09:15:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "安科生物",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "Tesson Holdings Limited Launches Tesson Smart Energy Strategy to Accelerate Industrial Deployment of New Energy Ecosystem in Mainland China and Hong Kong",
+                    "url": "https://www.manilatimes.net/2026/08/20/tmt-newswire/media-outreach-newswire/tesson-holdings-limited-launches-tesson-smart-energy-strategy-to-accelerate-industrial-deployment-of-new-energy-ecosystem-in-mainland-china-and-hong-kong/2408931",
+                    "source": "manilatimes.net",
+                    "publishedAt": "2026-08-20T05:30:00Z"
+                  },
+                  {
+                    "title": "Tesson Holdings Limited Launches Tesson Smart Energy Strategy to Accelerate Industrial Deployment of New Energy Ecosystem in Mainland China and Hong Kong – LiveNews . co . nz",
+                    "url": "https://livenews.co.nz/2026/08/20/tesson-holdings-limited-launches-tesson-smart-energy-strategy-to-accelerate-industrial-deployment-of-new-energy-ecosystem-in-mainland-china-and-hong-kong/",
+                    "source": "livenews.co.nz",
+                    "publishedAt": "2026-08-20T07:15:00Z"
+                  },
+                  {
+                    "title": "Tesson Holdings Limited Launches Tesson Smart Energy Strategy to Accelerate Industrial Deployment of New Energy Ecosystem in Mainland China and Hong Kong",
+                    "url": "https://www.thailand-business-news.com/pr-news/tesson-holdings-limited-launches-tesson-smart-energy-strategy-to-accelerate-industrial-deployment-of-new-energy-ecosystem-in-mainland-china-and-hong-kong",
+                    "source": "thailand-business-news.com",
+                    "publishedAt": "2026-08-20T08:30:00Z"
+                  }
+                ],
+                "rank": 1
+              },
+              {
+                "title": "Tesson Holdings Limited Launches Tesson Smart Energy Strategy to Accelerate Industrial Deployment of New Energy Ecosystem in Mainland China and Hong Kong",
+                "url": "https://www.thailand-business-news.com/pr-news/tesson-holdings-limited-launches-tesson-smart-energy-strategy-to-accelerate-industrial-deployment-of-new-energy-ecosystem-in-mainland-china-and-hong-kong",
+                "source": "thailand-business-news.com",
+                "publishedAt": "2026-08-20T08:30:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "安科生物",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "Tesson Holdings Limited Launches Tesson Smart Energy Strategy to Accelerate Industrial Deployment of New Energy Ecosystem in Mainland China and Hong Kong",
+                    "url": "https://www.manilatimes.net/2026/08/20/tmt-newswire/media-outreach-newswire/tesson-holdings-limited-launches-tesson-smart-energy-strategy-to-accelerate-industrial-deployment-of-new-energy-ecosystem-in-mainland-china-and-hong-kong/2408931",
+                    "source": "manilatimes.net",
+                    "publishedAt": "2026-08-20T05:30:00Z"
+                  },
+                  {
+                    "title": "Tesson Holdings Limited Launches Tesson Smart Energy Strategy to Accelerate Industrial Deployment of New Energy Ecosystem in Mainland China and Hong Kong – LiveNews . co . nz",
+                    "url": "https://livenews.co.nz/2026/08/20/tesson-holdings-limited-launches-tesson-smart-energy-strategy-to-accelerate-industrial-deployment-of-new-energy-ecosystem-in-mainland-china-and-hong-kong/",
+                    "source": "livenews.co.nz",
+                    "publishedAt": "2026-08-20T07:15:00Z"
+                  },
+                  {
+                    "title": "Taipei MRT Red Line extension to open on Aug . 30",
+                    "url": "https://www.taipeitimes.com/News/taiwan/archives/2026/08/20/2003862828",
+                    "source": "taipeitimes.com",
+                    "publishedAt": "2026-08-20T05:15:00Z"
+                  }
+                ],
+                "rank": 2
+              },
+              {
+                "title": "Tesson Holdings Limited Launches Tesson Smart Energy Strategy to Accelerate Industrial Deployment of New Energy Ecosystem in Mainland China and Hong Kong – LiveNews . co . nz",
+                "url": "https://livenews.co.nz/2026/08/20/tesson-holdings-limited-launches-tesson-smart-energy-strategy-to-accelerate-industrial-deployment-of-new-energy-ecosystem-in-mainland-china-and-hong-kong/",
+                "source": "livenews.co.nz",
+                "publishedAt": "2026-08-20T07:15:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "安科生物",
+                "discussionScore": 4,
+                "impactScore": 36,
+                "relatedReports": [
+                  {
+                    "title": "Tesson Holdings Limited Launches Tesson Smart Energy Strategy to Accelerate Industrial Deployment of New Energy Ecosystem in Mainland China and Hong Kong",
+                    "url": "https://www.manilatimes.net/2026/08/20/tmt-newswire/media-outreach-newswire/tesson-holdings-limited-launches-tesson-smart-energy-strategy-to-accelerate-industrial-deployment-of-new-energy-ecosystem-in-mainland-china-and-hong-kong/2408931",
+                    "source": "manilatimes.net",
+                    "publishedAt": "2026-08-20T05:30:00Z"
+                  },
+                  {
+                    "title": "Tesson Holdings Limited Launches Tesson Smart Energy Strategy to Accelerate Industrial Deployment of New Energy Ecosystem in Mainland China and Hong Kong",
+                    "url": "https://www.thailand-business-news.com/pr-news/tesson-holdings-limited-launches-tesson-smart-energy-strategy-to-accelerate-industrial-deployment-of-new-energy-ecosystem-in-mainland-china-and-hong-kong",
+                    "source": "thailand-business-news.com",
+                    "publishedAt": "2026-08-20T08:30:00Z"
+                  },
+                  {
+                    "title": "Taipei MRT Red Line extension to open on Aug . 30",
+                    "url": "https://www.taipeitimes.com/News/taiwan/archives/2026/08/20/2003862828",
+                    "source": "taipeitimes.com",
+                    "publishedAt": "2026-08-20T05:15:00Z"
+                  }
+                ],
+                "rank": 3
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "生物制品",
+            "heatScore": 302,
+            "stockCount": 2,
+            "amount": 5104094994.81,
+            "bigOrderNetAmount": 764026713,
+            "topStocks": [
+              {
+                "symbol": "SZ300009",
+                "name": "安科生物",
+                "heatScore": 109,
+                "changePct": 19.98,
+                "amount": 1966375312.99,
+                "turnoverRate": 16.32,
+                "bigOrderNetAmount": 414139561
+              },
+              {
+                "symbol": "SZ301080",
+                "name": "百普赛斯",
+                "heatScore": 102,
+                "changePct": 12.72,
+                "amount": 3137719681.82,
+                "turnoverRate": 26.11,
+                "bigOrderNetAmount": 349887152
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "通信设备",
+            "heatScore": 291,
+            "stockCount": 2,
+            "amount": 12185048554.77,
+            "bigOrderNetAmount": 2422575456,
+            "topStocks": [
+              {
+                "symbol": "SZ300570",
+                "name": "太辰光",
+                "heatScore": 106,
+                "changePct": 18.38,
+                "amount": 7949703268.32,
+                "turnoverRate": 20.45,
+                "bigOrderNetAmount": 1087791232
+              },
+              {
+                "symbol": "SZ002491",
+                "name": "通鼎互联",
+                "heatScore": 100,
+                "changePct": 9.99,
+                "amount": 4235345286.45,
+                "turnoverRate": 19.1,
+                "bigOrderNetAmount": 1334784224
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": {
+          "sectorCount": 0,
+          "newsCount": 3
+        },
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      }
+    }
+  },
   "latePortfolio": {
     "netValue": 0.9575,
     "cash": 0.5744980180696433,
@@ -533835,6 +534061,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-08-20"
+    },
+    {
+      "jobName": "news-close",
+      "startedAt": "2026-08-20T13:56:33.893Z",
+      "finishedAt": "2026-08-20T13:56:33.893Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-08-20-close"
     }
   ]
 }
