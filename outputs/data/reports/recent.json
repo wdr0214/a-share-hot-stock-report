@@ -3593,6 +3593,50 @@
   ],
   "weeklyReports": [
     {
+      "week": "2026-34",
+      "rangeStart": "2026-08-15",
+      "rangeEnd": "2026-08-21",
+      "generatedAt": "2026-08-21T14:52:00.500Z",
+      "status": "ok",
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH600330",
+          "name": "天通股份",
+          "appearances": 2,
+          "weeklyHeatScore": 274
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ002437",
+          "name": "誉衡药业",
+          "appearances": 2,
+          "weeklyHeatScore": 271
+        },
+        {
+          "rank": 3,
+          "symbol": "SH600367",
+          "name": "红星发展",
+          "appearances": 2,
+          "weeklyHeatScore": 266
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ300570",
+          "name": "太辰光",
+          "appearances": 1,
+          "weeklyHeatScore": 146
+        },
+        {
+          "rank": 5,
+          "symbol": "SH600707",
+          "name": "彩虹股份",
+          "appearances": 1,
+          "weeklyHeatScore": 145
+        }
+      ]
+    },
+    {
       "week": "2026-33",
       "rangeStart": "2026-08-08",
       "rangeEnd": "2026-08-14",
