@@ -5853,7 +5853,132 @@
           }
         ]
       },
-      "dailyPortfolioError": "Missing daily sell open price for SH601609 on 2026-08-21 after 2 retries"
+      "dailyPortfolio": {
+        "date": "2026-08-21",
+        "previousDate": "2026-08-20",
+        "netValue": 0.5934,
+        "cash": 0.118682,
+        "holdings": [
+          {
+            "symbol": "SZ300570",
+            "name": "太辰光",
+            "entryPrice": 213,
+            "shares": 0.0005571906234098493,
+            "allocation": 0.1186816027862979,
+            "date": "2026-08-21",
+            "sourceReportDate": "2026-08-20"
+          },
+          {
+            "symbol": "SZ301080",
+            "name": "百普赛斯",
+            "entryPrice": 96,
+            "shares": 0.0012362666956906032,
+            "allocation": 0.1186816027862979,
+            "date": "2026-08-21",
+            "sourceReportDate": "2026-08-20"
+          },
+          {
+            "symbol": "SZ300009",
+            "name": "安科生物",
+            "entryPrice": 9.55,
+            "shares": 0.01242739296191601,
+            "allocation": 0.1186816027862979,
+            "date": "2026-08-21",
+            "sourceReportDate": "2026-08-20"
+          },
+          {
+            "symbol": "SZ002491",
+            "name": "通鼎互联",
+            "entryPrice": 20.06,
+            "shares": 0.005916331145877264,
+            "allocation": 0.1186816027862979,
+            "date": "2026-08-21",
+            "sourceReportDate": "2026-08-20"
+          }
+        ],
+        "sold": [
+          {
+            "symbol": "SH601609",
+            "name": "金田股份",
+            "entryPrice": 12.83,
+            "sellPrice": 12.86,
+            "returnPct": 0.23382696804364272
+          },
+          {
+            "symbol": "SH603290",
+            "name": "斯达半导",
+            "entryPrice": 98.01,
+            "sellPrice": 95.61,
+            "returnPct": -2.448729721457
+          },
+          {
+            "symbol": "SZ001400",
+            "name": "江顺科技",
+            "entryPrice": 85.08,
+            "sellPrice": 78.1,
+            "returnPct": -8.204043253408562
+          },
+          {
+            "symbol": "SZ301211",
+            "name": "亨迪药业",
+            "entryPrice": 14.5,
+            "sellPrice": 12.9,
+            "returnPct": -11.034482758620687
+          }
+        ],
+        "bought": [
+          {
+            "symbol": "SZ300570",
+            "name": "太辰光",
+            "skipped": false,
+            "buyPrice": 213,
+            "allocation": 0.1186816027862979,
+            "open": 213,
+            "low": 205.48,
+            "limitUpPrice": 256.08,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ301080",
+            "name": "百普赛斯",
+            "skipped": false,
+            "buyPrice": 96,
+            "allocation": 0.1186816027862979,
+            "open": 96,
+            "low": 91.78,
+            "limitUpPrice": 115.99,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ300009",
+            "name": "安科生物",
+            "skipped": false,
+            "buyPrice": 9.55,
+            "allocation": 0.1186816027862979,
+            "open": 9.55,
+            "low": 8.84,
+            "limitUpPrice": 12.18,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ002491",
+            "name": "通鼎互联",
+            "skipped": false,
+            "buyPrice": 20.06,
+            "allocation": 0.1186816027862979,
+            "open": 20.06,
+            "low": 19.47,
+            "limitUpPrice": 21.2,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ002437",
+            "name": "誉衡药业",
+            "skipped": true,
+            "reason": "cash_or_allocation_insufficient"
+          }
+        ]
+      }
     },
     "2026-08-20": {
       "type": "daily",
@@ -538454,44 +538579,44 @@
     ]
   },
   "dailyPortfolio": {
-    "netValue": 0.62,
-    "cash": 0.124002,
+    "netValue": 0.5934,
+    "cash": 0.118682,
     "holdings": [
       {
-        "symbol": "SH601609",
-        "name": "金田股份",
-        "entryPrice": 12.83,
-        "shares": 0.009665018200278841,
-        "allocation": 0.12400218350957753,
-        "date": "2026-08-20",
-        "sourceReportDate": "2026-08-19"
+        "symbol": "SZ300570",
+        "name": "太辰光",
+        "entryPrice": 213,
+        "shares": 0.0005571906234098493,
+        "allocation": 0.1186816027862979,
+        "date": "2026-08-21",
+        "sourceReportDate": "2026-08-20"
       },
       {
-        "symbol": "SH603290",
-        "name": "斯达半导",
-        "entryPrice": 98.01,
-        "shares": 0.0012651993011894452,
-        "allocation": 0.12400218350957753,
-        "date": "2026-08-20",
-        "sourceReportDate": "2026-08-19"
+        "symbol": "SZ301080",
+        "name": "百普赛斯",
+        "entryPrice": 96,
+        "shares": 0.0012362666956906032,
+        "allocation": 0.1186816027862979,
+        "date": "2026-08-21",
+        "sourceReportDate": "2026-08-20"
       },
       {
-        "symbol": "SZ001400",
-        "name": "江顺科技",
-        "entryPrice": 85.08,
-        "shares": 0.0014574774742545549,
-        "allocation": 0.12400218350957753,
-        "date": "2026-08-20",
-        "sourceReportDate": "2026-08-19"
+        "symbol": "SZ300009",
+        "name": "安科生物",
+        "entryPrice": 9.55,
+        "shares": 0.01242739296191601,
+        "allocation": 0.1186816027862979,
+        "date": "2026-08-21",
+        "sourceReportDate": "2026-08-20"
       },
       {
-        "symbol": "SZ301211",
-        "name": "亨迪药业",
-        "entryPrice": 14.5,
-        "shares": 0.008551874724798451,
-        "allocation": 0.12400218350957753,
-        "date": "2026-08-20",
-        "sourceReportDate": "2026-08-19"
+        "symbol": "SZ002491",
+        "name": "通鼎互联",
+        "entryPrice": 20.06,
+        "shares": 0.005916331145877264,
+        "allocation": 0.1186816027862979,
+        "date": "2026-08-21",
+        "sourceReportDate": "2026-08-20"
       }
     ],
     "history": [
@@ -544458,6 +544583,132 @@
           {
             "symbol": "SH600367",
             "name": "红星发展",
+            "skipped": true,
+            "reason": "cash_or_allocation_insufficient"
+          }
+        ]
+      },
+      {
+        "date": "2026-08-21",
+        "previousDate": "2026-08-20",
+        "netValue": 0.5934,
+        "cash": 0.118682,
+        "holdings": [
+          {
+            "symbol": "SZ300570",
+            "name": "太辰光",
+            "entryPrice": 213,
+            "shares": 0.0005571906234098493,
+            "allocation": 0.1186816027862979,
+            "date": "2026-08-21",
+            "sourceReportDate": "2026-08-20"
+          },
+          {
+            "symbol": "SZ301080",
+            "name": "百普赛斯",
+            "entryPrice": 96,
+            "shares": 0.0012362666956906032,
+            "allocation": 0.1186816027862979,
+            "date": "2026-08-21",
+            "sourceReportDate": "2026-08-20"
+          },
+          {
+            "symbol": "SZ300009",
+            "name": "安科生物",
+            "entryPrice": 9.55,
+            "shares": 0.01242739296191601,
+            "allocation": 0.1186816027862979,
+            "date": "2026-08-21",
+            "sourceReportDate": "2026-08-20"
+          },
+          {
+            "symbol": "SZ002491",
+            "name": "通鼎互联",
+            "entryPrice": 20.06,
+            "shares": 0.005916331145877264,
+            "allocation": 0.1186816027862979,
+            "date": "2026-08-21",
+            "sourceReportDate": "2026-08-20"
+          }
+        ],
+        "sold": [
+          {
+            "symbol": "SH601609",
+            "name": "金田股份",
+            "entryPrice": 12.83,
+            "sellPrice": 12.86,
+            "returnPct": 0.23382696804364272
+          },
+          {
+            "symbol": "SH603290",
+            "name": "斯达半导",
+            "entryPrice": 98.01,
+            "sellPrice": 95.61,
+            "returnPct": -2.448729721457
+          },
+          {
+            "symbol": "SZ001400",
+            "name": "江顺科技",
+            "entryPrice": 85.08,
+            "sellPrice": 78.1,
+            "returnPct": -8.204043253408562
+          },
+          {
+            "symbol": "SZ301211",
+            "name": "亨迪药业",
+            "entryPrice": 14.5,
+            "sellPrice": 12.9,
+            "returnPct": -11.034482758620687
+          }
+        ],
+        "bought": [
+          {
+            "symbol": "SZ300570",
+            "name": "太辰光",
+            "skipped": false,
+            "buyPrice": 213,
+            "allocation": 0.1186816027862979,
+            "open": 213,
+            "low": 205.48,
+            "limitUpPrice": 256.08,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ301080",
+            "name": "百普赛斯",
+            "skipped": false,
+            "buyPrice": 96,
+            "allocation": 0.1186816027862979,
+            "open": 96,
+            "low": 91.78,
+            "limitUpPrice": 115.99,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ300009",
+            "name": "安科生物",
+            "skipped": false,
+            "buyPrice": 9.55,
+            "allocation": 0.1186816027862979,
+            "open": 9.55,
+            "low": 8.84,
+            "limitUpPrice": 12.18,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ002491",
+            "name": "通鼎互联",
+            "skipped": false,
+            "buyPrice": 20.06,
+            "allocation": 0.1186816027862979,
+            "open": 20.06,
+            "low": 19.47,
+            "limitUpPrice": 21.2,
+            "buyReason": "open_price"
+          },
+          {
+            "symbol": "SZ002437",
+            "name": "誉衡药业",
             "skipped": true,
             "reason": "cash_or_allocation_insufficient"
           }
