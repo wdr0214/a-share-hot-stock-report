@@ -17,6 +17,7 @@ const argDate = process.argv[3];
 if (command === "late") console.log(JSON.stringify(await runReportJob("late", argDate || today(), { force: true }), null, 2));
 else if (command === "daily") console.log(JSON.stringify(await runReportJob("daily", argDate || today(), { force: true }), null, 2));
 else if (command === "weekly") console.log(JSON.stringify(await runWeeklyJob(argDate || today()), null, 2));
+else if (command === "etf-rotation") console.log(JSON.stringify(await runEtfRotationJob(argDate || today()), null, 2));
 else if (command === "news-midday") console.log(JSON.stringify(await runNewsJob("midday", argDate || today()), null, 2));
 else if (command === "news-close") console.log(JSON.stringify(await runNewsJob("close", argDate || today()), null, 2));
 else if (command === "catchup") console.log(JSON.stringify(await catchupReports(), null, 2));
@@ -58,6 +59,29 @@ async function runWeeklyJob(date) {
     return await generateWeekly(date);
   } catch (error) {
     await recordFailureLog("weekly-report", weekKey(date), error);
+    throw error;
+  }
+}
+
+async function runEtfRotationJob(date) {
+  const db = await readDb();
+  if (db.etfRotationReports?.[date]?.status === "ok") {
+    return { skipped: true, reason: "report_already_ok", type: "etf-rotation", date };
+  }
+  try {
+    const { generateEtfRotation } = await import("./etf-rotation.js");
+    const { report, portfolio } = await generateEtfRotation({ date, now: new Date(), portfolio: db.etfRotationPortfolio });
+    db.etfRotationReports ||= {};
+    db.etfRotationReports[date] = report;
+    db.etfRotationPortfolio = portfolio;
+    const now = new Date().toISOString();
+    db.jobLogs.push({ jobName: "etf-rotation", startedAt: now, finishedAt: now, status: "ok", errorMessage: "", reportKey: date, attempts: 1 });
+    db.jobLogs = db.jobLogs.slice(-200);
+    await writeDb(db);
+    await exportStatic(db);
+    return report;
+  } catch (error) {
+    await recordFailureLog("etf-rotation", date, error);
     throw error;
   }
 }
@@ -638,12 +662,14 @@ async function exportStatic(existingDb) {
   await mkdir(join(OUT_DIR, "late"), { recursive: true });
   await mkdir(join(OUT_DIR, "weekly"), { recursive: true });
   await mkdir(join(OUT_DIR, "news"), { recursive: true });
+  await mkdir(join(OUT_DIR, "etf-rotation"), { recursive: true });
 
   pruneDb(db);
   await cleanReportDir(join(OUT_DIR, "daily"));
   await cleanReportDir(join(OUT_DIR, "late"));
   await cleanReportDir(join(OUT_DIR, "weekly"));
   await cleanReportDir(join(OUT_DIR, "news"));
+  await cleanReportDir(join(OUT_DIR, "etf-rotation"));
 
   const recentDaily = Object.values(db.dailyReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
   const recentLate = Object.values(db.lateReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
@@ -653,13 +679,15 @@ async function exportStatic(existingDb) {
     .filter((item) => item.midday || item.close)
     .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, REPORT_RETENTION_DAYS);
+  const recentEtfRotation = Object.values(db.etfRotationReports || {}).sort((a, b) => b.date.localeCompare(a.date));
   const latePortfolioHistory = db.latePortfolio?.history || [];
   const dailyPortfolioHistory = db.dailyPortfolio?.history || [];
-  await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily.map(reportIndexItem), lateReports: recentLate.map(reportIndexItem), weeklyReports: recentWeekly.map(weeklyIndexItem), newsReports: recentNews.map(newsIndexItem) });
+  await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily.map(reportIndexItem), lateReports: recentLate.map(reportIndexItem), weeklyReports: recentWeekly.map(weeklyIndexItem), newsReports: recentNews.map(newsIndexItem), etfRotationReports: recentEtfRotation.map(etfRotationIndexItem) });
   await writeJson(join(OUT_DIR, "logs.json"), { logs: db.jobLogs.slice(-30).reverse() });
   for (const report of recentDaily) await writeJson(join(OUT_DIR, "daily", `${report.date}.json`), withPortfolioHistory(report, dailyPortfolioHistory));
   for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), withPortfolioHistory(report, latePortfolioHistory));
   for (const report of recentWeekly) await writeJson(join(OUT_DIR, "weekly", `${report.week}.json`), report);
+  for (const report of recentEtfRotation) await writeJson(join(OUT_DIR, "etf-rotation", `${report.date}.json`), { ...report, portfolioHistory: db.etfRotationPortfolio?.history || report.portfolioHistory || [] });
   for (const item of recentNews) {
     if (item.midday) await writeJson(join(OUT_DIR, "news", `${item.date}-midday.json`), item.midday);
     if (item.close) await writeJson(join(OUT_DIR, "news", `${item.date}-close.json`), item.close);
@@ -669,17 +697,24 @@ async function exportStatic(existingDb) {
   if (recentLate[0]) await writeJson(join(OUT_DIR, "late-latest.json"), withPortfolioHistory(recentLate[0], latePortfolioHistory));
   const latestWeek = recentWeekly[0];
   if (latestWeek) await writeJson(join(OUT_DIR, "weekly-latest.json"), latestWeek);
+  if (recentEtfRotation[0]) await writeJson(join(OUT_DIR, "etf-rotation-latest.json"), { ...recentEtfRotation[0], portfolioHistory: db.etfRotationPortfolio?.history || recentEtfRotation[0].portfolioHistory || [] });
   await writeJson(join(OUT_DIR, "news-index.json"), { reports: recentNews.map(newsIndexItem) });
   if (recentNews[0]) await writeJson(join(OUT_DIR, "news-latest.json"), recentNews[0]);
   return {
     recentDailyCount: recentDaily.length,
     recentLateCount: recentLate.length,
     recentNewsCount: recentNews.length,
+    recentEtfRotationCount: recentEtfRotation.length,
     latestDailyDate: recentDaily[0]?.date || null,
     latestLateDate: recentLate[0]?.date || null,
     latestNewsDate: recentNews[0]?.date || null,
+    latestEtfRotationDate: recentEtfRotation[0]?.date || null,
     hasWeekly: Boolean(latestWeek)
   };
+}
+
+function etfRotationIndexItem(report) {
+  return { date: report.date, generatedAt: report.generatedAt, status: report.status, netValue: report.netValue, holding: report.holding || null };
 }
 
 function weeklyIndexItem(report) {
@@ -1620,12 +1655,14 @@ async function readDb() {
       lateReports: db.lateReports || {},
       weeklyReports: db.weeklyReports || {},
       newsReports: db.newsReports || {},
+      etfRotationReports: db.etfRotationReports || {},
+      etfRotationPortfolio: db.etfRotationPortfolio || null,
       latePortfolio: db.latePortfolio || null,
       dailyPortfolio: db.dailyPortfolio || null,
       jobLogs: db.jobLogs || []
     };
   } catch {
-    return { dailyReports: {}, lateReports: {}, weeklyReports: {}, newsReports: {}, latePortfolio: null, dailyPortfolio: null, jobLogs: [] };
+    return { dailyReports: {}, lateReports: {}, weeklyReports: {}, newsReports: {}, etfRotationReports: {}, etfRotationPortfolio: null, latePortfolio: null, dailyPortfolio: null, jobLogs: [] };
   }
 }
 
@@ -1654,6 +1691,7 @@ function pruneDb(db) {
   db.lateReports = pruneReportMap(db.lateReports || {}, "date", REPORT_RETENTION_DAYS);
   db.weeklyReports = pruneReportMap(db.weeklyReports || {}, "rangeEnd", REPORT_RETENTION_DAYS);
   db.newsReports = pruneNewsReports(db.newsReports || {}, REPORT_RETENTION_DAYS);
+  db.etfRotationReports = pruneReportMap(db.etfRotationReports || {}, "date", REPORT_RETENTION_DAYS);
   db.jobLogs = (db.jobLogs || []).slice(-200);
   if (db.latePortfolio?.history) {
     db.latePortfolio.history = db.latePortfolio.history.slice(-REPORT_RETENTION_DAYS);
