@@ -548343,6 +548343,8 @@
       }
     }
   },
+  "etfRotationReports": {},
+  "etfRotationPortfolio": null,
   "latePortfolio": {
     "netValue": 0.9628,
     "cash": 0.7702625419939847,
