@@ -548217,7 +548217,132 @@
       ]
     }
   },
-  "newsReports": {},
+  "newsReports": {
+    "2026-08-24": {
+      "close": {
+        "type": "sector-news",
+        "session": "close",
+        "date": "2026-08-24",
+        "generatedAt": "2026-08-24T13:58:38.834Z",
+        "source": "free-sources-gdelt-rss-plus-market-sector-heat",
+        "dataPolicy": "免费源优先 + 结合现有行情行业/概念推导热门板块",
+        "status": "ok",
+        "totalCandidates": 6,
+        "model": "deepseek-v4-flash",
+        "sectors": [
+          {
+            "name": "贵金属",
+            "heatScore": 247,
+            "stockCount": 2,
+            "amount": 8728388251.74,
+            "bigOrderNetAmount": 227796096,
+            "topStocks": [
+              {
+                "symbol": "SZ002716",
+                "name": "湖南白银",
+                "heatScore": 91,
+                "changePct": 9.98,
+                "amount": 6608849620.09,
+                "turnoverRate": 25.33,
+                "bigOrderNetAmount": 86102032
+              },
+              {
+                "symbol": "SZ001337",
+                "name": "四川黄金",
+                "heatScore": 90,
+                "changePct": 9.97,
+                "amount": 2119538631.65,
+                "turnoverRate": 9.29,
+                "bigOrderNetAmount": 141694064
+              }
+            ],
+            "news": [
+              {
+                "title": "端正觀念篇 -- 開欄文 ： 8 個錯誤的老生常談 -- Singh Bhai - 時事論壇",
+                "url": "https://city.udn.com/2976/7253553?raid=7298028",
+                "source": "city.udn.com",
+                "publishedAt": "2026-08-24T06:00:00Z",
+                "summary": "",
+                "provider": "gdelt",
+                "query": "四川黄金",
+                "discussionScore": 1,
+                "impactScore": 12,
+                "relatedReports": [],
+                "rank": 1
+              }
+            ],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "周期材料",
+            "heatScore": 247,
+            "stockCount": 2,
+            "amount": 8728388251.74,
+            "bigOrderNetAmount": 227796096,
+            "topStocks": [
+              {
+                "symbol": "SZ002716",
+                "name": "湖南白银",
+                "heatScore": 91,
+                "changePct": 9.98,
+                "amount": 6608849620.09,
+                "turnoverRate": 25.33,
+                "bigOrderNetAmount": 86102032
+              },
+              {
+                "symbol": "SZ001337",
+                "name": "四川黄金",
+                "heatScore": 90,
+                "changePct": 9.97,
+                "amount": 2119538631.65,
+                "turnoverRate": 9.29,
+                "bigOrderNetAmount": 141694064
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          },
+          {
+            "name": "化学原料",
+            "heatScore": 133,
+            "stockCount": 1,
+            "amount": 2781079059,
+            "bigOrderNetAmount": 551102880,
+            "topStocks": [
+              {
+                "symbol": "SH600367",
+                "name": "红星发展",
+                "heatScore": 100,
+                "changePct": 10.01,
+                "amount": 2781079059,
+                "turnoverRate": 23.5,
+                "bigOrderNetAmount": 551102880
+              }
+            ],
+            "news": [],
+            "deepseek": {
+              "status": "skipped",
+              "reason": "DEEPSEEK_API_KEY is not configured",
+              "model": "deepseek-v4-flash"
+            }
+          }
+        ],
+        "excludedMidday": {
+          "sectorCount": 0,
+          "newsCount": 1
+        },
+        "notice": "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
+      }
+    }
+  },
   "latePortfolio": {
     "netValue": 0.9628,
     "cash": 0.7702625419939847,
@@ -559152,6 +559277,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-08-24"
+    },
+    {
+      "jobName": "news-close",
+      "startedAt": "2026-08-24T13:58:38.834Z",
+      "finishedAt": "2026-08-24T13:58:38.834Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-08-24-close"
     }
   ]
 }
