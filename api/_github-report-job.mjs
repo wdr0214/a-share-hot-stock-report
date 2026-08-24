@@ -1,3 +1,6 @@
+Exit code: 0
+Wall time: 1.7 seconds
+Output:
 import { spawn } from "node:child_process";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -147,7 +150,7 @@ function assertAuthorized(req) {
 }
 
 async function seedReportsDb(workspace) {
-  const fallback = { dailyReports: {}, lateReports: {}, weeklyReports: {}, latePortfolio: null, dailyPortfolio: null, jobLogs: [] };
+  const fallback = { dailyReports: {}, lateReports: {}, weeklyReports: {}, etfRotationReports: {}, latePortfolio: null, dailyPortfolio: null, etfRotationPortfolio: null, jobLogs: [] };
   const payload = await fetchText(`${RAW_BASE}/data/reports.json`).catch(() => JSON.stringify(fallback, null, 2));
   await writeFile(join(workspace, "data", "reports.json"), payload, "utf8");
 }
@@ -277,3 +280,4 @@ function shanghaiDate() {
   }).formatToParts(new Date()).reduce((acc, part) => (acc[part.type] = part.value, acc), {});
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
+
