@@ -1,0 +1,1445 @@
+Exit code: 0
+Wall time: 1.5 seconds
+Total output lines: 37436
+Output:
+{
+  "generatedAt": "2026-06-26T06:49:03.901Z",
+  "start": "2025-01-01",
+  "end": "2026-06-26",
+  "universeCount": 2390,
+  "tradingDays": 357,
+  "dataSource": {
+    "kline": "Eastmoney historical daily kline",
+    "fundFlow": "Eastmoney individual fund-flow daykline where available",
+    "limitation": "Free Eastmoney fund-flow endpoint returned only recent rows during validation; earlier dates use real OHLC/turnover/amount/volume metrics with fund-flow fields left at 0. Historical intraday 14:55 prices are not available from the free daily dataset; late-session backtest uses daily close as the 14:55 price proxy."
+  },
+  "fundFlowFirstDate": "2025-01-02",
+  "selectionFundFlowCoverage": {
+    "days": 357,
+    "daysWithAnyFundFlow": 124,
+    "firstDateWithAnyFundFlow": "2025-11-20",
+    "lastDateWithoutFundFlow": "2026-06-26"
+  },
+  "late": {
+    "startDate": "2025-01-02",
+    "endDate": "2026-06-26",
+    "startNetValue": 1,
+    "endNetValue": 0.2182,
+    "totalReturnPct": -78.18,
+    "maxDrawdownPct": -82.34
+  },
+  "daily": {
+    "startDate": "2025-01-02",
+    "endDate": "2026-06-26",
+    "startNetValue": 1,
+    "endNetValue": 0.2,
+    "totalReturnPct": -80,
+    "maxDrawdownPct": -86.15
+  },
+  "selections": [
+    {
+      "date": "2025-01-02",
+      "stocks": [
+        {
+          "symbol": "SZ300607",
+          "name": "拓斯达",
+          "heatScore": 77,
+          "changePct": 15.34,
+          "amount": 2443543288,
+          "turnoverRate": 26.1,
+          "volumeRatio": 1,
+          "amplitude": 19.38,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002364",
+          "name": "中恒电气",
+          "heatScore": 76,
+          "changePct": 10.01,
+          "amount": 1545546288.67,
+          "turnoverRate": 24.09,
+          "volumeRatio": 1,
+          "amplitude": 15.29,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002640",
+          "name": "跨境通",
+          "heatScore": 76,
+          "changePct": 9.9,
+          "amount": 1581115367.83,
+          "turnoverRate": 27.37,
+          "volumeRatio": 1,
+          "amplitude": 10.94,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH601933",
+          "name": "永辉超市",
+          "heatScore": 75,
+          "changePct": 7.26,
+          "amount": 7236041164,
+          "turnoverRate": 11.76,
+          "volumeRatio": 1,
+          "amplitude": 12.62,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002117",
+          "name": "东港股份",
+          "heatScore": 75,
+          "changePct": 10.02,
+          "amount": 1388729015.48,
+          "turnoverRate": 21.45,
+          "volumeRatio": 1,
+          "amplitude": 15.75,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ]
+    },
+    {
+      "date": "2025-01-03",
+      "stocks": [
+        {
+          "symbol": "SH600530",
+          "name": "交大昂立",
+          "heatScore": 85,
+          "changePct": 9.98,
+          "amount": 694592296,
+          "turnoverRate": 15.75,
+          "volumeRatio": 5.670274062990809,
+          "amplitude": 18.27,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ000785",
+          "name": "居然智家",
+          "heatScore": 82,
+          "changePct": 10.03,
+          "amount": 1949125226.12,
+          "turnoverRate": 8.31,
+          "volumeRatio": 1.8504324348112937,
+          "amplitude": 19.79,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002730",
+          "name": "电光科技",
+          "heatScore": 81,
+          "changePct": 9.98,
+          "amount": 1828958976.18,
+          "turnoverRate": 33.15,
+          "volumeRatio": 1.7224125918228832,
+          "amplitude": 15.17,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002952",
+          "name": "亚世光电",
+          "heatScore": 81,
+          "changePct": 10,
+          "amount": 693347720.07,
+          "turnoverRate": 18.8,
+          "volumeRatio": 2.862236311239193,
+          "amplitude": 6.64,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "BJ920407",
+          "name": "驰诚股份",
+          "heatScore": 79,
+          "changePct": 29.95,
+          "amount": 169595666.26,
+          "turnoverRate": 30.46,
+          "volumeRatio": 3.77885492153381,
+          "amplitude": 31.21,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ]
+    },
+    {
+      "date": "2025-01-06",
+      "stocks": [
+        {
+          "symbol": "SZ300158",
+          "name": "振东制药",
+          "heatScore": 84,
+          "changePct": 19.95,
+          "amount": 533259886,
+          "turnoverRate": 11.25,
+          "volumeRatio": 6.578788188115202,
+          "amplitude": 20.19,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "BJ920433",
+          "name": "大唐药业",
+          "heatScore": 79,
+          "changePct": 18.94,
+          "amount": 147898635.81,
+          "turnoverRate": 13.09,
+          "volumeRatio": 4.920385030586542,
+          "amplitude": 16.61,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH600405",
+          "name": "动力源",
+          "heatScore": 77,
+          "changePct": 9.96,
+          "amount": 542719006,
+          "turnoverRate": 17.53,
+          "volumeRatio": 1.907795755493452,
+          "amplitude": 17.82,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ001202",
+          "name": "炬申股份",
+          "heatScore": 76,
+          "changePct": 9.97,
+          "amount": 132439760.81,
+          "turnoverRate": 9.64,
+          "volumeRatio": 2.6122699570237042,
+          "amplitude": 14.4,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002364",
+          "name": "中恒电气",
+          "heatScore": 76,
+          "changePct": 9.97,
+          "amount": 1681717948.06,
+          "turnoverRate": 24.82,
+          "volumeRatio": 0.9773122751889762,
+          "amplitude": 18.89,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ]
+    },
+    {
+      "date": "2025-01-07",
+      "stocks": [
+        {
+          "symbol": "SZ300491",
+          "name": "通合科技",
+          "heatScore": 83,
+          "changePct": 14.8,
+          "amount": 427131359,
+          "turnoverRate": 16.21,
+          "volumeRatio": 3.7311367201223167,
+          "amplitude": 19.72,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH600405",
+          "name": "动力源",
+          "heatScore": 80,
+          "changePct": 9.93,
+          "amount": 872374965,
+          "turnoverRate": 26.17,
+          "volumeRatio": 2.1857621038423387,
+          "amplitude": 9.76,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH603063",
+          "name": "禾望电气",
+          "heatScore": 80,
+          "changePct": 10,
+          "amount": 1022859461,
+          "turnoverRate": 10.02,
+          "volumeRatio": 2.786056482975574,
+          "amplitude": 4.33,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ001202",
+          "name": "炬申股份",
+          "heatScore": 79,
+          "changePct": 10.03,
+          "amount": 353852562.99,
+          "turnoverRate": 23.02,
+          "volumeRatio": 4.0557056218588885,
+          "amplitude": 5.94,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ003003",
+          "name": "天元股份",
+          "heatScore": 79,
+          "changePct": 10.04,
+          "amount": 301401696.05,
+          "turnoverRate": 23.18,
+          "volumeRatio": 2.621193381572412,
+          "amplitude": 10.91,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ]
+    },
+    {
+      "date": "2025-01-08",
+      "stocks": [
+        {
+          "symbol": "SZ002611",
+          "name": "东方精工",
+          "heatScore": 90,
+          "changePct": 9.96,
+          "amount": 3041772778.04,
+          "turnoverRate": 28.66,
+          "volumeRatio": 3.755979624580492,
+          "amplitude": 9.76,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002354",
+          "name": "天娱数科",
+          "heatScore": 83,
+          "changePct": 10,
+          "amount": 2167649410.45,
+          "turnoverRate": 24.73,
+          "volumeRatio": 2.050579380346232,
+          "amplitude": 11.73,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ300260",
+          "name": "新莱应材",
+          "heatScore": 82,
+          "changePct": 9.92,
+          "amount": 736956169,
+          "turnoverRate": 10.12,
+          "volumeRatio": 2.507995207185773,
+          "amplitude": 11.63,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301157",
+          "name": "华塑科技",
+          "heatScore": 82,
+          "changePct": 20,
+          "amount": 810332337,
+          "turnoverRate": 60.51,
+          "volumeRatio": 2.4350391975458927,
+          "amplitude": 14.08,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301009",
+          "name": "可靠股份",
+          "heatScore": 81,
+          "changePct": 11.83,
+          "amount": 311734008,
+          "turnoverRate": 21.38,
+          "volumeRatio": 3.060705222019415,
+          "amplitude": 13.85,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ]
+    },
+    {
+      "date": "2025-01-09",
+      "stocks": [
+        {
+          "symbol": "SH603063",
+          "name": "禾望电气",
+          "heatScore": 86,
+          "changePct": 9.99,
+          "amount": 3012174197,
+          "turnoverRate": 24.33,
+          "volumeRatio": 4.337946044927757,
+          "amplitude": 4.76,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ000573",
+          "name": "粤宏远Ａ",
+          "heatScore": 84,
+          "changePct": 10.07,
+          "amount": 1169169672.14,
+          "turnoverRate": 37.19,
+          "volumeRatio": 5.648640257067213,
+          "amplitude": 6.78,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002126",
+          "name": "银轮股份",
+          "heatScore": 82,
+          "changePct": 7.77,
+          "amount": 1424598224.04,
+          "turnoverRate": 9.29,
+          "volumeRatio": 3.424742180776773,
+          "amplitude": 11,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH603009",
+          "name": "北特科技",
+          "heatScore": 81,
+          "changePct": 9.55,
+          "amount": 1500233521,
+          "turnoverRate": 10.57,
+          "volumeRatio": 2.161542405138287,
+          "amplitude": 11.74,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "BJ920427",
+          "name": "华维设计",
+          "heatScore": 80,
+          "changePct": 11.89,
+          "amount": 216319376.21,
+          "turnoverRate": 25.26,
+          "volumeRatio": 5.8667908325228915,
+          "amplitude": 32.03,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ]
+    },
+    {
+      "date": "2025-01-10",
+      "stocks": [
+        {
+          "symbol": "SH603015",
+          "name": "弘讯科技",
+          "heatScore": 87,
+          "changePct": 10.01,
+          "amount": 1386342776,
+          "turnoverRate": 27.08,
+          "volumeRatio": 7.957263751968098,
+          "amplitude": 13.26,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ000573",
+          "name": "粤宏远Ａ",
+          "heatScore": 87,
+          "changePct": 9.94,
+          "amount": 1370800681.96,
+          "turnoverRate": 41.87,
+          "volumeRatio": 3.3071396945814233,
+          "amplitude": 18.49,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002698",
+          "name": "博实股份",
+          "heatScore": 85,
+          "changePct": 10.01,
+          "amount": 1082218178.92,
+          "turnoverRate": 7.53,
+          "volumeRatio": 2.9865866462653634,
+          "amplitude": 10.2,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH603063",
+          "name": "禾望电气",
+          "heatScore": 83,
+          "changePct": 7.01,
+          "amount": 3718498991,
+          "turnoverRate": 28.51,
+          "volumeRatio": 2.9513761296760896,
+          "amplitude": 10.94,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301511",
+          "name": "德福科技",
+          "heatScore": 83,
+          "changePct": 20.02,
+          "amount": 487921180,
+          "turnoverRate": 9.08,
+          "volumeRatio": 4.542962561215739,
+          "amplitude": 17.96,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ]
+    },
+    {
+      "date": "2025-01-13",
+      "stocks": [
+        {
+          "symbol": "SZ002917",
+          "name": "金奥博",
+          "heatScore": 86,
+          "changePct": 10.03,
+          "amount": 974115868.39,
+          "turnoverRate": 29.62,
+          "volumeRatio": 5.380730093555964,
+          "amplitude": 13.15,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301511",
+          "name": "德福科技",
+          "heatScore": 84,
+          "changePct": 9.06,
+          "amount": 1198248900,
+          "turnoverRate": 19.66,
+          "volumeRatio": 5.683584402913416,
+          "amplitude": 17.09,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "BJ920000",
+          "name": "安徽凤凰",
+          "heatScore": 80,
+          "changePct": 11.88,
+          "amount": 195622199.62,
+          "turnoverRate": 17.52,
+          "volumeRatio": 3.80173900546134,
+          "amplitude": 17.53,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301608",
+          "name": "博实结",
+          "heatScore": 79,
+          "changePct": 15.51,
+          "amount": 322013434,
+          "turnoverRate": 27.1,
+          "volumeRatio": 2.5386149584487536,
+          "amplitude": 22.63,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "BJ920489",
+          "name": "佳先股份",
+          "heatScore": 75,
+          "changePct": 13.83,
+          "amount": 238864702.26,
+          "turnoverRate": 15.9,
+          "volumeRatio": 2.045715298301257,
+          "amplitude": 19.5,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ]
+    },
+    {
+      "date": "2025-01-14",
+      "stocks": [
+        {
+          "symbol": "SZ300339",
+          "name": "润和软件",
+          "heatScore": 93,
+          "changePct": 13.09,
+          "amount": 5983267104,
+          "turnoverRate": 15.53,
+          "volumeRatio": 3.0251925029340225,
+          "amplitude": 14.01,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "BJ920799",
+          "name": "艾融软件",
+          "heatScore": 86,
+          "changePct": 27.55,
+          "amount": 997039014.05,
+          "turnoverRate": 14.89,
+          "volumeRatio": 3.2888878887101067,
+          "amplitude": 28.81,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH603166",
+          "name": "福达股份",
+          "heatScore": 86,
+          "changePct": 10.03,
+          "amount": 987768430,
+          "turnoverRate": 17.27,
+          "volumeRatio": 7.152733396162576,
+          "amplitude": 14.99,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH600202",
+          "name": "哈空调",
+          "heatScore": 83,
+          "changePct": 10.09,
+          "amount": 518729814,
+          "turnoverRate": 23.44,
+          "volumeRatio": 4.454651358773782,
+          "amplitude": 10.09,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ300365",
+          "name": "恒华科技",
+          "heatScore": 83,
+          "changePct": 18.39,
+          "amount": 427788055,
+          "turnoverRate": 14.16,
+          "volumeRatio": 5.733844272347461,
+          "amplitude": 18.57,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ]
+    },
+    {
+      "date": "2025-01-15",
+      "stocks": [
+        {
+          "symbol": "SH600423",
+          "name": "*ST柳化",
+          "heatScore": 83,
+          "changePct": 10.03,
+          "amount": 504290558,
+          "turnoverRate": 17.47,
+          "volumeRatio": 11.93636851991884,
+          "amplitude": 10.03,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "BJ920770",
+          "name": "艾能聚",
+          "heatScore": 79,
+          "changePct": 8.74,
+          "amount": 338949831.31,
+          "turnoverRate": 22.4,
+          "volumeRatio": 3.073854704034807,
+          "amplitude": 25.63,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH603270",
+          "name": "金帝股份",
+          "heatScore": 77,
+          "changePct": 10.01,
+          "amount": 164021672,
+          "turnoverRate": 11.3,
+          "volumeRatio": 2.730877567205404,
+          "amplitude": 11.03,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002640",
+          "name": "跨境通",
+          "heatScore": 77,
+          "changePct": 9.96,
+          "amount": 1735665115.23,
+          "turnoverRate": 24.67,
+          "volumeRatio": 1.1908133772627887,
+          "amplitude": 10.17,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "BJ920985",
+          "name": "海泰新能",
+          "heatScore": 76,
+          "changePct": 8.77,
+          "amount": 206222488.01,
+          "turnoverRate": 9.12,
+          "volumeRatio": 2.857676175744415,
+          "amplitude": 19.05,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ]
+    },
+    {
+      "date": "2025-01-16",
+      "stocks": [
+        {
+          "symbol": "SZ300152",
+          "name": "*ST动力",
+          "heatScore": 86,
+          "changePct": 19.96,
+          "amount": 955723006,
+          "turnoverRate": 24.1,
+          "volumeRatio": 4.3131838460499,
+          "amplitude": 19.33,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002917",
+          "name": "金奥博",
+          "heatScore": 85,
+          "changePct": 10,
+          "amount": 1948075724.22,
+          "turnoverRate": 43.38,
+          "volumeRatio": 5.043411090712579,
+          "amplitude": 5,
+       …252144 tokens truncated…unt": 1090892943,
+          "turnoverRate": 14.99,
+          "volumeRatio": 9.156340816913103,
+          "amplitude": 6.71,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002208",
+          "name": "合肥城建",
+          "heatScore": 99,
+          "changePct": 9.99,
+          "amount": 2109848505.24,
+          "turnoverRate": 21.37,
+          "volumeRatio": 1.3752541716528601,
+          "amplitude": 14.31,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301365",
+          "name": "矩阵股份",
+          "heatScore": 93,
+          "changePct": 9.88,
+          "amount": 581893796,
+          "turnoverRate": 49.92,
+          "volumeRatio": 2.157102232996131,
+          "amplitude": 20.14,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301617",
+          "name": "博苑新材",
+          "heatScore": 93,
+          "changePct": 13.07,
+          "amount": 996066587,
+          "turnoverRate": 33.14,
+          "volumeRatio": 1.5913114706981288,
+          "amplitude": 14.78,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ],
+      "holdings": [
+        "SZ301365",
+        "SZ301617"
+      ]
+    },
+    {
+      "date": "2025-10-20",
+      "netValue": 0.2043,
+      "cash": 0.122576,
+      "selected": [
+        {
+          "symbol": "SZ301468",
+          "name": "博盈特焊",
+          "heatScore": 102,
+          "changePct": 19.99,
+          "amount": 505739336,
+          "turnoverRate": 21.62,
+          "volumeRatio": 4.089187362559768,
+          "amplitude": 18.22,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH603162",
+          "name": "海通发展",
+          "heatScore": 101,
+          "changePct": 9.63,
+          "amount": 940410448,
+          "turnoverRate": 30.47,
+          "volumeRatio": 2.367304934098053,
+          "amplitude": 16.67,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH600333",
+          "name": "长春燃气",
+          "heatScore": 98,
+          "changePct": 10.07,
+          "amount": 889176550,
+          "turnoverRate": 19.53,
+          "volumeRatio": 1.793145972296656,
+          "amplitude": 13.79,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301071",
+          "name": "力量钻石",
+          "heatScore": 97,
+          "changePct": 18.71,
+          "amount": 1830866402,
+          "turnoverRate": 21.21,
+          "volumeRatio": 1.1728624144462814,
+          "amplitude": 21.69,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301232",
+          "name": "飞沃科技",
+          "heatScore": 96,
+          "changePct": 20,
+          "amount": 688141145,
+          "turnoverRate": 34.92,
+          "volumeRatio": 2.8089151098000658,
+          "amplitude": 15.96,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ],
+      "holdings": [
+        "SH603162",
+        "SZ301071"
+      ]
+    },
+    {
+      "date": "2025-10-21",
+      "netValue": 0.201,
+      "cash": 0.040202,
+      "selected": [
+        {
+          "symbol": "BJ920942",
+          "name": "恒立钻具",
+          "heatScore": 105,
+          "changePct": 22.66,
+          "amount": 724100729.65,
+          "turnoverRate": 38.31,
+          "volumeRatio": 10.960049204618524,
+          "amplitude": 18.3,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ300080",
+          "name": "易成新能",
+          "heatScore": 103,
+          "changePct": 13.23,
+          "amount": 1023140667,
+          "turnoverRate": 9.71,
+          "volumeRatio": 2.834183995893102,
+          "amplitude": 22.18,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301251",
+          "name": "威尔高",
+          "heatScore": 100,
+          "changePct": 15.05,
+          "amount": 1090089070,
+          "turnoverRate": 31.49,
+          "volumeRatio": 2.636220834212912,
+          "amplitude": 19.7,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002208",
+          "name": "合肥城建",
+          "heatScore": 96,
+          "changePct": 9.99,
+          "amount": 1578134014.31,
+          "turnoverRate": 14.2,
+          "volumeRatio": 0.6678656700753675,
+          "amplitude": 11.99,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ300395",
+          "name": "菲利华",
+          "heatScore": 95,
+          "changePct": 14.17,
+          "amount": 3297342446,
+          "turnoverRate": 8.31,
+          "volumeRatio": 2.8486304828105755,
+          "amplitude": 13.36,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ],
+      "holdings": [
+        "BJ920942",
+        "SZ300080",
+        "SZ301251",
+        "SZ300395"
+      ]
+    },
+    {
+      "date": "2025-10-22",
+      "netValue": 0.197,
+      "cash": 0.039395,
+      "selected": [
+        {
+          "symbol": "SZ300850",
+          "name": "新强联",
+          "heatScore": 104,
+          "changePct": 8.49,
+          "amount": 2565821825,
+          "turnoverRate": 17.93,
+          "volumeRatio": 3.078056452091503,
+          "amplitude": 9.89,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002207",
+          "name": "*ST准油",
+          "heatScore": 98,
+          "changePct": 10.04,
+          "amount": 875352664.58,
+          "turnoverRate": 35.29,
+          "volumeRatio": 2.0917652192093374,
+          "amplitude": 9.38,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "BJ920706",
+          "name": "铁拓机械",
+          "heatScore": 96,
+          "changePct": 14.5,
+          "amount": 578675347.27,
+          "turnoverRate": 44.93,
+          "volumeRatio": 5.5252732954611465,
+          "amplitude": 17.82,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301137",
+          "name": "哈焊华通",
+          "heatScore": 95,
+          "changePct": 8.35,
+          "amount": 1215157890,
+          "turnoverRate": 14.47,
+          "volumeRatio": 1.6509462631910836,
+          "amplitude": 17.71,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002097",
+          "name": "山河智能",
+          "heatScore": 93,
+          "changePct": 6.44,
+          "amount": 3827466709.68,
+          "turnoverRate": 24.25,
+          "volumeRatio": 4.50517245559169,
+          "amplitude": 6.88,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ],
+      "holdings": [
+        "SZ300850",
+        "BJ920706",
+        "SZ301137",
+        "SZ002097"
+      ]
+    },
+    {
+      "date": "2025-10-23",
+      "netValue": 0.195,
+      "cash": 0.117016,
+      "selected": [
+        {
+          "symbol": "SZ002278",
+          "name": "神开股份",
+          "heatScore": 105,
+          "changePct": 9.98,
+          "amount": 1675087783.14,
+          "turnoverRate": 37.59,
+          "volumeRatio": 6.073594254812088,
+          "amplitude": 6.97,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ300850",
+          "name": "新强联",
+          "heatScore": 105,
+          "changePct": 10.42,
+          "amount": 2764408097,
+          "turnoverRate": 18.11,
+          "volumeRatio": 2.183957274149786,
+          "amplitude": 16.59,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301289",
+          "name": "国缆检测",
+          "heatScore": 99,
+          "changePct": 20,
+          "amount": 464863931,
+          "turnoverRate": 9.7,
+          "volumeRatio": 4.389829915307622,
+          "amplitude": 20.62,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301629",
+          "name": "矽电股份",
+          "heatScore": 97,
+          "changePct": 13.09,
+          "amount": 762766112,
+          "turnoverRate": 36.14,
+          "volumeRatio": 3.358903084406906,
+          "amplitude": 14.74,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ000962",
+          "name": "东方钽业",
+          "heatScore": 96,
+          "changePct": 10,
+          "amount": 1094807354.17,
+          "turnoverRate": 7.8,
+          "volumeRatio": 1.404226424736952,
+          "amplitude": 11.27,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ],
+      "holdings": [
+        "SZ300850",
+        "SZ301629"
+      ]
+    },
+    {
+      "date": "2025-10-24",
+      "netValue": 0.1946,
+      "cash": 0.038923,
+      "selected": [
+        {
+          "symbol": "SZ002278",
+          "name": "神开股份",
+          "heatScore": 101,
+          "changePct": 6.49,
+          "amount": 2591363907.49,
+          "turnoverRate": 53.44,
+          "volumeRatio": 4.297881224913235,
+          "amplitude": 10.47,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301306",
+          "name": "西测测试",
+          "heatScore": 97,
+          "changePct": 16.34,
+          "amount": 712333539,
+          "turnoverRate": 20.57,
+          "volumeRatio": 3.6516111347992934,
+          "amplitude": 13.33,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301489",
+          "name": "思泉新材",
+          "heatScore": 97,
+          "changePct": 12.39,
+          "amount": 1766861577,
+          "turnoverRate": 16.72,
+          "volumeRatio": 1.1779528351301045,
+          "amplitude": 14.25,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ001231",
+          "name": "农心科技",
+          "heatScore": 96,
+          "changePct": 10.02,
+          "amount": 277260975,
+          "turnoverRate": 22.95,
+          "volumeRatio": 7.683553646916728,
+          "amplitude": 16.21,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ301617",
+          "name": "博苑新材",
+          "heatScore": 94,
+          "changePct": 14.34,
+          "amount": 902259291,
+          "turnoverRate": 27.24,
+          "volumeRatio": 0.9927409114116277,
+          "amplitude": 17.91,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ],
+      "holdings": [
+        "SZ002278",
+        "SZ301306",
+        "SZ301489",
+        "SZ301617"
+      ]
+    },
+    {
+      "date": "2025-10-27",
+      "netValue": 0.1982,
+      "cash": 0.158539,
+      "selected": [
+        {
+          "symbol": "SZ300655",
+          "name": "晶瑞电材",
+          "heatScore": 111,
+          "changePct": 16.5,
+          "amount": 5010639663,
+          "turnoverRate": 26.72,
+          "volumeRatio": 3.9375052455583925,
+          "amplitude": 8.85,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002278",
+          "name": "神开股份",
+          "heatScore": 107,
+          "changePct": 9.97,
+          "amount": 2819988037.41,
+          "turnoverRate": 57.16,
+          "volumeRatio": 2.5724264201577225,
+          "amplitude": 19.94,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002748",
+          "name": "世龙实业",
+          "heatScore": 107,
+          "changePct": 10.01,
+          "amount": 1160769367.45,
+          "turnoverRate": 30.47,
+          "volumeRatio": 3.506871253895948,
+          "amplitude": 18.21,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH600549",
+          "name": "厦门钨业",
+          "heatScore": 105,
+          "changePct": 10,
+          "amount": 3967481790,
+          "turnoverRate": 7.47,
+          "volumeRatio": 3.368714227398917,
+          "amplitude": 7.74,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ001231",
+          "name": "农心科技",
+          "heatScore": 103,
+          "changePct": 9.99,
+          "amount": 436024025.2,
+          "turnoverRate": 34.48,
+          "volumeRatio": 4.8594575972529706,
+          "amplitude": 18.36,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ],
+      "holdings": [
+        "SZ300655"
+      ]
+    },
+    {
+      "date": "2025-10-28",
+      "netValue": 0.1998,
+      "cash": 0.199849,
+      "selected": [
+        {
+          "symbol": "SH603378",
+          "name": "*ST亚士",
+          "heatScore": 102,
+          "changePct": 9.97,
+          "amount": 422802851,
+          "turnoverRate": 12.22,
+          "volumeRatio": 3.949364128713021,
+          "amplitude": 9.57,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ300358",
+          "name": "楚天科技",
+          "heatScore": 102,
+          "changePct": 20.04,
+          "amount": 924311364,
+          "turnoverRate": 14.63,
+          "volumeRatio": 4.044416570055356,
+          "amplitude": 16.01,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002512",
+          "name": "ST达华",
+          "heatScore": 101,
+          "changePct": 9.98,
+          "amount": 1075166906.38,
+          "turnoverRate": 18.54,
+          "volumeRatio": 2.7167763897965522,
+          "amplitude": 5.91,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ000547",
+          "name": "航天发展",
+          "heatScore": 97,
+          "changePct": 9.95,
+          "amount": 1398880184.36,
+          "turnoverRate": 10.14,
+          "volumeRatio": 4.840490133596277,
+          "amplitude": 10.82,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "BJ920748",
+          "name": "路桥信息",
+          "heatScore": 96,
+          "changePct": 29.99,
+          "amount": 414577345.02,
+          "turnoverRate": 12.31,
+          "volumeRatio": 1.9298801654139877,
+          "amplitude": 32.12,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ],
+      "holdings": []
+    },
+    {
+      "date": "2025-10-29",
+      "netValue": 0.1998,
+      "cash": 0.159879,
+      "selected": [
+        {
+          "symbol": "SZ300274",
+          "name": "阳光电源",
+          "heatScore": 109,
+          "changePct": 15.44,
+          "amount": 26410424683,
+          "turnoverRate": 9.14,
+          "volumeRatio": 2.02965043913383,
+          "amplitude": 15.71,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH603378",
+          "name": "*ST亚士",
+          "heatScore": 105,
+          "changePct": 10.04,
+          "amount": 691158323,
+          "turnoverRate": 18.39,
+          "volumeRatio": 3.5842098514973477,
+          "amplitude": 15.24,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "BJ920195",
+          "name": "三祥科技",
+          "heatScore": 98,
+          "changePct": 29.98,
+          "amount": 325161434.75,
+          "turnoverRate": 20.22,
+          "volumeRatio": 10.252397127746484,
+          "amplitude": 23.79,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH601012",
+          "name": "隆基绿能",
+          "heatScore": 98,
+          "changePct": 10,
+          "amount": 7852274544,
+          "turnoverRate": 5.15,
+          "volumeRatio": 2.6507975843078704,
+          "amplitude": 10.48,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH603185",
+          "name": "弘元绿能",
+          "heatScore": 98,
+          "changePct": 9.99,
+          "amount": 1137694701,
+          "turnoverRate": 6.54,
+          "volumeRatio": 2.628497830513849,
+          "amplitude": 10.53,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ],
+      "holdings": [
+        "SZ300274"
+      ]
+    },
+    {
+      "date": "2025-10-30",
+      "netValue": 0.2005,
+      "cash": 0.160412,
+      "selected": [
+        {
+          "symbol": "SZ300745",
+          "name": "欣锐科技",
+          "heatScore": 104,
+          "changePct": 20,
+          "amount": 664043906,
+          "turnoverRate": 16.84,
+          "volumeRatio": 3.5851994169868817,
+          "amplitude": 20,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH603378",
+          "name": "*ST亚士",
+          "heatScore": 100,
+          "changePct": 10,
+          "amount": 765742748,
+          "turnoverRate": 18.37,
+          "volumeRatio": 2.199824558462819,
+          "amplitude": 10.22,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ300136",
+          "name": "信维通信",
+          "heatScore": 98,
+          "changePct": 7.41,
+          "amount": 4774561893,
+          "turnoverRate": 16.79,
+          "volumeRatio": 1.7597501392685997,
+          "amplitude": 14.22,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002430",
+          "name": "杭氧股份",
+          "heatScore": 95,
+          "changePct": 9.99,
+          "amount": 1429560500.75,
+          "turnoverRate": 5.06,
+          "volumeRatio": 3.5113336608164554,
+          "amplitude": 7.27,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SH605178",
+          "name": "时空科技",
+          "heatScore": 91,
+          "changePct": 10,
+          "amount": 393074508,
+          "turnoverRate": 6.25,
+          "volumeRatio": 10.9847436579741,
+          "amplitude": 0,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        }
+      ],
+      "holdings": [
+        "SZ300136"
+      ]
+    },
+    {
+      "date": "2025-10-31",
+      "netValue": 0.2008,
+      "cash": 0.040164,
+      "selected": [
+        {
+          "symbol": "SH605178",
+          "name": "时空科技",
+          "heatScore": 108,
+          "changePct": 10,
+          "amount": 2347895870,
+          "turnoverRate": 35.03,
+          "volumeRatio": 20.254274875984827,
+          "amplitude": 8.65,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ300436",
+          "name": "广生堂",
+          "heatScore": 106,
+          "changePct": 10.99,
+          "amount": 2663954761,
+          "turnoverRate": 16.66,
+          "volumeRatio": 2.4223616353873147,
+          "amplitude": 13.92,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ300486",
+          "name": "东杰智能",
+          "heatScore": 99,
+          "changePct": 9.25,
+          "amount": 1130456015,
+          "turnoverRate": 10.41,
+          "volumeRatio": 2.0751087418046628,
+          "amplitude": 10.93,
+          "bigOrderNetAmount": 0,
+          "largeOrderNetRatio": 0
+        },
+        {
+          "symbol": "SZ002163",
+          "name": 
