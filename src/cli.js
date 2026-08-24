@@ -1,3 +1,7 @@
+Exit code: 0
+Wall time: 1.7 seconds
+Total output lines: 2008
+Output:
 import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
@@ -10,6 +14,25 @@ const DAILY_SELL_OPEN_RETRIES = 2;
 const DAILY_SELL_OPEN_RETRY_DELAY_MS = 120000;
 const EASTMONEY_FIELDS = "f12,f14,f2,f3,f6,f7,f8,f10,f62,f66,f69,f72,f75,f100";
 const QUOTE_FIELDS = "f12,f14,f2,f3,f15,f16,f17,f18";
+const ETF_ROTATION_ETFS = [
+  { symbol: "SZ159915", name: "鍒涗笟鏉縀TF" },
+  { symbol: "SH510300", name: "娌繁300ETF" },
+  { symbol: "SH518880", name: "榛勯噾ETF" },
+  { symbol: "SZ159941", name: "绾虫寚ETF" },
+  { symbol: "SH513050", name: "涓浗浜掕仈缃慐TF" },
+  { symbol: "SH511260", name: "鍗佸勾鍥藉€篍TF" }
+];
+const ETF_MOMENTUM_DAYS = 20;
+const ETF_MA_DAYS = 28;
+const ETF_ROTATION_FEE_RATE = 0.0001;
+const A_SHARE_CLOSED_DATES = new Set([
+  "2025-01-01", "2025-01-28", "2025-01-29", "2025-01-30", "2025-01-31", "2025-02-03", "2025-02-04",
+  "2025-04-04", "2025-05-01", "2025-05-02", "2025-05-05", "2025-06-02",
+  "2025-10-01", "2025-10-02", "2025-10-03", "2025-10-06", "2025-10-07", "2025-10-08",
+  "2026-01-01", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-23",
+  "2026-04-06", "2026-05-01", "2026-05-04", "2026-05-05", "2026-06-19", "2026-09-25",
+  "2026-10-01", "2026-10-02", "2026-10-05", "2026-10-06", "2026-10-07"
+]);
 
 const command = process.argv[2] || "check";
 const argDate = process.argv[3];
@@ -17,6 +40,7 @@ const argDate = process.argv[3];
 if (command === "late") console.log(JSON.stringify(await runReportJob("late", argDate || today(), { force: true }), null, 2));
 else if (command === "daily") console.log(JSON.stringify(await runReportJob("daily", argDate || today(), { force: true }), null, 2));
 else if (command === "weekly") console.log(JSON.stringify(await runWeeklyJob(argDate || today()), null, 2));
+else if (command === "etf-rotation") console.log(JSON.stringify(await runEtfRotationJob(argDate || today()), null, 2));
 else if (command === "news-midday") console.log(JSON.stringify(await runNewsJob("midday", argDate || today()), null, 2));
 else if (command === "news-close") console.log(JSON.stringify(await runNewsJob("close", argDate || today()), null, 2));
 else if (command === "catchup") console.log(JSON.stringify(await catchupReports(), null, 2));
@@ -58,6 +82,19 @@ async function runWeeklyJob(date) {
     return await generateWeekly(date);
   } catch (error) {
     await recordFailureLog("weekly-report", weekKey(date), error);
+    throw error;
+  }
+}
+
+async function runEtfRotationJob(date) {
+  const db = await readDb();
+  if (db.etfRotationReports?.[date]?.status === "ok") {
+    return { skipped: true, reason: "report_already_ok", type: "etf-rotation", date };
+  }
+  try {
+    return await generateEtfRotationReport(date);
+  } catch (error) {
+    await recordFailureLog("etf-rotation", date, error);
     throw error;
   }
 }
@@ -105,6 +142,127 @@ async function catchupOne(type, date) {
   } catch (error) {
     return { type, status: "failed", error: error.message };
   }
+}
+
+async function generateEtfRotationReport(date) {
+  assertEtfRotationAllowed(date);
+  const db = await readDb();
+  const symbols = ETF_ROTATION_ETFS.map((item) => item.symbol);
+  const quotes = await withRetry("etf rotation quotes", () => fetchQuotes(symbols));
+  const quoteMap = new Map(quotes.map((quote) => [quote.symbol, quote]));
+  const rows = [];
+
+  for (const etf of ETF_ROTATION_ETFS) {
+    const quote = quoteMap.get(etf.symbol);
+    if (!quote?.close) throw new Error(`Missing 14:53 quote for ${etf.symbol}`);
+    const kline = await withRetry(`etf rotation kline ${etf.symbol}`, () => fetchKline(etf.symbol));
+    const completed = kline.filter((item) => item.date < date).sort((a, b) => a.date.localeCompare(b.date));
+    if (completed.length < ETF_MA_DAYS) throw new Error(`Insufficient completed daily kline for ${etf.symbol}`);
+    const maRows = completed.slice(-ETF_MA_DAYS);
+    const momentumBase = completed.at(-ETF_MOMENTUM_DAYS);
+    const executionPrice = number(quote.close);
+    const ma28 = maRows.reduce((sum, item) => sum + number(item.close), 0) / ETF_MA_DAYS;
+    const momentum20Pct = momentumBase?.close ? ((executionPrice - number(momentumBase.close)) / number(momentumBase.close)) * 100 : null;
+    if (!Number.isFinite(momentum20Pct) || !ma28) throw new Error(`Unable to calculate rotation parameters for ${etf.symbol}`);
+    rows.push({
+      ...etf,
+      executionPrice: round(executionPrice, 4),
+      momentum20Pct: round(momentum20Pct, 4),
+      ma28: round(ma28, 4),
+      aboveMa28: executionPrice > ma28,
+      quoteSource: quote.dataSource || "eastmoney",
+      quoteTime: quote.time || "",
+      quoteDate: quote.date || date
+    });
+  }
+
+  const momentumLeader = [...rows].sort((a, b) => b.momentum20Pct - a.momentum20Pct)[0];
+  const target = momentumLeader?.aboveMa28 ? momentumLeader : null;
+  const snapshot = updateEtfRotationPortfolio(db, date, target, quoteMap);
+  const generatedAt = new Date().toISOString();
+  const report = {
+    type: "etf-rotation",
+    date,
+    generatedAt,
+    status: "ok",
+    source: "real-time-free-market-data",
+    executionTime: "14:53",
+    quoteCapturedAt: generatedAt,
+    parameters: {
+      momentumDays: ETF_MOMENTUM_DAYS,
+      movingAverageDays: ETF_MA_DAYS,
+      feeRate: ETF_ROTATION_FEE_RATE
+    },
+    etfs: rows,
+    momentumLeader: momentumLeader ? { symbol: momentumLeader.symbol, name: momentumLeader.name } : null,
+    target: target ? { symbol: target.symbol, name: target.name, price: target.executionPrice } : null,
+    rotationPortfolio: snapshot,
+    notice: "鍩轰簬鐪熷疄琛屾儏蹇収鐢熸垚锛屼笉鏋勬垚鎶曡祫寤鸿銆?
+  };
+  db.etfRotationReports[date] = report;
+  db.jobLogs.push({
+    jobName: "etf-rotation",
+    startedAt: generatedAt,
+    finishedAt: new Date().toISOString(),
+    status: "success",
+    errorMessage: "",
+    reportKey: date
+  });
+  db.jobLogs = db.jobLogs.slice(-200);
+  pruneDb(db);
+  await writeDb(db);
+  await exportStatic(db);
+  return report;
+}
+
+function updateEtfRotationPortfolio(db, date, target, quoteMap) {
+  const state = db.etfRotationPortfolio || { netValue: 1, cash: 1, holding: null, history: [] };
+  let cash = number(state.cash);
+  let holding = state.holding || null;
+  const trades = [];
+
+  if (holding) {
+    const mark = quoteMap.get(holding.symbol);
+    if (!mark?.close) throw new Error(`Missing 14:53 quote for current holding ${holding.symbol}`);
+    const markPrice = number(mark.close);
+    if (target?.symbol !== holding.symbol) {
+      const gross = number(holding.shares) * markPrice;
+      const fee = gross * ETF_ROTATION_FEE_RATE;
+      cash += gross - fee;
+      trades.push({ action: "sell", symbol: holding.symbol, name: holding.name, price: round(markPrice, 4), fee: round(fee, 6) });
+      holding = null;
+    }
+  }
+
+  if (target && !holding) {
+    const gross = cash;
+    const fee = gross * ETF_ROTATION_FEE_RATE;
+    const investment = gross - fee;
+    const shares = investment / target.executionPrice;
+    holding = { symbol: target.symbol, name: target.name, entryPrice: target.executionPrice, shares, date };
+    cash = 0;
+    trades.push({ action: "buy", symbol: target.symbol, name: target.name, price: target.executionPrice, fee: round(fee, 6) });
+  }
+
+  const holdingQuote = holding ? quoteMap.get(holding.symbol) : null;
+  const markedHoldingValue = holding ? number(holding.shares) * number(holdingQuote?.close) : 0;
+  const netValue = cash + markedHoldingValue;
+  const snapshot = {
+    date,
+    netValue: round(netValue, 6),
+    cash: round(cash, 6),
+    holding,
+    trades,
+    rebalanced: trades.length > 0
+  };
+  db.etfRotationPortfolio = {
+    netValue: snapshot.netValue,
+    cash,
+    holding,
+    history: [...(state.history || []).filter((item) => item.date !== date), snapshot]
+      .sort((a, b) => a.date.localeCompare(b.date))
+  };
+  return snapshot;
 }
 
 async function generateMarketReport(type, date) {
@@ -173,9 +331,9 @@ async function generateMarketReport(type, date) {
     status: stocks.length === 5 ? "ok" : "partial",
     totalCandidates: candidates.length,
     ratingPolicy: type === "late"
-      ? "尾盘报告与日报使用同一套行情热度评分；周报默认汇总收盘后的日报，避免同一交易日重复计数。"
-      : "日报使用收盘后行情热度评分；周报默认汇总日报结果。",
-    notice: "基于真实行情数据生成；免费源不保证稳定性；不构成投资建议。",
+      ? "灏剧洏鎶ュ憡涓庢棩鎶ヤ娇鐢ㄥ悓涓€濂楄鎯呯儹搴﹁瘎鍒嗭紱鍛ㄦ姤榛樿姹囨€绘敹鐩樺悗鐨勬棩鎶ワ紝閬垮厤鍚屼竴浜ゆ槗鏃ラ噸澶嶈鏁般€?
+      : "鏃ユ姤浣跨敤鏀剁洏鍚庤鎯呯儹搴﹁瘎鍒嗭紱鍛ㄦ姤榛樿姹囨€绘棩鎶ョ粨鏋溿€?,
+    notice: "鍩轰簬鐪熷疄琛屾儏鏁版嵁鐢熸垚锛涘厤璐规簮涓嶄繚璇佺ǔ瀹氭€э紱涓嶆瀯鎴愭姇璧勫缓璁€?,
     stocks,
     previousDayStocksTodayChange
   };
@@ -229,13 +387,13 @@ async function updateLatePortfolio(db, report) {
   const buyRecords = [];
   for (const stock of report.stocks || []) {
     if (stock.isLimitUp) {
-      buyRecords.push({ symbol: stock.symbol, name: stock.name, skipped: true, reason: "涨停无法买入" });
+      buyRecords.push({ symbol: stock.symbol, name: stock.name, skipped: true, reason: "娑ㄥ仠鏃犳硶涔板叆" });
       continue;
     }
     const price = number(stock.close || stock.kline?.at(-1)?.close);
     const allocation = currentNetValue * 0.2;
     if (!price || allocation <= 0 || cash < allocation) {
-      buyRecords.push({ symbol: stock.symbol, name: stock.name, skipped: true, reason: "价格数据不足或现金不足" });
+      buyRecords.push({ symbol: stock.symbol, name: stock.name, skipped: true, reason: "浠锋牸鏁版嵁涓嶈冻鎴栫幇閲戜笉瓒? });
       continue;
     }
     const shares = allocation / price;
@@ -350,979 +508,7 @@ async function updateDailyPortfolio(db, report) {
     bought: buyRecords
   };
   db.dailyPortfolio = { netValue: snapshot.netValue, cash, holdings, history: [...(state.history || []), snapshot].slice(-REPORT_RETENTION_DAYS) };
-  return snapshot;
-}
-
-function dailyBuyPrice(stock, quote) {
-  const open = number(quote?.open);
-  if (!open) return { price: null, reason: "open_price_missing" };
-  const threshold = limitUpThreshold(stock);
-  const previousClose = number(quote?.previousClose || stock.kline?.at(-1)?.close);
-  const limitUpPrice = previousClose ? round(previousClose * (1 + threshold / 100), 2) : null;
-  if (limitUpPrice && open >= limitUpPrice - 0.01) {
-    const low = number(quote?.low);
-    if (low && low < limitUpPrice - 0.01) return { price: limitUpPrice, reason: "limit_up_open_but_tradable_low", limitUpPrice };
-    return { price: null, reason: "limit_up_open_untradable", limitUpPrice };
-  }
-  return { price: open, reason: "open_price", limitUpPrice };
-}
-
-async function dailySellMarketWithRetry(db, date, symbol, initialMarket = null) {
-  if (initialMarket?.open) return initialMarket;
-  let sellMarket = null;
-  const retryDelay = date === today() ? DAILY_SELL_OPEN_RETRY_DELAY_MS : 0;
-  for (let attempt = 0; attempt <= DAILY_SELL_OPEN_RETRIES; attempt += 1) {
-    if (attempt > 0 && retryDelay) {
-      console.warn(`Missing daily sell open price for ${symbol} on ${date}, retrying in ${retryDelay / 1000}s (${attempt}/${DAILY_SELL_OPEN_RETRIES})`);
-      await sleep(retryDelay);
-    }
-    sellMarket = await dailySellMarketForHolding(db, date, symbol);
-    if (sellMarket?.open) return sellMarket;
-  }
-  throw new Error(`Missing daily sell open price for ${symbol} on ${date} after ${DAILY_SELL_OPEN_RETRIES} retries`);
-}
-
-async function generateWeekly(date) {
-  const db = await readDb();
-  const dates = Array.from({ length: 7 }, (_, index) => addDays(date, -index));
-  const reports = dates.map((day) => db.dailyReports[day]).filter(Boolean);
-  const map = new Map();
-  for (const report of reports) {
-    for (const stock of report.stocks || []) {
-      const item = map.get(stock.symbol) || {
-        symbol: stock.symbol,
-        name: stock.name,
-        weeklyHeatScore: 0,
-        appearances: 0,
-        momentumTotal: 0,
-        factors: new Map()
-      };
-      item.weeklyHeatScore += stock.heatScore || 0;
-      item.appearances += 1;
-      item.momentumTotal += stock.momentumScore || 0;
-      for (const factor of stock.positiveFactors || []) item.factors.set(factor, (item.factors.get(factor) || 0) + 1);
-      map.set(stock.symbol, item);
-    }
-  }
-  const stocks = [...map.values()]
-    .map((item) => {
-      const topFactors = [...item.factors.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([factor]) => factor);
-      return {
-        rank: 0,
-        symbol: item.symbol,
-        name: item.name,
-        weeklyHeatScore: Math.round(item.weeklyHeatScore + item.appearances * 20),
-        appearances: item.appearances,
-        avgMomentumScore: Math.round(item.momentumTotal / item.appearances),
-        weeklySummary: `本周高频行情特征集中在 ${topFactors.join("、") || "成交活跃"}，累计入选 ${item.appearances} 天。`
-      };
-    })
-    .sort((a, b) => b.weeklyHeatScore - a.weeklyHeatScore)
-    .map((item, index) => ({ ...item, rank: index + 1 }));
-
-  const report = {
-    week: weekKey(date),
-    rangeStart: addDays(date, -6),
-    rangeEnd: date,
-    generatedAt: new Date().toISOString(),
-    source: "github-actions-daily-reports",
-    status: reports.length ? "ok" : "empty",
-    ratingPolicy: "周报汇总最近 7 天日报结果，不重复计入尾盘报告。",
-    stocks,
-    dailyPortfolioTrades: buildWeeklyPortfolioTrades(db, dates, "daily"),
-    latePortfolioTrades: buildWeeklyPortfolioTrades(db, dates, "late")
-  };
-  db.weeklyReports[report.week] = report;
-  db.jobLogs.push({ jobName: "weekly-report", startedAt: report.generatedAt, finishedAt: new Date().toISOString(), status: "success", errorMessage: "", reportKey: report.week });
-  db.jobLogs = db.jobLogs.slice(-200);
-  pruneDb(db);
-  await writeDb(db);
-  await exportStatic(db);
-  return report;
-}
-
-async function generateNewsReport(session, date) {
-  if (!["midday", "close"].includes(session)) throw new Error("unsupported news session");
-  const db = await readDb();
-  db.newsReports ||= {};
-  if (!isWeekday(date)) {
-    const skipped = {
-      type: "sector-news",
-      session,
-      date,
-      generatedAt: new Date().toISOString(),
-      status: "skipped",
-      reason: "weekend",
-      message: "资讯报告仅在周一至周五更新；本次未覆盖历史报告。"
-    };
-    db.jobLogs.push({ jobName: `news-${session}`, startedAt: skipped.generatedAt, finishedAt: new Date().toISOString(), status: "skipped", errorMessage: "weekend", reportKey: `${date}-${session}` });
-    db.jobLogs = db.jobLogs.slice(-200);
-    pruneDb(db);
-    await writeDb(db);
-    await exportStatic(db);
-    return skipped;
-  }
-
-  const candidates = await fetchMarketStocksForNews(db, date);
-  const existingDay = db.newsReports[date] || {};
-  const midday = session === "close" ? existingDay.midday : null;
-  const excludedSectorNames = new Set((midday?.sectors || []).map((sector) => sector.name));
-  const excludedNewsKeys = new Set((midday?.sectors || []).flatMap((sector) => (sector.news || []).map(newsFingerprint)));
-  const sectors = buildHotSectors(candidates, {
-    excludeNames: session === "close" ? excludedSectorNames : new Set()
-  }).slice(0, 3);
-
-  const enrichedSectors = [];
-  for (const sector of sectors) {
-    const rawNews = await collectSectorNews(sector, date);
-    const news = selectSectorNews(rawNews, {
-      excludeKeys: session === "close" ? excludedNewsKeys : new Set()
-    }).slice(0, 3);
-    const deepseek = await analyzeSectorWithDeepSeek(sector, news, session, date);
-    enrichedSectors.push({ ...sector, news, deepseek });
-    for (const item of news) excludedNewsKeys.add(newsFingerprint(item));
-  }
-
-  const report = {
-    type: "sector-news",
-    session,
-    date,
-    generatedAt: new Date().toISOString(),
-    source: "free-sources-gdelt-rss-plus-market-sector-heat",
-    dataPolicy: "免费源优先 + 结合现有行情行业/概念推导热门板块",
-    status: enrichedSectors.length ? "ok" : "partial",
-    totalCandidates: candidates.length,
-    model: process.env.DEEPSEEK_MODEL || "deepseek-v4-flash",
-    sectors: enrichedSectors,
-    excludedMidday: session === "close" ? { sectorCount: excludedSectorNames.size, newsCount: excludedNewsKeys.size } : null,
-    notice: "新闻只展示标题、摘要、来源、时间和链接；不复刻全文；不构成投资建议。"
-  };
-
-  db.newsReports[date] = { ...existingDay, [session]: report };
-  db.jobLogs.push({ jobName: `news-${session}`, startedAt: report.generatedAt, finishedAt: new Date().toISOString(), status: "success", errorMessage: "", reportKey: `${date}-${session}` });
-  db.jobLogs = db.jobLogs.slice(-200);
-  pruneDb(db);
-  await writeDb(db);
-  await exportStatic(db);
-  return report;
-}
-
-async function fetchMarketStocksForNews(db, date) {
-  try {
-    return await fetchAllMarketStocks();
-  } catch (error) {
-    const sameDayReports = [db.lateReports?.[date], db.dailyReports?.[date]].filter(Boolean);
-    const stocks = sameDayReports.flatMap((report) => report.stocks || []);
-    if (!stocks.length) throw error;
-    const bySymbol = new Map();
-    for (const stock of stocks) {
-      bySymbol.set(normalizeSymbol(stock.symbol), {
-        ...stock,
-        symbol: normalizeSymbol(stock.symbol),
-        heatScore: stock.heatScore || scoreStock(stock, stock.kline || [])
-      });
-    }
-    return [...bySymbol.values()];
-  }
-}
-
-function buildWeeklyPortfolioTrades(db, dates, type) {
-  const collection = type === "daily" ? db.dailyReports : db.lateReports;
-  const portfolioField = type === "daily" ? "dailyPortfolio" : "latePortfolio";
-  const orderedDates = [...dates].reverse();
-  const groups = [];
-  const openBuys = new Map();
-
-  for (const date of orderedDates) {
-    const report = collection?.[date];
-    const portfolio = report?.[portfolioField];
-    if (!report || !portfolio) continue;
-    const trades = [];
-
-    for (const sold of portfolio.sold || []) {
-      const symbol = normalizeSymbol(sold.symbol);
-      const row = openBuys.get(symbol);
-      if (row) {
-        row.sellDate = date;
-        row.sellPrice = number(sold.sellPrice) || null;
-        row.profitPct = finiteOrNull(sold.returnPct);
-        row.status = "已卖出";
-        openBuys.delete(symbol);
-      } else {
-        trades.push(portfolioTradeRowFromSell(report, sold));
-      }
-    }
-
-    for (const bought of portfolio.bought || []) {
-      const row = portfolioTradeRowFromBuy(report, bought, type);
-      trades.push(row);
-      if (row.action === "buy" && row.symbol) openBuys.set(row.symbol, row);
-    }
-
-    if (trades.length) {
-      groups.push({
-        date,
-        netValue: portfolio.netValue ?? null,
-        trades
-      });
-    }
-  }
-
-  return groups;
-}
-
-function portfolioTradeRowFromBuy(report, row, type) {
-  const skipped = Boolean(row.skipped);
-  const symbol = normalizeSymbol(row.symbol);
-  const buyPrice = number(row.buyPrice);
-  const markPrice = !skipped ? markPriceForReport(report, symbol, type) : null;
-  return {
-    date: report.date,
-    buyDate: report.date,
-    sellDate: "",
-    action: skipped ? "skipped" : "buy",
-    symbol,
-    name: row.name || findReportStock(report, symbol)?.name || "",
-    buyPrice: buyPrice || null,
-    sellPrice: null,
-    markPrice: markPrice || null,
-    profitPct: buyPrice && markPrice ? ((markPrice - buyPrice) / buyPrice) * 100 : null,
-    status: skipped ? "未成交" : "持仓中",
-    reason: row.reason || row.buyReason || ""
-  };
-}
-
-function portfolioTradeRowFromSell(report, row) {
-  const symbol = normalizeSymbol(row.symbol);
-  return {
-    date: report.date,
-    buyDate: "",
-    sellDate: report.date,
-    action: "sell",
-    symbol,
-    name: row.name || findReportStock(report, symbol)?.name || "",
-    buyPrice: number(row.entryPrice) || null,
-    sellPrice: number(row.sellPrice) || null,
-    markPrice: null,
-    profitPct: finiteOrNull(row.returnPct),
-    status: "已卖出",
-    reason: ""
-  };
-}
-
-function markPriceForReport(report, symbol, type) {
-  const normalized = normalizeSymbol(symbol);
-  if (type === "daily") {
-    const previousItem = (report.previousDayStocksTodayChange?.items || []).find((item) => normalizeSymbol(item.symbol) === normalized);
-    if (previousItem?.todayClose) return number(previousItem.todayClose);
-  }
-  const stock = findReportStock(report, normalized);
-  return number(stock?.close || stock?.kline?.at(-1)?.close);
-}
-
-function findReportStock(report, symbol) {
-  const normalized = normalizeSymbol(symbol);
-  return (report.stocks || []).find((stock) => normalizeSymbol(stock.symbol) === normalized);
-}
-
-function finiteOrNull(value) {
-  const n = Number(value);
-  return Number.isFinite(n) ? n : null;
-}
-
-async function exportStatic(existingDb) {
-  const db = existingDb || await readDb();
-  await backfillMissingDailyPortfolios(db);
-  await writeDb(db);
-  await mkdir(join(OUT_DIR, "daily"), { recursive: true });
-  await mkdir(join(OUT_DIR, "late"), { recursive: true });
-  await mkdir(join(OUT_DIR, "weekly"), { recursive: true });
-  await mkdir(join(OUT_DIR, "news"), { recursive: true });
-
-  pruneDb(db);
-  await cleanReportDir(join(OUT_DIR, "daily"));
-  await cleanReportDir(join(OUT_DIR, "late"));
-  await cleanReportDir(join(OUT_DIR, "weekly"));
-  await cleanReportDir(join(OUT_DIR, "news"));
-
-  const recentDaily = Object.values(db.dailyReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
-  const recentLate = Object.values(db.lateReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
-  const recentWeekly = Object.values(db.weeklyReports || {}).sort((a, b) => String(b.rangeEnd || b.week).localeCompare(String(a.rangeEnd || a.week))).slice(0, REPORT_RETENTION_DAYS);
-  const recentNews = Object.entries(db.newsReports || {})
-    .map(([date, report]) => ({ date, midday: report.midday || null, close: report.close || null }))
-    .filter((item) => item.midday || item.close)
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, REPORT_RETENTION_DAYS);
-  const latePortfolioHistory = db.latePortfolio?.history || [];
-  const dailyPortfolioHistory = db.dailyPortfolio?.history || [];
-  await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily.map(reportIndexItem), lateReports: recentLate.map(reportIndexItem), weeklyReports: recentWeekly.map(weeklyIndexItem), newsReports: recentNews.map(newsIndexItem) });
-  await writeJson(join(OUT_DIR, "logs.json"), { logs: db.jobLogs.slice(-30).reverse() });
-  for (const report of recentDaily) await writeJson(join(OUT_DIR, "daily", `${report.date}.json`), withPortfolioHistory(report, dailyPortfolioHistory));
-  for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), withPortfolioHistory(report, latePortfolioHistory));
-  for (const report of recentWeekly) await writeJson(join(OUT_DIR, "weekly", `${report.week}.json`), report);
-  for (const item of recentNews) {
-    if (item.midday) await writeJson(join(OUT_DIR, "news", `${item.date}-midday.json`), item.midday);
-    if (item.close) await writeJson(join(OUT_DIR, "news", `${item.date}-close.json`), item.close);
-    await writeJson(join(OUT_DIR, "news", `${item.date}.json`), item);
-  }
-  if (recentDaily[0]) await writeJson(join(OUT_DIR, "daily-latest.json"), withPortfolioHistory(recentDaily[0], dailyPortfolioHistory));
-  if (recentLate[0]) await writeJson(join(OUT_DIR, "late-latest.json"), withPortfolioHistory(recentLate[0], latePortfolioHistory));
-  const latestWeek = recentWeekly[0];
-  if (latestWeek) await writeJson(join(OUT_DIR, "weekly-latest.json"), latestWeek);
-  await writeJson(join(OUT_DIR, "news-index.json"), { reports: recentNews.map(newsIndexItem) });
-  if (recentNews[0]) await writeJson(join(OUT_DIR, "news-latest.json"), recentNews[0]);
-  return {
-    recentDailyCount: recentDaily.length,
-    recentLateCount: recentLate.length,
-    recentNewsCount: recentNews.length,
-    latestDailyDate: recentDaily[0]?.date || null,
-    latestLateDate: recentLate[0]?.date || null,
-    latestNewsDate: recentNews[0]?.date || null,
-    hasWeekly: Boolean(latestWeek)
-  };
-}
-
-function weeklyIndexItem(report) {
-  return {
-    week: report.week,
-    rangeStart: report.rangeStart,
-    rangeEnd: report.rangeEnd,
-    generatedAt: report.generatedAt,
-    status: report.status,
-    stocks: (report.stocks || []).slice(0, 5).map((stock) => ({
-      rank: stock.rank,
-      symbol: stock.symbol,
-      name: stock.name,
-      appearances: stock.appearances,
-      weeklyHeatScore: stock.weeklyHeatScore
-    }))
-  };
-}
-
-async function backfillMissingDailyPortfolios(db) {
-  const dates = Object.keys(db.dailyReports || {}).sort();
-  if (!dates.length) return;
-  const firstMissingIndex = dates.findIndex((date) => {
-    const portfolio = db.dailyReports[date]?.dailyPortfolio;
-    return !portfolio || portfolio.status === "pricing_pending";
-  });
-  const firstRebuildIndex = firstMissingIndex < 0 ? dates.length : firstMissingIndex;
-
-  let state = { netValue: 1, cash: 1, holdings: [], history: [] };
-  const historyByDate = new Map();
-
-  for (let index = 0; index < dates.length; index += 1) {
-    const date = dates[index];
-    const report = db.dailyReports[date];
-    if (!report) continue;
-    let snapshot = index < firstRebuildIndex && report.dailyPortfolio ? report.dailyPortfolio : null;
-    if (!snapshot) {
-      try {
-        snapshot = await rebuildDailyPortfolioSnapshot(db, report, state);
-      } catch (error) {
-        delete report.dailyPortfolio;
-        report.dailyPortfolioError = error.message;
-        console.warn(`daily portfolio backfill skipped for ${date}: ${error.message}`);
-        continue;
-      }
-    }
-    report.dailyPortfolio = snapshot;
-    delete report.dailyPortfolioError;
-    state = {
-      netValue: snapshot.netValue,
-      cash: snapshot.cash,
-      holdings: snapshot.holdings,
-      history: [...(state.history || []).filter((item) => item.date !== date), snapshot]
-        .sort((a, b) => String(a.date).localeCompare(String(b.date)))
-        .slice(-REPORT_RETENTION_DAYS)
-    };
-    historyByDate.set(date, snapshot);
-  }
-
-  db.dailyPortfolio = {
-    netValue: state.netValue || 1,
-    cash: state.cash ?? state.netValue ?? 1,
-    holdings: state.holdings || [],
-    history: [...historyByDate.values()]
-      .sort((a, b) => String(a.date).localeCompare(String(b.date)))
-      .slice(-REPORT_RETENTION_DAYS)
-  };
-}
-
-function latestPortfolioStateDate(state) {
-  const history = (state?.history || []).filter((item) => item?.date).sort((a, b) => String(a.date).localeCompare(String(b.date)));
-  return history.at(-1)?.date || null;
-}
-
-function latestDailyReportDateBefore(db, date) {
-  return Object.keys(db.dailyReports || {}).filter((item) => item < date).sort().at(-1) || null;
-}
-
-async function rebuildDailyPortfolioSnapshot(db, report, state) {
-  let cash = number(state.cash);
-  const sellRecords = [];
-  for (const holding of state.holdings || []) {
-    const sellMarket = await dailySellMarketWithRetry(db, report.date, holding.symbol);
-    const sellPrice = sellMarket.open;
-    const sellValue = number(holding.shares) * sellPrice;
-    cash += sellValue;
-    sellRecords.push({
-      symbol: holding.symbol,
-      name: holding.name,
-      entryPrice: holding.entryPrice,
-      sellPrice,
-      returnPct: holding.entryPrice ? ((sellPrice - holding.entryPrice) / holding.entryPrice) * 100 : null
-    });
-  }
-
-  const previous = findPreviousReport(db, "daily", report.date);
-  const previousStocks = previous?.stocks || [];
-  const currentNetValue = cash;
-  const holdings = [];
-  const buyRecords = [];
-  if (!previousStocks.length) {
-    buyRecords.push({ skipped: true, reason: "missing_previous_daily_report", previousDate: previousWeekday(report.date) });
-  } else {
-    for (const stock of previousStocks.slice(0, 5)) {
-      let market = historicalDailyMarketFromReports(db, report.date, stock.symbol);
-      if (!market?.low) {
-        const klineMarket = await historicalDailyMarketFromKline(stock.symbol, report.date);
-        market = market ? { ...klineMarket, ...market, low: market.low || klineMarket?.low || 0, high: market.high || klineMarket?.high || 0 } : klineMarket;
-      }
-      if (!market?.low) {
-        const sinaMarket = await sinaMarketForDate(stock.symbol, report.date);
-        market = market ? { ...sinaMarket, ...market, low: market.low || sinaMarket?.low || 0, high: market.high || sinaMarket?.high || 0 } : sinaMarket;
-      }
-      const buyDecision = dailyBuyPrice(stock, market);
-      if (!buyDecision.price) {
-        buyRecords.push({
-          symbol: stock.symbol,
-          name: stock.name,
-          skipped: true,
-          reason: buyDecision.reason,
-          open: market?.open ?? null,
-          low: market?.low ?? null,
-          limitUpPrice: buyDecision.limitUpPrice ?? null
-        });
-        continue;
-      }
-      const allocation = currentNetValue * 0.2;
-      if (allocation <= 0 || cash < allocation) {
-        buyRecords.push({ symbol: stock.symbol, name: stock.name, skipped: true, reason: "cash_or_allocation_insufficient" });
-        continue;
-      }
-      const shares = allocation / buyDecision.price;
-      cash -= allocation;
-      holdings.push({
-        symbol: stock.symbol,
-        name: stock.name,
-        entryPrice: buyDecision.price,
-        shares,
-        allocation,
-        date: report.date,
-        sourceReportDate: previous.date
-      });
-      buyRecords.push({
-        symbol: stock.symbol,
-        name: stock.name,
-        skipped: false,
-        buyPrice: buyDecision.price,
-        allocation,
-        open: market?.open ?? null,
-        low: market?.low ?? null,
-        limitUpPrice: buyDecision.limitUpPrice ?? null,
-        buyReason: buyDecision.reason
-      });
-    }
-  }
-
-  return {
-    date: report.date,
-    previousDate: previous?.date || previousWeekday(report.date),
-    netValue: round(currentNetValue, 4),
-    cash: round(cash, 6),
-    holdings,
-    sold: sellRecords,
-    bought: buyRecords
-  };
-}
-
-async function dailySellMarketForHolding(db, date, symbol) {
-  const normalized = normalizeSymbol(symbol);
-  if (date === today()) {
-    try {
-      const [quote] = await fetchQuotes([normalized]);
-      if (quote?.open) return quote;
-    } catch {
-      // Fall through to stored report data and historical kline.
-    }
-  }
-  return historicalDailyMarketFromReports(db, date, normalized)
-    || await historicalDailyMarketFromKline(normalized, date)
-    || await sinaMarketForDate(normalized, date);
-}
-
-function historicalOpenFromReports(db, date, symbol) {
-  return historicalDailyMarketFromReports(db, date, symbol)?.open || null;
-}
-
-function historicalDailyMarketFromReports(db, date, symbol) {
-  const normalized = normalizeSymbol(symbol);
-  const report = db.dailyReports?.[date];
-  const previousItem = (report?.previousDayStocksTodayChange?.items || []).find((item) => normalizeSymbol(item.symbol) === normalized);
-  const currentStock = (report?.stocks || []).find((item) => normalizeSymbol(item.symbol) === normalized);
-  const klineRow = currentStock?.kline?.find((row) => row.date === date);
-  const open = number(previousItem?.todayOpen ?? klineRow?.open);
-  if (!open) return null;
-  return {
-    symbol: normalized,
-    name: previousItem?.name || currentStock?.name || normalized,
-    open,
-    high: number(klineRow?.high),
-    low: number(klineRow?.low),
-    close: number(previousItem?.todayClose ?? klineRow?.close),
-    previousClose: number(klineRow?.previousClose),
-    changePct: previousItem?.todayChangePct ?? currentStock?.changePct ?? null
-  };
-}
-
-async function historicalDailyMarketFromKline(symbol, date) {
-  try {
-    const rows = await fetchKline(symbol);
-    const row = rows.find((item) => item.date === date);
-    if (!row) return null;
-    return {
-      symbol: normalizeSymbol(symbol),
-      open: number(row.open),
-      high: number(row.high),
-      low: number(row.low),
-      close: number(row.close),
-      previousClose: 0
-    };
-  } catch {
-    return null;
-  }
-}
-
-async function sinaMarketForDate(symbol, date) {
-  try {
-    const [quote] = await fetchSinaQuotes([symbol]);
-    if (quote?.open && quote.date === date) return quote;
-  } catch {
-    // Sina is a fallback only; keep normal missing-price handling if it fails.
-  }
-  return null;
-}
-
-function withPortfolioHistory(report, history) {
-  const cutoff = report?.date || "";
-  const portfolioHistory = (history || [])
-    .filter((item) => !cutoff || String(item.date || "").localeCompare(cutoff) <= 0)
-    .map((item) => ({
-      date: item.date,
-      netValue: item.netValue
-    }))
-    .filter((item) => item.date && Number.isFinite(Number(item.netValue)));
-  return { ...report, portfolioHistory };
-}
-
-function buildHotSectors(candidates, { excludeNames = new Set() } = {}) {
-  const map = new Map();
-  for (const stock of candidates || []) {
-    const labels = sectorLabels(stock);
-    const stockScore = scoreStock(stock, []);
-    for (const label of labels) {
-      if (!label || excludeNames.has(label)) continue;
-      const item = map.get(label) || { name: label, heatScore: 0, stockCount: 0, amount: 0, bigOrderNetAmount: 0, stocks: [] };
-      item.heatScore += stockScore + Math.max(number(stock.changePct), 0) * 2 + clamp(Math.log10(Math.max(number(stock.amount), 1)) * 4 - 25, 0, 25);
-      item.stockCount += 1;
-      item.amount += number(stock.amount);
-      item.bigOrderNetAmount += number(stock.bigOrderNetAmount);
-      item.stocks.push({
-        symbol: stock.symbol,
-        name: stock.name,
-        heatScore: stockScore,
-        changePct: stock.changePct,
-        amount: stock.amount,
-        turnoverRate: stock.turnoverRate,
-        bigOrderNetAmount: stock.bigOrderNetAmount
-      });
-      map.set(label, item);
-    }
-  }
-  return [...map.values()]
-    .map((item) => ({
-      ...item,
-      heatScore: Math.round(item.heatScore),
-      amount: round(item.amount, 2),
-      bigOrderNetAmount: round(item.bigOrderNetAmount, 2),
-      topStocks: item.stocks.sort((a, b) => b.heatScore - a.heatScore).slice(0, 5),
-      stocks: undefined
-    }))
-    .sort((a, b) => b.heatScore - a.heatScore || b.amount - a.amount);
-}
-
-function sectorLabels(stock) {
-  const labels = [];
-  if (stock.industry) labels.push(String(stock.industry).trim());
-  for (const label of businessConcepts(stock) || []) labels.push(String(label).trim());
-  return [...new Set(labels.filter(Boolean))].slice(0, 3);
-}
-
-async function collectSectorNews(sector, date) {
-  const queries = [sector.name, ...(sector.topStocks || []).slice(0, 3).map((stock) => stock.name)].filter(Boolean);
-  const results = [];
-  for (const query of queries.slice(0, 4)) {
-    const gdelt = await fetchGdeltNews(query, date).catch((error) => {
-      console.warn(`gdelt news failed for ${query}: ${error.message}`);
-      return [];
-    });
-    results.push(...gdelt);
-  }
-  const rss = await fetchConfiguredRssNews(queries, date).catch((error) => {
-    console.warn(`rss news failed for ${sector.name}: ${error.message}`);
-    return [];
-  });
-  results.push(...rss);
-  return results;
-}
-
-async function fetchGdeltNews(query, date) {
-  const url = new URL("https://api.gdeltproject.org/api/v2/doc/doc");
-  url.searchParams.set("query", query);
-  url.searchParams.set("mode", "artlist");
-  url.searchParams.set("format", "json");
-  url.searchParams.set("maxrecords", "25");
-  url.searchParams.set("sort", "hybridrel");
-  url.searchParams.set("startdatetime", `${date.replace(/-/g, "")}000000`);
-  url.searchParams.set("enddatetime", `${date.replace(/-/g, "")}235959`);
-  const data = await fetchJson(url);
-  return (data?.articles || []).map((article) => normalizeNewsArticle({
-    title: article.title,
-    url: article.url,
-    source: article.domain || article.sourceCountry || "GDELT",
-    publishedAt: gdeltDate(article.seendate),
-    summary: article.snippet || "",
-    provider: "gdelt",
-    query
-  })).filter(Boolean);
-}
-
-async function fetchConfiguredRssNews(queries, date) {
-  const urls = newsRssUrls();
-  if (!urls.length) return [];
-  const rows = [];
-  for (const url of urls) {
-    const xml = await fetchText(url).catch((error) => {
-      console.warn(`rss source failed ${url}: ${error.message}`);
-      return "";
-    });
-    if (!xml) continue;
-    rows.push(...parseRssItems(xml, url)
-      .filter((item) => isNewsOnDate(item, date))
-      .filter((item) => queries.some((query) => newsText(item).includes(query)))
-      .map((item) => normalizeNewsArticle({ ...item, provider: "rss", query: queries[0] })));
-  }
-  return rows;
-}
-
-function newsRssUrls() {
-  const configured = String(process.env.NEWS_RSS_URLS || "").split(/[\s,]+/).map((item) => item.trim()).filter(Boolean);
-  if (configured.length) return configured;
-  return [
-    "https://www.chinanews.com.cn/rss/finance.xml",
-    "https://www.gov.cn/rss/yaowen.xml"
-  ];
-}
-
-function parseRssItems(xml, sourceUrl) {
-  const items = [];
-  for (const match of String(xml).matchAll(/<item\b[\s\S]*?<\/item>/gi)) {
-    const item = match[0];
-    items.push({
-      title: xmlText(item, "title"),
-      url: xmlText(item, "link") || xmlText(item, "guid"),
-      source: hostname(sourceUrl),
-      publishedAt: parseRssDate(xmlText(item, "pubDate") || xmlText(item, "published") || xmlText(item, "updated")),
-      summary: xmlText(item, "description")
-    });
-  }
-  return items;
-}
-
-function selectSectorNews(items, { excludeKeys = new Set() } = {}) {
-  const byKey = new Map();
-  for (const item of items.map(normalizeNewsArticle).filter(Boolean)) {
-    const key = newsFingerprint(item);
-    if (!key || excludeKeys.has(key) || byKey.has(key)) continue;
-    byKey.set(key, item);
-  }
-  const rows = [...byKey.values()].map((item) => {
-    const related = [...byKey.values()]
-      .filter((other) => other !== item && similarNews(item, other))
-      .slice(0, 3)
-      .map(compactRelatedNews);
-    return {
-      ...item,
-      discussionScore: 1 + related.length,
-      impactScore: newsImpactScore(item, related),
-      relatedReports: related.slice(0, 3)
-    };
-  });
-  return rows.sort((a, b) => b.impactScore - a.impactScore || String(b.publishedAt).localeCompare(String(a.publishedAt)))
-    .map((item, index) => ({ ...item, rank: index + 1 }));
-}
-
-async function analyzeSectorWithDeepSeek(sector, news, session, date) {
-  const apiKey = process.env.DEEPSEEK_API_KEY || "";
-  const model = process.env.DEEPSEEK_MODEL || "deepseek-v4-flash";
-  if (!apiKey) return { status: "skipped", reason: "DEEPSEEK_API_KEY is not configured", model };
-  if (!news.length) return { status: "skipped", reason: "no news to analyze", model };
-  const payload = {
-    model,
-    messages: [
-      { role: "system", content: "你是A股资讯分析助手。只基于用户提供的新闻标题、摘要、来源和行情板块信息做简洁总结，不编造事实，不输出投资建议。" },
-      { role: "user", content: JSON.stringify({ date, session, sector, news }, null, 2) }
-    ],
-    temperature: 0.2,
-    max_tokens: 900
-  };
-  try {
-    const response = await fetch("https://api.deepseek.com/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-    if (!response.ok) throw new Error(`DeepSeek request failed ${response.status}: ${(await response.text()).slice(0, 160)}`);
-    const data = await response.json();
-    return { status: "ok", model, summary: data?.choices?.[0]?.message?.content || "" };
-  } catch (error) {
-    return { status: "failed", model, error: error.message };
-  }
-}
-
-function normalizeNewsArticle(input) {
-  const title = decodeEntities(String(input?.title || "").replace(/\s+/g, " ").trim());
-  const url = String(input?.url || "").trim();
-  if (!title || !url) return null;
-  return {
-    title,
-    url,
-    source: String(input.source || hostname(url) || "").trim(),
-    publishedAt: input.publishedAt || "",
-    summary: decodeEntities(String(input.summary || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()).slice(0, 220),
-    provider: input.provider || "",
-    query: input.query || ""
-  };
-}
-
-function newsIndexItem(item) {
-  return {
-    date: item.date,
-    midday: item.midday ? newsSessionIndexItem(item.midday) : null,
-    close: item.close ? newsSessionIndexItem(item.close) : null
-  };
-}
-
-function newsSessionIndexItem(report) {
-  return {
-    session: report.session,
-    generatedAt: report.generatedAt,
-    status: report.status,
-    sectorCount: (report.sectors || []).length,
-    sectors: (report.sectors || []).map((sector) => ({ name: sector.name, heatScore: sector.heatScore, newsCount: (sector.news || []).length }))
-  };
-}
-
-function compactRelatedNews(item) {
-  return {
-    title: item.title,
-    url: item.url,
-    source: item.source,
-    publishedAt: item.publishedAt
-  };
-}
-
-function newsFingerprint(item) {
-  const url = String(item?.url || "").replace(/^https?:\/\//, "").replace(/[?#].*$/, "").replace(/\/$/, "").toLowerCase();
-  if (url) return url;
-  return normalizeNewsTitle(item?.title || "");
-}
-
-function normalizeNewsTitle(title) {
-  return String(title || "").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "").slice(0, 80);
-}
-
-function similarNews(a, b) {
-  const ta = normalizeNewsTitle(a.title);
-  const tb = normalizeNewsTitle(b.title);
-  if (!ta || !tb) return false;
-  return ta.includes(tb.slice(0, 16)) || tb.includes(ta.slice(0, 16)) || a.source !== b.source && a.query && a.query === b.query;
-}
-
-function newsImpactScore(item, related) {
-  const sourceBoost = /新华社|证券|财经|财联社|上证|中证|时报|gov|xinhuanet|stcn|cnstock|cs\.com/.test(`${item.source} ${item.url}`) ? 3 : 0;
-  const recencyBoost = item.publishedAt ? 2 : 0;
-  return 10 + related.length * 8 + sourceBoost + recencyBoost;
-}
-
-function newsText(item) {
-  return `${item.title || ""}${item.summary || ""}`;
-}
-
-function isNewsOnDate(item, date) {
-  if (!item.publishedAt) return true;
-  return String(item.publishedAt).slice(0, 10) === date;
-}
-
-function gdeltDate(value) {
-  const raw = String(value || "");
-  if (/^\d{8}T\d{6}Z$/.test(raw)) return `${raw.slice(0, 4)}-${raw.slice(4, 6)}-${raw.slice(6, 8)}T${raw.slice(9, 11)}:${raw.slice(11, 13)}:${raw.slice(13, 15)}Z`;
-  return raw;
-}
-
-function parseRssDate(value) {
-  const time = Date.parse(value || "");
-  return Number.isFinite(time) ? new Date(time).toISOString() : "";
-}
-
-function xmlText(xml, tag) {
-  const match = String(xml).match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i"));
-  if (!match) return "";
-  return decodeEntities(match[1].replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1").trim());
-}
-
-function decodeEntities(value) {
-  return String(value || "")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, "\"")
-    .replace(/&#39;/g, "'");
-}
-
-function hostname(url) {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return "";
-  }
-}
-
-async function fetchAllMarketStocks() {
-  const pageSize = 500;
-  const first = await fetchMarketPage(1, pageSize);
-  const items = [...first.items];
-  const total = Number(first.total || items.length);
-  const pages = Math.ceil(total / pageSize);
-  for (let page = 2; page <= pages; page += 1) {
-    const next = await fetchMarketPage(page, pageSize);
-    items.push(...next.items);
-    await sleep(180);
-  }
-  const bySymbol = new Map();
-  for (const item of items.map(normalizeEastmoney).filter(Boolean)) bySymbol.set(item.symbol, item);
-  return [...bySymbol.values()];
-}
-
-async function fetchMarketPage(page, pageSize) {
-  const url = new URL("https://push2.eastmoney.com/api/qt/clist/get");
-  url.searchParams.set("pn", String(page));
-  url.searchParams.set("pz", String(pageSize));
-  url.searchParams.set("po", "1");
-  url.searchParams.set("np", "1");
-  url.searchParams.set("fltt", "2");
-  url.searchParams.set("invt", "2");
-  url.searchParams.set("fid", "f62");
-  url.searchParams.set("fs", "m:1+t:2,m:0+t:6,m:0+t:80,m:0+t:81");
-  url.searchParams.set("fields", EASTMONEY_FIELDS);
-  const data = (await fetchJson(url))?.data;
-  if (!Array.isArray(data?.diff)) throw new Error("Eastmoney response missing data.diff");
-  return { total: data.total, items: data.diff };
-}
-
-async function fetchQuotes(symbols) {
-  const primary = await fetchEastmoneyQuotes(symbols).catch((error) => {
-    console.warn(`eastmoney quote source failed, falling back to sina: ${error.message}`);
-    return [];
-  });
-  const bySymbol = new Map(primary.map((item) => [item.symbol, item]));
-  const missing = [...new Set(symbols.map(normalizeSymbol).filter(Boolean))]
-    .filter((symbol) => {
-      const quote = bySymbol.get(symbol);
-      return !quote || !quote.open || !quote.close || !quote.high || !quote.low;
-    });
-  if (missing.length) {
-    const fallback = await fetchSinaQuotes(missing).catch((error) => {
-      console.warn(`sina quote fallback failed: ${error.message}`);
-      return [];
-    });
-    for (const quote of fallback) {
-      const current = bySymbol.get(quote.symbol) || {};
-      bySymbol.set(quote.symbol, {
-        ...current,
-        symbol: quote.symbol,
-        name: current.name || quote.name,
-        changePct: current.changePct ?? quote.changePct,
-        open: current.open || quote.open,
-        high: current.high || quote.high,
-        low: current.low || quote.low,
-        previousClose: current.previousClose || quote.previousClose,
-        close: current.close || quote.close,
-        closeVsOpenPct: current.closeVsOpenPct ?? quote.closeVsOpenPct,
-        dataSource: current.dataSource || quote.dataSource
-      });
-    }
-  }
-  return [...bySymbol.values()].filter((item) => item.symbol);
-}
-
-async function fetchEastmoneyQuotes(symbols) {
-  const secids = symbols.map(toEastmoneySecid).filter(Boolean);
-  const all = [];
-  for (let i = 0; i < secids.length; i += 80) {
-    const url = new URL("https://push2.eastmoney.com/api/qt/ulist.np/get");
-    url.searchParams.set("fltt", "2");
-    url.searchParams.set("invt", "2");
-    url.searchParams.set("fields", QUOTE_FIELDS);
-    url.searchParams.set("secids", secids.slice(i, i + 80).join(","));
-    const items = (await fetchJson(url))?.data?.diff;
-    if (!Array.isArray(items)) throw new Error("Eastmoney quote response missing data.diff");
-    all.push(...items);
-  }
-  return all.map(normalizeEastmoneyQuote).filter((item) => item.symbol);
-}
-
-function normalizeEastmoneyQuote(item) {
-  const close = number(item.f2);
-  const open = number(item.f17);
-  const high = number(item.f15);
-  const low = number(item.f16);
-  const previousClose = number(item.f18);
-  return {
-    symbol: normalizeSymbol(item.f12),
-    name: String(item.f14 || "").trim(),
-    changePct: number(item.f3),
-    open,
-    high,
-    low,
-    previousClose,
-    close,
-    closeVsOpenPct: open ? ((close - open) / open) * 100 : null
-  };
-}
-
-async function fetchSinaQuotes(symbols) {
-  const all = [];
-  const sinaSymbols = symbols.map(toSinaSymbol).filter(Boolean);
-  for (let i = 0; i < sinaSymbols.length; i += 80) {
-    const batch = sinaSymbols.slice(i, i + 80);
-    const payload = await fetchText(`https://hq.sinajs.cn/list=${batch.join(",")}`);
-    all.push(...parseSinaQuotePayload(payload));
+  re…9683 tokens truncated…ush(...parseSinaQuotePayload(payload));
     await sleep(250);
   }
   return all;
@@ -1473,11 +659,11 @@ function businessConcepts(stock) {
   const concepts = [];
   const name = String(stock.name || "");
   const known = [
-    [/远东股份/, ["电线电缆", "智能缆网"]],
-    [/铜冠铜箔/, ["电子铜箔", "锂电材料"]],
-    [/诺德股份/, ["铜箔材料", "新能源材料"]],
-    [/盛屯矿业/, ["有色金属", "矿产资源"]],
-    [/宗申动力/, ["通用动力", "摩托车动力"]]
+    [/杩滀笢鑲′唤/, ["鐢电嚎鐢电紗", "鏅鸿兘缂嗙綉"]],
+    [/閾滃啝閾滅當/, ["鐢靛瓙閾滅當", "閿傜數鏉愭枡"]],
+    [/璇哄痉鑲′唤/, ["閾滅當鏉愭枡", "鏂拌兘婧愭潗鏂?]],
+    [/鐩涘悲鐭夸笟/, ["鏈夎壊閲戝睘", "鐭夸骇璧勬簮"]],
+    [/瀹楃敵鍔ㄥ姏/, ["閫氱敤鍔ㄥ姏", "鎽╂墭杞﹀姩鍔?]]
   ];
   for (const [pattern, labels] of known) {
     if (pattern.test(name)) concepts.push(...labels);
@@ -1485,17 +671,17 @@ function businessConcepts(stock) {
   if (stock.industry) concepts.push(stock.industry);
   const text = `${stock.name}${stock.industry}`;
   const rules = [
-    [/银行|证券|保险|金融|信托/, "金融服务"],
-    [/半导体|芯片|集成电路|微电子/, "半导体"],
-    [/软件|信息|数据|云|网络|科技/, "软件与信息服务"],
-    [/汽车|车|汽配|电池|锂|新能源/, "汽车与新能源"],
-    [/医药|生物|医疗|药|制药/, "医药生物"],
-    [/电力|能源|光伏|风电|水电|煤|石油|燃气/, "能源电力"],
-    [/地产|建筑|建材|水泥|工程/, "地产建筑"],
-    [/消费|食品|饮料|酒|零售|家电|服饰/, "消费"],
-    [/军工|航天|航空|船舶|兵器/, "军工装备"],
-    [/钢铁|有色|金属|化工|材料/, "周期材料"],
-    [/通信|电子|传媒|游戏/, "TMT"]
+    [/閾惰|璇佸埜|淇濋櫓|閲戣瀺|淇℃墭/, "閲戣瀺鏈嶅姟"],
+    [/鍗婂浣搢鑺墖|闆嗘垚鐢佃矾|寰數瀛?, "鍗婂浣?],
+    [/杞欢|淇℃伅|鏁版嵁|浜憒缃戠粶|绉戞妧/, "杞欢涓庝俊鎭湇鍔?],
+    [/姹借溅|杞姹介厤|鐢垫睜|閿倈鏂拌兘婧?, "姹借溅涓庢柊鑳芥簮"],
+    [/鍖昏嵂|鐢熺墿|鍖荤枟|鑽瘄鍒惰嵂/, "鍖昏嵂鐢熺墿"],
+    [/鐢靛姏|鑳芥簮|鍏変紡|椋庣數|姘寸數|鐓鐭虫补|鐕冩皵/, "鑳芥簮鐢靛姏"],
+    [/鍦颁骇|寤虹瓚|寤烘潗|姘存偿|宸ョ▼/, "鍦颁骇寤虹瓚"],
+    [/娑堣垂|椋熷搧|楗枡|閰抾闆跺敭|瀹剁數|鏈嶉グ/, "娑堣垂"],
+    [/鍐涘伐|鑸ぉ|鑸┖|鑸硅埗|鍏靛櫒/, "鍐涘伐瑁呭"],
+    [/閽㈤搧|鏈夎壊|閲戝睘|鍖栧伐|鏉愭枡/, "鍛ㄦ湡鏉愭枡"],
+    [/閫氫俊|鐢靛瓙|浼犲獟|娓告垙/, "TMT"]
   ];
   for (const [pattern, label] of rules) if (pattern.test(text)) concepts.push(label);
   return [...new Set(concepts)].slice(0, 2);
@@ -1519,20 +705,20 @@ function momentumScore(stock, kline) {
 function summarize(stock, kline) {
   const keyPoints = [];
   const positiveFactors = [];
-  keyPoints.push(`当日涨跌幅 ${formatPercent(stock.changePct)}，成交额 ${formatAmount(stock.amount)}。`);
+  keyPoints.push(`褰撴棩娑ㄨ穼骞?${formatPercent(stock.changePct)}锛屾垚浜ら ${formatAmount(stock.amount)}銆俙);
   if (stock.bigOrderNetAmount > 0) {
-    keyPoints.push(`大单资金净额为 ${formatAmount(stock.bigOrderNetAmount)}。`);
-    positiveFactors.push("大单净流入");
+    keyPoints.push(`澶у崟璧勯噾鍑€棰濅负 ${formatAmount(stock.bigOrderNetAmount)}銆俙);
+    positiveFactors.push("澶у崟鍑€娴佸叆");
   } else if (stock.bigOrderNetAmount < 0) {
-    keyPoints.push(`大单资金净额为 ${formatAmount(stock.bigOrderNetAmount)}，资金存在分歧。`);
+    keyPoints.push(`澶у崟璧勯噾鍑€棰濅负 ${formatAmount(stock.bigOrderNetAmount)}锛岃祫閲戝瓨鍦ㄥ垎姝с€俙);
   }
-  if (stock.mainNetInflow > 0) positiveFactors.push("主力资金");
-  if (stock.superLargeOrderNetAmount > 0) positiveFactors.push("超大单活跃");
-  if (stock.volumeRatio >= 1.5) positiveFactors.push("放量");
-  if (stock.turnoverRate >= 5) positiveFactors.push("高换手");
+  if (stock.mainNetInflow > 0) positiveFactors.push("涓诲姏璧勯噾");
+  if (stock.superLargeOrderNetAmount > 0) positiveFactors.push("瓒呭ぇ鍗曟椿璺?);
+  if (stock.volumeRatio >= 1.5) positiveFactors.push("鏀鹃噺");
+  if (stock.turnoverRate >= 5) positiveFactors.push("楂樻崲鎵?);
   if (trendScore(kline) >= 10) {
-    keyPoints.push("近半年价格趋势较强，表明中期趋势有改善。");
-    positiveFactors.push("强趋势");
+    keyPoints.push("杩戝崐骞翠环鏍艰秼鍔胯緝寮猴紝琛ㄦ槑涓湡瓒嬪娍鏈夋敼鍠勩€?);
+    positiveFactors.push("寮鸿秼鍔?);
   }
   return { keyPoints, positiveFactors: [...new Set(positiveFactors)].slice(0, 5) };
 }
@@ -1619,13 +805,14 @@ async function readDb() {
       dailyReports: db.dailyReports || {},
       lateReports: db.lateReports || {},
       weeklyReports: db.weeklyReports || {},
-      newsReports: db.newsReports || {},
+      etfRotationReports: db.etfRotationReports || {},
       latePortfolio: db.latePortfolio || null,
       dailyPortfolio: db.dailyPortfolio || null,
+      etfRotationPortfolio: db.etfRotationPortfolio || null,
       jobLogs: db.jobLogs || []
     };
   } catch {
-    return { dailyReports: {}, lateReports: {}, weeklyReports: {}, newsReports: {}, latePortfolio: null, dailyPortfolio: null, jobLogs: [] };
+    return { dailyReports: {}, lateReports: {}, weeklyReports: {}, etfRotationReports: {}, latePortfolio: null, dailyPortfolio: null, etfRotationPortfolio: null, jobLogs: [] };
   }
 }
 
@@ -1653,7 +840,7 @@ function pruneDb(db) {
   db.dailyReports = pruneReportMap(db.dailyReports || {}, "date", REPORT_RETENTION_DAYS);
   db.lateReports = pruneReportMap(db.lateReports || {}, "date", REPORT_RETENTION_DAYS);
   db.weeklyReports = pruneReportMap(db.weeklyReports || {}, "rangeEnd", REPORT_RETENTION_DAYS);
-  db.newsReports = pruneNewsReports(db.newsReports || {}, REPORT_RETENTION_DAYS);
+  db.etfRotationReports = pruneReportMap(db.etfRotationReports || {}, "date", REPORT_RETENTION_DAYS);
   db.jobLogs = (db.jobLogs || []).slice(-200);
   if (db.latePortfolio?.history) {
     db.latePortfolio.history = db.latePortfolio.history.slice(-REPORT_RETENTION_DAYS);
@@ -1661,14 +848,6 @@ function pruneDb(db) {
   if (db.dailyPortfolio?.history) {
     db.dailyPortfolio.history = db.dailyPortfolio.history.slice(-REPORT_RETENTION_DAYS);
   }
-}
-
-function pruneNewsReports(map, limit) {
-  return Object.fromEntries(
-    Object.entries(map)
-      .sort(([a], [b]) => b.localeCompare(a))
-      .slice(0, limit)
-  );
 }
 
 function pruneReportMap(map, dateField, limit) {
@@ -1724,10 +903,19 @@ function assertMarketReportAllowed(type, date) {
   const now = shanghaiParts(new Date());
   const hour = type === "late" ? 14 : 16;
   const minute = type === "late" ? 50 : 0;
-  if (!isWeekday(date)) throw new Error("报告只在交易日生成；周末不生成当天报告。");
-  if (date > now.date) throw new Error("不能生成未来日期的报告。");
+  if (!isWeekday(date)) throw new Error("鎶ュ憡鍙湪浜ゆ槗鏃ョ敓鎴愶紱鍛ㄦ湯涓嶇敓鎴愬綋澶╂姤鍛娿€?);
+  if (date > now.date) throw new Error("涓嶈兘鐢熸垚鏈潵鏃ユ湡鐨勬姤鍛娿€?);
   if (date === now.date && (now.hour < hour || (now.hour === hour && now.minute < minute))) {
-    throw new Error(`${type === "late" ? "尾盘报告" : "日报"}将在交易日 ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")} 后生成；当前未到自动生成时间。`);
+    throw new Error(`${type === "late" ? "灏剧洏鎶ュ憡" : "鏃ユ姤"}灏嗗湪浜ゆ槗鏃?${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")} 鍚庣敓鎴愶紱褰撳墠鏈埌鑷姩鐢熸垚鏃堕棿銆俙);
+  }
+}
+
+function assertEtfRotationAllowed(date) {
+  const now = shanghaiParts(new Date());
+  if (!isAshareTradingDate(date)) throw new Error("ETF杞姩鍙湪A鑲′氦鏄撴棩鐢熸垚锛涢潪浜ゆ槗鏃ヨ烦杩囥€?);
+  if (date !== now.date) throw new Error("ETF杞姩鍙敓鎴愬綋鏃?4:53鐪熷疄琛屾儏蹇収锛屼笉鑳界敤褰撳墠鎶ヤ环琛ラ€犲巻鍙叉姤鍛娿€?);
+  if (now.hour < 14 || (now.hour === 14 && now.minute < 53)) {
+    throw new Error("ETF杞姩鎶ュ憡灏嗗湪浜ゆ槗鏃?4:53鍚庣敓鎴愶紱褰撳墠鏈埌鎵ц鏃堕棿銆?);
   }
 }
 
@@ -1740,6 +928,14 @@ function previousWeekday(date) {
 function isWeekday(date) {
   const day = new Date(`${date}T12:00:00+08:00`).getUTCDay();
   return day >= 1 && day <= 5;
+}
+
+function isAshareTradingDate(date) {
+  const configured = String(process.env.A_SHARE_CLOSED_DATES || process.env.A_SHARE_NON_TRADING_DATES || "")
+    .split(/[\s,;]+/)
+    .map((item) => item.trim())
+    .filter((item) => /^\d{4}-\d{2}-\d{2}$/.test(item));
+  return isWeekday(date) && !A_SHARE_CLOSED_DATES.has(date) && !configured.includes(date);
 }
 
 function addDays(date, days) {
@@ -1822,8 +1018,8 @@ function clamp(value, min, max) {
 
 function formatAmount(value) {
   const n = number(value);
-  if (Math.abs(n) >= 100000000) return `${(n / 100000000).toFixed(1)} 亿`;
-  if (Math.abs(n) >= 10000) return `${(n / 10000).toFixed(0)} 万`;
+  if (Math.abs(n) >= 100000000) return `${(n / 100000000).toFixed(1)} 浜縛;
+  if (Math.abs(n) >= 10000) return `${(n / 10000).toFixed(0)} 涓嘸;
   return String(Math.round(n));
 }
 
@@ -1834,3 +1030,4 @@ function formatPercent(value) {
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
