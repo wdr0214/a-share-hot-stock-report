@@ -16,7 +16,7 @@ const CLOSED_DATES = new Set([
 const FEE_RATE = 0.0001;
 
 export function isEtfRotationTradingDate(date) {
-  const day = new Date(\`\${date}T12:00:00+08:00\`).getUTCDay();
+  const day = new Date(`${date}T12:00:00+08:00`).getUTCDay();
   return day >= 1 && day <= 5 && !CLOSED_DATES.has(date);
 }
 
@@ -38,11 +38,11 @@ export async function generateEtfRotation({ date, now, portfolio }) {
     const quote = quoteMap.get(etf.symbol);
     const rows = klineSets[index].filter((row) => row.date < date);
     if (!quote || !Number.isFinite(quote.price) || rows.length < 28) {
-      throw new Error(\`\${etf.symbol} \u884c\u60c5\u6216\u65e5 K \u6570\u636e\u4e0d\u8db3\uff0c\u4e0d\u66f4\u65b0\u6a21\u62df\u76d8\u3002\`);
+      throw new Error(`${etf.symbol} \u884c\u60c5\u6216\u65e5 K \u6570\u636e\u4e0d\u8db3\uff0c\u4e0d\u66f4\u65b0\u6a21\u62df\u76d8\u3002`);
     }
     const ma28 = average(rows.slice(-28).map((row) => row.close));
     const base = rows.at(-20)?.close;
-    if (!Number.isFinite(base) || base <= 0) throw new Error(\`\${etf.symbol} \u65e0\u6cd5\u8ba1\u7b97 20 \u65e5\u6da8\u8dcc\u5e45\u3002\`);
+    if (!Number.isFinite(base) || base <= 0) throw new Error(`${etf.symbol} \u65e0\u6cd5\u8ba1\u7b97 20 \u65e5\u6da8\u8dcc\u5e45\u3002`);
     const momentum20Pct = ((quote.price - base) / base) * 100;
     return {
       symbol: etf.symbol, name: etf.name, price: quote.price, quoteSource: quote.source,
@@ -70,7 +70,7 @@ function rebalance(previous, date, target, quoteMap) {
   const trades = [];
   if (old && old.symbol !== target?.symbol) {
     const quote = quoteMap.get(old.symbol);
-    if (!quote?.price) throw new Error(\`\${old.symbol} \u7f3a\u5c11 14:53 \u5356\u51fa\u4ef7\u683c\u3002\`);
+    if (!quote?.price) throw new Error(`${old.symbol} \u7f3a\u5c11 14:53 \u5356\u51fa\u4ef7\u683c\u3002`);
     const gross = old.shares * quote.price;
     cash += gross * (1 - FEE_RATE);
     trades.push({ action: "sell", symbol: old.symbol, name: old.name, price: quote.price, returnPct: ((quote.price - old.entryPrice) / old.entryPrice) * 100 });
@@ -96,9 +96,9 @@ async function fetchQuotesWithFallback(etfs) {
   const eastmoney = await retry(async () => {
     const fields = "f12,f14,f2";
     const secids = etfs.map((etf) => etf.eastmoneySecid).join(",");
-    const url = \`https://push2.eastmoney.com/api/qt/ulist.np/get?fltt=2&fields=\${fields}&secids=\${secids}\`;
+    const url = `https://push2.eastmoney.com/api/qt/ulist.np/get?fltt=2&fields=${fields}&secids=${secids}`;
     const response = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
-    if (!response.ok) throw new Error(\`Eastmoney HTTP \${response.status}\`);
+    if (!response.ok) throw new Error(`Eastmoney HTTP ${response.status}`);
     const data = await response.json();
     const rows = data?.data?.diff;
     if (!Array.isArray(rows) || rows.length !== etfs.length) throw new Error("Eastmoney quote response incomplete");
@@ -107,9 +107,9 @@ async function fetchQuotesWithFallback(etfs) {
   if (eastmoney.length === etfs.length && eastmoney.every((item) => item.price > 0)) return eastmoney;
 
   const sina = await retry(async () => {
-    const url = \`https://hq.sinajs.cn/list=\${etfs.map((etf) => etf.sinaSymbol).join(",")}\`;
+    const url = `https://hq.sinajs.cn/list=${etfs.map((etf) => etf.sinaSymbol).join(",")}`;
     const response = await fetch(url, { headers: { Referer: "https://finance.sina.com.cn/", "User-Agent": "Mozilla/5.0" } });
-    if (!response.ok) throw new Error(\`Sina HTTP \${response.status}\`);
+    if (!response.ok) throw new Error(`Sina HTTP ${response.status}`);
     const text = await response.text();
     const rows = text.split("\\n").filter(Boolean);
     const byCode = new Map(rows.map((row) => {
@@ -126,8 +126,8 @@ async function fetchQuotesWithFallback(etfs) {
 
 async function fetchDailyKline(etf) {
   return retry(async () => {
-    const response = await fetch(\`https://query1.finance.yahoo.com/v8/finance/chart/\${etf.yahooSymbol}?range=6mo&interval=1d\`);
-    if (!response.ok) throw new Error(\`Yahoo HTTP \${response.status}\`);
+    const response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${etf.yahooSymbol}?range=6mo&interval=1d`);
+    if (!response.ok) throw new Error(`Yahoo HTTP ${response.status}`);
     const data = await response.json();
     const result = data?.chart?.result?.[0];
     const timestamps = result?.timestamp || [];
@@ -152,11 +152,11 @@ async function retry(fn) {
 
 function shanghaiParts(input) {
   const parts = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(input).reduce((acc, part) => (acc[part.type] = part.value, acc), {});
-  return { date: \`\${parts.year}-\${parts.month}-\${parts.day}\`, hour: Number(parts.hour), minute: Number(parts.minute) };
+  return { date: `${parts.year}-${parts.month}-${parts.day}`, hour: Number(parts.hour), minute: Number(parts.minute) };
 }
 function normalizeSymbol(symbol) {
   const code = String(symbol || "").replace(/[^0-9]/g, "");
-  return code.startsWith("6") || code.startsWith("5") ? \`SH\${code}\` : \`SZ\${code}\`;
+  return code.startsWith("6") || code.startsWith("5") ? `SH${code}` : `SZ${code}`;
 }
 function number(value) { const n = Number(value); return Number.isFinite(n) ? n : null; }
 function average(values) { return values.reduce((sum, value) => sum + value, 0) / values.length; }
