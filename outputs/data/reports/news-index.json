@@ -1,31 +1,3 @@
 {
-  "reports": [
-    {
-      "date": "2026-08-21",
-      "midday": null,
-      "close": {
-        "session": "close",
-        "generatedAt": "2026-08-21T13:54:21.263Z",
-        "status": "ok",
-        "sectorCount": 3,
-        "sectors": [
-          {
-            "name": "贵金属",
-            "heatScore": 276,
-            "newsCount": 0
-          },
-          {
-            "name": "周期材料",
-            "heatScore": 276,
-            "newsCount": 2
-          },
-          {
-            "name": "化学制药",
-            "heatScore": 154,
-            "newsCount": 1
-          }
-        ]
-      }
-    }
-  ]
+  "reports": []
 }
