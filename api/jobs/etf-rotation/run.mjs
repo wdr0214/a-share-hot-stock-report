@@ -1,5 +1,7 @@
 import { handleReportJob, runtimeConfig } from "../../_github-report-job.mjs";
 
+// Authenticated endpoint for the weekday ETF rotation scheduler.
+
 export const config = runtimeConfig;
 
 export default async function handler(req, res) {
