@@ -41,7 +41,7 @@ export async function generateEtfRotation({ date, now, portfolio }) {
       throw new Error(`${etf.symbol} \u884c\u60c5\u6216\u65e5 K \u6570\u636e\u4e0d\u8db3\uff0c\u4e0d\u66f4\u65b0\u6a21\u62df\u76d8\u3002`);
     }
     const ma28 = average(rows.slice(-28).map((row) => row.close));
-    const base = rows.at(-19)?.close;
+    const base = rows.at(-20)?.close;
     if (!Number.isFinite(base) || base <= 0) throw new Error(`${etf.symbol} \u65e0\u6cd5\u8ba1\u7b97 20 \u65e5\u6da8\u8dcc\u5e45\u3002`);
     const momentum20Pct = ((quote.price - base) / base) * 100;
     return {
