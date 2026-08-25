@@ -87,7 +87,11 @@ function rebalance(previous, date, target, quoteMap) {
   const holdingValue = holding ? holding.shares * quoteMap.get(holding.symbol).price : 0;
   const netValue = cash + holdingValue;
   const history = [...(state.history || []).filter((item) => item.date !== date), {
-    date, netValue, holding: holding ? holding.symbol : null, rebalanced: trades.length > 0
+    date,
+    netValue,
+    holding: holding ? holding.symbol : null,
+    rebalanced: trades.length > 0,
+    trades: trades.map((trade) => ({ ...trade }))
   }];
   return { trades, holding, portfolio: { netValue, cash, holding, history } };
 }
