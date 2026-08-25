@@ -78,7 +78,7 @@ async function runEtfRotationJob(date) {
     db.jobLogs.push({ jobName: "etf-rotation", startedAt: now, finishedAt: now, status: "ok", errorMessage: "", reportKey: date, attempts: 1 });
     db.jobLogs = db.jobLogs.slice(-200);
     await writeDb(db);
-    await exportStatic(db);
+    await exportStatic(db, { skipDailyPortfolioBackfill: true });
     return report;
   } catch (error) {
     await recordFailureLog("etf-rotation", date, error);
@@ -654,9 +654,9 @@ function finiteOrNull(value) {
   return Number.isFinite(n) ? n : null;
 }
 
-async function exportStatic(existingDb) {
+async function exportStatic(existingDb, { skipDailyPortfolioBackfill = false } = {}) {
   const db = existingDb || await readDb();
-  await backfillMissingDailyPortfolios(db);
+  if (!skipDailyPortfolioBackfill) await backfillMissingDailyPortfolios(db);
   await writeDb(db);
   await mkdir(join(OUT_DIR, "daily"), { recursive: true });
   await mkdir(join(OUT_DIR, "late"), { recursive: true });
