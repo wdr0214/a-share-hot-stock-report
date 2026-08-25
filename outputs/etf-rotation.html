@@ -4,7 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>A&#32929; ETF&#36718;&#21160;&#25253;&#21578;</title>
 <style>
-:root{font-family:Arial,"Microsoft YaHei",sans-serif;color:#152238;background:#f5f7fa}.wrap{max-width:980px;margin:auto;padding:22px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #d9e1eb;padding-bottom:16px}.top h1{font-size:22px;margin:0}.back{color:#1769aa;text-decoration:none}.meta,.card{background:#fff;border:1px solid #d9e1eb;border-radius:6px;padding:16px;margin-top:14px}.muted{color:#667085;font-size:13px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{background:#fff;border:1px solid #d9e1eb;border-radius:6px;padding:14px}.metric span{display:block;color:#667085;font-size:13px}.metric b{display:block;margin-top:8px;font-size:18px}.link{border:0;background:none;color:#1769aa;padding:7px 0;cursor:pointer}.table{overflow:auto}table{width:100%;border-collapse:collapse;min-width:620px}th,td{text-align:left;border-bottom:1px solid #e7ebf0;padding:10px 7px;font-size:14px}th{color:#667085;font-weight:500}.up{color:#b42318}.down{color:#087443}.tag{font-size:12px;color:#667085}.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:grid;place-items:center;padding:16px}.modal[hidden]{display:none}.dialog{width:min(820px,100%);background:#fff;border-radius:6px;padding:16px}.dialogheader{display:flex;justify-content:space-between;align-items:center}.dialogheader h2{font-size:17px}.dialog button{border:1px solid #cbd5e1;background:#fff;border-radius:4px;padding:6px 10px;cursor:pointer}canvas{width:100%;height:auto;border:1px solid #eef1f5}.rebalance{display:flex;gap:12px;flex-wrap:wrap}.trade{padding:9px 12px;border-left:3px solid #1769aa;background:#f8fafc;font-size:14px}@media(max-width:680px){.metrics{grid-template-columns:1fr}.wrap{padding:15px}.top h1{font-size:19px}}
+:root{font-family:Arial,"Microsoft YaHei",sans-serif;color:#152238;background:#f5f7fa}.wrap{max-width:980px;margin:auto;padding:22px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #d9e1eb;padding-bottom:16px}.top h1{font-size:22px;margin:0}.back{color:#1769aa;text-decoration:none}.meta,.card{background:#fff;border:1px solid #d9e1eb;border-radius:6px;padding:16px;margin-top:14px}.muted{color:#667085;font-size:13px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{background:#fff;border:1px solid #d9e1eb;border-radius:6px;padding:14px}.metric span{display:block;color:#667085;font-size:13px}.metric b{display:block;margin-top:8px;font-size:18px}.link{border:0;background:none;color:#1769aa;padding:7px 0;cursor:pointer}.table{overflow:auto}table{width:100%;border-collapse:collapse;min-width:620px}th,td{text-align:left;border-bottom:1px solid #e7ebf0;padding:10px 7px;font-size:14px}th{color:#667085;font-weight:500}.up{color:#b42318}.down{color:#087443}.tag{font-size:12px;color:#667085}.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:grid;place-items:center;padding:16px}.modal[hidden]{display:none}.dialog{width:min(820px,100%);background:#fff;border-radius:6px;padding:16px}.dialogheader{display:flex;justify-content:space-between;align-items:center}.dialogheader h2{font-size:17px}.dialog button{border:1px solid #cbd5e1;background:#fff;border-radius:4px;padding:6px 10px;cursor:pointer}canvas{width:100%;height:auto;border:1px solid #eef1f5;touch-action:pan-y;cursor:grab}canvas.dragging{cursor:grabbing}.trade-detail{margin-top:10px;padding:10px 12px;background:#f8fafc;border-left:3px solid #b42318;font-size:14px}.trade-detail ul{margin:8px 0 0;padding-left:18px}.trade-detail li{margin:5px 0}.rebalance{display:flex;gap:12px;flex-wrap:wrap}.trade{padding:9px 12px;border-left:3px solid #1769aa;background:#f8fafc;font-size:14px}@media(max-width:680px){.metrics{grid-template-columns:1fr}.wrap{padding:15px}.top h1{font-size:19px}}
 </style>
 </head>
 <body>
@@ -13,14 +13,15 @@
 <section id="meta" class="meta"><span class="muted">&#27491;&#22312;&#35835;&#21462;&#26368;&#26032;&#25253;&#21578;...</span></section>
 <section id="content"></section>
 </main>
-<div id="modal" class="modal" hidden><div class="dialog"><div class="dialogheader"><h2>&#31574;&#30053;&#20928;&#20540;&#26354;&#32447;</h2><button id="close" type="button">&#20851;&#38381;</button></div><canvas id="chart" width="760" height="360"></canvas><p id="caption" class="muted"></p></div></div>
+<div id="modal" class="modal" hidden><div class="dialog"><div class="dialogheader"><h2>&#31574;&#30053;&#20928;&#20540;&#26354;&#32447;</h2><button id="close" type="button">&#20851;&#38381;</button></div><canvas id="chart" width="760" height="360"></canvas><section id="tradeDetail" class="trade-detail" hidden></section><p id="caption" class="muted"></p></div></div>
 <script>
 const $=id=>document.getElementById(id);
 const n=v=>Number(v);
 const fmt=v=>Number.isFinite(n(v))?n(v).toFixed(4):"-";
 const pct=v=>Number.isFinite(n(v))?(n(v)>=0?"+":"")+n(v).toFixed(2)+"%":"-";
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let report=null;
+const CURVE_WINDOW=20;
+let report=null,curveStart=0,curveHits=[],dragStartX=null,dragMoved=false;
 function load(){
  fetch("data/reports/etf-rotation-latest.json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw Error("No report");return r.json()}).then(r=>{report=r;render()}).catch(()=>{
   $("meta").innerHTML="<b>&#26242;&#26080; ETF &#36718;&#21160;&#25253;&#21578;</b><p class='muted'>&#20132;&#26131;&#26085; 14:53 &#21518;&#65292;&#21482;&#22312;&#30495;&#23454;&#34892;&#24773;&#21644;&#26085; K &#25968;&#25454;&#23436;&#25972;&#26102;&#29983;&#25104;&#12290;</p>";
@@ -33,21 +34,57 @@ function render(){
  const rows=(report.etfs||[]).map(e=>"<tr><td><b>"+esc(e.name)+"</b><br><span class='tag'>"+esc(e.symbol)+"</span></td><td>"+fmt(e.price)+"</td><td class='"+(n(e.momentum20Pct)>=0?"up":"down")+"'>"+pct(e.momentum20Pct)+"</td><td>"+fmt(e.ma28)+"</td><td>"+(e.aboveMa28?"&#28385;&#36275;":"&#19981;&#28385;&#36275;")+"</td></tr>").join("");
  const trades=(report.rebalance||[]).map(t=>"<div class='trade'><b>"+(t.action==="buy"?"&#20080;&#20837;":"&#21334;&#20986;")+" "+esc(t.name)+"</b><br><span class='muted'>"+esc(t.symbol)+" / 14:53 "+fmt(t.price)+(Number.isFinite(n(t.returnPct))?" / "+pct(t.returnPct):"")+"</span></div>").join("");
  $("content").innerHTML="<section class='metrics'><div class='metric'><span>&#24403;&#21069;&#31574;&#30053;&#20928;&#20540;</span><b>"+fmt(report.netValue)+"</b><button class='link' id='curve' type='button'>&#26597;&#30475;&#20928;&#20540;&#26354;&#32447;</button></div><div class='metric'><span>&#24403;&#26085;&#25345;&#20179;&#26631;&#30340;</span><b>"+holding+"</b></div><div class='metric'><span>&#31574;&#30053;&#21442;&#25968;</span><b>20&#26085;&#28072;&#36300;&#24133; / MA28</b><span class='tag'>&#25353; 14:53 &#30495;&#23454;&#20215;&#26684;&#25191;&#34892;</span></div></section><section class='card'><h2>&#20845;&#21482; ETF &#25191;&#34892;&#26102;&#28857;&#34892;&#24773;</h2><div class='table'><table><thead><tr><th>ETF</th><th>14:53&#20215;&#26684;</th><th>20&#26085;&#28072;&#36300;&#24133;</th><th>MA28</th><th>MA28&#26465;&#20214;</th></tr></thead><tbody>"+rows+"</tbody></table></div></section>"+(trades?"<section class='card'><h2>&#24403;&#26085;&#35843;&#20179;</h2><div class='rebalance'>"+trades+"</div></section>":"");
- $("curve").onclick=()=>{$("modal").hidden=false;draw()};
+ $("curve").onclick=()=>{curveStart=Math.max(0,allCurveItems().length-CURVE_WINDOW);$("tradeDetail").hidden=true;$("modal").hidden=false;draw()};
+}
+function allCurveItems(){
+ const history=(report?.portfolioHistory||[]).filter(x=>Number.isFinite(n(x.netValue))).map(item=>{
+  if(item.date===report.date&&!Array.isArray(item.trades)&&Array.isArray(report.rebalance))return {...item,trades:report.rebalance};
+  return item;
+ });
+ return history.sort((a,b)=>a.date.localeCompare(b.date));
+}
+function curveSlice(){
+ const all=allCurveItems(),maxStart=Math.max(0,all.length-CURVE_WINDOW);
+ curveStart=Math.min(Math.max(curveStart,0),maxStart);
+ return {all,items:all.slice(curveStart,curveStart+CURVE_WINDOW)};
+}
+function showTradeDetail(item){
+ const detail=$("tradeDetail"),trades=Array.isArray(item.trades)?item.trades:[];
+ if(!trades.length){
+  detail.innerHTML="<b>"+esc(item.date)+" &#35843;&#20179;&#26126;&#32454;</b><p class='muted'>&#35813;&#21382;&#21490;&#28857;&#20165;&#20445;&#30041;&#20102;&#20928;&#20540;&#35760;&#24405;&#65292;&#26410;&#20445;&#23384;&#35843;&#20179;&#25104;&#20132;&#26126;&#32454;&#12290;</p>";
+ }else{
+  const rows=trades.map(t=>"<li><b>"+(t.action==="buy"?"&#20080;&#20837;":"&#21334;&#20986;")+" "+esc(t.name)+"</b> <span class='tag'>"+esc(t.symbol)+"</span> / &#25104;&#20132;&#20215; "+fmt(t.price)+(Number.isFinite(n(t.returnPct))?" / "+pct(t.returnPct):"")+"</li>").join("");
+  detail.innerHTML="<b>"+esc(item.date)+" &#35843;&#20179;&#26126;&#32454;</b><p class='muted'>&#24403;&#26085;&#25345;&#20179;&#65306;"+esc(item.holding||"&#31354;&#20179;")+"</p><ul>"+rows+"</ul>";
+ }
+ detail.hidden=false;
 }
 function draw(){
- const items=(report.portfolioHistory||[]).filter(x=>Number.isFinite(n(x.netValue))).sort((a,b)=>a.date.localeCompare(b.date));
- const canvas=$("chart"),ctx=canvas.getContext("2d"),w=canvas.width,h=canvas.height,p={l:55,r:20,t:20,b:35};
- ctx.clearRect(0,0,w,h);ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);
+ const {all,items}=curveSlice(),canvas=$("chart"),ctx=canvas.getContext("2d"),w=canvas.width,h=canvas.height,p={l:55,r:20,t:20,b:35};
+ curveHits=[];ctx.clearRect(0,0,w,h);ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);
  if(!items.length){ctx.fillStyle="#667085";ctx.fillText("No data",55,50);return}
  const vals=items.map(x=>n(x.netValue)),min=Math.min(...vals)*.995,max=Math.max(...vals)*1.005,span=max-min||1;
  const x=i=>p.l+(items.length===1?.5:i/(items.length-1))*(w-p.l-p.r),y=v=>p.t+(max-v)/span*(h-p.t-p.b);
  ctx.strokeStyle="#e2e8f0";for(let i=0;i<5;i++){const yy=p.t+i*(h-p.t-p.b)/4;ctx.beginPath();ctx.moveTo(p.l,yy);ctx.lineTo(w-p.r,yy);ctx.stroke()}
  ctx.strokeStyle="#1769aa";ctx.lineWidth=2;ctx.beginPath();items.forEach((item,i)=>i?ctx.lineTo(x(i),y(n(item.netValue))):ctx.moveTo(x(i),y(n(item.netValue))));ctx.stroke();
- items.forEach((item,i)=>{if(!item.rebalanced)return;ctx.fillStyle="#b42318";ctx.beginPath();ctx.arc(x(i),y(n(item.netValue)),4,0,Math.PI*2);ctx.fill()});
+ items.forEach((item,i)=>{if(!item.rebalanced)return;const px=x(i),py=y(n(item.netValue));ctx.fillStyle="#b42318";ctx.beginPath();ctx.arc(px,py,6,0,Math.PI*2);ctx.fill();curveHits.push({x:px,y:py,item})});
  ctx.fillStyle="#667085";ctx.font="12px Arial";ctx.fillText(items[0].date,p.l,h-12);ctx.fillText(items.at(-1).date,w-p.r-72,h-12);
- $("caption").innerHTML="&#32418;&#28857;&#65306;&#35843;&#20179;&#28857; / &#26368;&#26032;&#20928;&#20540; "+fmt(items.at(-1).netValue);
+ $("caption").innerHTML="&#32418;&#28857;&#65306;&#35843;&#20179;&#28857;&#65292;&#28857;&#20987;&#26597;&#30475;&#26126;&#32454;&#12290;&#24038;&#21491;&#28369;&#21160;&#26597;&#30475;&#26356;&#26089;&#25110;&#26356;&#26032;&#30340; 20 &#20010;&#20132;&#26131;&#26085;&#12290; "+(curveStart+1)+"-"+(curveStart+items.length)+" / "+all.length;
 }
+function pointInCanvas(event){
+ const canvas=$("chart"),rect=canvas.getBoundingClientRect();
+ return {x:(event.clientX-rect.left)*(canvas.width/rect.width),y:(event.clientY-rect.top)*(canvas.height/rect.height)};
+}
+$("chart").addEventListener("pointerdown",event=>{dragStartX=event.clientX;dragMoved=false;$("chart").classList.add("dragging");$("chart").setPointerCapture?.(event.pointerId)});
+$("chart").addEventListener("pointermove",event=>{if(dragStartX!==null&&Math.abs(event.clientX-dragStartX)>8)dragMoved=true});
+$("chart").addEventListener("pointerup",event=>{
+ if(dragStartX===null)return;
+ const delta=event.clientX-dragStartX;$("chart").classList.remove("dragging");dragStartX=null;
+ if(Math.abs(delta)>=28){curveStart+=delta>0?-CURVE_WINDOW:CURVE_WINDOW;$("tradeDetail").hidden=true;draw();return}
+ if(dragMoved)return;
+ const point=pointInCanvas(event),hit=curveHits.find(candidate=>Math.hypot(candidate.x-point.x,candidate.y-point.y)<=16);
+ if(hit)showTradeDetail(hit.item);
+});
+$("chart").addEventListener("pointercancel",()=>{dragStartX=null;$("chart").classList.remove("dragging")});
 $("close").onclick=()=>{$("modal").hidden=true};$("modal").onclick=e=>{if(e.target===$("modal"))$("modal").hidden=true};load();
 </script>
 </body></html>
