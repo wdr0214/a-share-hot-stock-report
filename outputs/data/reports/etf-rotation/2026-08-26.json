@@ -1,0 +1,97 @@
+{
+  "type": "etf-rotation",
+  "date": "2026-08-26",
+  "generatedAt": "2026-08-26T06:53:08.062Z",
+  "executionTime": "14:53",
+  "status": "ok",
+  "parameters": {
+    "momentumDays": 20,
+    "maDays": 28
+  },
+  "etfs": [
+    {
+      "symbol": "SZ159915",
+      "name": "创业板ETF",
+      "price": 3.435,
+      "quoteSource": "Eastmoney",
+      "momentum20Pct": 2.3845001630911002,
+      "ma28": 3.5391071438789368,
+      "aboveMa28": false
+    },
+    {
+      "symbol": "SH510300",
+      "name": "沪深300ETF",
+      "price": 4.654,
+      "quoteSource": "Eastmoney",
+      "momentum20Pct": 0.5835345970256967,
+      "ma28": 4.701535718781607,
+      "aboveMa28": false
+    },
+    {
+      "symbol": "SH518880",
+      "name": "黄金ETF",
+      "price": 9.522,
+      "quoteSource": "Eastmoney",
+      "momentum20Pct": 13.357148005038127,
+      "ma28": 8.736249991825648,
+      "aboveMa28": true
+    },
+    {
+      "symbol": "SZ159941",
+      "name": "纳指ETF",
+      "price": 1.646,
+      "quoteSource": "Eastmoney",
+      "momentum20Pct": 7.301170667832331,
+      "ma28": 1.619107152734484,
+      "aboveMa28": true
+    },
+    {
+      "symbol": "SH513050",
+      "name": "中国互联网ETF",
+      "price": 1.085,
+      "quoteSource": "Eastmoney",
+      "momentum20Pct": -1.1839753191182627,
+      "ma28": 1.1274285657065255,
+      "aboveMa28": false
+    },
+    {
+      "symbol": "SH511260",
+      "name": "十年国债ETF",
+      "price": 135.783,
+      "quoteSource": "Eastmoney",
+      "momentum20Pct": 0.4691103264321001,
+      "ma28": 135.40314265659876,
+      "aboveMa28": true
+    }
+  ],
+  "leader": {
+    "symbol": "SH518880",
+    "name": "黄金ETF",
+    "momentum20Pct": 13.357148005038127,
+    "aboveMa28": true
+  },
+  "holding": {
+    "symbol": "SH518880",
+    "name": "黄金ETF",
+    "shares": 0.10488828280709116,
+    "entryPrice": 9.533,
+    "entryDate": "2026-08-25"
+  },
+  "rebalance": null,
+  "netValue": 0.998746228889122,
+  "portfolioHistory": [
+    {
+      "date": "2026-08-25",
+      "netValue": 0.9998999999999999,
+      "holding": "SH518880",
+      "rebalanced": true
+    },
+    {
+      "date": "2026-08-26",
+      "netValue": 0.998746228889122,
+      "holding": "SH518880",
+      "rebalanced": false,
+      "trades": []
+    }
+  ]
+}
