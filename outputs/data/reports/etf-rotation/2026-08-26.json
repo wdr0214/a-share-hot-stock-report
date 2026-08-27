@@ -92,6 +92,13 @@
       "holding": "SH518880",
       "rebalanced": false,
       "trades": []
+    },
+    {
+      "date": "2026-08-27",
+      "netValue": 0.9914040490926256,
+      "holding": "SH518880",
+      "rebalanced": false,
+      "trades": []
     }
   ]
 }
