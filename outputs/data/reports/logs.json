@@ -2,6 +2,16 @@
   "logs": [
     {
       "jobName": "late-report",
+      "startedAt": "2026-08-28T06:53:56.605Z",
+      "finishedAt": "2026-08-28T06:53:56.605Z",
+      "status": "failed",
+      "errorMessage": "NETLIFY_DATA_PROXY_BASE is not defined",
+      "reportKey": "2026-08-28",
+      "attempts": 4,
+      "nextRetryHint": "scheduled catchup or one-hour rerun"
+    },
+    {
+      "jobName": "late-report",
       "startedAt": "2026-08-28T06:53:28.049Z",
       "finishedAt": "2026-08-28T06:53:28.049Z",
       "status": "failed",
@@ -242,14 +252,6 @@
       "jobName": "daily-report",
       "startedAt": "2026-08-17T08:00:41.921Z",
       "finishedAt": "2026-08-17T08:00:41.921Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-08-17"
-    },
-    {
-      "jobName": "late-report",
-      "startedAt": "2026-08-17T06:50:27.537Z",
-      "finishedAt": "2026-08-17T06:50:28.776Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-08-17"
