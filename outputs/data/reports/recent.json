@@ -3749,6 +3749,50 @@
   ],
   "weeklyReports": [
     {
+      "week": "2026-35",
+      "rangeStart": "2026-08-22",
+      "rangeEnd": "2026-08-28",
+      "generatedAt": "2026-08-28T23:32:10.966Z",
+      "status": "ok",
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH600367",
+          "name": "红星发展",
+          "appearances": 1,
+          "weeklyHeatScore": 140
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ301018",
+          "name": "申菱环境",
+          "appearances": 1,
+          "weeklyHeatScore": 139
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ002437",
+          "name": "誉衡药业",
+          "appearances": 1,
+          "weeklyHeatScore": 138
+        },
+        {
+          "rank": 4,
+          "symbol": "SH600127",
+          "name": "金健米业",
+          "appearances": 1,
+          "weeklyHeatScore": 138
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ002975",
+          "name": "博杰股份",
+          "appearances": 1,
+          "weeklyHeatScore": 138
+        }
+      ]
+    },
+    {
       "week": "2026-34",
       "rangeStart": "2026-08-15",
       "rangeEnd": "2026-08-21",
