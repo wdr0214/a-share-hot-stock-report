@@ -1876,6 +1876,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-08-28",
+      "generatedAt": "2026-08-28T06:51:53.596Z",
+      "status": "ok",
+      "totalCandidates": 2359,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH600815",
+          "name": "厦工股份",
+          "heatScore": 123
+        },
+        {
+          "rank": 2,
+          "symbol": "SH603011",
+          "name": "合锻智能",
+          "heatScore": 121
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ002396",
+          "name": "星网锐捷",
+          "heatScore": 120
+        },
+        {
+          "rank": 4,
+          "symbol": "SH600722",
+          "name": "金牛化工",
+          "heatScore": 117
+        },
+        {
+          "rank": 5,
+          "symbol": "SH601700",
+          "name": "风范股份",
+          "heatScore": 113
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-08-25",
       "generatedAt": "2026-08-25T06:50:28.384Z",
       "status": "ok",
