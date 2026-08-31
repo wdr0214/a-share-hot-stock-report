@@ -1876,45 +1876,6 @@
   "lateReports": [
     {
       "type": "late",
-      "date": "2026-08-31",
-      "generatedAt": "2026-08-31T06:52:31.192Z",
-      "status": "ok",
-      "totalCandidates": 2353,
-      "stocks": [
-        {
-          "rank": 1,
-          "symbol": "SZ000977",
-          "name": "浪潮信息",
-          "heatScore": 120
-        },
-        {
-          "rank": 2,
-          "symbol": "SZ301511",
-          "name": "德福科技",
-          "heatScore": 119
-        },
-        {
-          "rank": 3,
-          "symbol": "SH603989",
-          "name": "艾华集团",
-          "heatScore": 118
-        },
-        {
-          "rank": 4,
-          "symbol": "SZ000938",
-          "name": "紫光股份",
-          "heatScore": 116
-        },
-        {
-          "rank": 5,
-          "symbol": "SZ002081",
-          "name": "金 螳 螂",
-          "heatScore": 116
-        }
-      ]
-    },
-    {
-      "type": "late",
       "date": "2026-08-25",
       "generatedAt": "2026-08-25T06:50:28.384Z",
       "status": "ok",
@@ -4230,6 +4191,19 @@
   ],
   "newsReports": [],
   "etfRotationReports": [
+    {
+      "date": "2026-08-31",
+      "generatedAt": "2026-08-31T06:53:07.542Z",
+      "status": "ok",
+      "netValue": 0.9578397985943564,
+      "holding": {
+        "symbol": "SH518880",
+        "name": "黄金ETF",
+        "shares": 0.10488828280709116,
+        "entryPrice": 9.533,
+        "entryDate": "2026-08-25"
+      }
+    },
     {
       "date": "2026-08-28",
       "generatedAt": "2026-08-28T06:53:07.005Z",
