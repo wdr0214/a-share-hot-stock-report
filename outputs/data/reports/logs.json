@@ -1,12 +1,13 @@
 {
   "logs": [
     {
-      "jobName": "late-report",
-      "startedAt": "2026-08-31T06:52:31.192Z",
-      "finishedAt": "2026-08-31T06:52:31.830Z",
-      "status": "success",
+      "jobName": "etf-rotation",
+      "startedAt": "2026-08-31T06:53:12.608Z",
+      "finishedAt": "2026-08-31T06:53:12.608Z",
+      "status": "ok",
       "errorMessage": "",
-      "reportKey": "2026-08-31"
+      "reportKey": "2026-08-31",
+      "attempts": 1
     },
     {
       "jobName": "weekly-report",
