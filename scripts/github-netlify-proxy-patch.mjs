@@ -18,7 +18,7 @@ function ensureProxyConstants(text) {
     'const QUOTE_FIELDS = "f12,f14,f2,f3,f17";',
     [
       'const QUOTE_FIELDS = "f12,f14,f2,f3,f17";',
-      'const NETLIFY_DATA_PROXY_BASE = cleanEnvUrl(process.env.NETLIFY_DATA_PROXY_BASE || "");',
+      'const NETLIFY_DATA_PROXY_BASE = cleanEnvUrl(process.env.NETLIFY_DATA_PROXY_BASE || "https://10-5-k.vercel.app");',
       'const NETLIFY_DATA_PROXY_TOKEN = process.env.NETLIFY_DATA_PROXY_TOKEN || process.env.DATA_PROXY_TOKEN || "";'
     ].join("\n")
   );
