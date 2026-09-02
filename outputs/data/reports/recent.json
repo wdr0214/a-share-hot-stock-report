@@ -1876,6 +1876,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-09-02",
+      "generatedAt": "2026-09-02T06:54:44.132Z",
+      "status": "ok",
+      "totalCandidates": 2390,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH603618",
+          "name": "杭电股份",
+          "heatScore": 122
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ002536",
+          "name": "飞龙股份",
+          "heatScore": 119
+        },
+        {
+          "rank": 3,
+          "symbol": "SH600869",
+          "name": "远东股份",
+          "heatScore": 112
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ002297",
+          "name": "博云新材",
+          "heatScore": 108
+        },
+        {
+          "rank": 5,
+          "symbol": "SH605006",
+          "name": "山东玻纤",
+          "heatScore": 108
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-08-25",
       "generatedAt": "2026-08-25T06:50:28.384Z",
       "status": "ok",
@@ -4191,13 +4230,6 @@
   ],
   "newsReports": [],
   "etfRotationReports": [
-    {
-      "date": "2026-09-02",
-      "generatedAt": "2026-09-02T06:53:08.611Z",
-      "status": "ok",
-      "netValue": 0.932887977441519,
-      "holding": null
-    },
     {
       "date": "2026-09-01",
       "generatedAt": "2026-09-01T06:53:07.828Z",
