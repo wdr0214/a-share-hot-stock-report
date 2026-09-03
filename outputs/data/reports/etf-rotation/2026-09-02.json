@@ -137,6 +137,20 @@
           "returnPct": -6.619112556383093
         }
       ]
+    },
+    {
+      "date": "2026-09-03",
+      "netValue": 0.9335287597871706,
+      "holding": "SH518880",
+      "rebalanced": true,
+      "trades": [
+        {
+          "action": "buy",
+          "symbol": "SH518880",
+          "name": "黄金ETF",
+          "price": 9.104
+        }
+      ]
     }
   ]
 }
