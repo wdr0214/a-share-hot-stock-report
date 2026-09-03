@@ -28,8 +28,15 @@ source = source.replace(
   `async function fetchAllMarketStocks() {
   try {
     return await fetchEastmoneyMarketStocks(PRIMARY_CANDIDATE_LIMIT);
-  } catch (error) {
-    throw new Error(\`Eastmoney top \${PRIMARY_CANDIDATE_LIMIT} fund-flow source failed: \${error.message}\`);
+  } catch (eastmoneyError) {
+    console.warn(\`eastmoney candidate source failed, falling back to sina: \${eastmoneyError.message}\`);
+    try {
+      const fallback = await fetchSinaMarketStocks();
+      if (!fallback.length) throw new Error("Sina returned no A-share candidates");
+      return fallback.slice(0, PRIMARY_CANDIDATE_LIMIT);
+    } catch (sinaError) {
+      throw new Error(\`Eastmoney and Sina candidate sources failed: \${eastmoneyError.message}; \${sinaError.message}\`);
+    }
   }
 }
 

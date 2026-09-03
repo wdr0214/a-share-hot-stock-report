@@ -69,9 +69,6 @@ jobs:
       - name: Apply GitHub runtime market-data patch
         run: node scripts/github-runtime-patch.mjs
 
-      - name: Apply GitHub Netlify data proxy patch
-        run: node scripts/github-netlify-proxy-patch.mjs
-
       - name: Run scheduled report
         if: github.event_name == 'schedule'
         run: |
