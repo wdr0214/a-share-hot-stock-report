@@ -1,6 +1,22 @@
 {
   "logs": [
     {
+      "jobName": "daily-report",
+      "startedAt": "2026-09-03T13:48:14.879Z",
+      "finishedAt": "2026-09-03T13:48:49.205Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-09-03"
+    },
+    {
+      "jobName": "late-report",
+      "startedAt": "2026-09-03T13:45:44.505Z",
+      "finishedAt": "2026-09-03T13:45:44.505Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-09-03"
+    },
+    {
       "jobName": "late-report",
       "startedAt": "2026-09-03T06:54:33.629Z",
       "finishedAt": "2026-09-03T06:54:33.629Z",
@@ -253,22 +269,6 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-08-21-close"
-    },
-    {
-      "jobName": "daily-report",
-      "startedAt": "2026-08-21T08:00:40.855Z",
-      "finishedAt": "2026-08-21T08:00:40.856Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-08-21"
-    },
-    {
-      "jobName": "late-report",
-      "startedAt": "2026-08-21T06:50:28.636Z",
-      "finishedAt": "2026-08-21T06:50:29.378Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-08-21"
     }
   ]
 }
