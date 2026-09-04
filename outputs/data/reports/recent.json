@@ -1916,39 +1916,39 @@
     {
       "type": "late",
       "date": "2026-09-04",
-      "generatedAt": "2026-09-04T11:45:04.805Z",
+      "generatedAt": "2026-09-04T11:47:51.430Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
         {
           "rank": 1,
-          "symbol": "SZ300468",
-          "name": "四方精创",
-          "heatScore": 119
+          "symbol": "SH688205",
+          "name": "德科立",
+          "heatScore": 89
         },
         {
           "rank": 2,
-          "symbol": "SZ000560",
-          "name": "我爱我家",
-          "heatScore": 116
+          "symbol": "SZ300468",
+          "name": "四方精创",
+          "heatScore": 88
         },
         {
           "rank": 3,
-          "symbol": "SH603228",
-          "name": "景旺电子",
-          "heatScore": 111
+          "symbol": "SH688167",
+          "name": "炬光科技",
+          "heatScore": 88
         },
         {
           "rank": 4,
-          "symbol": "SZ000892",
-          "name": "欢瑞世纪",
-          "heatScore": 111
+          "symbol": "SH603228",
+          "name": "景旺电子",
+          "heatScore": 82
         },
         {
           "rank": 5,
-          "symbol": "SH600354",
-          "name": "敦煌种业",
-          "heatScore": 109
+          "symbol": "SZ301171",
+          "name": "易点天下",
+          "heatScore": 81
         }
       ]
     },
