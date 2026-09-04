@@ -581080,6 +581080,575 @@
     }
   },
   "weeklyReports": {
+    "2026-36": {
+      "week": "2026-36",
+      "rangeStart": "2026-08-29",
+      "rangeEnd": "2026-09-04",
+      "generatedAt": "2026-09-04T17:35:07.443Z",
+      "source": "github-actions-daily-reports",
+      "status": "ok",
+      "ratingPolicy": "周报汇总最近 7 天日报结果，不重复计入尾盘报告。",
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ002536",
+          "name": "飞龙股份",
+          "weeklyHeatScore": 117,
+          "appearances": 1,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        },
+        {
+          "rank": 2,
+          "symbol": "SH600869",
+          "name": "远东股份",
+          "weeklyHeatScore": 115,
+          "appearances": 1,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        },
+        {
+          "rank": 3,
+          "symbol": "SH600172",
+          "name": "黄河旋风",
+          "weeklyHeatScore": 115,
+          "appearances": 1,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ002297",
+          "name": "博云新材",
+          "weeklyHeatScore": 113,
+          "appearances": 1,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        },
+        {
+          "rank": 5,
+          "symbol": "SH688195",
+          "name": "腾景科技",
+          "weeklyHeatScore": 110,
+          "appearances": 1,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        },
+        {
+          "rank": 6,
+          "symbol": "SH688205",
+          "name": "德科立",
+          "weeklyHeatScore": 109,
+          "appearances": 1,
+          "avgMomentumScore": 93,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        },
+        {
+          "rank": 7,
+          "symbol": "SZ300468",
+          "name": "四方精创",
+          "weeklyHeatScore": 108,
+          "appearances": 1,
+          "avgMomentumScore": 100,
+          "weeklySummary": "本周高频行情特征集中在 高换手，累计入选 1 天。"
+        },
+        {
+          "rank": 8,
+          "symbol": "SH688167",
+          "name": "炬光科技",
+          "weeklyHeatScore": 108,
+          "appearances": 1,
+          "avgMomentumScore": 92,
+          "weeklySummary": "本周高频行情特征集中在 高换手、强趋势，累计入选 1 天。"
+        },
+        {
+          "rank": 9,
+          "symbol": "SH603228",
+          "name": "景旺电子",
+          "weeklyHeatScore": 102,
+          "appearances": 1,
+          "avgMomentumScore": 91,
+          "weeklySummary": "本周高频行情特征集中在 高换手，累计入选 1 天。"
+        },
+        {
+          "rank": 10,
+          "symbol": "SZ301171",
+          "name": "易点天下",
+          "weeklyHeatScore": 101,
+          "appearances": 1,
+          "avgMomentumScore": 95,
+          "weeklySummary": "本周高频行情特征集中在 高换手，累计入选 1 天。"
+        }
+      ],
+      "dailyPortfolioTrades": [
+        {
+          "date": "2026-09-03",
+          "netValue": 0.626,
+          "trades": [
+            {
+              "date": "2026-09-03",
+              "buyDate": "",
+              "sellDate": "2026-09-03",
+              "action": "sell",
+              "symbol": "SH600367",
+              "name": "红星发展",
+              "buyPrice": 38.15,
+              "sellPrice": 38,
+              "markPrice": null,
+              "profitPct": -0.39318479685451796,
+              "status": "已卖出",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-03",
+              "buyDate": "",
+              "sellDate": "2026-09-03",
+              "action": "sell",
+              "symbol": "SZ002975",
+              "name": "博杰股份",
+              "buyPrice": 108,
+              "sellPrice": 99.2,
+              "markPrice": null,
+              "profitPct": -8.148148148148145,
+              "status": "已卖出",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-03",
+              "buyDate": "",
+              "sellDate": "2026-09-03",
+              "action": "sell",
+              "symbol": "SH601700",
+              "name": "风范股份",
+              "buyPrice": 7.5,
+              "sellPrice": 8.35,
+              "markPrice": null,
+              "profitPct": 11.333333333333329,
+              "status": "已卖出",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-03",
+              "buyDate": "",
+              "sellDate": "2026-09-03",
+              "action": "sell",
+              "symbol": "SZ002580",
+              "name": "圣阳股份",
+              "buyPrice": 21.42,
+              "sellPrice": 22.05,
+              "markPrice": null,
+              "profitPct": 2.94117647058823,
+              "status": "已卖出",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-03",
+              "buyDate": "2026-09-03",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "",
+              "name": "",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "missing_previous_daily_report"
+            }
+          ]
+        },
+        {
+          "date": "2026-09-04",
+          "netValue": 0.626,
+          "trades": [
+            {
+              "date": "2026-09-04",
+              "buyDate": "2026-09-04",
+              "sellDate": "",
+              "action": "buy",
+              "symbol": "SZ002536",
+              "name": "飞龙股份",
+              "buyPrice": 63.07,
+              "sellPrice": null,
+              "markPrice": 58.26,
+              "profitPct": -7.626446805137153,
+              "status": "持仓中",
+              "reason": "open_price"
+            },
+            {
+              "date": "2026-09-04",
+              "buyDate": "2026-09-04",
+              "sellDate": "",
+              "action": "buy",
+              "symbol": "SH600869",
+              "name": "远东股份",
+              "buyPrice": 21.05,
+              "sellPrice": null,
+              "markPrice": 21.2,
+              "profitPct": 0.7125890736341975,
+              "status": "持仓中",
+              "reason": "open_price"
+            },
+            {
+              "date": "2026-09-04",
+              "buyDate": "2026-09-04",
+              "sellDate": "",
+              "action": "buy",
+              "symbol": "SH600172",
+              "name": "黄河旋风",
+              "buyPrice": 15.8,
+              "sellPrice": null,
+              "markPrice": 15.79,
+              "profitPct": -0.06329113924051621,
+              "status": "持仓中",
+              "reason": "open_price"
+            },
+            {
+              "date": "2026-09-04",
+              "buyDate": "2026-09-04",
+              "sellDate": "",
+              "action": "buy",
+              "symbol": "SZ002297",
+              "name": "博云新材",
+              "buyPrice": 22.01,
+              "sellPrice": null,
+              "markPrice": 21.32,
+              "profitPct": -3.1349386642435313,
+              "status": "持仓中",
+              "reason": "open_price"
+            },
+            {
+              "date": "2026-09-04",
+              "buyDate": "2026-09-04",
+              "sellDate": "",
+              "action": "buy",
+              "symbol": "SH688195",
+              "name": "腾景科技",
+              "buyPrice": 207,
+              "sellPrice": null,
+              "markPrice": 193.15,
+              "profitPct": -6.690821256038644,
+              "status": "持仓中",
+              "reason": "open_price"
+            }
+          ]
+        }
+      ],
+      "latePortfolioTrades": [
+        {
+          "date": "2026-09-02",
+          "netValue": 1.0509,
+          "trades": [
+            {
+              "date": "2026-09-02",
+              "buyDate": "",
+              "sellDate": "2026-09-02",
+              "action": "sell",
+              "symbol": "SZ301018",
+              "name": "申菱环境",
+              "buyPrice": 104.5,
+              "sellPrice": 106.8,
+              "markPrice": null,
+              "profitPct": 2.2009569377990403,
+              "status": "已卖出",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-02",
+              "buyDate": "",
+              "sellDate": "2026-09-02",
+              "action": "sell",
+              "symbol": "SZ002437",
+              "name": "誉衡药业",
+              "buyPrice": 4.309999942779541,
+              "sellPrice": 4.51,
+              "markPrice": null,
+              "profitPct": 4.640372618925784,
+              "status": "已卖出",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-02",
+              "buyDate": "",
+              "sellDate": "2026-09-02",
+              "action": "sell",
+              "symbol": "SH600127",
+              "name": "金健米业",
+              "buyPrice": 9.3100004196167,
+              "sellPrice": 12.48,
+              "markPrice": null,
+              "profitPct": 34.0494031955566,
+              "status": "已卖出",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-02",
+              "buyDate": "",
+              "sellDate": "2026-09-02",
+              "action": "sell",
+              "symbol": "SH600487",
+              "name": "亨通光电",
+              "buyPrice": 64.9800033569336,
+              "sellPrice": 67.12,
+              "markPrice": null,
+              "profitPct": 3.29331568561402,
+              "status": "已卖出",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-02",
+              "buyDate": "2026-09-02",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SH603618",
+              "name": "杭电股份",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            },
+            {
+              "date": "2026-09-02",
+              "buyDate": "2026-09-02",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SZ002536",
+              "name": "飞龙股份",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            },
+            {
+              "date": "2026-09-02",
+              "buyDate": "2026-09-02",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SH600869",
+              "name": "远东股份",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            },
+            {
+              "date": "2026-09-02",
+              "buyDate": "2026-09-02",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SZ002297",
+              "name": "博云新材",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            },
+            {
+              "date": "2026-09-02",
+              "buyDate": "2026-09-02",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SH605006",
+              "name": "山东玻纤",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            }
+          ]
+        },
+        {
+          "date": "2026-09-03",
+          "netValue": 1.0509,
+          "trades": [
+            {
+              "date": "2026-09-03",
+              "buyDate": "2026-09-03",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SZ002297",
+              "name": "博云新材",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            },
+            {
+              "date": "2026-09-03",
+              "buyDate": "2026-09-03",
+              "sellDate": "",
+              "action": "buy",
+              "symbol": "SH600172",
+              "name": "黄河旋风",
+              "buyPrice": 15.920000076293945,
+              "sellPrice": null,
+              "markPrice": 15.920000076293945,
+              "profitPct": 0,
+              "status": "持仓中",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-03",
+              "buyDate": "2026-09-03",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SZ002980",
+              "name": "华盛昌",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            },
+            {
+              "date": "2026-09-03",
+              "buyDate": "2026-09-03",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SZ002708",
+              "name": "光洋股份",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            },
+            {
+              "date": "2026-09-03",
+              "buyDate": "2026-09-03",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SZ301489",
+              "name": "思泉新材",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            }
+          ]
+        },
+        {
+          "date": "2026-09-04",
+          "netValue": 1.0513,
+          "trades": [
+            {
+              "date": "2026-09-04",
+              "buyDate": "",
+              "sellDate": "2026-09-04",
+              "action": "sell",
+              "symbol": "SZ300468",
+              "name": "四方精创",
+              "buyPrice": 27.5,
+              "sellPrice": 27.5,
+              "markPrice": null,
+              "profitPct": 0,
+              "status": "已卖出",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-04",
+              "buyDate": "",
+              "sellDate": "2026-09-04",
+              "action": "sell",
+              "symbol": "SH603228",
+              "name": "景旺电子",
+              "buyPrice": 96.33999633789062,
+              "sellPrice": 96.34,
+              "markPrice": null,
+              "profitPct": 0.000003801234707926072,
+              "status": "已卖出",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-04",
+              "buyDate": "2026-09-04",
+              "sellDate": "",
+              "action": "buy",
+              "symbol": "SZ300468",
+              "name": "四方精创",
+              "buyPrice": 27.5,
+              "sellPrice": null,
+              "markPrice": 27.5,
+              "profitPct": 0,
+              "status": "持仓中",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-04",
+              "buyDate": "2026-09-04",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SZ000560",
+              "name": "我爱我家",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            },
+            {
+              "date": "2026-09-04",
+              "buyDate": "2026-09-04",
+              "sellDate": "",
+              "action": "buy",
+              "symbol": "SH603228",
+              "name": "景旺电子",
+              "buyPrice": 96.33999633789062,
+              "sellPrice": null,
+              "markPrice": 96.33999633789062,
+              "profitPct": 0,
+              "status": "持仓中",
+              "reason": ""
+            },
+            {
+              "date": "2026-09-04",
+              "buyDate": "2026-09-04",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SZ000892",
+              "name": "欢瑞世纪",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            },
+            {
+              "date": "2026-09-04",
+              "buyDate": "2026-09-04",
+              "sellDate": "",
+              "action": "skipped",
+              "symbol": "SH600354",
+              "name": "敦煌种业",
+              "buyPrice": null,
+              "sellPrice": null,
+              "markPrice": null,
+              "profitPct": null,
+              "status": "未成交",
+              "reason": "涨停无法买入"
+            }
+          ]
+        }
+      ]
+    },
     "2026-35": {
       "week": "2026-35",
       "rangeStart": "2026-08-22",
@@ -604479,6 +605048,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-09-04"
+    },
+    {
+      "jobName": "weekly-report",
+      "startedAt": "2026-09-04T17:35:07.443Z",
+      "finishedAt": "2026-09-04T17:35:07.444Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-36"
     }
   ]
 }
