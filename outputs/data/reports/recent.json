@@ -1916,7 +1916,7 @@
     {
       "type": "late",
       "date": "2026-09-04",
-      "generatedAt": "2026-09-04T06:54:00.756Z",
+      "generatedAt": "2026-09-04T11:45:04.805Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
@@ -1934,15 +1934,15 @@
         },
         {
           "rank": 3,
-          "symbol": "SZ000892",
-          "name": "欢瑞世纪",
+          "symbol": "SH603228",
+          "name": "景旺电子",
           "heatScore": 111
         },
         {
           "rank": 4,
-          "symbol": "SH603228",
-          "name": "景旺电子",
-          "heatScore": 110
+          "symbol": "SZ000892",
+          "name": "欢瑞世纪",
+          "heatScore": 111
         },
         {
           "rank": 5,
