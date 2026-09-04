@@ -1915,6 +1915,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-09-04",
+      "generatedAt": "2026-09-04T06:54:00.756Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ300468",
+          "name": "四方精创",
+          "heatScore": 119
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ000560",
+          "name": "我爱我家",
+          "heatScore": 116
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ000892",
+          "name": "欢瑞世纪",
+          "heatScore": 111
+        },
+        {
+          "rank": 4,
+          "symbol": "SH603228",
+          "name": "景旺电子",
+          "heatScore": 110
+        },
+        {
+          "rank": 5,
+          "symbol": "SH600354",
+          "name": "敦煌种业",
+          "heatScore": 109
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-09-03",
       "generatedAt": "2026-09-03T13:45:44.505Z",
       "status": "ok",

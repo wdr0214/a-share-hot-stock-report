@@ -149,6 +149,13 @@
           "price": 9.104
         }
       ]
+    },
+    {
+      "date": "2026-09-04",
+      "netValue": 0.9398862711126106,
+      "holding": "SH518880",
+      "rebalanced": false,
+      "trades": []
     }
   ]
 }
