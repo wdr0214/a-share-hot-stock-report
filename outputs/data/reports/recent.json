@@ -2,6 +2,45 @@
   "reports": [
     {
       "type": "daily",
+      "date": "2026-09-04",
+      "generatedAt": "2026-09-04T12:29:34.913Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH688205",
+          "name": "德科立",
+          "heatScore": 89
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300468",
+          "name": "四方精创",
+          "heatScore": 88
+        },
+        {
+          "rank": 3,
+          "symbol": "SH688167",
+          "name": "炬光科技",
+          "heatScore": 88
+        },
+        {
+          "rank": 4,
+          "symbol": "SH603228",
+          "name": "景旺电子",
+          "heatScore": 82
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ301171",
+          "name": "易点天下",
+          "heatScore": 81
+        }
+      ]
+    },
+    {
+      "type": "daily",
       "date": "2026-09-03",
       "generatedAt": "2026-09-03T13:48:14.879Z",
       "status": "ok",
