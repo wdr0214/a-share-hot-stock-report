@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-04",
-  "generatedAt": "2026-09-04T11:48:30.036Z",
+  "generatedAt": "2026-09-04T12:16:06.766Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -6038,27 +6038,20 @@
         "symbol": "SZ300468",
         "name": "四方精创",
         "entryPrice": 27.5,
-        "shares": 0.007646160182309072,
-        "allocation": 0.2102694050134995,
+        "shares": 0.007646160240438773,
+        "allocation": 0.21026940661206625,
         "date": "2026-09-04"
       },
       {
         "symbol": "SH603228",
         "name": "景旺电子",
         "entryPrice": 96.33999633789062,
-        "shares": 0.0021825764273026064,
-        "allocation": 0.2102694050134995,
+        "shares": 0.0021825764438955773,
+        "allocation": 0.21026940661206625,
         "date": "2026-09-04"
       }
     ],
     "sold": [
-      {
-        "symbol": "SH688205",
-        "name": "德科立",
-        "entryPrice": 194,
-        "sellPrice": 194,
-        "returnPct": 0
-      },
       {
         "symbol": "SZ300468",
         "name": "四方精创",
@@ -6067,25 +6060,11 @@
         "returnPct": 0
       },
       {
-        "symbol": "SH688167",
-        "name": "炬光科技",
-        "entryPrice": 299.5,
-        "sellPrice": 299.5,
-        "returnPct": 0
-      },
-      {
         "symbol": "SH603228",
         "name": "景旺电子",
         "entryPrice": 96.33999633789062,
         "sellPrice": 96.34,
         "returnPct": 0.000003801234707926072
-      },
-      {
-        "symbol": "SZ301171",
-        "name": "易点天下",
-        "entryPrice": 38.279998779296875,
-        "sellPrice": 38.28,
-        "returnPct": 0.000003188879741545515
       }
     ],
     "bought": [
@@ -6094,7 +6073,7 @@
         "name": "四方精创",
         "skipped": false,
         "buyPrice": 27.5,
-        "allocation": 0.2102694050134995
+        "allocation": 0.21026940661206625
       },
       {
         "symbol": "SZ000560",
@@ -6107,7 +6086,7 @@
         "name": "景旺电子",
         "skipped": false,
         "buyPrice": 96.33999633789062,
-        "allocation": 0.2102694050134995
+        "allocation": 0.21026940661206625
       },
       {
         "symbol": "SZ000892",
@@ -6327,6 +6306,10 @@
     {
       "date": "2026-09-04",
       "netValue": 1.0515
+    },
+    {
+      "date": "2026-09-04",
+      "netValue": 1.0513
     },
     {
       "date": "2026-09-04",
