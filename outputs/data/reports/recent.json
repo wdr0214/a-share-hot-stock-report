@@ -4431,6 +4431,19 @@
   "newsReports": [],
   "etfRotationReports": [
     {
+      "date": "2026-09-07",
+      "generatedAt": "2026-09-07T06:53:07.555Z",
+      "status": "ok",
+      "netValue": 0.9258382218934934,
+      "holding": {
+        "symbol": "SH518880",
+        "name": "黄金ETF",
+        "shares": 0.10254050524903018,
+        "entryPrice": 9.104,
+        "entryDate": "2026-09-03"
+      }
+    },
+    {
       "date": "2026-09-04",
       "generatedAt": "2026-09-04T06:53:07.637Z",
       "status": "ok",
