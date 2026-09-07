@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-07",
-  "generatedAt": "2026-09-07T13:04:16.884Z",
+  "generatedAt": "2026-09-07T13:06:39.951Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -5921,49 +5921,63 @@
         "symbol": "SZ301511",
         "name": "德福科技",
         "entryPrice": 99.4800033569336,
-        "shares": 0.0021298313000666894,
-        "allocation": 0.2118756248803365,
+        "shares": 0.0021298312730160225,
+        "allocation": 0.2118756221893361,
         "date": "2026-09-07"
       },
       {
         "symbol": "SZ300570",
         "name": "太辰光",
         "entryPrice": 206.10000610351562,
-        "shares": 0.0010280233799407072,
-        "allocation": 0.2118756248803365,
+        "shares": 0.001028023366883937,
+        "allocation": 0.2118756221893361,
         "date": "2026-09-07"
       },
       {
         "symbol": "SZ300684",
         "name": "中石科技",
         "entryPrice": 104.36000061035156,
-        "shares": 0.0020302378654769803,
-        "allocation": 0.2118756248803365,
+        "shares": 0.002030237839691235,
+        "allocation": 0.2118756221893361,
         "date": "2026-09-07"
       },
       {
         "symbol": "SH688205",
         "name": "德科立",
         "entryPrice": 214.02999877929688,
-        "shares": 0.0009899342432778224,
-        "allocation": 0.2118756248803365,
+        "shares": 0.0009899342307048166,
+        "allocation": 0.2118756221893361,
         "date": "2026-09-07"
       }
     ],
     "sold": [
       {
-        "symbol": "SZ300570",
-        "name": "太辰光",
-        "entryPrice": 206.0800018310547,
-        "sellPrice": 206.1,
-        "returnPct": 0.009704080341430414
+        "symbol": "SZ301511",
+        "name": "德福科技",
+        "entryPrice": 99.4800033569336,
+        "sellPrice": 99.48,
+        "returnPct": -0.0000033744807765298367
       },
       {
-        "symbol": "SZ300757",
-        "name": "罗博特科",
-        "entryPrice": 629.239990234375,
-        "sellPrice": 631.94,
-        "returnPct": 0.4290906184489917
+        "symbol": "SZ300570",
+        "name": "太辰光",
+        "entryPrice": 206.10000610351562,
+        "sellPrice": 206.1,
+        "returnPct": -0.00000296143398832254
+      },
+      {
+        "symbol": "SZ300684",
+        "name": "中石科技",
+        "entryPrice": 104.36000061035156,
+        "sellPrice": 104.36,
+        "returnPct": -5.848520117849566e-7
+      },
+      {
+        "symbol": "SH688205",
+        "name": "德科立",
+        "entryPrice": 214.02999877929688,
+        "sellPrice": 214.03,
+        "returnPct": 5.703420703168022e-7
       }
     ],
     "bought": [
@@ -5972,28 +5986,28 @@
         "name": "德福科技",
         "skipped": false,
         "buyPrice": 99.4800033569336,
-        "allocation": 0.2118756248803365
+        "allocation": 0.2118756221893361
       },
       {
         "symbol": "SZ300570",
         "name": "太辰光",
         "skipped": false,
         "buyPrice": 206.10000610351562,
-        "allocation": 0.2118756248803365
+        "allocation": 0.2118756221893361
       },
       {
         "symbol": "SZ300684",
         "name": "中石科技",
         "skipped": false,
         "buyPrice": 104.36000061035156,
-        "allocation": 0.2118756248803365
+        "allocation": 0.2118756221893361
       },
       {
         "symbol": "SH688205",
         "name": "德科立",
         "skipped": false,
         "buyPrice": 214.02999877929688,
-        "allocation": 0.2118756248803365
+        "allocation": 0.2118756221893361
       },
       {
         "symbol": "SH603186",
@@ -6227,6 +6241,10 @@
     {
       "date": "2026-09-07",
       "netValue": 1.0584
+    },
+    {
+      "date": "2026-09-07",
+      "netValue": 1.0594
     },
     {
       "date": "2026-09-07",
