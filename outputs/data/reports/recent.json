@@ -1954,6 +1954,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-09-07",
+      "generatedAt": "2026-09-07T06:54:37.601Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ300570",
+          "name": "太辰光",
+          "heatScore": 125
+        },
+        {
+          "rank": 2,
+          "symbol": "SH603186",
+          "name": "华正新材",
+          "heatScore": 118
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ002815",
+          "name": "崇达技术",
+          "heatScore": 115
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ300757",
+          "name": "罗博特科",
+          "heatScore": 115
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ002980",
+          "name": "华盛昌",
+          "heatScore": 115
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-09-04",
       "generatedAt": "2026-09-04T12:16:06.766Z",
       "status": "ok",
