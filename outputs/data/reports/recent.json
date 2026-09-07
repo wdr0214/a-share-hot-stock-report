@@ -1955,39 +1955,39 @@
     {
       "type": "late",
       "date": "2026-09-07",
-      "generatedAt": "2026-09-07T06:54:37.601Z",
+      "generatedAt": "2026-09-07T13:04:16.884Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
         {
           "rank": 1,
-          "symbol": "SZ300570",
-          "name": "太辰光",
-          "heatScore": 125
+          "symbol": "SZ301511",
+          "name": "德福科技",
+          "heatScore": 101
         },
         {
           "rank": 2,
-          "symbol": "SH603186",
-          "name": "华正新材",
-          "heatScore": 118
+          "symbol": "SZ300570",
+          "name": "太辰光",
+          "heatScore": 100
         },
         {
           "rank": 3,
-          "symbol": "SZ002815",
-          "name": "崇达技术",
-          "heatScore": 115
+          "symbol": "SZ300684",
+          "name": "中石科技",
+          "heatScore": 100
         },
         {
           "rank": 4,
-          "symbol": "SZ300757",
-          "name": "罗博特科",
-          "heatScore": 115
+          "symbol": "SH688205",
+          "name": "德科立",
+          "heatScore": 100
         },
         {
           "rank": 5,
-          "symbol": "SZ002980",
-          "name": "华盛昌",
-          "heatScore": 115
+          "symbol": "SH603186",
+          "name": "华正新材",
+          "heatScore": 97
         }
       ]
     },
