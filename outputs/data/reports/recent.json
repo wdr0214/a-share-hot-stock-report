@@ -2,6 +2,45 @@
   "reports": [
     {
       "type": "daily",
+      "date": "2026-09-07",
+      "generatedAt": "2026-09-07T13:57:16.858Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ301511",
+          "name": "德福科技",
+          "heatScore": 101
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300570",
+          "name": "太辰光",
+          "heatScore": 100
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ300684",
+          "name": "中石科技",
+          "heatScore": 100
+        },
+        {
+          "rank": 4,
+          "symbol": "SH688205",
+          "name": "德科立",
+          "heatScore": 100
+        },
+        {
+          "rank": 5,
+          "symbol": "SH603186",
+          "name": "华正新材",
+          "heatScore": 97
+        }
+      ]
+    },
+    {
+      "type": "daily",
       "date": "2026-09-04",
       "generatedAt": "2026-09-04T12:29:34.913Z",
       "status": "ok",
