@@ -1994,39 +1994,39 @@
     {
       "type": "late",
       "date": "2026-09-08",
-      "generatedAt": "2026-09-08T06:54:09.924Z",
+      "generatedAt": "2026-09-08T11:47:41.278Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
         {
           "rank": 1,
-          "symbol": "SZ002436",
-          "name": "兴森科技",
-          "heatScore": 121
+          "symbol": "SH600869",
+          "name": "远东股份",
+          "heatScore": 98
         },
         {
           "rank": 2,
-          "symbol": "SH603618",
-          "name": "杭电股份",
-          "heatScore": 119
+          "symbol": "SH600722",
+          "name": "金牛化工",
+          "heatScore": 98
         },
         {
           "rank": 3,
-          "symbol": "SZ000620",
-          "name": "盈新发展",
-          "heatScore": 114
+          "symbol": "SH603618",
+          "name": "杭电股份",
+          "heatScore": 97
         },
         {
           "rank": 4,
-          "symbol": "SH600722",
-          "name": "金牛化工",
-          "heatScore": 112
+          "symbol": "SH600127",
+          "name": "金健米业",
+          "heatScore": 95
         },
         {
           "rank": 5,
-          "symbol": "SH600227",
-          "name": "赤天化",
-          "heatScore": 111
+          "symbol": "SH603083",
+          "name": "XD剑桥科",
+          "heatScore": 94
         }
       ]
     },
