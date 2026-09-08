@@ -2,6 +2,45 @@
   "reports": [
     {
       "type": "daily",
+      "date": "2026-09-08",
+      "generatedAt": "2026-09-08T12:35:27.544Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ002436",
+          "name": "兴森科技",
+          "heatScore": 121
+        },
+        {
+          "rank": 2,
+          "symbol": "SH603618",
+          "name": "杭电股份",
+          "heatScore": 119
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ000620",
+          "name": "盈新发展",
+          "heatScore": 113
+        },
+        {
+          "rank": 4,
+          "symbol": "SH600722",
+          "name": "金牛化工",
+          "heatScore": 113
+        },
+        {
+          "rank": 5,
+          "symbol": "SH601118",
+          "name": "海南橡胶",
+          "heatScore": 112
+        }
+      ]
+    },
+    {
+      "type": "daily",
       "date": "2026-09-07",
       "generatedAt": "2026-09-07T13:57:16.858Z",
       "status": "ok",
