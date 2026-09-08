@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-08",
-  "generatedAt": "2026-09-08T11:47:41.278Z",
+  "generatedAt": "2026-09-08T11:50:26.157Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -5967,49 +5967,63 @@
         "symbol": "SH600869",
         "name": "远东股份",
         "entryPrice": 22.65999984741211,
-        "shares": 0.009069968348314,
-        "allocation": 0.20552548138882792,
+        "shares": 0.009069968312701666,
+        "allocation": 0.2055254805818524,
         "date": "2026-09-08"
       },
       {
         "symbol": "SH603618",
         "name": "杭电股份",
         "entryPrice": 40.11000061035156,
-        "shares": 0.005124045830500089,
-        "allocation": 0.20552548138882792,
+        "shares": 0.005124045810381029,
+        "allocation": 0.2055254805818524,
         "date": "2026-09-08"
       },
       {
         "symbol": "SH600127",
         "name": "金健米业",
         "entryPrice": 14.789999961853027,
-        "shares": 0.013896246241982938,
-        "allocation": 0.20552548138882792,
+        "shares": 0.013896246187420698,
+        "allocation": 0.2055254805818524,
         "date": "2026-09-08"
       },
       {
         "symbol": "SH603083",
         "name": "XD剑桥科",
         "entryPrice": 222.3000030517578,
-        "shares": 0.000924541064180623,
-        "allocation": 0.20552548138882792,
+        "shares": 0.0009245410605505038,
+        "allocation": 0.2055254805818524,
         "date": "2026-09-08"
       }
     ],
     "sold": [
       {
-        "symbol": "SZ002436",
-        "name": "兴森科技",
-        "entryPrice": 40.119998931884766,
-        "sellPrice": 40.12,
-        "returnPct": 0.0000026623012468930493
+        "symbol": "SH600869",
+        "name": "远东股份",
+        "entryPrice": 22.65999984741211,
+        "sellPrice": 22.66,
+        "returnPct": 6.733799284845753e-7
       },
       {
         "symbol": "SH603618",
         "name": "杭电股份",
-        "entryPrice": 39.95000076293945,
+        "entryPrice": 40.11000061035156,
         "sellPrice": 40.11,
-        "returnPct": 0.4004987083979566
+        "returnPct": -0.0000015216942253322109
+      },
+      {
+        "symbol": "SH600127",
+        "name": "金健米业",
+        "entryPrice": 14.789999961853027,
+        "sellPrice": 14.79,
+        "returnPct": 2.5792408317774813e-7
+      },
+      {
+        "symbol": "SH603083",
+        "name": "XD剑桥科",
+        "entryPrice": 222.3000030517578,
+        "sellPrice": 222.3,
+        "returnPct": -0.0000013728105079786165
       }
     ],
     "bought": [
@@ -6018,7 +6032,7 @@
         "name": "远东股份",
         "skipped": false,
         "buyPrice": 22.65999984741211,
-        "allocation": 0.20552548138882792
+        "allocation": 0.2055254805818524
       },
       {
         "symbol": "SH600722",
@@ -6031,21 +6045,21 @@
         "name": "杭电股份",
         "skipped": false,
         "buyPrice": 40.11000061035156,
-        "allocation": 0.20552548138882792
+        "allocation": 0.2055254805818524
       },
       {
         "symbol": "SH600127",
         "name": "金健米业",
         "skipped": false,
         "buyPrice": 14.789999961853027,
-        "allocation": 0.20552548138882792
+        "allocation": 0.2055254805818524
       },
       {
         "symbol": "SH603083",
         "name": "XD剑桥科",
         "skipped": false,
         "buyPrice": 222.3000030517578,
-        "allocation": 0.20552548138882792
+        "allocation": 0.2055254805818524
       }
     ]
   },
@@ -6289,6 +6303,10 @@
     {
       "date": "2026-09-08",
       "netValue": 1.0268
+    },
+    {
+      "date": "2026-09-08",
+      "netValue": 1.0276
     },
     {
       "date": "2026-09-08",
