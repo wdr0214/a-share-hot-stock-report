@@ -1994,39 +1994,39 @@
     {
       "type": "late",
       "date": "2026-09-08",
-      "generatedAt": "2026-09-08T11:50:26.157Z",
+      "generatedAt": "2026-09-08T12:18:15.441Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
         {
           "rank": 1,
-          "symbol": "SH600869",
-          "name": "远东股份",
-          "heatScore": 98
+          "symbol": "SZ002436",
+          "name": "兴森科技",
+          "heatScore": 121
         },
         {
           "rank": 2,
-          "symbol": "SH600722",
-          "name": "金牛化工",
-          "heatScore": 98
+          "symbol": "SH603618",
+          "name": "杭电股份",
+          "heatScore": 119
         },
         {
           "rank": 3,
-          "symbol": "SH603618",
-          "name": "杭电股份",
-          "heatScore": 97
+          "symbol": "SZ000620",
+          "name": "盈新发展",
+          "heatScore": 113
         },
         {
           "rank": 4,
-          "symbol": "SH600127",
-          "name": "金健米业",
-          "heatScore": 95
+          "symbol": "SH600722",
+          "name": "金牛化工",
+          "heatScore": 113
         },
         {
           "rank": 5,
-          "symbol": "SH603083",
-          "name": "XD剑桥科",
-          "heatScore": 94
+          "symbol": "SH601118",
+          "name": "海南橡胶",
+          "heatScore": 112
         }
       ]
     },
