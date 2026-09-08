@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "jobName": "late-report",
+      "startedAt": "2026-09-08T06:54:09.924Z",
+      "finishedAt": "2026-09-08T06:54:10.735Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-09-08"
+    },
+    {
       "jobName": "etf-rotation",
       "startedAt": "2026-09-08T06:53:10.662Z",
       "finishedAt": "2026-09-08T06:53:10.662Z",
@@ -245,16 +253,6 @@
       "jobName": "late-report",
       "startedAt": "2026-08-28T06:53:56.605Z",
       "finishedAt": "2026-08-28T06:53:56.605Z",
-      "status": "failed",
-      "errorMessage": "NETLIFY_DATA_PROXY_BASE is not defined",
-      "reportKey": "2026-08-28",
-      "attempts": 4,
-      "nextRetryHint": "scheduled catchup or one-hour rerun"
-    },
-    {
-      "jobName": "late-report",
-      "startedAt": "2026-08-28T06:53:28.049Z",
-      "finishedAt": "2026-08-28T06:53:28.049Z",
       "status": "failed",
       "errorMessage": "NETLIFY_DATA_PROXY_BASE is not defined",
       "reportKey": "2026-08-28",
