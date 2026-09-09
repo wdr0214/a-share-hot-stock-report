@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-09",
-  "generatedAt": "2026-09-09T11:56:00.462Z",
+  "generatedAt": "2026-09-09T11:58:54.321Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -6010,28 +6010,50 @@
         "symbol": "SH600737",
         "name": "中粮糖业",
         "entryPrice": 19.799999237060547,
-        "shares": 0.010498323932956527,
-        "allocation": 0.20786680586295372,
+        "shares": 0.010498324077378952,
+        "allocation": 0.20786680872251762,
         "date": "2026-09-09"
       },
       {
         "symbol": "SH600108",
         "name": "亚盛集团",
         "entryPrice": 5.710000038146973,
-        "shares": 0.03640399377832777,
-        "allocation": 0.20786680586295372,
+        "shares": 0.03640399427912705,
+        "allocation": 0.20786680872251762,
         "date": "2026-09-09"
       },
       {
         "symbol": "SH688300",
         "name": "联瑞新材",
         "entryPrice": 181.7899932861328,
-        "shares": 0.001143444708399195,
-        "allocation": 0.20786680586295372,
+        "shares": 0.001143444724129235,
+        "allocation": 0.20786680872251762,
         "date": "2026-09-09"
       }
     ],
-    "sold": [],
+    "sold": [
+      {
+        "symbol": "SH600737",
+        "name": "中粮糖业",
+        "entryPrice": 19.799999237060547,
+        "sellPrice": 19.8,
+        "returnPct": 0.000003853229713299759
+      },
+      {
+        "symbol": "SH600108",
+        "name": "亚盛集团",
+        "entryPrice": 5.710000038146973,
+        "sellPrice": 5.71,
+        "returnPct": -6.68073072450569e-7
+      },
+      {
+        "symbol": "SH688300",
+        "name": "联瑞新材",
+        "entryPrice": 181.7899932861328,
+        "sellPrice": 181.79,
+        "returnPct": 0.0000036931995310514506
+      }
+    ],
     "bought": [
       {
         "symbol": "SH600869",
@@ -6050,21 +6072,21 @@
         "name": "中粮糖业",
         "skipped": false,
         "buyPrice": 19.799999237060547,
-        "allocation": 0.20786680586295372
+        "allocation": 0.20786680872251762
       },
       {
         "symbol": "SH600108",
         "name": "亚盛集团",
         "skipped": false,
         "buyPrice": 5.710000038146973,
-        "allocation": 0.20786680586295372
+        "allocation": 0.20786680872251762
       },
       {
         "symbol": "SH688300",
         "name": "联瑞新材",
         "skipped": false,
         "buyPrice": 181.7899932861328,
-        "allocation": 0.20786680586295372
+        "allocation": 0.20786680872251762
       }
     ]
   },
@@ -6320,6 +6342,10 @@
     {
       "date": "2026-09-08",
       "netValue": 1.0276
+    },
+    {
+      "date": "2026-09-09",
+      "netValue": 1.0393
     },
     {
       "date": "2026-09-09",
