@@ -2072,7 +2072,7 @@
     {
       "type": "late",
       "date": "2026-09-10",
-      "generatedAt": "2026-09-10T11:52:07.415Z",
+      "generatedAt": "2026-09-10T11:55:54.545Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
@@ -2080,31 +2080,31 @@
           "rank": 1,
           "symbol": "SZ002636",
           "name": "金安国纪",
-          "heatScore": 122
+          "heatScore": 100
         },
         {
           "rank": 2,
-          "symbol": "SZ000823",
-          "name": "超声电子",
-          "heatScore": 115
+          "symbol": "SH603083",
+          "name": "剑桥科技",
+          "heatScore": 94
         },
         {
           "rank": 3,
-          "symbol": "SH603083",
-          "name": "剑桥科技",
-          "heatScore": 115
+          "symbol": "SZ000823",
+          "name": "超声电子",
+          "heatScore": 89
         },
         {
           "rank": 4,
-          "symbol": "SZ301176",
-          "name": "逸豪新材",
-          "heatScore": 112
+          "symbol": "SH600396",
+          "name": "华电辽能",
+          "heatScore": 87
         },
         {
           "rank": 5,
-          "symbol": "SH603601",
-          "name": "再升科技",
-          "heatScore": 109
+          "symbol": "SH600667",
+          "name": "太极实业",
+          "heatScore": 82
         }
       ]
     },
