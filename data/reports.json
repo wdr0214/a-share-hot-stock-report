@@ -307288,7 +307288,7 @@
     "2026-09-10": {
       "type": "late",
       "date": "2026-09-10",
-      "generatedAt": "2026-09-10T06:59:09.611Z",
+      "generatedAt": "2026-09-10T11:52:07.415Z",
       "source": "github-actions-free-eastmoney-yahoo",
       "status": "ok",
       "totalCandidates": 100,
@@ -307308,18 +307308,18 @@
           "activityScore": 159,
           "momentumScore": 100,
           "changePct": 10,
-          "turnoverRate": 8.94,
-          "amount": 4782812697.22,
+          "turnoverRate": 8.96,
+          "amount": 4791046362.22,
           "volumeRatio": 1.28,
           "amplitude": 11.71,
-          "mainNetInflow": 1178053520,
-          "superLargeOrderNetAmount": 1363467184,
-          "superLargeOrderNetRatio": 28.51,
+          "mainNetInflow": 1178160544,
+          "superLargeOrderNetAmount": 1363574208,
+          "superLargeOrderNetRatio": 28.46,
           "largeOrderNetAmount": -185413664,
-          "largeOrderNetRatio": -3.88,
-          "bigOrderNetAmount": 1178053520,
+          "largeOrderNetRatio": -3.87,
+          "bigOrderNetAmount": 1178160544,
           "keyPoints": [
-            "当日涨跌幅 10.00%，成交额 47.8 亿。",
+            "当日涨跌幅 10.00%，成交额 47.9 亿。",
             "大单资金净额为 11.8 亿。",
             "近半年价格趋势较强，表明中期趋势有改善。"
           ],
@@ -308480,7 +308480,7 @@
               "high": 76.44999694824219,
               "low": 68.30999755859375,
               "close": 76.44999694824219,
-              "volume": 64121410,
+              "volume": 64968910,
               "amount": 0
             }
           ],
@@ -308501,18 +308501,18 @@
           "activityScore": 238,
           "momentumScore": 100,
           "changePct": 10,
-          "turnoverRate": 25.86,
-          "amount": 2761892168.57,
-          "volumeRatio": 2.01,
+          "turnoverRate": 25.93,
+          "amount": 2769778930.97,
+          "volumeRatio": 2,
           "amplitude": 11.94,
-          "mainNetInflow": 441433696,
-          "superLargeOrderNetAmount": 527935168,
-          "superLargeOrderNetRatio": 19.11,
+          "mainNetInflow": 441558992,
+          "superLargeOrderNetAmount": 528060464,
+          "superLargeOrderNetRatio": 19.07,
           "largeOrderNetAmount": -86501472,
-          "largeOrderNetRatio": -3.13,
-          "bigOrderNetAmount": 441433696,
+          "largeOrderNetRatio": -3.12,
+          "bigOrderNetAmount": 441558992,
           "keyPoints": [
-            "当日涨跌幅 10.00%，成交额 27.6 亿。",
+            "当日涨跌幅 10.00%，成交额 27.7 亿。",
             "大单资金净额为 4.4 亿。",
             "近半年价格趋势较强，表明中期趋势有改善。"
           ],
@@ -309673,7 +309673,7 @@
               "high": 18.700000762939453,
               "low": 16.670000076293945,
               "close": 18.700000762939453,
-              "volume": 151479519,
+              "volume": 154274626,
               "amount": 0
             }
           ],
@@ -309691,21 +309691,21 @@
           ],
           "isLimitUp": false,
           "heatScore": 115,
-          "activityScore": 168,
+          "activityScore": 169,
           "momentumScore": 99,
-          "changePct": 7.1,
-          "turnoverRate": 11.68,
-          "amount": 7326361345,
-          "volumeRatio": 1.11,
+          "changePct": 7.05,
+          "turnoverRate": 11.77,
+          "amount": 7387430360,
+          "volumeRatio": 1.12,
           "amplitude": 10.44,
           "mainNetInflow": 578331664,
           "superLargeOrderNetAmount": 303612016,
-          "superLargeOrderNetRatio": 4.14,
+          "superLargeOrderNetRatio": 4.11,
           "largeOrderNetAmount": 274719648,
-          "largeOrderNetRatio": 3.75,
+          "largeOrderNetRatio": 3.72,
           "bigOrderNetAmount": 578331664,
           "keyPoints": [
-            "当日涨跌幅 7.10%，成交额 73.3 亿。",
+            "当日涨跌幅 7.05%，成交额 73.9 亿。",
             "大单资金净额为 5.8 亿。",
             "近半年价格趋势较强，表明中期趋势有改善。"
           ],
@@ -310865,8 +310865,8 @@
               "open": 215,
               "high": 237.8699951171875,
               "low": 215,
-              "close": 235.3000030517578,
-              "volume": 30568390,
+              "close": 234.42999267578125,
+              "volume": 32436091,
               "amount": 0
             }
           ],
@@ -310885,19 +310885,19 @@
           "heatScore": 112,
           "activityScore": 167,
           "momentumScore": 100,
-          "changePct": 15.27,
-          "turnoverRate": 12.29,
-          "amount": 1089809644.38,
-          "volumeRatio": 3.21,
+          "changePct": 15.29,
+          "turnoverRate": 12.38,
+          "amount": 1098130621.38,
+          "volumeRatio": 3.22,
           "amplitude": 22.18,
           "mainNetInflow": 155528685,
           "superLargeOrderNetAmount": 123809369,
-          "superLargeOrderNetRatio": 11.36,
+          "superLargeOrderNetRatio": 11.27,
           "largeOrderNetAmount": 31719316,
-          "largeOrderNetRatio": 2.91,
+          "largeOrderNetRatio": 2.89,
           "bigOrderNetAmount": 155528685,
           "keyPoints": [
-            "当日涨跌幅 15.27%，成交额 10.9 亿。",
+            "当日涨跌幅 15.29%，成交额 11.0 亿。",
             "大单资金净额为 1.6 亿。",
             "近半年价格趋势较强，表明中期趋势有改善。"
           ],
@@ -312057,8 +312057,8 @@
               "open": 44.959999084472656,
               "high": 58.79999923706055,
               "low": 47.93000030517578,
-              "close": 56.119998931884766,
-              "volume": 19132466,
+              "close": 56.4900016784668,
+              "volume": 20304266,
               "amount": 0
             }
           ],
@@ -312079,18 +312079,18 @@
           "activityScore": 193,
           "momentumScore": 100,
           "changePct": 10.06,
-          "turnoverRate": 17.67,
-          "amount": 1961735006,
-          "volumeRatio": 3.99,
+          "turnoverRate": 17.7,
+          "amount": 1965507854,
+          "volumeRatio": 3.98,
           "amplitude": 11.6,
           "mainNetInflow": 547168789,
           "superLargeOrderNetAmount": 477496165,
-          "superLargeOrderNetRatio": 24.34,
+          "superLargeOrderNetRatio": 24.29,
           "largeOrderNetAmount": 69672624,
-          "largeOrderNetRatio": 3.55,
+          "largeOrderNetRatio": 3.54,
           "bigOrderNetAmount": 547168789,
           "keyPoints": [
-            "当日涨跌幅 10.06%，成交额 19.6 亿。",
+            "当日涨跌幅 10.06%，成交额 19.7 亿。",
             "大单资金净额为 5.5 亿。"
           ],
           "positiveFactors": [
@@ -313250,7 +313250,7 @@
               "high": 9.960000038146973,
               "low": 8.90999984741211,
               "close": 9.960000038146973,
-              "volume": 200664838,
+              "volume": 202224993,
               "amount": 0
             }
           ],
@@ -313282,8 +313282,8 @@
             "wasLimitUpYesterday": true,
             "todayChangePct": 2.8,
             "todayOpen": 212,
-            "todayClose": 218,
-            "todayCloseVsOpenPct": 2.8301886792452833
+            "todayClose": 217.99,
+            "todayCloseVsOpenPct": 2.825471698113212
           },
           {
             "symbol": "SH600737",
@@ -313300,66 +313300,59 @@
             "name": "亚盛集团",
             "yesterdayChangePct": 8.144,
             "wasLimitUpYesterday": false,
-            "todayChangePct": -8.41,
+            "todayChangePct": -8.06,
             "todayOpen": 5.8,
-            "todayClose": 5.23,
-            "todayCloseVsOpenPct": -9.827586206896543
+            "todayClose": 5.25,
+            "todayCloseVsOpenPct": -9.482758620689651
           },
           {
             "symbol": "SH688300",
             "name": "联瑞新材",
             "yesterdayChangePct": 8.408,
             "wasLimitUpYesterday": false,
-            "todayChangePct": 0.79,
+            "todayChangePct": 0.87,
             "todayOpen": 178,
-            "todayClose": 183.22,
-            "todayCloseVsOpenPct": 2.9325842696629207
+            "todayClose": 183.37,
+            "todayCloseVsOpenPct": 3.0168539325842723
           }
         ]
       },
       "latePortfolio": {
         "date": "2026-09-10",
-        "netValue": 1.0027,
-        "cash": 0.601625,
+        "netValue": 1.0033,
+        "cash": 0.601974,
         "holdings": [
           {
             "symbol": "SH603083",
             "name": "剑桥科技",
-            "entryPrice": 235.3000030517578,
-            "shares": 0.0008522809908439599,
-            "allocation": 0.20054171974653895,
+            "entryPrice": 234.42999267578125,
+            "shares": 0.0008559393605060264,
+            "allocation": 0.20065785801434066,
             "date": "2026-09-10"
           },
           {
             "symbol": "SZ301176",
             "name": "逸豪新材",
-            "entryPrice": 56.119998931884766,
-            "shares": 0.0035734448247218427,
-            "allocation": 0.20054171974653895,
+            "entryPrice": 56.4900016784668,
+            "shares": 0.0035520950974024957,
+            "allocation": 0.20065785801434066,
             "date": "2026-09-10"
           }
         ],
         "sold": [
           {
-            "symbol": "SH600737",
-            "name": "中粮糖业",
-            "entryPrice": 19.799999237060547,
-            "sellPrice": 17.82,
-            "returnPct": -9.99999653209326
+            "symbol": "SH603083",
+            "name": "剑桥科技",
+            "entryPrice": 235.3000030517578,
+            "sellPrice": 234.43,
+            "returnPct": -0.3697420486503076
           },
           {
-            "symbol": "SH600108",
-            "name": "亚盛集团",
-            "entryPrice": 5.710000038146973,
-            "sellPrice": 5.23,
-            "returnPct": -8.406305340459216
-          },
-          {
-            "symbol": "SH688300",
-            "name": "联瑞新材",
-            "entryPrice": 181.7899932861328,
-            "sellPrice": 183.22,
-            "returnPct": 0.7866256486496439
+            "symbol": "SZ301176",
+            "name": "逸豪新材",
+            "entryPrice": 56.119998931884766,
+            "sellPrice": 56.49,
+            "returnPct": 0.6593034126111129
           }
         ],
         "bought": [
@@ -313379,15 +313372,15 @@
             "symbol": "SH603083",
             "name": "剑桥科技",
             "skipped": false,
-            "buyPrice": 235.3000030517578,
-            "allocation": 0.20054171974653895
+            "buyPrice": 234.42999267578125,
+            "allocation": 0.20065785801434066
           },
           {
             "symbol": "SZ301176",
             "name": "逸豪新材",
             "skipped": false,
-            "buyPrice": 56.119998931884766,
-            "allocation": 0.20054171974653895
+            "buyPrice": 56.4900016784668,
+            "allocation": 0.20065785801434066
           },
           {
             "symbol": "SH603601",
@@ -636360,23 +636353,23 @@
     ]
   },
   "latePortfolio": {
-    "netValue": 1.0027,
-    "cash": 0.6016251592396169,
+    "netValue": 1.0033,
+    "cash": 0.6019735740430219,
     "holdings": [
       {
         "symbol": "SH603083",
         "name": "剑桥科技",
-        "entryPrice": 235.3000030517578,
-        "shares": 0.0008522809908439599,
-        "allocation": 0.20054171974653895,
+        "entryPrice": 234.42999267578125,
+        "shares": 0.0008559393605060264,
+        "allocation": 0.20065785801434066,
         "date": "2026-09-10"
       },
       {
         "symbol": "SZ301176",
         "name": "逸豪新材",
-        "entryPrice": 56.119998931884766,
-        "shares": 0.0035734448247218427,
-        "allocation": 0.20054171974653895,
+        "entryPrice": 56.4900016784668,
+        "shares": 0.0035520950974024957,
+        "allocation": 0.20065785801434066,
         "date": "2026-09-10"
       }
     ],
@@ -641585,6 +641578,79 @@
             "skipped": false,
             "buyPrice": 56.119998931884766,
             "allocation": 0.20054171974653895
+          },
+          {
+            "symbol": "SH603601",
+            "name": "再升科技",
+            "skipped": true,
+            "reason": "涨停无法买入"
+          }
+        ]
+      },
+      {
+        "date": "2026-09-10",
+        "netValue": 1.0033,
+        "cash": 0.601974,
+        "holdings": [
+          {
+            "symbol": "SH603083",
+            "name": "剑桥科技",
+            "entryPrice": 234.42999267578125,
+            "shares": 0.0008559393605060264,
+            "allocation": 0.20065785801434066,
+            "date": "2026-09-10"
+          },
+          {
+            "symbol": "SZ301176",
+            "name": "逸豪新材",
+            "entryPrice": 56.4900016784668,
+            "shares": 0.0035520950974024957,
+            "allocation": 0.20065785801434066,
+            "date": "2026-09-10"
+          }
+        ],
+        "sold": [
+          {
+            "symbol": "SH603083",
+            "name": "剑桥科技",
+            "entryPrice": 235.3000030517578,
+            "sellPrice": 234.43,
+            "returnPct": -0.3697420486503076
+          },
+          {
+            "symbol": "SZ301176",
+            "name": "逸豪新材",
+            "entryPrice": 56.119998931884766,
+            "sellPrice": 56.49,
+            "returnPct": 0.6593034126111129
+          }
+        ],
+        "bought": [
+          {
+            "symbol": "SZ002636",
+            "name": "金安国纪",
+            "skipped": true,
+            "reason": "涨停无法买入"
+          },
+          {
+            "symbol": "SZ000823",
+            "name": "超声电子",
+            "skipped": true,
+            "reason": "涨停无法买入"
+          },
+          {
+            "symbol": "SH603083",
+            "name": "剑桥科技",
+            "skipped": false,
+            "buyPrice": 234.42999267578125,
+            "allocation": 0.20065785801434066
+          },
+          {
+            "symbol": "SZ301176",
+            "name": "逸豪新材",
+            "skipped": false,
+            "buyPrice": 56.4900016784668,
+            "allocation": 0.20065785801434066
           },
           {
             "symbol": "SH603601",
@@ -648593,14 +648659,6 @@
   },
   "jobLogs": [
     {
-      "jobName": "weekly-report",
-      "startedAt": "2026-06-24T14:25:01.199Z",
-      "finishedAt": "2026-06-24T14:25:01.200Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-26"
-    },
-    {
       "jobName": "late-report",
       "startedAt": "2026-06-25T06:50:27.058Z",
       "finishedAt": "2026-06-25T06:50:27.059Z",
@@ -650225,6 +650283,14 @@
       "jobName": "late-report",
       "startedAt": "2026-09-10T06:59:09.611Z",
       "finishedAt": "2026-09-10T06:59:10.277Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-09-10"
+    },
+    {
+      "jobName": "late-report",
+      "startedAt": "2026-09-10T11:52:07.415Z",
+      "finishedAt": "2026-09-10T11:52:42.723Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-09-10"
