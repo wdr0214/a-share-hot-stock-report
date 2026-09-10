@@ -307288,7 +307288,7 @@
     "2026-09-10": {
       "type": "late",
       "date": "2026-09-10",
-      "generatedAt": "2026-09-10T11:55:54.545Z",
+      "generatedAt": "2026-09-10T12:24:51.284Z",
       "source": "github-actions-free-eastmoney-yahoo",
       "status": "ok",
       "totalCandidates": 100,
@@ -313237,50 +313237,50 @@
         "items": [
           {
             "symbol": "SH600869",
-            "name": "Զ���ɷ�",
+            "name": "远东股份",
             "yesterdayChangePct": 10.018,
             "wasLimitUpYesterday": true,
-            "todayChangePct": -3.329322101885272,
+            "todayChangePct": -3.33,
             "todayOpen": 24.2,
             "todayClose": 24.1,
             "todayCloseVsOpenPct": -0.41322314049585895
           },
           {
             "symbol": "SH603186",
-            "name": "�����²�",
+            "name": "华正新材",
             "yesterdayChangePct": 10.001,
             "wasLimitUpYesterday": true,
-            "todayChangePct": 2.7963783834763776,
+            "todayChangePct": 2.8,
             "todayOpen": 212,
             "todayClose": 217.99,
             "todayCloseVsOpenPct": 2.825471698113212
           },
           {
             "symbol": "SH600737",
-            "name": "������ҵ",
+            "name": "中粮糖业",
             "yesterdayChangePct": 9.031,
             "wasLimitUpYesterday": false,
-            "todayChangePct": -10.000000000000002,
+            "todayChangePct": -10,
             "todayOpen": 19.48,
             "todayClose": 17.82,
             "todayCloseVsOpenPct": -8.521560574948666
           },
           {
             "symbol": "SH600108",
-            "name": "��ʢ����",
+            "name": "亚盛集团",
             "yesterdayChangePct": 8.144,
             "wasLimitUpYesterday": false,
-            "todayChangePct": -8.056042031523642,
+            "todayChangePct": -8.06,
             "todayOpen": 5.8,
             "todayClose": 5.25,
             "todayCloseVsOpenPct": -9.482758620689651
           },
           {
             "symbol": "SH688300",
-            "name": "�����²�",
+            "name": "联瑞新材",
             "yesterdayChangePct": 8.408,
             "wasLimitUpYesterday": false,
-            "todayChangePct": 0.8691347158809685,
+            "todayChangePct": 0.87,
             "todayOpen": 178,
             "todayClose": 183.37,
             "todayCloseVsOpenPct": 3.0168539325842723
@@ -313296,16 +313296,16 @@
             "symbol": "SH603083",
             "name": "剑桥科技",
             "entryPrice": 234.42999267578125,
-            "shares": 0.0008559393607679498,
-            "allocation": 0.20065785807574335,
+            "shares": 0.0008559393635900881,
+            "allocation": 0.2006578587373372,
             "date": "2026-09-10"
           },
           {
             "symbol": "SH600396",
             "name": "华电辽能",
             "entryPrice": 15.510000228881836,
-            "shares": 0.012937321412935233,
-            "allocation": 0.20065785807574335,
+            "shares": 0.012937321455591188,
+            "allocation": 0.2006578587373372,
             "date": "2026-09-10"
           }
         ],
@@ -313318,11 +313318,11 @@
             "returnPct": 0.000003124266939235318
           },
           {
-            "symbol": "SZ301176",
-            "name": "逸豪新材",
-            "entryPrice": 56.4900016784668,
-            "sellPrice": 56.49,
-            "returnPct": -0.0000029712634891375626
+            "symbol": "SH600396",
+            "name": "华电辽能",
+            "entryPrice": 15.510000228881836,
+            "sellPrice": 15.51,
+            "returnPct": -0.0000014757049179435353
           }
         ],
         "bought": [
@@ -313337,7 +313337,7 @@
             "name": "剑桥科技",
             "skipped": false,
             "buyPrice": 234.42999267578125,
-            "allocation": 0.20065785807574335
+            "allocation": 0.2006578587373372
           },
           {
             "symbol": "SZ000823",
@@ -313350,7 +313350,7 @@
             "name": "华电辽能",
             "skipped": false,
             "buyPrice": 15.510000228881836,
-            "allocation": 0.20065785807574335
+            "allocation": 0.2006578587373372
           },
           {
             "symbol": "SH600667",
@@ -636324,22 +636324,22 @@
   },
   "latePortfolio": {
     "netValue": 1.0033,
-    "cash": 0.6019735742272301,
+    "cash": 0.6019735762120115,
     "holdings": [
       {
         "symbol": "SH603083",
         "name": "剑桥科技",
         "entryPrice": 234.42999267578125,
-        "shares": 0.0008559393607679498,
-        "allocation": 0.20065785807574335,
+        "shares": 0.0008559393635900881,
+        "allocation": 0.2006578587373372,
         "date": "2026-09-10"
       },
       {
         "symbol": "SH600396",
         "name": "华电辽能",
         "entryPrice": 15.510000228881836,
-        "shares": 0.012937321412935233,
-        "allocation": 0.20065785807574335,
+        "shares": 0.012937321455591188,
+        "allocation": 0.2006578587373372,
         "date": "2026-09-10"
       }
     ],
@@ -641694,6 +641694,79 @@
             "skipped": false,
             "buyPrice": 15.510000228881836,
             "allocation": 0.20065785807574335
+          },
+          {
+            "symbol": "SH600667",
+            "name": "太极实业",
+            "skipped": true,
+            "reason": "涨停无法买入"
+          }
+        ]
+      },
+      {
+        "date": "2026-09-10",
+        "netValue": 1.0033,
+        "cash": 0.601974,
+        "holdings": [
+          {
+            "symbol": "SH603083",
+            "name": "剑桥科技",
+            "entryPrice": 234.42999267578125,
+            "shares": 0.0008559393635900881,
+            "allocation": 0.2006578587373372,
+            "date": "2026-09-10"
+          },
+          {
+            "symbol": "SH600396",
+            "name": "华电辽能",
+            "entryPrice": 15.510000228881836,
+            "shares": 0.012937321455591188,
+            "allocation": 0.2006578587373372,
+            "date": "2026-09-10"
+          }
+        ],
+        "sold": [
+          {
+            "symbol": "SH603083",
+            "name": "剑桥科技",
+            "entryPrice": 234.42999267578125,
+            "sellPrice": 234.43,
+            "returnPct": 0.000003124266939235318
+          },
+          {
+            "symbol": "SH600396",
+            "name": "华电辽能",
+            "entryPrice": 15.510000228881836,
+            "sellPrice": 15.51,
+            "returnPct": -0.0000014757049179435353
+          }
+        ],
+        "bought": [
+          {
+            "symbol": "SZ002636",
+            "name": "金安国纪",
+            "skipped": true,
+            "reason": "涨停无法买入"
+          },
+          {
+            "symbol": "SH603083",
+            "name": "剑桥科技",
+            "skipped": false,
+            "buyPrice": 234.42999267578125,
+            "allocation": 0.2006578587373372
+          },
+          {
+            "symbol": "SZ000823",
+            "name": "超声电子",
+            "skipped": true,
+            "reason": "涨停无法买入"
+          },
+          {
+            "symbol": "SH600396",
+            "name": "华电辽能",
+            "skipped": false,
+            "buyPrice": 15.510000228881836,
+            "allocation": 0.2006578587373372
           },
           {
             "symbol": "SH600667",
@@ -648702,14 +648775,6 @@
   },
   "jobLogs": [
     {
-      "jobName": "daily-report",
-      "startedAt": "2026-06-25T08:00:39.114Z",
-      "finishedAt": "2026-06-25T08:00:39.115Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-06-25"
-    },
-    {
       "jobName": "late-report",
       "startedAt": "2026-06-26T06:50:04.347Z",
       "finishedAt": "2026-06-26T06:50:04.347Z",
@@ -650334,6 +650399,14 @@
       "jobName": "late-report",
       "startedAt": "2026-09-10T11:55:54.545Z",
       "finishedAt": "2026-09-10T11:56:30.261Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-09-10"
+    },
+    {
+      "jobName": "late-report",
+      "startedAt": "2026-09-10T12:24:51.284Z",
+      "finishedAt": "2026-09-10T12:24:51.837Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-09-10"
