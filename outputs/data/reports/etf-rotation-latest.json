@@ -1,7 +1,7 @@
 {
   "type": "etf-rotation",
-  "date": "2026-09-10",
-  "generatedAt": "2026-09-10T06:53:08.866Z",
+  "date": "2026-09-11",
+  "generatedAt": "2026-09-11T06:53:08.570Z",
   "executionTime": "14:53",
   "status": "ok",
   "parameters": {
@@ -12,62 +12,62 @@
     {
       "symbol": "SZ159915",
       "name": "创业板ETF",
-      "price": 3.358,
+      "price": 3.341,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -7.2631882838438635,
-      "ma28": 3.493178571973528,
+      "momentum20Pct": -7.297449635730286,
+      "ma28": 3.493357138974326,
       "aboveMa28": false
     },
     {
       "symbol": "SH510300",
       "name": "沪深300ETF",
-      "price": 4.617,
+      "price": 4.579,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -2.7590594136268973,
-      "ma28": 4.681821414402553,
+      "momentum20Pct": -3.171919827632804,
+      "ma28": 4.6812499931880405,
       "aboveMa28": false
     },
     {
       "symbol": "SH518880",
       "name": "黄金ETF",
-      "price": 9.087,
+      "price": 8.941,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -0.17576280066593006,
-      "ma28": 9.05221428189959,
-      "aboveMa28": true
+      "momentum20Pct": -1.1170075087351512,
+      "ma28": 9.073928594589233,
+      "aboveMa28": false
     },
     {
       "symbol": "SZ159941",
       "name": "纳指ETF",
-      "price": 1.653,
+      "price": 1.637,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -0.8992795556495112,
-      "ma28": 1.6538571502481187,
+      "momentum20Pct": -1.563438833196955,
+      "ma28": 1.6570000052452087,
       "aboveMa28": false
     },
     {
       "symbol": "SH513050",
       "name": "中国互联网ETF",
-      "price": 1.01,
+      "price": 1.015,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -11.013215111326772,
-      "ma28": 1.1087142782551902,
+      "momentum20Pct": -8.968610644074431,
+      "ma28": 1.1045714233602797,
       "aboveMa28": false
     },
     {
       "symbol": "SH511260",
       "name": "十年国债ETF",
-      "price": 135.89,
+      "price": 135.845,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": 0.2626672472933882,
-      "ma28": 135.68017905099052,
+      "momentum20Pct": 0.183638876357281,
+      "ma28": 135.69975008283342,
       "aboveMa28": true
     }
   ],
   "leader": {
     "symbol": "SH511260",
     "name": "十年国债ETF",
-    "momentum20Pct": 0.2626672472933882,
+    "momentum20Pct": 0.183638876357281,
     "aboveMa28": true
   },
   "holding": {
@@ -77,22 +77,8 @@
     "entryPrice": 135.89,
     "entryDate": "2026-09-10"
   },
-  "rebalance": [
-    {
-      "action": "sell",
-      "symbol": "SH518880",
-      "name": "黄金ETF",
-      "price": 9.087,
-      "returnPct": -0.18673110720561797
-    },
-    {
-      "action": "buy",
-      "symbol": "SH511260",
-      "name": "十年国债ETF",
-      "price": 135.89
-    }
-  ],
-  "netValue": 0.9315992234015533,
+  "rebalance": null,
+  "netValue": 0.9312907241370523,
   "portfolioHistory": [
     {
       "date": "2026-08-25",
@@ -212,6 +198,13 @@
           "price": 135.89
         }
       ]
+    },
+    {
+      "date": "2026-09-11",
+      "netValue": 0.9312907241370523,
+      "holding": "SH511260",
+      "rebalanced": false,
+      "trades": []
     }
   ]
 }
