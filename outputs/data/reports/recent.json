@@ -2,6 +2,45 @@
   "reports": [
     {
       "type": "daily",
+      "date": "2026-09-11",
+      "generatedAt": "2026-09-11T12:34:18.197Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH688143",
+          "name": "长盈通",
+          "heatScore": 99
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ002636",
+          "name": "金安国纪",
+          "heatScore": 97
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ000823",
+          "name": "超声电子",
+          "heatScore": 94
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ000636",
+          "name": "风华高科",
+          "heatScore": 92
+        },
+        {
+          "rank": 5,
+          "symbol": "SH601869",
+          "name": "长飞光纤",
+          "heatScore": 92
+        }
+      ]
+    },
+    {
+      "type": "daily",
       "date": "2026-09-10",
       "generatedAt": "2026-09-10T12:40:10.261Z",
       "status": "ok",
