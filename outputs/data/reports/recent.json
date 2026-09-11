@@ -2111,39 +2111,39 @@
     {
       "type": "late",
       "date": "2026-09-11",
-      "generatedAt": "2026-09-11T11:55:17.860Z",
+      "generatedAt": "2026-09-11T12:21:36.102Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
         {
           "rank": 1,
-          "symbol": "SH688143",
-          "name": "长盈通",
-          "heatScore": 99
+          "symbol": "SZ000636",
+          "name": "风华高科",
+          "heatScore": 120
         },
         {
           "rank": 2,
-          "symbol": "SZ002636",
-          "name": "金安国纪",
-          "heatScore": 97
+          "symbol": "SH603936",
+          "name": "博敏电子",
+          "heatScore": 115
         },
         {
           "rank": 3,
-          "symbol": "SZ000823",
-          "name": "超声电子",
-          "heatScore": 94
+          "symbol": "SH601869",
+          "name": "长飞光纤",
+          "heatScore": 114
         },
         {
           "rank": 4,
-          "symbol": "SZ000636",
-          "name": "风华高科",
-          "heatScore": 92
+          "symbol": "SZ000823",
+          "name": "超声电子",
+          "heatScore": 112
         },
         {
           "rank": 5,
-          "symbol": "SH601869",
-          "name": "长飞光纤",
-          "heatScore": 92
+          "symbol": "SZ002297",
+          "name": "博云新材",
+          "heatScore": 111
         }
       ]
     },
