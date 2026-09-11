@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-11",
-  "generatedAt": "2026-09-11T11:52:07.502Z",
+  "generatedAt": "2026-09-11T11:55:17.860Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -6006,24 +6006,24 @@
         "symbol": "SH688143",
         "name": "长盈通",
         "entryPrice": 195,
-        "shares": 0.001014117962277828,
-        "allocation": 0.19775300264417647,
+        "shares": 0.0010141179687084927,
+        "allocation": 0.19775300389815606,
         "date": "2026-09-11"
       },
       {
         "symbol": "SZ002636",
         "name": "金安国纪",
         "entryPrice": 82.45999908447266,
-        "shares": 0.002398168867811856,
-        "allocation": 0.19775300264417647,
+        "shares": 0.0023981688830189817,
+        "allocation": 0.19775300389815606,
         "date": "2026-09-11"
       },
       {
         "symbol": "SH601869",
         "name": "长飞光纤",
         "entryPrice": 473.989990234375,
-        "shares": 0.00041720923799760636,
-        "allocation": 0.19775300264417647,
+        "shares": 0.0004172092406431888,
+        "allocation": 0.19775300389815606,
         "date": "2026-09-11"
       }
     ],
@@ -6031,23 +6031,23 @@
       {
         "symbol": "SH688143",
         "name": "长盈通",
-        "entryPrice": 191.99000549316406,
+        "entryPrice": 195,
         "sellPrice": 195,
-        "returnPct": 1.567787083032877
+        "returnPct": 0
       },
       {
         "symbol": "SZ002636",
         "name": "金安国纪",
-        "entryPrice": 81.01000213623047,
+        "entryPrice": 82.45999908447266,
         "sellPrice": 82.46,
-        "returnPct": 1.7898997969795585
+        "returnPct": 0.0000011102684303444517
       },
       {
-        "symbol": "SZ002297",
-        "name": "博云新材",
-        "entryPrice": 23.68000030517578,
-        "sellPrice": 23.53,
-        "returnPct": -0.633447226531472
+        "symbol": "SH601869",
+        "name": "长飞光纤",
+        "entryPrice": 473.989990234375,
+        "sellPrice": 473.99,
+        "returnPct": 0.000002060301949470729
       }
     ],
     "bought": [
@@ -6056,14 +6056,14 @@
         "name": "长盈通",
         "skipped": false,
         "buyPrice": 195,
-        "allocation": 0.19775300264417647
+        "allocation": 0.19775300389815606
       },
       {
         "symbol": "SZ002636",
         "name": "金安国纪",
         "skipped": false,
         "buyPrice": 82.45999908447266,
-        "allocation": 0.19775300264417647
+        "allocation": 0.19775300389815606
       },
       {
         "symbol": "SZ000823",
@@ -6082,7 +6082,7 @@
         "name": "长飞光纤",
         "skipped": false,
         "buyPrice": 473.989990234375,
-        "allocation": 0.19775300264417647
+        "allocation": 0.19775300389815606
       }
     ]
   },
@@ -6378,6 +6378,10 @@
     {
       "date": "2026-09-11",
       "netValue": 0.9834
+    },
+    {
+      "date": "2026-09-11",
+      "netValue": 0.9888
     },
     {
       "date": "2026-09-11",
