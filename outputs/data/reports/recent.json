@@ -4334,6 +4334,50 @@
   ],
   "weeklyReports": [
     {
+      "week": "2026-37",
+      "rangeStart": "2026-09-05",
+      "rangeEnd": "2026-09-11",
+      "generatedAt": "2026-09-11T17:44:04.575Z",
+      "status": "ok",
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ002636",
+          "name": "金安国纪",
+          "appearances": 2,
+          "weeklyHeatScore": 259
+        },
+        {
+          "rank": 2,
+          "symbol": "SH603186",
+          "name": "华正新材",
+          "appearances": 2,
+          "weeklyHeatScore": 257
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ000823",
+          "name": "超声电子",
+          "appearances": 2,
+          "weeklyHeatScore": 249
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ002436",
+          "name": "兴森科技",
+          "appearances": 1,
+          "weeklyHeatScore": 141
+        },
+        {
+          "rank": 5,
+          "symbol": "SH603618",
+          "name": "杭电股份",
+          "appearances": 1,
+          "weeklyHeatScore": 139
+        }
+      ]
+    },
+    {
       "week": "2026-36",
       "rangeStart": "2026-08-29",
       "rangeEnd": "2026-09-04",
