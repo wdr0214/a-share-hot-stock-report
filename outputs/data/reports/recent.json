@@ -2111,7 +2111,7 @@
     {
       "type": "late",
       "date": "2026-09-11",
-      "generatedAt": "2026-09-11T06:55:42.699Z",
+      "generatedAt": "2026-09-11T11:52:07.502Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
@@ -2125,7 +2125,7 @@
           "rank": 2,
           "symbol": "SZ002636",
           "name": "金安国纪",
-          "heatScore": 96
+          "heatScore": 97
         },
         {
           "rank": 3,
@@ -2141,9 +2141,9 @@
         },
         {
           "rank": 5,
-          "symbol": "SZ002297",
-          "name": "博云新材",
-          "heatScore": 90
+          "symbol": "SH601869",
+          "name": "长飞光纤",
+          "heatScore": 92
         }
       ]
     },
