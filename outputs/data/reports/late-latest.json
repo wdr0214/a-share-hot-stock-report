@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-14",
-  "generatedAt": "2026-09-14T13:26:54.888Z",
+  "generatedAt": "2026-09-14T13:31:15.389Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -5862,50 +5862,50 @@
     "items": [
       {
         "symbol": "SZ000636",
-        "name": "�绪�߿�",
+        "name": "风华高科",
         "yesterdayChangePct": 10,
         "wasLimitUpYesterday": true,
-        "todayChangePct": 5.197356670834071,
+        "todayChangePct": 5.2,
         "todayOpen": 55.99,
         "todayClose": 58.9,
         "todayCloseVsOpenPct": 5.197356670834071
       },
       {
         "symbol": "SH603936",
-        "name": "��������",
+        "name": "博敏电子",
         "yesterdayChangePct": 10.01,
         "wasLimitUpYesterday": true,
-        "todayChangePct": 6.752873563218392,
+        "todayChangePct": 6.75,
         "todayOpen": 20.66,
         "todayClose": 22.29,
         "todayCloseVsOpenPct": 7.889641819941912
       },
       {
         "symbol": "SH601869",
-        "name": "���ɹ���",
+        "name": "长飞光纤",
         "yesterdayChangePct": 8.78,
         "wasLimitUpYesterday": false,
-        "todayChangePct": -3.0232705331336067,
+        "todayChangePct": -3.02,
         "todayOpen": 450,
         "todayClose": 459.66,
         "todayCloseVsOpenPct": 2.1466666666666723
       },
       {
         "symbol": "SZ000823",
-        "name": "��������",
+        "name": "超声电子",
         "yesterdayChangePct": 10,
         "wasLimitUpYesterday": true,
-        "todayChangePct": 10.014584346135141,
+        "todayChangePct": 10.01,
         "todayOpen": 20.8,
         "todayClose": 22.63,
         "todayCloseVsOpenPct": 8.798076923076914
       },
       {
         "symbol": "SZ002297",
-        "name": "�����²�",
+        "name": "博云新材",
         "yesterdayChangePct": 7.44,
         "wasLimitUpYesterday": false,
-        "todayChangePct": -3.0174245643858937,
+        "todayChangePct": -3.02,
         "todayOpen": 23.5,
         "todayClose": 22.82,
         "todayCloseVsOpenPct": -2.8936170212765946
@@ -5917,15 +5917,7 @@
     "netValue": 0.9768,
     "cash": 0.976819,
     "holdings": [],
-    "sold": [
-      {
-        "symbol": "SZ002552",
-        "name": "宝鼎科技",
-        "entryPrice": 54,
-        "sellPrice": 54,
-        "returnPct": 0
-      }
-    ],
+    "sold": [],
     "bought": [
       {
         "symbol": "SZ300903",
@@ -6263,6 +6255,10 @@
     {
       "date": "2026-09-11",
       "netValue": 0.9888
+    },
+    {
+      "date": "2026-09-14",
+      "netValue": 0.9768
     },
     {
       "date": "2026-09-14",
