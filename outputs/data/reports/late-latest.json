@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-14",
-  "generatedAt": "2026-09-14T13:22:29.967Z",
+  "generatedAt": "2026-09-14T13:23:16.065Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -5956,18 +5956,11 @@
     ],
     "sold": [
       {
-        "symbol": "SH601869",
-        "name": "长飞光纤",
-        "entryPrice": 473.989990234375,
-        "sellPrice": 459.66,
-        "returnPct": -3.0232685351201596
-      },
-      {
-        "symbol": "SZ002297",
-        "name": "博云新材",
-        "entryPrice": 23.530000686645508,
-        "sellPrice": 22.82,
-        "returnPct": -3.0174273945026684
+        "symbol": "SZ002552",
+        "name": "宝鼎科技",
+        "entryPrice": 54,
+        "sellPrice": 54,
+        "returnPct": 0
       }
     ],
     "bought": [
@@ -6308,6 +6301,10 @@
     {
       "date": "2026-09-11",
       "netValue": 0.9888
+    },
+    {
+      "date": "2026-09-14",
+      "netValue": 0.9768
     },
     {
       "date": "2026-09-14",
