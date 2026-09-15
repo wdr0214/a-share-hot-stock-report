@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-15",
-  "generatedAt": "2026-09-15T12:10:03.932Z",
+  "generatedAt": "2026-09-15T12:12:53.911Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -5991,29 +5991,7 @@
     "netValue": 0.9784,
     "cash": 0.978394,
     "holdings": [],
-    "sold": [
-      {
-        "symbol": "SZ300806",
-        "name": "斯迪克",
-        "entryPrice": 57.220001220703125,
-        "sellPrice": 57.42,
-        "returnPct": 0.34952599620797264
-      },
-      {
-        "symbol": "SZ000823",
-        "name": "超声电子",
-        "entryPrice": 23.889999389648438,
-        "sellPrice": 23.9,
-        "returnPct": 0.04186107411913269
-      },
-      {
-        "symbol": "SH603938",
-        "name": "三孚股份",
-        "entryPrice": 52.970001220703125,
-        "sellPrice": 53.17,
-        "returnPct": 0.3775698974662435
-      }
-    ],
+    "sold": [],
     "bought": [
       {
         "symbol": "SZ002491",
@@ -6375,6 +6353,10 @@
     {
       "date": "2026-09-15",
       "netValue": 0.9769
+    },
+    {
+      "date": "2026-09-15",
+      "netValue": 0.9784
     },
     {
       "date": "2026-09-15",
