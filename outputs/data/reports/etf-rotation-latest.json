@@ -1,7 +1,7 @@
 {
   "type": "etf-rotation",
-  "date": "2026-09-14",
-  "generatedAt": "2026-09-14T13:31:16.267Z",
+  "date": "2026-09-15",
+  "generatedAt": "2026-09-15T06:53:08.239Z",
   "executionTime": "14:53",
   "status": "ok",
   "parameters": {
@@ -12,54 +12,54 @@
     {
       "symbol": "SZ159915",
       "name": "创业板ETF",
-      "price": 3.304,
+      "price": 3.272,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -12.034079789988532,
+      "momentum20Pct": -12.886049961514068,
       "ma28": 3.4883571437426975,
       "aboveMa28": false
     },
     {
       "symbol": "SH510300",
       "name": "沪深300ETF",
-      "price": 4.552,
+      "price": 4.523,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -5.1864218313347346,
+      "momentum20Pct": -5.790462641284489,
       "ma28": 4.679321425301688,
       "aboveMa28": false
     },
     {
       "symbol": "SH518880",
       "name": "黄金ETF",
-      "price": 8.875,
+      "price": 8.828,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -2.128361746721639,
+      "momentum20Pct": -2.646667887330557,
       "ma28": 9.116821459361486,
       "aboveMa28": false
     },
     {
       "symbol": "SZ159941",
       "name": "纳指ETF",
-      "price": 1.624,
+      "price": 1.623,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -4.35806573725541,
+      "momentum20Pct": -4.416958553919669,
       "ma28": 1.659571430512837,
       "aboveMa28": false
     },
     {
       "symbol": "SH513050",
       "name": "中国互联网ETF",
-      "price": 1.012,
+      "price": 1.023,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -9.156190862853773,
+      "momentum20Pct": -8.168758154841322,
       "ma28": 1.0926785681928908,
       "aboveMa28": false
     },
     {
       "symbol": "SH511260",
       "name": "十年国债ETF",
-      "price": 135.858,
+      "price": 135.925,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": 0.07513723030649723,
+      "momentum20Pct": 0.12449048292637434,
       "ma28": 135.73221479143416,
       "aboveMa28": true
     }
@@ -67,7 +67,7 @@
   "leader": {
     "symbol": "SH511260",
     "name": "十年国债ETF",
-    "momentum20Pct": 0.07513723030649723,
+    "momentum20Pct": 0.12449048292637434,
     "aboveMa28": true
   },
   "holding": {
@@ -78,7 +78,7 @@
     "entryDate": "2026-09-10"
   },
   "rebalance": null,
-  "netValue": 0.931379846146797,
+  "netValue": 0.9318391672739433,
   "portfolioHistory": [
     {
       "date": "2026-08-25",
@@ -209,6 +209,13 @@
     {
       "date": "2026-09-14",
       "netValue": 0.931379846146797,
+      "holding": "SH511260",
+      "rebalanced": false,
+      "trades": []
+    },
+    {
+      "date": "2026-09-15",
+      "netValue": 0.9318391672739433,
       "holding": "SH511260",
       "rebalanced": false,
       "trades": []
