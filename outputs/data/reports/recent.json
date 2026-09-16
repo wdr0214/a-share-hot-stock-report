@@ -2228,7 +2228,7 @@
     {
       "type": "late",
       "date": "2026-09-16",
-      "generatedAt": "2026-09-16T06:53:41.038Z",
+      "generatedAt": "2026-09-16T12:07:20.763Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
@@ -2236,7 +2236,7 @@
           "rank": 1,
           "symbol": "SZ002396",
           "name": "星网锐捷",
-          "heatScore": 123
+          "heatScore": 124
         },
         {
           "rank": 2,

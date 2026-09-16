@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-16",
-  "generatedAt": "2026-09-16T06:53:41.038Z",
+  "generatedAt": "2026-09-16T12:07:20.763Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -18,23 +18,23 @@
         "TMT"
       ],
       "isLimitUp": true,
-      "heatScore": 123,
-      "activityScore": 206,
+      "heatScore": 124,
+      "activityScore": 208,
       "momentumScore": 100,
       "changePct": 10,
-      "turnoverRate": 18.25,
-      "amount": 5168435112.55,
-      "volumeRatio": 1.86,
+      "turnoverRate": 18.34,
+      "amount": 5194746708.85,
+      "volumeRatio": 1.82,
       "amplitude": 11.53,
-      "mainNetInflow": 843710640,
-      "superLargeOrderNetAmount": 832627616,
-      "superLargeOrderNetRatio": 16.11,
-      "largeOrderNetAmount": 11083024,
+      "mainNetInflow": 856597536,
+      "superLargeOrderNetAmount": 845489200,
+      "superLargeOrderNetRatio": 16.28,
+      "largeOrderNetAmount": 11108336,
       "largeOrderNetRatio": 0.21,
-      "bigOrderNetAmount": 843710640,
+      "bigOrderNetAmount": 856597536,
       "keyPoints": [
-        "当日涨跌幅 10.00%，成交额 51.7 亿。",
-        "大单资金净额为 8.4 亿。",
+        "当日涨跌幅 10.00%，成交额 51.9 亿。",
+        "大单资金净额为 8.6 亿。",
         "近半年价格趋势较强，表明中期趋势有改善。"
       ],
       "positiveFactors": [
@@ -1193,8 +1193,8 @@
           "open": 35.0099983215332,
           "high": 38.83000183105469,
           "low": 34.7599983215332,
-          "close": 38.060001373291016,
-          "volume": 128684626,
+          "close": 38.83000183105469,
+          "volume": 139189323,
           "amount": 0
         }
       ],
@@ -1212,22 +1212,22 @@
       ],
       "isLimitUp": true,
       "heatScore": 117,
-      "activityScore": 152,
+      "activityScore": 153,
       "momentumScore": 100,
       "changePct": 10.01,
-      "turnoverRate": 8.31,
-      "amount": 4382687311,
-      "volumeRatio": 1.66,
+      "turnoverRate": 8.34,
+      "amount": 4399326755,
+      "volumeRatio": 1.63,
       "amplitude": 8.67,
-      "mainNetInflow": 741694912,
-      "superLargeOrderNetAmount": 800636112,
-      "superLargeOrderNetRatio": 18.27,
-      "largeOrderNetAmount": -58941200,
-      "largeOrderNetRatio": -1.34,
-      "bigOrderNetAmount": 741694912,
+      "mainNetInflow": 747830816,
+      "superLargeOrderNetAmount": 810367328,
+      "superLargeOrderNetRatio": 18.42,
+      "largeOrderNetAmount": -62536512,
+      "largeOrderNetRatio": -1.42,
+      "bigOrderNetAmount": 747830816,
       "keyPoints": [
-        "当日涨跌幅 10.01%，成交额 43.8 亿。",
-        "大单资金净额为 7.4 亿。",
+        "当日涨跌幅 10.01%，成交额 44.0 亿。",
+        "大单资金净额为 7.5 亿。",
         "近半年价格趋势较强，表明中期趋势有改善。"
       ],
       "positiveFactors": [
@@ -2387,7 +2387,7 @@
           "high": 54.310001373291016,
           "low": 50.029998779296875,
           "close": 54.310001373291016,
-          "volume": 83564218,
+          "volume": 84217697,
           "amount": 0
         }
       ],
@@ -2408,19 +2408,19 @@
       "activityScore": 160,
       "momentumScore": 100,
       "changePct": 10,
-      "turnoverRate": 10.18,
-      "amount": 6579087673,
-      "volumeRatio": 1.03,
+      "turnoverRate": 10.22,
+      "amount": 6607503921,
+      "volumeRatio": 1.01,
       "amplitude": 10.51,
-      "mainNetInflow": 1854804384,
-      "superLargeOrderNetAmount": 1918735984,
-      "superLargeOrderNetRatio": 29.16,
-      "largeOrderNetAmount": -63931600,
-      "largeOrderNetRatio": -0.97,
-      "bigOrderNetAmount": 1854804384,
+      "mainNetInflow": 1865336112,
+      "superLargeOrderNetAmount": 1932912448,
+      "superLargeOrderNetRatio": 29.25,
+      "largeOrderNetAmount": -67576336,
+      "largeOrderNetRatio": -1.02,
+      "bigOrderNetAmount": 1865336112,
       "keyPoints": [
-        "当日涨跌幅 10.00%，成交额 65.8 亿。",
-        "大单资金净额为 18.5 亿。",
+        "当日涨跌幅 10.00%，成交额 66.1 亿。",
+        "大单资金净额为 18.7 亿。",
         "近半年价格趋势较强，表明中期趋势有改善。"
       ],
       "positiveFactors": [
@@ -3580,7 +3580,7 @@
           "high": 45.220001220703125,
           "low": 40.900001525878906,
           "close": 45.220001220703125,
-          "volume": 148168254,
+          "volume": 149407314,
           "amount": 0
         }
       ],
@@ -3598,22 +3598,22 @@
       ],
       "isLimitUp": true,
       "heatScore": 114,
-      "activityScore": 135,
+      "activityScore": 136,
       "momentumScore": 100,
       "changePct": 10,
-      "turnoverRate": 5.2,
-      "amount": 7341973007.33,
-      "volumeRatio": 1.48,
+      "turnoverRate": 5.24,
+      "amount": 7404579914.05,
+      "volumeRatio": 1.45,
       "amplitude": 10.22,
-      "mainNetInflow": 2017326320,
-      "superLargeOrderNetAmount": 1981990224,
-      "superLargeOrderNetRatio": 27,
-      "largeOrderNetAmount": 35336096,
-      "largeOrderNetRatio": 0.48,
-      "bigOrderNetAmount": 2017326320,
+      "mainNetInflow": 2032037920,
+      "superLargeOrderNetAmount": 2000220816,
+      "superLargeOrderNetRatio": 27.01,
+      "largeOrderNetAmount": 31817104,
+      "largeOrderNetRatio": 0.43,
+      "bigOrderNetAmount": 2032037920,
       "keyPoints": [
-        "当日涨跌幅 10.00%，成交额 73.4 亿。",
-        "大单资金净额为 20.2 亿。",
+        "当日涨跌幅 10.00%，成交额 74.0 亿。",
+        "大单资金净额为 20.3 亿。",
         "近半年价格趋势较强，表明中期趋势有改善。"
       ],
       "positiveFactors": [
@@ -4773,7 +4773,7 @@
           "high": 185.2100067138672,
           "low": 168,
           "close": 185.2100067138672,
-          "volume": 40647459,
+          "volume": 41363291,
           "amount": 0
         }
       ],
@@ -4793,18 +4793,18 @@
       "activityScore": 196,
       "momentumScore": 100,
       "changePct": 9.97,
-      "turnoverRate": 17.82,
-      "amount": 2882157724.66,
-      "volumeRatio": 0.91,
+      "turnoverRate": 17.87,
+      "amount": 2889960142.66,
+      "volumeRatio": 0.89,
       "amplitude": 9.47,
-      "mainNetInflow": 776935211,
-      "superLargeOrderNetAmount": 837859483,
-      "superLargeOrderNetRatio": 29.07,
+      "mainNetInflow": 781628171,
+      "superLargeOrderNetAmount": 842552443,
+      "superLargeOrderNetRatio": 29.15,
       "largeOrderNetAmount": -60924272,
       "largeOrderNetRatio": -2.11,
-      "bigOrderNetAmount": 776935211,
+      "bigOrderNetAmount": 781628171,
       "keyPoints": [
-        "当日涨跌幅 9.97%，成交额 28.8 亿。",
+        "当日涨跌幅 9.97%，成交额 28.9 亿。",
         "大单资金净额为 7.8 亿。",
         "近半年价格趋势较强，表明中期趋势有改善。"
       ],
@@ -5965,7 +5965,7 @@
           "high": 8.710000038146973,
           "low": 7.960000038146973,
           "close": 8.710000038146973,
-          "volume": 340443981,
+          "volume": 342606481,
           "amount": 0
         }
       ],
@@ -5995,40 +5995,40 @@
         "name": "双星新材",
         "yesterdayChangePct": 10.04,
         "wasLimitUpYesterday": true,
-        "todayChangePct": 1.41,
+        "todayChangePct": 0.91,
         "todayOpen": 12.06,
-        "todayClose": 12.23,
-        "todayCloseVsOpenPct": 1.4096185737976776
+        "todayClose": 12.17,
+        "todayCloseVsOpenPct": 0.9121061359867283
       },
       {
         "symbol": "SH600110",
         "name": "诺德股份",
         "yesterdayChangePct": 9.97,
         "wasLimitUpYesterday": true,
-        "todayChangePct": 0.08,
+        "todayChangePct": 0.49,
         "todayOpen": 12.11,
-        "todayClose": 12.14,
-        "todayCloseVsOpenPct": 0.2477291494632629
+        "todayClose": 12.19,
+        "todayCloseVsOpenPct": 0.6606110652353433
       },
       {
         "symbol": "SH603186",
         "name": "华正新材",
         "yesterdayChangePct": 10,
         "wasLimitUpYesterday": true,
-        "todayChangePct": -0.93,
+        "todayChangePct": 0.96,
         "todayOpen": 260,
-        "todayClose": 249.22,
-        "todayCloseVsOpenPct": -4.1461538461538465
+        "todayClose": 253.99,
+        "todayCloseVsOpenPct": -2.3115384615384578
       },
       {
         "symbol": "SH600163",
         "name": "中闽能源",
         "yesterdayChangePct": 9.97,
         "wasLimitUpYesterday": true,
-        "todayChangePct": 0.16,
+        "todayChangePct": -0.16,
         "todayOpen": 6.1,
-        "todayClose": 6.3,
-        "todayCloseVsOpenPct": 3.2786885245901667
+        "todayClose": 6.28,
+        "todayCloseVsOpenPct": 2.9508196721311575
       }
     ]
   },
@@ -6418,6 +6418,10 @@
     },
     {
       "date": "2026-09-15",
+      "netValue": 0.9784
+    },
+    {
+      "date": "2026-09-16",
       "netValue": 0.9784
     },
     {
