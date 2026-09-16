@@ -2,6 +2,45 @@
   "reports": [
     {
       "type": "daily",
+      "date": "2026-09-16",
+      "generatedAt": "2026-09-16T13:03:08.640Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ002396",
+          "name": "星网锐捷",
+          "heatScore": 124
+        },
+        {
+          "rank": 2,
+          "symbol": "SH601208",
+          "name": "东材科技",
+          "heatScore": 117
+        },
+        {
+          "rank": 3,
+          "symbol": "SH600105",
+          "name": "永鼎股份",
+          "heatScore": 114
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ002281",
+          "name": "光迅科技",
+          "heatScore": 114
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ000592",
+          "name": "平潭发展",
+          "heatScore": 112
+        }
+      ]
+    },
+    {
+      "type": "daily",
       "date": "2026-09-15",
       "generatedAt": "2026-09-15T13:06:06.820Z",
       "status": "ok",
