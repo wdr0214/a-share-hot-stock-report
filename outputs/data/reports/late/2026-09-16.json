@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-16",
-  "generatedAt": "2026-09-16T12:11:00.132Z",
+  "generatedAt": "2026-09-16T12:11:31.941Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -6073,10 +6073,6 @@
   },
   "portfolioHistory": [
     {
-      "date": "2026-06-22",
-      "netValue": 1
-    },
-    {
       "date": "2026-06-23",
       "netValue": 0.9922
     },
@@ -6414,6 +6410,10 @@
     },
     {
       "date": "2026-09-15",
+      "netValue": 0.9784
+    },
+    {
+      "date": "2026-09-16",
       "netValue": 0.9784
     },
     {
