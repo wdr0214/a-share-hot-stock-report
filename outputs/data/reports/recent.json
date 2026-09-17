@@ -2,6 +2,45 @@
   "reports": [
     {
       "type": "daily",
+      "date": "2026-09-17",
+      "generatedAt": "2026-09-17T13:00:26.929Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH600641",
+          "name": "先导基电",
+          "heatScore": 118
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300489",
+          "name": "光智科技",
+          "heatScore": 118
+        },
+        {
+          "rank": 3,
+          "symbol": "SH600127",
+          "name": "金健米业",
+          "heatScore": 115
+        },
+        {
+          "rank": 4,
+          "symbol": "SH601218",
+          "name": "吉鑫科技",
+          "heatScore": 107
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ002640",
+          "name": "跨境通",
+          "heatScore": 106
+        }
+      ]
+    },
+    {
+      "type": "daily",
       "date": "2026-09-16",
       "generatedAt": "2026-09-16T13:03:08.640Z",
       "status": "ok",
