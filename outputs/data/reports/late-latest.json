@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-17",
-  "generatedAt": "2026-09-17T12:07:53.588Z",
+  "generatedAt": "2026-09-17T12:10:46.729Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -6038,8 +6038,8 @@
         "symbol": "SZ300489",
         "name": "光智科技",
         "entryPrice": 223.60000610351562,
-        "shares": 0.0008758440974063228,
-        "allocation": 0.1958387455257819,
+        "shares": 0.000875844092624813,
+        "allocation": 0.1958387444566363,
         "date": "2026-09-17"
       }
     ],
@@ -6047,16 +6047,9 @@
       {
         "symbol": "SZ300489",
         "name": "光智科技",
-        "entryPrice": 222.69000244140625,
+        "entryPrice": 223.60000610351562,
         "sellPrice": 223.6,
-        "returnPct": 0.40863871238816885
-      },
-      {
-        "symbol": "SH601218",
-        "name": "吉鑫科技",
-        "entryPrice": 5.739999771118164,
-        "sellPrice": 5.74,
-        "returnPct": 0.000003987488593681183
+        "returnPct": -0.0000027296580787474215
       }
     ],
     "bought": [
@@ -6071,7 +6064,7 @@
         "name": "光智科技",
         "skipped": false,
         "buyPrice": 223.60000610351562,
-        "allocation": 0.1958387455257819
+        "allocation": 0.1958387444566363
       },
       {
         "symbol": "SH600127",
@@ -6094,10 +6087,6 @@
     ]
   },
   "portfolioHistory": [
-    {
-      "date": "2026-06-29",
-      "netValue": 0.9867
-    },
     {
       "date": "2026-06-30",
       "netValue": 0.982
@@ -6449,6 +6438,10 @@
     {
       "date": "2026-09-17",
       "netValue": 0.9784
+    },
+    {
+      "date": "2026-09-17",
+      "netValue": 0.9792
     },
     {
       "date": "2026-09-17",
