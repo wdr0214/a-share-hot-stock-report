@@ -2267,7 +2267,7 @@
     {
       "type": "late",
       "date": "2026-09-17",
-      "generatedAt": "2026-09-17T12:13:41.694Z",
+      "generatedAt": "2026-09-17T12:14:19.833Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
@@ -2275,31 +2275,31 @@
           "rank": 1,
           "symbol": "SH600641",
           "name": "先导基电",
-          "heatScore": 94
+          "heatScore": 118
         },
         {
           "rank": 2,
           "symbol": "SZ300489",
           "name": "光智科技",
-          "heatScore": 90
+          "heatScore": 118
         },
         {
           "rank": 3,
-          "symbol": "SZ002579",
-          "name": "中京电子",
-          "heatScore": 85
+          "symbol": "SH600127",
+          "name": "金健米业",
+          "heatScore": 115
         },
         {
           "rank": 4,
-          "symbol": "SH688802",
-          "name": "沐曦股份",
-          "heatScore": 82
+          "symbol": "SH601218",
+          "name": "吉鑫科技",
+          "heatScore": 107
         },
         {
           "rank": 5,
-          "symbol": "SH688432",
-          "name": "有研硅",
-          "heatScore": 80
+          "symbol": "SZ002640",
+          "name": "跨境通",
+          "heatScore": 106
         }
       ]
     },
