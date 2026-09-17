@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-17",
-  "generatedAt": "2026-09-17T12:14:19.833Z",
+  "generatedAt": "2026-09-17T12:47:01.671Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -6038,8 +6038,8 @@
         "symbol": "SZ300489",
         "name": "光智科技",
         "entryPrice": 223.60000610351562,
-        "shares": 0.0008758440869771217,
-        "allocation": 0.19583874319381248,
+        "shares": 0.0008758440821956119,
+        "allocation": 0.19583874212466687,
         "date": "2026-09-17"
       }
     ],
@@ -6050,27 +6050,6 @@
         "entryPrice": 223.60000610351562,
         "sellPrice": 223.6,
         "returnPct": -0.0000027296580787474215
-      },
-      {
-        "symbol": "SZ002579",
-        "name": "中京电子",
-        "entryPrice": 20.479999542236328,
-        "sellPrice": 20.48,
-        "returnPct": 0.000002235174231118854
-      },
-      {
-        "symbol": "SH688802",
-        "name": "沐曦股份",
-        "entryPrice": 546.5,
-        "sellPrice": 546.5,
-        "returnPct": 0
-      },
-      {
-        "symbol": "SH688432",
-        "name": "有研硅",
-        "entryPrice": 55,
-        "sellPrice": 55,
-        "returnPct": 0
       }
     ],
     "bought": [
@@ -6085,7 +6064,7 @@
         "name": "光智科技",
         "skipped": false,
         "buyPrice": 223.60000610351562,
-        "allocation": 0.19583874319381248
+        "allocation": 0.19583874212466687
       },
       {
         "symbol": "SH600127",
@@ -6108,10 +6087,6 @@
     ]
   },
   "portfolioHistory": [
-    {
-      "date": "2026-07-02",
-      "netValue": 0.9408
-    },
     {
       "date": "2026-07-03",
       "netValue": 0.9167
@@ -6451,6 +6426,10 @@
     {
       "date": "2026-09-17",
       "netValue": 0.9784
+    },
+    {
+      "date": "2026-09-17",
+      "netValue": 0.9792
     },
     {
       "date": "2026-09-17",
