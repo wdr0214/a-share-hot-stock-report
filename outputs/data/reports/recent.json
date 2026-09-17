@@ -2267,7 +2267,7 @@
     {
       "type": "late",
       "date": "2026-09-17",
-      "generatedAt": "2026-09-17T06:54:12.741Z",
+      "generatedAt": "2026-09-17T12:07:53.588Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
@@ -2281,7 +2281,7 @@
           "rank": 2,
           "symbol": "SZ300489",
           "name": "光智科技",
-          "heatScore": 116
+          "heatScore": 118
         },
         {
           "rank": 3,
@@ -2293,12 +2293,12 @@
           "rank": 4,
           "symbol": "SH601218",
           "name": "吉鑫科技",
-          "heatScore": 106
+          "heatScore": 107
         },
         {
           "rank": 5,
-          "symbol": "SZ002655",
-          "name": "共达电声",
+          "symbol": "SZ002640",
+          "name": "跨境通",
           "heatScore": 106
         }
       ]
