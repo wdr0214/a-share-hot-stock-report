@@ -2266,6 +2266,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-09-17",
+      "generatedAt": "2026-09-17T06:54:12.741Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH600641",
+          "name": "先导基电",
+          "heatScore": 118
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300489",
+          "name": "光智科技",
+          "heatScore": 116
+        },
+        {
+          "rank": 3,
+          "symbol": "SH600127",
+          "name": "金健米业",
+          "heatScore": 115
+        },
+        {
+          "rank": 4,
+          "symbol": "SH601218",
+          "name": "吉鑫科技",
+          "heatScore": 106
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ002655",
+          "name": "共达电声",
+          "heatScore": 106
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-09-16",
       "generatedAt": "2026-09-16T12:50:16.160Z",
       "status": "ok",

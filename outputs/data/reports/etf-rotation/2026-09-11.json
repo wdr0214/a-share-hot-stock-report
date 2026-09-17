@@ -226,6 +226,13 @@
       "holding": "SH511260",
       "rebalanced": false,
       "trades": []
+    },
+    {
+      "date": "2026-09-17",
+      "netValue": 0.932175088695289,
+      "holding": "SH511260",
+      "rebalanced": false,
+      "trades": []
     }
   ]
 }

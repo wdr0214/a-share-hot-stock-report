@@ -5628,10 +5628,5 @@
       }
     ]
   },
-  "portfolioHistory": [
-    {
-      "date": "2026-06-25",
-      "netValue": 1.0123
-    }
-  ]
+  "portfolioHistory": []
 }
