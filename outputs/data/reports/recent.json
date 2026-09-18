@@ -2,6 +2,45 @@
   "reports": [
     {
       "type": "daily",
+      "date": "2026-09-18",
+      "generatedAt": "2026-09-18T12:41:48.766Z",
+      "status": "ok",
+      "totalCandidates": 100,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH600127",
+          "name": "金健米业",
+          "heatScore": 100
+        },
+        {
+          "rank": 2,
+          "symbol": "SH688766",
+          "name": "普冉半导体",
+          "heatScore": 89
+        },
+        {
+          "rank": 3,
+          "symbol": "SH688146",
+          "name": "中船派瑞特气",
+          "heatScore": 87
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ002185",
+          "name": "华天科技",
+          "heatScore": 86
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ300570",
+          "name": "太辰光",
+          "heatScore": 86
+        }
+      ]
+    },
+    {
+      "type": "daily",
       "date": "2026-09-17",
       "generatedAt": "2026-09-17T13:00:26.929Z",
       "status": "ok",
