@@ -2305,6 +2305,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-09-18",
+      "generatedAt": "2026-09-18T06:54:13.456Z",
+      "status": "ok",
+      "totalCandidates": 2312,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH600127",
+          "name": "金健米业",
+          "heatScore": 119
+        },
+        {
+          "rank": 2,
+          "symbol": "SH601086",
+          "name": "国芳集团",
+          "heatScore": 118
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ002980",
+          "name": "华盛昌",
+          "heatScore": 118
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ002185",
+          "name": "华天科技",
+          "heatScore": 111
+        },
+        {
+          "rank": 5,
+          "symbol": "SH600584",
+          "name": "长电科技",
+          "heatScore": 110
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-09-17",
       "generatedAt": "2026-09-17T12:47:01.671Z",
       "status": "ok",
@@ -5176,19 +5215,6 @@
   ],
   "newsReports": [],
   "etfRotationReports": [
-    {
-      "date": "2026-09-18",
-      "generatedAt": "2026-09-18T06:53:08.962Z",
-      "status": "ok",
-      "netValue": 0.9234552236253462,
-      "holding": {
-        "symbol": "SZ159941",
-        "name": "纳指ETF",
-        "shares": 0.5503308841629,
-        "entryPrice": 1.678,
-        "entryDate": "2026-09-18"
-      }
-    },
     {
       "date": "2026-09-17",
       "generatedAt": "2026-09-17T06:53:08.080Z",
