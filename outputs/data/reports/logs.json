@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "jobName": "late-report",
+      "startedAt": "2026-09-18T11:53:23.593Z",
+      "finishedAt": "2026-09-18T11:53:24.219Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-09-18"
+    },
+    {
       "jobName": "etf-rotation",
       "startedAt": "2026-09-18T06:58:33.060Z",
       "finishedAt": "2026-09-18T06:58:33.060Z",
@@ -235,15 +243,6 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-09-14"
-    },
-    {
-      "jobName": "etf-rotation",
-      "startedAt": "2026-09-14T13:31:18.205Z",
-      "finishedAt": "2026-09-14T13:31:18.205Z",
-      "status": "ok",
-      "errorMessage": "",
-      "reportKey": "2026-09-14",
-      "attempts": 1
     }
   ]
 }
