@@ -3,20 +3,6 @@ name: GitHub Pages Report
 on:
   push:
     branches: [main]
-  schedule:
-    - cron: "50 6 * * 1-5"
-    - cron: "51 6 * * 1-5"
-    - cron: "52 6 * * 1-5"
-    - cron: "53 6 * * 1-5"
-    - cron: "54 6 * * 1-5"
-    - cron: "50 7 * * 1-5"
-    - cron: "0 8 * * 1-5"
-    - cron: "1 8 * * 1-5"
-    - cron: "2 8 * * 1-5"
-    - cron: "3 8 * * 1-5"
-    - cron: "4 8 * * 1-5"
-    - cron: "0 9 * * 1-5"
-    - cron: "15 14 * * 5"
   workflow_dispatch:
     inputs:
       job:
@@ -69,34 +55,6 @@ jobs:
       - name: Apply GitHub runtime market-data patch
         run: node scripts/github-runtime-patch.mjs
 
-      - name: Run scheduled report
-        if: github.event_name == 'schedule'
-        run: |
-          schedule="${{ github.event.schedule }}"
-          schedule_hour="$(printf '%s\n' "$schedule" | awk '{print $2}')"
-          now_hour="$(date -u +%-H)"
-          if [ "$now_hour" -lt "$schedule_hour" ]; then
-            report_date="$(date -u -d 'yesterday' +%F)"
-          else
-            report_date="$(date -u +%F)"
-          fi
-
-          case "$schedule" in
-            "50 6 * * 1-5"|"51 6 * * 1-5"|"52 6 * * 1-5"|"54 6 * * 1-5"|"50 7 * * 1-5")
-              npm run run:late -- "$report_date"
-              ;;
-            "53 6 * * 1-5")
-              npm run run:late -- "$report_date"
-              npm run run:etf-rotation -- "$report_date"
-              ;;
-            "0 8 * * 1-5"|"1 8 * * 1-5"|"2 8 * * 1-5"|"3 8 * * 1-5"|"4 8 * * 1-5"|"0 9 * * 1-5")
-              npm run run:daily -- "$report_date"
-              ;;
-            "15 14 * * 5")
-              npm run run:weekly -- "$report_date"
-              ;;
-          esac
-
       - name: Generate late-session report
         if: github.event.inputs.job == 'late'
         run: |
@@ -137,26 +95,15 @@ jobs:
         if: github.event.inputs.job == 'catchup'
         run: npm run run:catchup
 
-      - name: Push catchup
-        if: github.event_name == 'push'
-        run: npm run run:catchup
-
-      - name: Push ETF rotation catchup
-        if: github.event_name == 'push'
-        run: |
-          if [ "$(TZ=Asia/Shanghai date +%u)" -le 5 ] && [ "$(TZ=Asia/Shanghai date +%H%M)" -ge 1453 ]; then
-            npm run run:etf-rotation
-          else
-            echo "ETF rotation report is not due yet."
-          fi
-
       - name: Export static report data
+        if: github.event_name == 'workflow_dispatch'
         run: npm run export:static
 
       - name: Prepare GitHub Pages entry
         run: cp outputs/xueqiu-stock-report.html outputs/index.html
 
       - name: Persist generated report data
+        if: github.event_name == 'workflow_dispatch'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
