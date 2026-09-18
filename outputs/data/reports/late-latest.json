@@ -1,7 +1,7 @@
 {
   "type": "late",
   "date": "2026-09-18",
-  "generatedAt": "2026-09-18T11:57:02.011Z",
+  "generatedAt": "2026-09-18T12:22:56.506Z",
   "source": "github-actions-free-eastmoney-yahoo",
   "status": "ok",
   "totalCandidates": 100,
@@ -6045,25 +6045,11 @@
     ],
     "sold": [
       {
-        "symbol": "SH688766",
-        "name": "普冉半导体",
-        "entryPrice": 430,
-        "sellPrice": 430,
+        "symbol": "SH600584",
+        "name": "长电科技",
+        "entryPrice": 73,
+        "sellPrice": 73,
         "returnPct": 0
-      },
-      {
-        "symbol": "SH688146",
-        "name": "中船派瑞特气",
-        "entryPrice": 239.1999969482422,
-        "sellPrice": 239.2,
-        "returnPct": 0.0000012758184950109562
-      },
-      {
-        "symbol": "SZ300570",
-        "name": "太辰光",
-        "entryPrice": 229.35000610351562,
-        "sellPrice": 229.35,
-        "returnPct": -0.000002661223225749364
       }
     ],
     "bought": [
@@ -6101,10 +6087,6 @@
     ]
   },
   "portfolioHistory": [
-    {
-      "date": "2026-07-09",
-      "netValue": 0.9545
-    },
     {
       "date": "2026-07-10",
       "netValue": 0.9485
@@ -6448,6 +6430,10 @@
     {
       "date": "2026-09-18",
       "netValue": 0.9793
+    },
+    {
+      "date": "2026-09-18",
+      "netValue": 0.9838
     },
     {
       "date": "2026-09-18",
