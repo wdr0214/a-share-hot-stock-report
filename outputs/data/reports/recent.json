@@ -5177,6 +5177,19 @@
   "newsReports": [],
   "etfRotationReports": [
     {
+      "date": "2026-09-18",
+      "generatedAt": "2026-09-18T06:53:08.962Z",
+      "status": "ok",
+      "netValue": 0.9234552236253462,
+      "holding": {
+        "symbol": "SZ159941",
+        "name": "纳指ETF",
+        "shares": 0.5503308841629,
+        "entryPrice": 1.678,
+        "entryDate": "2026-09-18"
+      }
+    },
+    {
       "date": "2026-09-17",
       "generatedAt": "2026-09-17T06:53:08.080Z",
       "status": "ok",
