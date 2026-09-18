@@ -2306,39 +2306,39 @@
     {
       "type": "late",
       "date": "2026-09-18",
-      "generatedAt": "2026-09-18T11:55:56.769Z",
+      "generatedAt": "2026-09-18T11:57:02.011Z",
       "status": "ok",
       "totalCandidates": 100,
       "stocks": [
         {
           "rank": 1,
-          "symbol": "SH600127",
-          "name": "金健米业",
-          "heatScore": 100
+          "symbol": "SZ002980",
+          "name": "华盛昌",
+          "heatScore": 120
         },
         {
           "rank": 2,
-          "symbol": "SH688766",
-          "name": "普冉半导体",
-          "heatScore": 89
+          "symbol": "SH600127",
+          "name": "金健米业",
+          "heatScore": 119
         },
         {
           "rank": 3,
-          "symbol": "SH688146",
-          "name": "中船派瑞特气",
-          "heatScore": 87
+          "symbol": "SH601086",
+          "name": "国芳集团",
+          "heatScore": 118
         },
         {
           "rank": 4,
           "symbol": "SZ002185",
           "name": "华天科技",
-          "heatScore": 86
+          "heatScore": 111
         },
         {
           "rank": 5,
-          "symbol": "SZ300570",
-          "name": "太辰光",
-          "heatScore": 86
+          "symbol": "SH600584",
+          "name": "长电科技",
+          "heatScore": 110
         }
       ]
     },
