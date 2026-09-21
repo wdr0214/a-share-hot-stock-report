@@ -2344,6 +2344,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-09-21",
+      "generatedAt": "2026-09-21T06:53:26.289Z",
+      "status": "ok",
+      "totalCandidates": 2356,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ001389",
+          "name": "广合科技",
+          "heatScore": 120
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ002080",
+          "name": "中材科技",
+          "heatScore": 119
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ000002",
+          "name": "万  科Ａ",
+          "heatScore": 116
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ300209",
+          "name": "行云科技",
+          "heatScore": 115
+        },
+        {
+          "rank": 5,
+          "symbol": "SH600869",
+          "name": "远东股份",
+          "heatScore": 112
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-09-18",
       "generatedAt": "2026-09-18T12:22:56.506Z",
       "status": "ok",
