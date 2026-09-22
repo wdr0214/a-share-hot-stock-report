@@ -247,7 +247,8 @@
           "symbol": "SH511260",
           "name": "十年国债ETF",
           "price": 134.733,
-          "returnPct": -0.851423945838533
+          "returnPct": 0.08661417322835638,
+          "returnBasis": "price_plus_cash_dividend"
         },
         {
           "action": "buy",
