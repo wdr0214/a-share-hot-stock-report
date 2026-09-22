@@ -20,19 +20,20 @@ export function isEtfRotationTradingDate(date) {
   return day >= 1 && day <= 5 && !CLOSED_DATES.has(date);
 }
 
-export async function generateEtfRotation({ date, now, portfolio }) {
+export async function generateEtfRotation({ date, now, portfolio, executionPriceMode = "intraday" }) {
   if (!isEtfRotationTradingDate(date)) {
-    throw new Error("\u975e A \u80a1\u4ea4\u6613\u65e5\uff0cETF \u8f6e\u52a8\u62a5\u544a\u5df2\u8df3\u8fc7\u3002");
+    throw new Error("非 A 股交易日，ETF 轮动报告已跳过。");
   }
+  const useCloseBackfill = executionPriceMode === "close-backfill";
   const shanghai = shanghaiParts(now);
-  if (date !== shanghai.date || shanghai.hour < 14 || (shanghai.hour === 14 && shanghai.minute < 53)) {
-    throw new Error("ETF \u8f6e\u52a8\u62a5\u544a\u4ec5\u5728\u5f53\u65e5 14:53 \u540e\u751f\u6210\uff0c\u4e0d\u4f7f\u7528\u4f2a\u9020\u7684\u5386\u53f2\u5206\u949f\u4ef7\u3002");
+  if (!useCloseBackfill && (date !== shanghai.date || shanghai.hour < 14 || (shanghai.hour === 14 && shanghai.minute < 53))) {
+    throw new Error("ETF 轮动报告仅在当日 14:53 后生成，不使用伪造的历史分钟价。");
   }
 
-  const [quotes, klineSets] = await Promise.all([
-    fetchQuotesWithFallback(ETFS),
-    Promise.all(ETFS.map((etf) => fetchDailyKline(etf)))
-  ]);
+  const klineSets = await Promise.all(ETFS.map((etf) => fetchDailyKline(etf)));
+  const quotes = useCloseBackfill
+    ? quotesFromDailyClose(ETFS, klineSets, date)
+    : await fetchQuotesWithFallback(ETFS);
   const quoteMap = new Map(quotes.map((quote) => [quote.symbol, quote]));
   const indicators = ETFS.map((etf, index) => {
     const quote = quoteMap.get(etf.symbol);
@@ -54,7 +55,8 @@ export async function generateEtfRotation({ date, now, portfolio }) {
   const target = leader.aboveMa28 ? leader : null;
   const next = rebalance(portfolio, date, target, quoteMap);
   const report = {
-    type: "etf-rotation", date, generatedAt: now.toISOString(), executionTime: "14:53",
+    type: "etf-rotation", date, generatedAt: now.toISOString(), executionTime: useCloseBackfill ? "收盘价补生成" : "14:53",
+    executionPriceBasis: useCloseBackfill ? "daily_close_backfill" : "intraday_quote",
     status: "ok", parameters: { momentumDays: 20, maDays: 28 },
     etfs: indicators, leader: { symbol: leader.symbol, name: leader.name, momentum20Pct: leader.momentum20Pct, aboveMa28: leader.aboveMa28 },
     holding: next.holding, rebalance: next.trades.length ? next.trades : null,
@@ -94,6 +96,16 @@ function rebalance(previous, date, target, quoteMap) {
     trades: trades.map((trade) => ({ ...trade }))
   }];
   return { trades, holding, portfolio: { netValue, cash, holding, history } };
+}
+
+function quotesFromDailyClose(etfs, klineSets, date) {
+  return etfs.map((etf, index) => {
+    const close = klineSets[index].find((row) => row.date === date)?.close;
+    if (!Number.isFinite(close) || close <= 0) {
+      throw new Error(`${etf.symbol} 缺少 ${date} 的真实日 K 收盘价，无法补生成报告。`);
+    }
+    return { symbol: etf.symbol, price: close, source: "Yahoo 日K收盘价" };
+  });
 }
 
 async function fetchQuotesWithFallback(etfs) {
