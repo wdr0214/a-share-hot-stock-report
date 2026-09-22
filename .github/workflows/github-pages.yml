@@ -16,6 +16,7 @@ on:
           - daily
           - weekly
           - etf-rotation
+          - etf-dividend-adjust
           - catchup
       date:
         description: "Optional report date YYYY-MM-DD"
@@ -99,6 +100,10 @@ jobs:
           else
             npm run run:etf-rotation
           fi
+
+      - name: Correct ETF cash dividend
+        if: github.event.inputs.job == 'etf-dividend-adjust'
+        run: node src/cli.js etf-dividend-adjust
 
       - name: Manual catchup
         if: github.event.inputs.job == 'catchup'
