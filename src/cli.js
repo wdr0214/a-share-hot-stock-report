@@ -95,9 +95,6 @@ function applyEtfCashDividendAdjustment(db, { symbol, exDate, payDate, cashPerSh
   const reports = db.etfRotationReports || {};
   const report = reports[exDate];
   if (!report || report.status !== "ok") throw new Error(`Missing successful ETF rotation report for ${exDate}`);
-  if (report.dividendAdjustment?.symbol === symbol && report.dividendAdjustment?.exDate === exDate) {
-    return { changed: false, reason: "already_adjusted", exDate, symbol };
-  }
 
   const laterDates = Object.keys(reports).filter((date) => date > exDate && reports[date]?.status === "ok");
   if (laterDates.length) throw new Error(`Cannot apply one-time dividend correction after later ETF reports exist: ${laterDates.join(", ")}`);
@@ -112,7 +109,7 @@ function applyEtfCashDividendAdjustment(db, { symbol, exDate, payDate, cashPerSh
   const cashAmount = shares * Number(cashPerShare);
   if (!(shares > 0) || !(cashAmount > 0)) throw new Error(`Invalid ${symbol} holding or dividend amount`);
 
-  const adjustment = {
+  const adjustment = report.dividendAdjustment || {
     symbol,
     exDate,
     payDate,
@@ -121,23 +118,49 @@ function applyEtfCashDividendAdjustment(db, { symbol, exDate, payDate, cashPerSh
     cashAmount,
     note: "除权日现金分红计入模拟盘现金，不假设当日自动再投资。"
   };
-  report.netValue = Number(report.netValue) + cashAmount;
-  report.dividendAdjustment = adjustment;
-  report.portfolioHistory = (report.portfolioHistory || []).map((item) => item.date === exDate
-    ? { ...item, netValue: Number(item.netValue) + cashAmount }
-    : item);
+  let changed = false;
+  const alreadyCredited = adjustment.symbol === symbol && adjustment.exDate === exDate;
+
+  if (!alreadyCredited) {
+    report.netValue = Number(report.netValue) + cashAmount;
+    report.dividendAdjustment = adjustment;
+    changed = true;
+  }
+
+  const sellReturnPct = ((Number(report.rebalance?.find((trade) => trade.action === "sell" && trade.symbol === symbol)?.price) + cashAmount / shares - Number(previousHolding.entryPrice)) / Number(previousHolding.entryPrice)) * 100;
+  if (!Number.isFinite(sellReturnPct)) throw new Error(`Unable to calculate total return for ${symbol}`);
+
+  const updateTrades = (trades) => (trades || []).map((trade) => {
+    if (trade.action !== "sell" || trade.symbol !== symbol) return trade;
+    if (Number(trade.returnPct) === sellReturnPct) return trade;
+    changed = true;
+    return { ...trade, returnPct: sellReturnPct, returnBasis: "price_plus_cash_dividend" };
+  });
+  report.rebalance = updateTrades(report.rebalance);
+  report.portfolioHistory = (report.portfolioHistory || []).map((item) => {
+    if (item.date !== exDate) return item;
+    const next = { ...item, trades: updateTrades(item.trades) };
+    if (!alreadyCredited) next.netValue = Number(next.netValue) + cashAmount;
+    next.cashDividend = adjustment;
+    return next;
+  });
 
   const portfolio = db.etfRotationPortfolio;
   if (!portfolio?.history?.length) throw new Error("ETF rotation portfolio history is missing");
   const latestDate = [...portfolio.history].filter((item) => item?.date).sort((a, b) => String(a.date).localeCompare(String(b.date))).at(-1)?.date;
   if (latestDate !== exDate) throw new Error(`ETF rotation portfolio is newer than ${exDate}; rebuild is required`);
-  portfolio.cash = Number(portfolio.cash || 0) + cashAmount;
-  portfolio.netValue = Number(portfolio.netValue) + cashAmount;
-  portfolio.history = portfolio.history.map((item) => item.date === exDate
-    ? { ...item, netValue: Number(item.netValue) + cashAmount, cashDividend: adjustment }
-    : item);
+  if (!alreadyCredited) {
+    portfolio.cash = Number(portfolio.cash || 0) + cashAmount;
+    portfolio.netValue = Number(portfolio.netValue) + cashAmount;
+  }
+  portfolio.history = portfolio.history.map((item) => {
+    if (item.date !== exDate) return item;
+    const next = { ...item, trades: updateTrades(item.trades), cashDividend: adjustment };
+    if (!alreadyCredited) next.netValue = Number(next.netValue) + cashAmount;
+    return next;
+  });
 
-  return { changed: true, ...adjustment, correctedNetValue: report.netValue };
+  return { changed, ...adjustment, correctedNetValue: report.netValue, sellReturnPct };
 }
 
 async function runEtfRotationJob(date, executionPriceMode = "intraday") {
