@@ -32,7 +32,7 @@ export async function generateEtfRotation({ date, now, portfolio, executionPrice
 
   const klineSets = await Promise.all(ETFS.map((etf) => fetchDailyKline(etf)));
   const quotes = useCloseBackfill
-    ? quotesFromDailyClose(ETFS, klineSets, date)
+    ? await fetchHistoricalCloseWithFallback(ETFS, klineSets, date)
     : await fetchQuotesWithFallback(ETFS);
   const quoteMap = new Map(quotes.map((quote) => [quote.symbol, quote]));
   const indicators = ETFS.map((etf, index) => {
@@ -98,7 +98,23 @@ function rebalance(previous, date, target, quoteMap) {
   return { trades, holding, portfolio: { netValue, cash, holding, history } };
 }
 
-function quotesFromDailyClose(etfs, klineSets, date) {
+async function fetchHistoricalCloseWithFallback(etfs, klineSets, date) {
+  const eastmoney = await retry(async () => Promise.all(etfs.map(async (etf) => {
+    const url = `https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${etf.eastmoneySecid}&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56&klt=101&fqt=0&beg=${date.replaceAll("-", "")}&end=${date.replaceAll("-", "")}`;
+    const response = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+    if (!response.ok) throw new Error(`Eastmoney HTTP ${response.status}`);
+    const rows = (await response.json())?.data?.klines || [];
+    const row = rows.find((item) => item.startsWith(`${date},`));
+    const close = number(row?.split(",")[2]);
+    if (!(close > 0)) throw new Error(`${etf.symbol} 缺少 ${date} 的东方财富日K收盘价`);
+    return { symbol: etf.symbol, price: close, source: "东方财富日K收盘价" };
+  })).catch(() => []);
+
+  if (eastmoney.length === etfs.length && eastmoney.every((item) => item.price > 0)) return eastmoney;
+  return quotesFromYahooDailyClose(etfs, klineSets, date);
+}
+
+function quotesFromYahooDailyClose(etfs, klineSets, date) {
   return etfs.map((etf, index) => {
     const close = klineSets[index].find((row) => row.date === date)?.close;
     if (!Number.isFinite(close) || close <= 0) {
