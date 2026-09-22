@@ -19,6 +19,7 @@ if (command === "late") console.log(JSON.stringify(await runReportJob("late", ar
 else if (command === "daily") console.log(JSON.stringify(await runReportJob("daily", argDate || today(), { force: true }), null, 2));
 else if (command === "weekly") console.log(JSON.stringify(await runWeeklyJob(argDate || today()), null, 2));
 else if (command === "etf-rotation") console.log(JSON.stringify(await runEtfRotationJob(argDate || today(), argMode), null, 2));
+else if (command === "etf-dividend-adjust") console.log(JSON.stringify(await runEtfDividendAdjustment(), null, 2));
 else if (command === "news-midday") console.log(JSON.stringify(await runNewsJob("midday", argDate || today()), null, 2));
 else if (command === "news-close") console.log(JSON.stringify(await runNewsJob("close", argDate || today()), null, 2));
 else if (command === "catchup") console.log(JSON.stringify(await catchupReports(), null, 2));
@@ -62,6 +63,81 @@ async function runWeeklyJob(date) {
     await recordFailureLog("weekly-report", weekKey(date), error);
     throw error;
   }
+}
+
+async function runEtfDividendAdjustment() {
+  const db = await readDb();
+  const result = applyEtfCashDividendAdjustment(db, {
+    symbol: "SH511260",
+    exDate: "2026-09-18",
+    payDate: "2026-09-21",
+    cashPerShare: 1.2747
+  });
+  if (!result.changed) return result;
+
+  const now = new Date().toISOString();
+  db.jobLogs.push({
+    jobName: "etf-dividend-adjustment",
+    startedAt: now,
+    finishedAt: now,
+    status: "ok",
+    errorMessage: "",
+    reportKey: result.exDate,
+    attempts: 1
+  });
+  db.jobLogs = db.jobLogs.slice(-200);
+  await writeDb(db);
+  await exportStatic(db, { skipDailyPortfolioBackfill: true });
+  return result;
+}
+
+function applyEtfCashDividendAdjustment(db, { symbol, exDate, payDate, cashPerShare }) {
+  const reports = db.etfRotationReports || {};
+  const report = reports[exDate];
+  if (!report || report.status !== "ok") throw new Error(`Missing successful ETF rotation report for ${exDate}`);
+  if (report.dividendAdjustment?.symbol === symbol && report.dividendAdjustment?.exDate === exDate) {
+    return { changed: false, reason: "already_adjusted", exDate, symbol };
+  }
+
+  const laterDates = Object.keys(reports).filter((date) => date > exDate && reports[date]?.status === "ok");
+  if (laterDates.length) throw new Error(`Cannot apply one-time dividend correction after later ETF reports exist: ${laterDates.join(", ")}`);
+
+  const previousDate = Object.keys(reports).filter((date) => date < exDate && reports[date]?.status === "ok").sort().at(-1);
+  const previousHolding = reports[previousDate]?.holding;
+  if (!previousHolding || previousHolding.symbol !== symbol) {
+    throw new Error(`${symbol} was not held in the prior ETF rotation report`);
+  }
+
+  const shares = Number(previousHolding.shares);
+  const cashAmount = shares * Number(cashPerShare);
+  if (!(shares > 0) || !(cashAmount > 0)) throw new Error(`Invalid ${symbol} holding or dividend amount`);
+
+  const adjustment = {
+    symbol,
+    exDate,
+    payDate,
+    cashPerShare: Number(cashPerShare),
+    shares,
+    cashAmount,
+    note: "除权日现金分红计入模拟盘现金，不假设当日自动再投资。"
+  };
+  report.netValue = Number(report.netValue) + cashAmount;
+  report.dividendAdjustment = adjustment;
+  report.portfolioHistory = (report.portfolioHistory || []).map((item) => item.date === exDate
+    ? { ...item, netValue: Number(item.netValue) + cashAmount }
+    : item);
+
+  const portfolio = db.etfRotationPortfolio;
+  if (!portfolio?.history?.length) throw new Error("ETF rotation portfolio history is missing");
+  const latestDate = [...portfolio.history].filter((item) => item?.date).sort((a, b) => String(a.date).localeCompare(String(b.date))).at(-1)?.date;
+  if (latestDate !== exDate) throw new Error(`ETF rotation portfolio is newer than ${exDate}; rebuild is required`);
+  portfolio.cash = Number(portfolio.cash || 0) + cashAmount;
+  portfolio.netValue = Number(portfolio.netValue) + cashAmount;
+  portfolio.history = portfolio.history.map((item) => item.date === exDate
+    ? { ...item, netValue: Number(item.netValue) + cashAmount, cashDividend: adjustment }
+    : item);
+
+  return { changed: true, ...adjustment, correctedNetValue: report.netValue };
 }
 
 async function runEtfRotationJob(date, executionPriceMode = "intraday") {
