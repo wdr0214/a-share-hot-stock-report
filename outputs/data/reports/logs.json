@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "jobName": "late-report",
+      "startedAt": "2026-09-22T06:51:48.309Z",
+      "finishedAt": "2026-09-22T06:51:48.910Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "2026-09-22"
+    },
+    {
       "jobName": "etf-dividend-adjustment",
       "startedAt": "2026-09-22T05:21:20.551Z",
       "finishedAt": "2026-09-22T05:21:20.551Z",
@@ -233,14 +241,6 @@
       "jobName": "late-report",
       "startedAt": "2026-09-15T12:53:56.953Z",
       "finishedAt": "2026-09-15T12:53:56.953Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-09-15"
-    },
-    {
-      "jobName": "late-report",
-      "startedAt": "2026-09-15T12:14:18.156Z",
-      "finishedAt": "2026-09-15T12:14:18.156Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-09-15"
