@@ -2344,6 +2344,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-09-22",
+      "generatedAt": "2026-09-22T06:51:48.309Z",
+      "status": "ok",
+      "totalCandidates": 2395,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ002141",
+          "name": "贤丰控股",
+          "heatScore": 121
+        },
+        {
+          "rank": 2,
+          "symbol": "SH603893",
+          "name": "瑞芯微",
+          "heatScore": 119
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ301396",
+          "name": "宏景科技",
+          "heatScore": 116
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ301047",
+          "name": "义翘神州",
+          "heatScore": 116
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ000560",
+          "name": "我爱我家",
+          "heatScore": 115
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-09-21",
       "generatedAt": "2026-09-21T06:53:26.289Z",
       "status": "ok",
