@@ -21,6 +21,14 @@ on:
         description: "Optional report date YYYY-MM-DD"
         required: false
         default: ""
+      etf_price_mode:
+        description: "ETF only: intraday for 14:53 live price; close-backfill for a historical daily close"
+        required: false
+        default: "intraday"
+        type: choice
+        options:
+          - intraday
+          - close-backfill
 
 permissions:
   contents: write
@@ -86,7 +94,7 @@ jobs:
         if: github.event.inputs.job == 'etf-rotation'
         run: |
           if [ -n "${{ github.event.inputs.date }}" ]; then
-            npm run run:etf-rotation -- "${{ github.event.inputs.date }}"
+            npm run run:etf-rotation -- "${{ github.event.inputs.date }}" "${{ github.event.inputs.etf_price_mode }}"
           else
             npm run run:etf-rotation
           fi
