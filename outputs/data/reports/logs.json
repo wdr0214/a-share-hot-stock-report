@@ -1,12 +1,13 @@
 {
   "logs": [
     {
-      "jobName": "late-report",
-      "startedAt": "2026-09-22T06:51:48.309Z",
-      "finishedAt": "2026-09-22T06:51:48.910Z",
-      "status": "success",
+      "jobName": "etf-rotation",
+      "startedAt": "2026-09-22T06:53:10.960Z",
+      "finishedAt": "2026-09-22T06:53:10.960Z",
+      "status": "ok",
       "errorMessage": "",
-      "reportKey": "2026-09-22"
+      "reportKey": "2026-09-22",
+      "attempts": 1
     },
     {
       "jobName": "etf-dividend-adjustment",
