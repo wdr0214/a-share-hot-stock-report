@@ -243,7 +243,7 @@
     },
     {
       "date": "2026-09-18",
-      "netValue": 0.9234826402980336,
+      "netValue": 0.9322213961304713,
       "holding": "SZ159941",
       "rebalanced": true,
       "trades": [
@@ -260,7 +260,16 @@
           "name": "纳指ETF",
           "price": 1.677
         }
-      ]
+      ],
+      "cashDividend": {
+        "symbol": "SH511260",
+        "exDate": "2026-09-18",
+        "payDate": "2026-09-21",
+        "cashPerShare": 1.2747,
+        "shares": 0.006855539211138078,
+        "cashAmount": 0.008738755832437708,
+        "note": "除权日现金分红计入模拟盘现金，不假设当日自动再投资。"
+      }
     }
   ]
 }
