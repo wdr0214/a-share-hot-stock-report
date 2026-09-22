@@ -13,11 +13,12 @@ const QUOTE_FIELDS = "f12,f14,f2,f3,f15,f16,f17,f18";
 
 const command = process.argv[2] || "check";
 const argDate = process.argv[3];
+const argMode = process.argv[4] || "intraday";
 
 if (command === "late") console.log(JSON.stringify(await runReportJob("late", argDate || today(), { force: true }), null, 2));
 else if (command === "daily") console.log(JSON.stringify(await runReportJob("daily", argDate || today(), { force: true }), null, 2));
 else if (command === "weekly") console.log(JSON.stringify(await runWeeklyJob(argDate || today()), null, 2));
-else if (command === "etf-rotation") console.log(JSON.stringify(await runEtfRotationJob(argDate || today()), null, 2));
+else if (command === "etf-rotation") console.log(JSON.stringify(await runEtfRotationJob(argDate || today(), argMode), null, 2));
 else if (command === "news-midday") console.log(JSON.stringify(await runNewsJob("midday", argDate || today()), null, 2));
 else if (command === "news-close") console.log(JSON.stringify(await runNewsJob("close", argDate || today()), null, 2));
 else if (command === "catchup") console.log(JSON.stringify(await catchupReports(), null, 2));
@@ -63,14 +64,14 @@ async function runWeeklyJob(date) {
   }
 }
 
-async function runEtfRotationJob(date) {
+async function runEtfRotationJob(date, executionPriceMode = "intraday") {
   const db = await readDb();
   if (db.etfRotationReports?.[date]?.status === "ok") {
     return { skipped: true, reason: "report_already_ok", type: "etf-rotation", date };
   }
   try {
     const { generateEtfRotation } = await import("./etf-rotation.js");
-    const { report, portfolio } = await generateEtfRotation({ date, now: new Date(), portfolio: db.etfRotationPortfolio });
+    const { report, portfolio } = await generateEtfRotation({ date, now: new Date(), portfolio: db.etfRotationPortfolio, executionPriceMode });
     db.etfRotationReports ||= {};
     db.etfRotationReports[date] = report;
     db.etfRotationPortfolio = portfolio;
