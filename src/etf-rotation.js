@@ -111,7 +111,43 @@ async function fetchHistoricalCloseWithFallback(etfs, klineSets, date) {
   }))).catch(() => []);
 
   if (eastmoney.length === etfs.length && eastmoney.every((item) => item.price > 0)) return eastmoney;
+
+  const hithink = await fetchHithinkDailyClose(etfs, date);
+  if (hithink.length === etfs.length && hithink.every((item) => item.price > 0)) return hithink;
+
   return quotesFromYahooDailyClose(etfs, klineSets, date);
+}
+
+async function fetchHithinkDailyClose(etfs, date) {
+  const apiKey = process.env.HITHINK_FINANCE_API_KEY || "";
+  if (!apiKey) return [];
+
+  const start = new Date(`${date}T00:00:00+08:00`).getTime();
+  const end = new Date(`${date}T23:59:59.999+08:00`).getTime();
+  const rows = [];
+  for (const etf of etfs) {
+    try {
+      const url = new URL("https://fuyao.aicubes.cn/api/fund/market/historical");
+      url.searchParams.set("thscode", toHithinkCode(etf.symbol));
+      url.searchParams.set("interval", "1d");
+      url.searchParams.set("start", String(start));
+      url.searchParams.set("end", String(end));
+      const response = await fetch(url, { headers: { "X-api-key": apiKey } });
+      const payload = await response.json();
+      const item = payload?.code === 0 ? (payload.data?.item || []).find((point) => shanghaiParts(new Date(point.date_ms)).date === date) : null;
+      const close = number(item?.close_price);
+      if (!(close > 0)) return [];
+      rows.push({ symbol: etf.symbol, price: close, source: "同花顺金融数据服务日K收盘价" });
+    } catch {
+      return [];
+    }
+  }
+  return rows;
+}
+
+function toHithinkCode(symbol) {
+  const code = String(symbol || "").replace(/[^0-9]/g, "");
+  return `${code}.${symbol.startsWith("SH") ? "SH" : "SZ"}`;
 }
 
 function quotesFromYahooDailyClose(etfs, klineSets, date) {

@@ -45,6 +45,7 @@ jobs:
     env:
       NETLIFY_DATA_PROXY_BASE: https://10-5-k.vercel.app
       NETLIFY_DATA_PROXY_TOKEN: ${{ secrets.NETLIFY_DATA_PROXY_TOKEN }}
+      HITHINK_FINANCE_API_KEY: ${{ secrets.HITHINK_FINANCE_API_KEY }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
