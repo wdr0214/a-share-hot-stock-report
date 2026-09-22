@@ -149,7 +149,7 @@ async function fetchDailyKline(etf) {
     const timestamps = result?.timestamp || [];
     const closes = result?.indicators?.quote?.[0]?.close || [];
     return timestamps.map((timestamp, index) => ({
-      date: new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(timestamp * 1000)),
+      date: shanghaiParts(new Date(timestamp * 1000)).date,
       close: number(closes[index])
     })).filter((row) => row.close > 0);
   });
