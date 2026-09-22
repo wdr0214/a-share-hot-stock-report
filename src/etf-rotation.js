@@ -108,7 +108,7 @@ async function fetchHistoricalCloseWithFallback(etfs, klineSets, date) {
     const close = number(row?.split(",")[2]);
     if (!(close > 0)) throw new Error(`${etf.symbol} 缺少 ${date} 的东方财富日K收盘价`);
     return { symbol: etf.symbol, price: close, source: "东方财富日K收盘价" };
-  })).catch(() => []);
+  }))).catch(() => []);
 
   if (eastmoney.length === etfs.length && eastmoney.every((item) => item.price > 0)) return eastmoney;
   return quotesFromYahooDailyClose(etfs, klineSets, date);
