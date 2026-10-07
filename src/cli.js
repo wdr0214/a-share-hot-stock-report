@@ -10,22 +10,21 @@ const DAILY_SELL_OPEN_RETRIES = 2;
 const DAILY_SELL_OPEN_RETRY_DELAY_MS = 120000;
 const EASTMONEY_FIELDS = "f12,f14,f2,f3,f6,f7,f8,f10,f62,f66,f69,f72,f75,f100";
 const QUOTE_FIELDS = "f12,f14,f2,f3,f15,f16,f17,f18";
+const HITHINK_API_BASE = String(process.env.HITHINK_FINANCE_API_BASE || "https://fuyao.aicubes.cn/api").replace(/\/$/, "");
+const HITHINK_FINANCE_API_KEY = String(process.env.HITHINK_FINANCE_API_KEY || "").trim();
+let hithinkSnapshotCache = { fetchedAt: 0, quotes: new Map() };
 
 const command = process.argv[2] || "check";
 const argDate = process.argv[3];
 const argMode = process.argv[4] || "intraday";
 
 if (command === "late") console.log(JSON.stringify(await runReportJob("late", argDate || today(), { force: true }), null, 2));
-else if (command === "daily") console.log(JSON.stringify(await runReportJob("daily", argDate || today(), { force: true }), null, 2));
-else if (command === "weekly") console.log(JSON.stringify(await runWeeklyJob(argDate || today()), null, 2));
 else if (command === "etf-rotation") console.log(JSON.stringify(await runEtfRotationJob(argDate || today(), argMode), null, 2));
 else if (command === "etf-dividend-adjust") console.log(JSON.stringify(await runEtfDividendAdjustment(), null, 2));
-else if (command === "news-midday") console.log(JSON.stringify(await runNewsJob("midday", argDate || today()), null, 2));
-else if (command === "news-close") console.log(JSON.stringify(await runNewsJob("close", argDate || today()), null, 2));
-else if (command === "catchup") console.log(JSON.stringify(await catchupReports(), null, 2));
+else if (command === "cleanup-legacy-reports") console.log(JSON.stringify(await cleanupLegacyReports(), null, 2));
 else if (command === "export-static") console.log(JSON.stringify(await exportStatic(), null, 2));
 else if (command === "check") console.log(JSON.stringify({ ok: true, runtime: "github-pages-actions" }, null, 2));
-else throw new Error(`Unknown command: ${command}`);
+else throw new Error("Unknown command: " + command);
 
 async function withRetry(label, task, retryDelayMs = REQUEST_RETRY_DELAY_MS) {
   let lastError;
@@ -44,7 +43,8 @@ async function withRetry(label, task, retryDelayMs = REQUEST_RETRY_DELAY_MS) {
 
 async function runReportJob(type, date, { force = false } = {}) {
   const db = await readDb();
-  const collection = type === "late" ? db.lateReports : db.dailyReports;
+  if (type !== "late") throw new Error("Only late-session reports are enabled.");
+  const collection = db.lateReports;
   if (!force && collection[date]?.status === "ok") {
     return { skipped: true, reason: "report_already_ok", type, date };
   }
@@ -279,7 +279,9 @@ async function generateMarketReport(type, date) {
       positiveFactors: summary.positiveFactors,
       kline,
       dataStatus,
-      dataError
+      dataError,
+      marketDataSource: stock.marketDataSource || "unknown",
+      orderFlowAvailable: Boolean(stock.orderFlowAvailable)
     });
   }
 
@@ -293,26 +295,21 @@ async function generateMarketReport(type, date) {
     type,
     date,
     generatedAt: new Date().toISOString(),
-    source: "github-actions-free-eastmoney-yahoo",
+    source: candidates.some((stock) => String(stock.marketDataSource || "").startsWith("hithink"))
+      ? "同花顺 Financial API（行情主源）+ 东方财富（资金流补充）+ Yahoo（K线备用）"
+      : "东方财富（同花顺 API 不可用时备用）+ 新浪/Yahoo 备用",
     status: stocks.length === 5 ? "ok" : "partial",
     totalCandidates: candidates.length,
-    ratingPolicy: type === "late"
-      ? "尾盘报告与日报使用同一套行情热度评分；周报默认汇总收盘后的日报，避免同一交易日重复计数。"
-      : "日报使用收盘后行情热度评分；周报默认汇总日报结果。",
+    ratingPolicy: "尾盘行情与 K 线优先使用同花顺 Financial API；资金流、换手率、量比等同花顺未披露字段由东方财富补充，未返回时不作为评分依据。",
     notice: "基于真实行情数据生成；免费源不保证稳定性；不构成投资建议。",
     stocks,
     previousDayStocksTodayChange
   };
 
-  if (type === "late") {
-    report.latePortfolio = await updateLatePortfolio(db, report);
-    db.lateReports[date] = report;
-  } else {
-    report.dailyPortfolio = await updateDailyPortfolio(db, report);
-    db.dailyReports[date] = report;
-  }
+  report.latePortfolio = await updateLatePortfolio(db, report);
+  db.lateReports[date] = report;
   db.jobLogs.push({
-    jobName: type === "late" ? "late-report" : "daily-report",
+    jobName: "late-report",
     startedAt: report.generatedAt,
     finishedAt: new Date().toISOString(),
     status: "success",
@@ -754,9 +751,30 @@ function finiteOrNull(value) {
   return Number.isFinite(n) ? n : null;
 }
 
+
+async function cleanupLegacyReports() {
+  const db = await readDb();
+  db.dailyReports = {};
+  db.weeklyReports = {};
+  db.dailyPortfolio = null;
+  db.jobLogs.push({
+    jobName: "cleanup-legacy-reports",
+    startedAt: new Date().toISOString(),
+    finishedAt: new Date().toISOString(),
+    status: "success",
+    errorMessage: "",
+    reportKey: "legacy-daily-weekly-removed"
+  });
+  db.jobLogs = db.jobLogs.slice(-200);
+  await writeDb(db);
+  return exportStatic(db, { skipDailyPortfolioBackfill: true });
+}
+
 async function exportStatic(existingDb, { skipDailyPortfolioBackfill = false } = {}) {
   const db = existingDb || await readDb();
-  if (!skipDailyPortfolioBackfill) await backfillMissingDailyPortfolios(db);
+  db.dailyReports = {};
+  db.weeklyReports = {};
+  db.dailyPortfolio = null;
   await writeDb(db);
   await mkdir(join(OUT_DIR, "daily"), { recursive: true });
   await mkdir(join(OUT_DIR, "late"), { recursive: true });
@@ -770,6 +788,8 @@ async function exportStatic(existingDb, { skipDailyPortfolioBackfill = false } =
   await cleanReportDir(join(OUT_DIR, "weekly"));
   await cleanReportDir(join(OUT_DIR, "news"));
   await cleanReportDir(join(OUT_DIR, "etf-rotation"));
+  await rm(join(OUT_DIR, "daily-latest.json"), { force: true });
+  await rm(join(OUT_DIR, "weekly-latest.json"), { force: true });
 
   const recentDaily = Object.values(db.dailyReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
   const recentLate = Object.values(db.lateReports).sort((a, b) => b.date.localeCompare(a.date)).slice(0, REPORT_RETENTION_DAYS);
@@ -1349,11 +1369,68 @@ function hostname(url) {
 }
 
 async function fetchAllMarketStocks() {
+  const hithink = await fetchHithinkMarketStocks().catch((error) => {
+    console.warn("HiThink market snapshot failed; using Eastmoney fallback: " + error.message);
+    return [];
+  });
+  const eastmoney = await fetchEastmoneyMarketStocks().catch((error) => {
+    console.warn("Eastmoney enrichment failed: " + error.message);
+    return [];
+  });
+  if (hithink.length) {
+    const supplements = new Map(eastmoney.map((stock) => [stock.symbol, stock]));
+    return hithink.map((stock) => {
+      const extra = supplements.get(stock.symbol);
+      if (!extra) return stock;
+      return {
+        ...extra,
+        symbol: stock.symbol,
+        name: stock.name || extra.name || stock.symbol,
+        changePct: stock.changePct,
+        amount: stock.amount || extra.amount,
+        amplitude: stock.amplitude || extra.amplitude,
+        close: stock.close || extra.close,
+        open: stock.open || extra.open,
+        high: stock.high || extra.high,
+        low: stock.low || extra.low,
+        previousClose: stock.previousClose || extra.previousClose,
+        marketDataSource: "hithink-primary-eastmoney-flow",
+        orderFlowAvailable: true
+      };
+    });
+  }
+  if (eastmoney.length) return eastmoney.map((stock) => ({ ...stock, marketDataSource: "eastmoney-fallback", orderFlowAvailable: true }));
+  throw new Error("HiThink primary source and Eastmoney fallback both returned no A-share candidates.");
+}
+
+async function fetchHithinkMarketStocks() {
+  if (!HITHINK_FINANCE_API_KEY) throw new Error("HITHINK_FINANCE_API_KEY is not configured");
+  const pageSize = 500;
+  const rows = [];
+  let offset = 0;
+  for (let page = 0; page < 30; page += 1) {
+    const data = await fetchHithink("/a-share/prices/snapshot", { limit: pageSize, offset });
+    const items = hithinkRows(data);
+    if (!items.length) break;
+    rows.push(...items);
+    const total = Number(data?.total ?? data?.total_count ?? 0);
+    if (items.length < pageSize || (total && rows.length >= total)) break;
+    offset += items.length;
+    await sleep(180);
+  }
+  const bySymbol = new Map();
+  for (const stock of rows.map(normalizeHithinkSnapshot).filter(Boolean)) bySymbol.set(stock.symbol, stock);
+  const stocks = [...bySymbol.values()];
+  if (!stocks.length) throw new Error("HiThink snapshot returned no usable A-share rows.");
+  hithinkSnapshotCache = { fetchedAt: Date.now(), quotes: new Map(stocks.map((stock) => [stock.symbol, quoteFromHithink(stock)])) };
+  return stocks;
+}
+
+async function fetchEastmoneyMarketStocks() {
   const pageSize = 500;
   const first = await fetchMarketPage(1, pageSize);
   const items = [...first.items];
-  const total = Number(first.total || items.length);
-  const pages = Math.ceil(total / pageSize);
+  const pages = Math.ceil(Number(first.total || items.length) / pageSize);
   for (let page = 2; page <= pages; page += 1) {
     const next = await fetchMarketPage(page, pageSize);
     items.push(...next.items);
@@ -1364,7 +1441,7 @@ async function fetchAllMarketStocks() {
   return [...bySymbol.values()];
 }
 
-async function fetchMarketPage(page, pageSize) {
+async function fetchMarketPageasync function fetchMarketPage(page, pageSize) {
   const url = new URL("https://push2.eastmoney.com/api/qt/clist/get");
   url.searchParams.set("pn", String(page));
   url.searchParams.set("pz", String(pageSize));
@@ -1381,39 +1458,66 @@ async function fetchMarketPage(page, pageSize) {
 }
 
 async function fetchQuotes(symbols) {
-  const primary = await fetchEastmoneyQuotes(symbols).catch((error) => {
-    console.warn(`eastmoney quote source failed, falling back to sina: ${error.message}`);
-    return [];
-  });
-  const bySymbol = new Map(primary.map((item) => [item.symbol, item]));
-  const missing = [...new Set(symbols.map(normalizeSymbol).filter(Boolean))]
-    .filter((symbol) => {
-      const quote = bySymbol.get(symbol);
-      return !quote || !quote.open || !quote.close || !quote.high || !quote.low;
-    });
+  const requested = [...new Set(symbols.map(normalizeSymbol).filter(Boolean))];
+  const bySymbol = new Map((await fetchHithinkCachedQuotes(requested)).map((quote) => [quote.symbol, quote]));
+  let missing = requested.filter((symbol) => !validQuote(bySymbol.get(symbol)));
   if (missing.length) {
-    const fallback = await fetchSinaQuotes(missing).catch((error) => {
-      console.warn(`sina quote fallback failed: ${error.message}`);
+    const eastmoney = await fetchEastmoneyQuotes(missing).catch((error) => {
+      console.warn("Eastmoney quote fallback failed: " + error.message);
       return [];
     });
-    for (const quote of fallback) {
-      const current = bySymbol.get(quote.symbol) || {};
-      bySymbol.set(quote.symbol, {
-        ...current,
-        symbol: quote.symbol,
-        name: current.name || quote.name,
-        changePct: current.changePct ?? quote.changePct,
-        open: current.open || quote.open,
-        high: current.high || quote.high,
-        low: current.low || quote.low,
-        previousClose: current.previousClose || quote.previousClose,
-        close: current.close || quote.close,
-        closeVsOpenPct: current.closeVsOpenPct ?? quote.closeVsOpenPct,
-        dataSource: current.dataSource || quote.dataSource
-      });
-    }
+    for (const quote of eastmoney) mergeQuote(bySymbol, quote);
+  }
+  missing = requested.filter((symbol) => !validQuote(bySymbol.get(symbol)));
+  if (missing.length) {
+    const sina = await fetchSinaQuotes(missing).catch((error) => {
+      console.warn("Sina quote fallback failed: " + error.message);
+      return [];
+    });
+    for (const quote of sina) mergeQuote(bySymbol, quote);
   }
   return [...bySymbol.values()].filter((item) => item.symbol);
+}
+
+function validQuote(quote) {
+  return Boolean(quote?.open && quote?.close && quote?.high && quote?.low);
+}
+
+function mergeQuote(map, quote) {
+  const current = map.get(quote.symbol) || {};
+  map.set(quote.symbol, {
+    ...current,
+    symbol: quote.symbol,
+    name: current.name || quote.name,
+    changePct: current.changePct ?? quote.changePct,
+    open: current.open || quote.open,
+    high: current.high || quote.high,
+    low: current.low || quote.low,
+    previousClose: current.previousClose || quote.previousClose,
+    close: current.close || quote.close,
+    closeVsOpenPct: current.closeVsOpenPct ?? quote.closeVsOpenPct,
+    dataSource: current.dataSource || quote.dataSource
+  });
+}
+
+async function fetchHithinkCachedQuotes(symbols) {
+  if (!HITHINK_FINANCE_API_KEY || Date.now() - hithinkSnapshotCache.fetchedAt > 15 * 60 * 1000) return [];
+  return symbols.map((symbol) => hithinkSnapshotCache.quotes.get(symbol)).filter(Boolean);
+}
+
+function quoteFromHithink(stock) {
+  return {
+    symbol: stock.symbol,
+    name: stock.name,
+    changePct: stock.changePct,
+    open: stock.open,
+    high: stock.high,
+    low: stock.low,
+    previousClose: stock.previousClose,
+    close: stock.close,
+    closeVsOpenPct: stock.open ? ((stock.close - stock.open) / stock.open) * 100 : null,
+    dataSource: "hithink"
+  };
 }
 
 async function fetchEastmoneyQuotes(symbols) {
@@ -1447,7 +1551,8 @@ function normalizeEastmoneyQuote(item) {
     low,
     previousClose,
     close,
-    closeVsOpenPct: open ? ((close - open) / open) * 100 : null
+    closeVsOpenPct: open ? ((close - open) / open) * 100 : null,
+    dataSource: "eastmoney"
   };
 }
 
@@ -1456,7 +1561,7 @@ async function fetchSinaQuotes(symbols) {
   const sinaSymbols = symbols.map(toSinaSymbol).filter(Boolean);
   for (let i = 0; i < sinaSymbols.length; i += 80) {
     const batch = sinaSymbols.slice(i, i + 80);
-    const payload = await fetchText(`https://hq.sinajs.cn/list=${batch.join(",")}`);
+    const payload = await fetchText("https://hq.sinajs.cn/list=" + batch.join(","));
     all.push(...parseSinaQuotePayload(payload));
     await sleep(250);
   }
@@ -1476,40 +1581,98 @@ function parseSinaQuotePayload(payload) {
     const close = number(fields[3]);
     const high = number(fields[4]);
     const low = number(fields[5]);
-    rows.push({
-      symbol,
-      name: fields[0],
-      date: fields[30] || "",
-      time: fields[31] || "",
-      changePct: previousClose ? ((close - previousClose) / previousClose) * 100 : null,
-      open,
-      high,
-      low,
-      previousClose,
-      close,
-      closeVsOpenPct: open ? ((close - open) / open) * 100 : null,
-      dataSource: "sina"
-    });
+    rows.push({ symbol, name: fields[0], date: fields[30] || "", time: fields[31] || "", changePct: previousClose ? ((close - previousClose) / previousClose) * 100 : null, open, high, low, previousClose, close, closeVsOpenPct: open ? ((close - open) / open) * 100 : null, dataSource: "sina" });
   }
   return rows;
 }
 
 async function fetchKline(symbol) {
+  const hithink = await fetchHithinkKline(symbol).catch((error) => {
+    console.warn("HiThink K-line failed for " + symbol + ": " + error.message);
+    return [];
+  });
+  if (hithink.length) return hithink;
+  return fetchYahooKline(symbol);
+}
+
+async function fetchHithinkKline(symbol) {
+  if (!HITHINK_FINANCE_API_KEY) return [];
+  const end = Date.now();
+  const start = new Date(end);
+  start.setMonth(start.getMonth() - 6);
+  const data = await fetchHithink("/a-share/prices/historical", { thscode: toHithinkSymbol(symbol), interval: "1d", start: start.getTime(), end, adjust: "none" });
+  const rows = hithinkRows(data).map(normalizeHithinkKline).filter(Boolean);
+  if (!rows.length) throw new Error("No usable HiThink daily K-line rows.");
+  return rows.sort((a, b) => a.date.localeCompare(b.date));
+}
+
+async function fetchYahooKline(symbol) {
   const yahoo = toYahooSymbol(symbol);
-  const payload = await fetchJson(`https://query1.finance.yahoo.com/v8/finance/chart/${yahoo}?range=6mo&interval=1d`);
+  const payload = await fetchJson("https://query1.finance.yahoo.com/v8/finance/chart/" + yahoo + "?range=6mo&interval=1d");
   const result = payload?.chart?.result?.[0];
   const timestamps = result?.timestamp || [];
   const quote = result?.indicators?.quote?.[0] || {};
-  if (!timestamps.length || !quote.open?.length) throw new Error(`No Yahoo kline rows for ${symbol}`);
+  if (!timestamps.length || !quote.open?.length) throw new Error("No Yahoo kline rows for " + symbol);
   return timestamps.map((ts, index) => {
-    const open = number(quote.open[index]);
-    const high = number(quote.high[index]);
-    const low = number(quote.low[index]);
-    const close = number(quote.close[index]);
-    const volume = number(quote.volume[index]);
+    const open = number(quote.open[index]), high = number(quote.high[index]), low = number(quote.low[index]), close = number(quote.close[index]), volume = number(quote.volume[index]);
     if (!open || !high || !low || !close) return null;
     return { date: new Date(ts * 1000).toISOString().slice(0, 10), open, high, low, close, volume, amount: 0 };
   }).filter(Boolean);
+}
+
+async function fetchHithink(path, params) {
+  const url = new URL(HITHINK_API_BASE + path);
+  for (const [key, value] of Object.entries(params || {})) if (value !== undefined && value !== null) url.searchParams.set(key, String(value));
+  const payload = await withRetry("HiThink " + path, async () => {
+    const response = await fetch(url, { headers: { Accept: "application/json", "X-api-key": HITHINK_FINANCE_API_KEY, "User-Agent": "a-share-hot-stock-report/1.0" } });
+    if (!response.ok) throw new Error("HiThink request failed " + response.status);
+    const body = await response.json();
+    if (Number(body?.code) !== 0) throw new Error("HiThink business error: " + String(body?.message || body?.msg || body?.code));
+    return body;
+  });
+  return payload?.data;
+}
+
+function hithinkRows(data) {
+  if (Array.isArray(data)) return data;
+  for (const key of ["item", "items", "list", "data", "rows"]) if (Array.isArray(data?.[key])) return data[key];
+  return [];
+}
+
+function normalizeHithinkSnapshot(item) {
+  const symbol = fromHithinkSymbol(item?.thscode || item?.symbol || item?.code);
+  const close = number(item?.last_price ?? item?.close ?? item?.price);
+  const open = number(item?.open_price ?? item?.open), high = number(item?.high_price ?? item?.high), low = number(item?.low_price ?? item?.low), previousClose = number(item?.prev_price ?? item?.previous_close ?? item?.pre_close);
+  if (!symbol || !close) return null;
+  const suppliedChange = Number(item?.price_change_ratio_pct ?? item?.change_pct ?? item?.pct_chg);
+  return { symbol, name: String(item?.name || item?.security_name || item?.ticker_name || "").trim(), industry: "", changePct: Number.isFinite(suppliedChange) ? suppliedChange : (previousClose ? ((close - previousClose) / previousClose) * 100 : 0), turnoverRate: null, amount: number(item?.turnover ?? item?.amount), volumeRatio: null, amplitude: previousClose && high && low ? ((high - low) / previousClose) * 100 : 0, close, open, high, low, previousClose, mainNetInflow: null, superLargeOrderNetAmount: null, superLargeOrderNetRatio: null, largeOrderNetAmount: null, largeOrderNetRatio: null, bigOrderNetAmount: null, marketDataSource: "hithink-primary", orderFlowAvailable: false };
+}
+
+function normalizeHithinkKline(item) {
+  const open = number(item?.open_price ?? item?.open), high = number(item?.high_price ?? item?.high), low = number(item?.low_price ?? item?.low), close = number(item?.close_price ?? item?.close ?? item?.last_price);
+  const date = hithinkDate(item?.trade_date ?? item?.date ?? item?.time ?? item?.timestamp);
+  return open && high && low && close && date ? { date, open, high, low, close, volume: number(item?.volume), amount: number(item?.turnover ?? item?.amount) } : null;
+}
+
+function hithinkDate(value) {
+  const raw = String(value || "").trim();
+  if (/^\d{10,13}$/.test(raw)) return new Date(Number(raw) > 100000000000 ? Number(raw) : Number(raw) * 1000).toISOString().slice(0, 10);
+  if (/^\d{8}$/.test(raw)) return raw.slice(0, 4) + "-" + raw.slice(4, 6) + "-" + raw.slice(6, 8);
+  return /^\d{4}-\d{2}-\d{2}/.test(raw) ? raw.slice(0, 10) : "";
+}
+
+function fromHithinkSymbol(value) {
+  const raw = String(value || "").trim().toUpperCase();
+  const match = raw.match(/^(\d{6})\.(SH|SZ|BJ)$/);
+  return match ? match[2] + match[1] : normalizeSymbol(raw);
+}
+
+function toHithinkSymbol(symbol) {
+  const normalized = normalizeSymbol(symbol), code = normalized.slice(2);
+  if (normalized.startsWith("SH")) return code + ".SH";
+  if (normalized.startsWith("SZ")) return code + ".SZ";
+  if (normalized.startsWith("BJ")) return code + ".BJ";
+  return normalized;
 }
 
 async function previousSelectionChange(db, type, date) {
