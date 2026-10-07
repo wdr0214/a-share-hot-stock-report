@@ -16,6 +16,7 @@ on:
           - etf-rotation
           - etf-dividend-adjust
           - cleanup-legacy-reports
+          - restore-late-history
       date:
         description: "Optional report date YYYY-MM-DD"
         required: false
@@ -85,6 +86,10 @@ jobs:
       - name: Correct ETF cash dividend
         if: github.event.inputs.job == 'etf-dividend-adjust'
         run: node src/cli.js etf-dividend-adjust
+
+      - name: Restore late-session historical snapshots
+        if: github.event_name == 'push' || github.event.inputs.job == 'restore-late-history'
+        run: npm run restore:late
 
       - name: Remove legacy daily and weekly reports
         if: github.event_name == 'push' || github.event.inputs.job == 'cleanup-legacy-reports'
