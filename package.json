@@ -5,12 +5,11 @@
   "type": "module",
   "scripts": {
     "run:late": "node src/cli.js late",
-    "run:daily": "node src/cli.js daily",
-    "run:weekly": "node src/cli.js weekly",
-    "run:catchup": "node src/cli.js catchup",
+    "run:etf-rotation": "node src/cli.js etf-rotation",
+    "etf:dividend-adjust": "node src/cli.js etf-dividend-adjust",
+    "cleanup:legacy-reports": "node src/cli.js cleanup-legacy-reports",
     "export:static": "node src/cli.js export-static",
-    "check": "node src/cli.js check",
-    "run:etf-rotation": "node src/cli.js etf-rotation"
+    "check": "node src/cli.js check"
   },
   "dependencies": {}
 }

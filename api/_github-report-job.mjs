@@ -34,12 +34,22 @@ export const runtimeConfig = {
 export async function handleReportJob(req, res, type) {
   try {
     assertAuthorized(req);
-    if (!["late", "daily", "weekly", "etf-rotation"].includes(type)) {
+    if (["daily", "weekly"].includes(type)) {
+      return res.status(200).json({
+        ok: true,
+        runtime: "vercel",
+        type,
+        skipped: true,
+        reason: "report_type_retired",
+        message: "Daily and weekly reports have been retired; no data was generated or written."
+      });
+    }
+    if (!["late", "etf-rotation"].includes(type)) {
       return res.status(400).json({ ok: false, error: "unsupported report type" });
     }
 
     const date = String(req.query?.date || shanghaiDate()).slice(0, 10);
-    const tradingDate = type === "weekly" ? { isTradingDate: true, reason: "weekly_report" } : getAshareTradingDateStatus(date);
+    const tradingDate = getAshareTradingDateStatus(date);
     if (!tradingDate.isTradingDate) {
       return res.status(200).json({
         ok: true,
