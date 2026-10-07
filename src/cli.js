@@ -21,6 +21,7 @@ const argMode = process.argv[4] || "intraday";
 if (command === "late") console.log(JSON.stringify(await runReportJob("late", argDate || today(), { force: true }), null, 2));
 else if (command === "etf-rotation") console.log(JSON.stringify(await runEtfRotationJob(argDate || today(), argMode), null, 2));
 else if (command === "etf-dividend-adjust") console.log(JSON.stringify(await runEtfDividendAdjustment(), null, 2));
+else if (command === "restore-late-history") console.log(JSON.stringify(await restoreLateHistory(), null, 2));
 else if (command === "cleanup-legacy-reports") console.log(JSON.stringify(await cleanupLegacyReports(), null, 2));
 else if (command === "export-static") console.log(JSON.stringify(await exportStatic(), null, 2));
 else if (command === "check") console.log(JSON.stringify({ ok: true, runtime: "github-pages-actions" }, null, 2));
@@ -768,6 +769,39 @@ async function cleanupLegacyReports() {
   db.jobLogs = db.jobLogs.slice(-200);
   await writeDb(db);
   return exportStatic(db, { skipDailyPortfolioBackfill: true });
+}
+
+async function restoreLateHistory() {
+  const db = await readDb();
+  const dir = join(OUT_DIR, "late");
+  let restored = 0;
+  try {
+    const files = (await readdir(dir)).filter((file) => file.endsWith(".json") && file !== "late-latest.json");
+    for (const file of files) {
+      try {
+        const report = JSON.parse(await readFile(join(dir, file), "utf8"));
+        if (report?.type === "late" && report.date) {
+          db.lateReports[report.date] = report;
+          restored += 1;
+        }
+      } catch (error) {
+        console.warn("skip invalid late snapshot " + file + ": " + error.message);
+      }
+    }
+  } catch {
+    // No checked-in snapshots to restore.
+  }
+  const latest = Object.values(db.lateReports || {}).sort((a, b) => String(b.date).localeCompare(String(a.date)))[0];
+  if (latest?.portfolioHistory?.length) {
+    db.latePortfolio = {
+      ...(db.latePortfolio || {}),
+      ...(latest.latePortfolio || {}),
+      history: latest.portfolioHistory
+    };
+  }
+  await writeDb(db);
+  const exported = await exportStatic(db);
+  return { restored, ...exported };
 }
 
 async function exportStatic(existingDb, { skipDailyPortfolioBackfill = false } = {}) {
