@@ -87,7 +87,7 @@ jobs:
         run: node src/cli.js etf-dividend-adjust
 
       - name: Remove legacy daily and weekly reports
-        if: github.event.inputs.job == 'cleanup-legacy-reports'
+        if: github.event_name == 'push' || github.event.inputs.job == 'cleanup-legacy-reports'
         run: npm run cleanup:legacy-reports
 
       - name: Export static report data
@@ -98,7 +98,7 @@ jobs:
         run: cp outputs/xueqiu-stock-report.html outputs/index.html
 
       - name: Persist generated report data
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
