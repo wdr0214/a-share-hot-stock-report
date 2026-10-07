@@ -802,7 +802,7 @@ async function exportStatic(existingDb, { skipDailyPortfolioBackfill = false } =
   const recentEtfRotation = Object.values(db.etfRotationReports || {}).sort((a, b) => b.date.localeCompare(a.date));
   const latePortfolioHistory = db.latePortfolio?.history || [];
   const dailyPortfolioHistory = db.dailyPortfolio?.history || [];
-  await writeJson(join(OUT_DIR, "recent.json"), { reports: recentDaily.map(reportIndexItem), lateReports: recentLate.map(reportIndexItem), weeklyReports: recentWeekly.map(weeklyIndexItem), newsReports: recentNews.map(newsIndexItem), etfRotationReports: recentEtfRotation.map(etfRotationIndexItem) });
+  await writeJson(join(OUT_DIR, "recent.json"), { lateReports: recentLate.map(reportIndexItem), etfRotationReports: recentEtfRotation.map(etfRotationIndexItem) });
   await writeJson(join(OUT_DIR, "logs.json"), { logs: db.jobLogs.slice(-30).reverse() });
   for (const report of recentDaily) await writeJson(join(OUT_DIR, "daily", `${report.date}.json`), withPortfolioHistory(report, dailyPortfolioHistory));
   for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), withPortfolioHistory(report, latePortfolioHistory));
@@ -1650,7 +1650,7 @@ function normalizeHithinkSnapshot(item) {
 
 function normalizeHithinkKline(item) {
   const open = number(item?.open_price ?? item?.open), high = number(item?.high_price ?? item?.high), low = number(item?.low_price ?? item?.low), close = number(item?.close_price ?? item?.close ?? item?.last_price);
-  const date = hithinkDate(item?.trade_date ?? item?.date ?? item?.time ?? item?.timestamp);
+  const date = hithinkDate(item?.trade_date ?? item?.date ?? item?.date_ms ?? item?.time ?? item?.timestamp);
   return open && high && low && close && date ? { date, open, high, low, close, volume: number(item?.volume), amount: number(item?.turnover ?? item?.amount) } : null;
 }
 
