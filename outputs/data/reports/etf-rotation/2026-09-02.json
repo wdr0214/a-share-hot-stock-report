@@ -266,6 +266,48 @@
         "cashAmount": 0.008738755832437708,
         "note": "除权日现金分红计入模拟盘现金，不假设当日自动再投资。"
       }
+    },
+    {
+      "date": "2026-09-22",
+      "netValue": 0.9525963858090801,
+      "holding": "SZ159941",
+      "rebalanced": false,
+      "trades": []
+    },
+    {
+      "date": "2026-09-23",
+      "netValue": 0.9614071921565868,
+      "holding": "SZ159941",
+      "rebalanced": false,
+      "trades": []
+    },
+    {
+      "date": "2026-09-24",
+      "netValue": 0.9487416580320461,
+      "holding": "SZ159941",
+      "rebalanced": false,
+      "trades": []
+    },
+    {
+      "date": "2026-09-28",
+      "netValue": 0.9448869302550119,
+      "holding": "SZ159941",
+      "rebalanced": false,
+      "trades": []
+    },
+    {
+      "date": "2026-09-29",
+      "netValue": 0.9492923334287652,
+      "holding": "SZ159941",
+      "rebalanced": false,
+      "trades": []
+    },
+    {
+      "date": "2026-09-30",
+      "netValue": 0.9630592183467442,
+      "holding": "SZ159941",
+      "rebalanced": false,
+      "trades": []
     }
   ]
 }
