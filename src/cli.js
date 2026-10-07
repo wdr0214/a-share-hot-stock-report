@@ -1441,7 +1441,7 @@ async function fetchEastmoneyMarketStocks() {
   return [...bySymbol.values()];
 }
 
-async function fetchMarketPageasync function fetchMarketPage(page, pageSize) {
+async function fetchMarketPage(page, pageSize) {
   const url = new URL("https://push2.eastmoney.com/api/qt/clist/get");
   url.searchParams.set("pn", String(page));
   url.searchParams.set("pz", String(pageSize));
