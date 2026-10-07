@@ -8,6 +8,7 @@
     "run:etf-rotation": "node src/cli.js etf-rotation",
     "etf:dividend-adjust": "node src/cli.js etf-dividend-adjust",
     "cleanup:legacy-reports": "node src/cli.js cleanup-legacy-reports",
+    "restore:late": "node src/cli.js restore-late-history",
     "export:static": "node src/cli.js export-static",
     "check": "node src/cli.js check"
   },
