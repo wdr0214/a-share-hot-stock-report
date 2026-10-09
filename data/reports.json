@@ -5851,7 +5851,377 @@
             "allocation": 0.1662035303025905
           }
         ]
-      }
+      },
+      "portfolioHistory": [
+        {
+          "date": "2026-07-13",
+          "netValue": 0.9396
+        },
+        {
+          "date": "2026-07-14",
+          "netValue": 0.9436
+        },
+        {
+          "date": "2026-07-15",
+          "netValue": 0.9332
+        },
+        {
+          "date": "2026-07-16",
+          "netValue": 0.9176
+        },
+        {
+          "date": "2026-07-17",
+          "netValue": 0.9008
+        },
+        {
+          "date": "2026-07-20",
+          "netValue": 0.8948
+        },
+        {
+          "date": "2026-07-21",
+          "netValue": 0.94
+        },
+        {
+          "date": "2026-07-22",
+          "netValue": 0.9453
+        },
+        {
+          "date": "2026-07-23",
+          "netValue": 0.9281
+        },
+        {
+          "date": "2026-07-24",
+          "netValue": 0.921
+        },
+        {
+          "date": "2026-07-27",
+          "netValue": 0.9719
+        },
+        {
+          "date": "2026-07-28",
+          "netValue": 0.9719
+        },
+        {
+          "date": "2026-07-29",
+          "netValue": 0.9438
+        },
+        {
+          "date": "2026-07-30",
+          "netValue": 0.9438
+        },
+        {
+          "date": "2026-07-31",
+          "netValue": 0.9333
+        },
+        {
+          "date": "2026-08-03",
+          "netValue": 0.9201
+        },
+        {
+          "date": "2026-08-04",
+          "netValue": 0.9324
+        },
+        {
+          "date": "2026-08-05",
+          "netValue": 0.9294
+        },
+        {
+          "date": "2026-08-06",
+          "netValue": 0.9487
+        },
+        {
+          "date": "2026-08-07",
+          "netValue": 0.9877
+        },
+        {
+          "date": "2026-08-10",
+          "netValue": 0.9773
+        },
+        {
+          "date": "2026-08-11",
+          "netValue": 0.9822
+        },
+        {
+          "date": "2026-08-12",
+          "netValue": 1.0006
+        },
+        {
+          "date": "2026-08-13",
+          "netValue": 0.9993
+        },
+        {
+          "date": "2026-08-14",
+          "netValue": 0.9833
+        },
+        {
+          "date": "2026-08-17",
+          "netValue": 0.9852
+        },
+        {
+          "date": "2026-08-18",
+          "netValue": 0.9852
+        },
+        {
+          "date": "2026-08-19",
+          "netValue": 0.9582
+        },
+        {
+          "date": "2026-08-20",
+          "netValue": 0.9575
+        },
+        {
+          "date": "2026-08-21",
+          "netValue": 0.9628
+        },
+        {
+          "date": "2026-08-24",
+          "netValue": 0.9628
+        },
+        {
+          "date": "2026-08-25",
+          "netValue": 0.9656
+        },
+        {
+          "date": "2026-09-02",
+          "netValue": 1.0509
+        },
+        {
+          "date": "2026-09-03",
+          "netValue": 1.0509
+        },
+        {
+          "date": "2026-09-04",
+          "netValue": 1.0515
+        },
+        {
+          "date": "2026-09-04",
+          "netValue": 1.0513
+        },
+        {
+          "date": "2026-09-04",
+          "netValue": 1.0513
+        },
+        {
+          "date": "2026-09-04",
+          "netValue": 1.0513
+        },
+        {
+          "date": "2026-09-04",
+          "netValue": 1.0513
+        },
+        {
+          "date": "2026-09-07",
+          "netValue": 1.0584
+        },
+        {
+          "date": "2026-09-07",
+          "netValue": 1.0594
+        },
+        {
+          "date": "2026-09-07",
+          "netValue": 1.0594
+        },
+        {
+          "date": "2026-09-07",
+          "netValue": 1.0594
+        },
+        {
+          "date": "2026-09-08",
+          "netValue": 1.0268
+        },
+        {
+          "date": "2026-09-08",
+          "netValue": 1.0276
+        },
+        {
+          "date": "2026-09-08",
+          "netValue": 1.0276
+        },
+        {
+          "date": "2026-09-08",
+          "netValue": 1.0276
+        },
+        {
+          "date": "2026-09-09",
+          "netValue": 1.0393
+        },
+        {
+          "date": "2026-09-09",
+          "netValue": 1.0393
+        },
+        {
+          "date": "2026-09-09",
+          "netValue": 1.0393
+        },
+        {
+          "date": "2026-09-09",
+          "netValue": 1.0393
+        },
+        {
+          "date": "2026-09-09",
+          "netValue": 1.0393
+        },
+        {
+          "date": "2026-09-10",
+          "netValue": 1.0027
+        },
+        {
+          "date": "2026-09-10",
+          "netValue": 1.0033
+        },
+        {
+          "date": "2026-09-10",
+          "netValue": 1.0033
+        },
+        {
+          "date": "2026-09-10",
+          "netValue": 1.0033
+        },
+        {
+          "date": "2026-09-11",
+          "netValue": 0.9834
+        },
+        {
+          "date": "2026-09-11",
+          "netValue": 0.9888
+        },
+        {
+          "date": "2026-09-11",
+          "netValue": 0.9888
+        },
+        {
+          "date": "2026-09-11",
+          "netValue": 0.9888
+        },
+        {
+          "date": "2026-09-14",
+          "netValue": 0.9768
+        },
+        {
+          "date": "2026-09-14",
+          "netValue": 0.9768
+        },
+        {
+          "date": "2026-09-14",
+          "netValue": 0.9768
+        },
+        {
+          "date": "2026-09-14",
+          "netValue": 0.9768
+        },
+        {
+          "date": "2026-09-14",
+          "netValue": 0.9768
+        },
+        {
+          "date": "2026-09-15",
+          "netValue": 0.9769
+        },
+        {
+          "date": "2026-09-15",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-15",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-15",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-15",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-15",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-16",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-16",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-16",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-16",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-16",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-16",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-16",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-17",
+          "netValue": 0.9784
+        },
+        {
+          "date": "2026-09-17",
+          "netValue": 0.9792
+        },
+        {
+          "date": "2026-09-17",
+          "netValue": 0.9792
+        },
+        {
+          "date": "2026-09-17",
+          "netValue": 0.9792
+        },
+        {
+          "date": "2026-09-17",
+          "netValue": 0.9792
+        },
+        {
+          "date": "2026-09-17",
+          "netValue": 0.9792
+        },
+        {
+          "date": "2026-09-18",
+          "netValue": 0.9793
+        },
+        {
+          "date": "2026-09-18",
+          "netValue": 0.9838
+        },
+        {
+          "date": "2026-09-18",
+          "netValue": 0.9838
+        },
+        {
+          "date": "2026-09-18",
+          "netValue": 0.9838
+        },
+        {
+          "date": "2026-09-18",
+          "netValue": 0.9838
+        },
+        {
+          "date": "2026-09-21",
+          "netValue": 0.9813
+        },
+        {
+          "date": "2026-09-29",
+          "netValue": 0.8936
+        },
+        {
+          "date": "2026-10-09",
+          "netValue": 0.831
+        }
+      ]
     },
     "2026-09-29": {
       "type": "late",
@@ -388686,7 +389056,7 @@
   },
   "latePortfolio": {
     "netValue": 0.831,
-    "cash": 0.3324070606051809,
+    "cash": 0.332407,
     "holdings": [
       {
         "symbol": "SZ300964",
@@ -389080,98 +389450,64 @@
       },
       {
         "date": "2026-10-09",
-        "netValue": 0.831,
-        "cash": 0.332407,
-        "holdings": [
-          {
-            "symbol": "SZ300964",
-            "name": "本川智能",
-            "entryPrice": 74.02999877929688,
-            "shares": 0.0022450835207776707,
-            "allocation": 0.1662035303025905,
-            "date": "2026-10-09"
-          },
-          {
-            "symbol": "SZ002709",
-            "name": "天赐材料",
-            "entryPrice": 35.790000915527344,
-            "shares": 0.00464385375945838,
-            "allocation": 0.1662035303025905,
-            "date": "2026-10-09"
-          },
-          {
-            "symbol": "SZ300111",
-            "name": "向日葵",
-            "entryPrice": 3.4000000953674316,
-            "shares": 0.048883389894325634,
-            "allocation": 0.1662035303025905,
-            "date": "2026-10-09"
-          }
-        ],
-        "sold": [
-          {
-            "symbol": "SZ001389",
-            "name": "广合科技",
-            "entryPrice": 192.94000244140625,
-            "sellPrice": 154.39,
-            "returnPct": -19.980305770501623
-          },
-          {
-            "symbol": "SZ301132",
-            "name": "满坤科技",
-            "entryPrice": 71.30000305175781,
-            "sellPrice": 60.59,
-            "returnPct": -15.021041505402527
-          }
-        ],
-        "bought": [
-          {
-            "symbol": "SH600127",
-            "name": "金健米业",
-            "skipped": true,
-            "reason": "涨停无法买入"
-          },
-          {
-            "symbol": "SZ300821",
-            "name": "东岳硅材",
-            "skipped": true,
-            "reason": "涨停无法买入"
-          },
-          {
-            "symbol": "SZ300964",
-            "name": "本川智能",
-            "skipped": false,
-            "buyPrice": 74.02999877929688,
-            "allocation": 0.1662035303025905
-          },
-          {
-            "symbol": "SZ002709",
-            "name": "天赐材料",
-            "skipped": false,
-            "buyPrice": 35.790000915527344,
-            "allocation": 0.1662035303025905
-          },
-          {
-            "symbol": "SZ300111",
-            "name": "向日葵",
-            "skipped": false,
-            "buyPrice": 3.4000000953674316,
-            "allocation": 0.1662035303025905
-          }
-        ]
+        "netValue": 0.831
+      }
+    ],
+    "date": "2026-10-09",
+    "sold": [
+      {
+        "symbol": "SZ001389",
+        "name": "广合科技",
+        "entryPrice": 192.94000244140625,
+        "sellPrice": 154.39,
+        "returnPct": -19.980305770501623
+      },
+      {
+        "symbol": "SZ301132",
+        "name": "满坤科技",
+        "entryPrice": 71.30000305175781,
+        "sellPrice": 60.59,
+        "returnPct": -15.021041505402527
+      }
+    ],
+    "bought": [
+      {
+        "symbol": "SH600127",
+        "name": "金健米业",
+        "skipped": true,
+        "reason": "涨停无法买入"
+      },
+      {
+        "symbol": "SZ300821",
+        "name": "东岳硅材",
+        "skipped": true,
+        "reason": "涨停无法买入"
+      },
+      {
+        "symbol": "SZ300964",
+        "name": "本川智能",
+        "skipped": false,
+        "buyPrice": 74.02999877929688,
+        "allocation": 0.1662035303025905
+      },
+      {
+        "symbol": "SZ002709",
+        "name": "天赐材料",
+        "skipped": false,
+        "buyPrice": 35.790000915527344,
+        "allocation": 0.1662035303025905
+      },
+      {
+        "symbol": "SZ300111",
+        "name": "向日葵",
+        "skipped": false,
+        "buyPrice": 3.4000000953674316,
+        "allocation": 0.1662035303025905
       }
     ]
   },
   "dailyPortfolio": null,
   "jobLogs": [
-    {
-      "jobName": "weekly-report",
-      "startedAt": "2026-07-24T15:42:30.992Z",
-      "finishedAt": "2026-07-24T15:42:30.993Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-30"
-    },
     {
       "jobName": "late-report",
       "startedAt": "2026-07-27T06:50:22.749Z",
@@ -390813,6 +391149,14 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "2026-10-09"
+    },
+    {
+      "jobName": "cleanup-legacy-reports",
+      "startedAt": "2026-10-09T06:52:43.605Z",
+      "finishedAt": "2026-10-09T06:52:43.605Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "legacy-daily-weekly-removed"
     }
   ]
 }
