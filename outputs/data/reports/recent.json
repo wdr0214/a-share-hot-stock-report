@@ -2,6 +2,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-10-09",
+      "generatedAt": "2026-10-09T06:52:24.095Z",
+      "status": "ok",
+      "totalCandidates": 2393,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SH600127",
+          "name": "金健米业",
+          "heatScore": 119
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300821",
+          "name": "东岳硅材",
+          "heatScore": 118
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ300964",
+          "name": "本川智能",
+          "heatScore": 113
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ002709",
+          "name": "天赐材料",
+          "heatScore": 112
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ300111",
+          "name": "向日葵",
+          "heatScore": 108
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-09-29",
       "generatedAt": "2026-09-29T06:52:10.023Z",
       "status": "ok",
