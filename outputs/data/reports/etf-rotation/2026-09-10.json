@@ -327,6 +327,13 @@
       "holding": "SZ159941",
       "rebalanced": false,
       "trades": []
+    },
+    {
+      "date": "2026-10-12",
+      "netValue": 0.982883532628634,
+      "holding": "SZ159941",
+      "rebalanced": false,
+      "trades": []
     }
   ]
 }
