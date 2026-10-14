@@ -390529,14 +390529,6 @@
   "dailyPortfolio": null,
   "jobLogs": [
     {
-      "jobName": "news-midday",
-      "startedAt": "2026-07-29T08:10:39.746Z",
-      "finishedAt": "2026-07-29T08:10:39.746Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-07-29-midday"
-    },
-    {
       "jobName": "news-close",
       "startedAt": "2026-07-29T15:13:20.113Z",
       "finishedAt": "2026-07-29T15:13:20.113Z",
@@ -392177,6 +392169,14 @@
       "jobName": "cleanup-legacy-reports",
       "startedAt": "2026-10-14T06:53:30.566Z",
       "finishedAt": "2026-10-14T06:53:30.566Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "legacy-daily-weekly-removed"
+    },
+    {
+      "jobName": "cleanup-legacy-reports",
+      "startedAt": "2026-10-14T06:53:57.228Z",
+      "finishedAt": "2026-10-14T06:53:57.229Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "legacy-daily-weekly-removed"
