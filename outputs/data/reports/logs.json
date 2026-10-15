@@ -1,6 +1,15 @@
 {
   "logs": [
     {
+      "jobName": "etf-rotation",
+      "startedAt": "2026-10-15T06:53:09.670Z",
+      "finishedAt": "2026-10-15T06:53:09.670Z",
+      "status": "ok",
+      "errorMessage": "",
+      "reportKey": "2026-10-15",
+      "attempts": 1
+    },
+    {
       "jobName": "cleanup-legacy-reports",
       "startedAt": "2026-10-14T06:53:57.228Z",
       "finishedAt": "2026-10-14T06:53:57.229Z",
@@ -240,15 +249,6 @@
       "status": "ok",
       "errorMessage": "",
       "reportKey": "2026-09-22",
-      "attempts": 1
-    },
-    {
-      "jobName": "etf-dividend-adjustment",
-      "startedAt": "2026-09-22T05:21:20.551Z",
-      "finishedAt": "2026-09-22T05:21:20.551Z",
-      "status": "ok",
-      "errorMessage": "",
-      "reportKey": "2026-09-18",
       "attempts": 1
     }
   ]
