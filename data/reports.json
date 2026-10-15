@@ -390883,14 +390883,6 @@
   "dailyPortfolio": null,
   "jobLogs": [
     {
-      "jobName": "late-report",
-      "startedAt": "2026-07-30T06:51:25.777Z",
-      "finishedAt": "2026-07-30T06:51:25.778Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-07-30"
-    },
-    {
       "jobName": "news-midday",
       "startedAt": "2026-07-30T07:59:23.008Z",
       "finishedAt": "2026-07-30T07:59:23.008Z",
@@ -392535,6 +392527,14 @@
       "errorMessage": "",
       "reportKey": "2026-10-15",
       "attempts": 1
+    },
+    {
+      "jobName": "cleanup-legacy-reports",
+      "startedAt": "2026-10-15T06:53:30.265Z",
+      "finishedAt": "2026-10-15T06:53:30.265Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "legacy-daily-weekly-removed"
     }
   ]
 }
