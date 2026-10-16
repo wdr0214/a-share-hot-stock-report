@@ -2,6 +2,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-10-16",
+      "generatedAt": "2026-10-16T06:52:14.799Z",
+      "status": "ok",
+      "totalCandidates": 2392,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ301230",
+          "name": "泓博医药",
+          "heatScore": 117
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ000530",
+          "name": "冰山冷热",
+          "heatScore": 111
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ300006",
+          "name": "莱美药业",
+          "heatScore": 108
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ002815",
+          "name": "崇达技术",
+          "heatScore": 101
+        },
+        {
+          "rank": 5,
+          "symbol": "SH603618",
+          "name": "杭电股份",
+          "heatScore": 100
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-10-09",
       "generatedAt": "2026-10-09T06:52:24.095Z",
       "status": "ok",
