@@ -1,28 +1,13 @@
 {
   "logs": [
     {
-      "jobName": "cleanup-legacy-reports",
-      "startedAt": "2026-10-16T06:53:00.937Z",
-      "finishedAt": "2026-10-16T06:53:00.937Z",
-      "status": "success",
+      "jobName": "etf-rotation",
+      "startedAt": "2026-10-16T06:53:09.452Z",
+      "finishedAt": "2026-10-16T06:53:09.452Z",
+      "status": "ok",
       "errorMessage": "",
-      "reportKey": "legacy-daily-weekly-removed"
-    },
-    {
-      "jobName": "cleanup-legacy-reports",
-      "startedAt": "2026-10-16T06:52:32.008Z",
-      "finishedAt": "2026-10-16T06:52:32.008Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "legacy-daily-weekly-removed"
-    },
-    {
-      "jobName": "late-report",
-      "startedAt": "2026-10-16T06:52:14.799Z",
-      "finishedAt": "2026-10-16T06:52:15.420Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-10-16"
+      "reportKey": "2026-10-16",
+      "attempts": 1
     },
     {
       "jobName": "cleanup-legacy-reports",
@@ -244,6 +229,24 @@
       "status": "ok",
       "errorMessage": "",
       "reportKey": "2026-09-30",
+      "attempts": 1
+    },
+    {
+      "jobName": "etf-rotation",
+      "startedAt": "2026-09-29T06:53:10.124Z",
+      "finishedAt": "2026-09-29T06:53:10.124Z",
+      "status": "ok",
+      "errorMessage": "",
+      "reportKey": "2026-09-29",
+      "attempts": 1
+    },
+    {
+      "jobName": "etf-rotation",
+      "startedAt": "2026-09-28T06:53:09.955Z",
+      "finishedAt": "2026-09-28T06:53:09.955Z",
+      "status": "ok",
+      "errorMessage": "",
+      "reportKey": "2026-09-28",
       "attempts": 1
     }
   ]
