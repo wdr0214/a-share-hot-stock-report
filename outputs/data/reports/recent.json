@@ -2,45 +2,6 @@
   "lateReports": [
     {
       "type": "late",
-      "date": "2026-10-19",
-      "generatedAt": "2026-10-19T06:50:59.991Z",
-      "status": "ok",
-      "totalCandidates": 2395,
-      "stocks": [
-        {
-          "rank": 1,
-          "symbol": "SZ002343",
-          "name": "慈文传媒",
-          "heatScore": 126
-        },
-        {
-          "rank": 2,
-          "symbol": "SZ001216",
-          "name": "华瓷股份",
-          "heatScore": 111
-        },
-        {
-          "rank": 3,
-          "symbol": "SH600487",
-          "name": "亨通光电",
-          "heatScore": 107
-        },
-        {
-          "rank": 4,
-          "symbol": "SZ300916",
-          "name": "朗特智能",
-          "heatScore": 101
-        },
-        {
-          "rank": 5,
-          "symbol": "SZ002889",
-          "name": "东方嘉盛",
-          "heatScore": 101
-        }
-      ]
-    },
-    {
-      "type": "late",
       "date": "2026-10-16",
       "generatedAt": "2026-10-16T06:52:14.799Z",
       "status": "ok",
@@ -2615,6 +2576,19 @@
     }
   ],
   "etfRotationReports": [
+    {
+      "date": "2026-10-19",
+      "generatedAt": "2026-10-19T06:53:06.666Z",
+      "status": "ok",
+      "netValue": 0.9559004381893951,
+      "holding": {
+        "symbol": "SZ159941",
+        "name": "纳指ETF",
+        "shares": 0.5506753967191613,
+        "entryPrice": 1.677,
+        "entryDate": "2026-09-18"
+      }
+    },
     {
       "date": "2026-10-16",
       "generatedAt": "2026-10-16T06:53:06.280Z",
