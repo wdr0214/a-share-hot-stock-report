@@ -2,6 +2,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-10-21",
+      "generatedAt": "2026-10-21T06:50:43.256Z",
+      "status": "ok",
+      "totalCandidates": 2395,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ300006",
+          "name": "莱美药业",
+          "heatScore": 113
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300296",
+          "name": "利亚德",
+          "heatScore": 111
+        },
+        {
+          "rank": 3,
+          "symbol": "SH603629",
+          "name": "利通电子",
+          "heatScore": 109
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ002792",
+          "name": "通宇通讯",
+          "heatScore": 102
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ001216",
+          "name": "华瓷股份",
+          "heatScore": 102
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-10-20",
       "generatedAt": "2026-10-20T06:54:01.437Z",
       "status": "ok",
