@@ -363,6 +363,21 @@
       "holding": "SZ159941",
       "rebalanced": false,
       "trades": []
+    },
+    {
+      "date": "2026-10-23",
+      "netValue": 0.924970983587108,
+      "holding": null,
+      "rebalanced": true,
+      "trades": [
+        {
+          "action": "sell",
+          "symbol": "SZ159941",
+          "name": "纳指ETF",
+          "price": 1.664,
+          "returnPct": -0.7751937984496197
+        }
+      ]
     }
   ]
 }
