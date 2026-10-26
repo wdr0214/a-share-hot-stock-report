@@ -384,6 +384,20 @@
           "returnPct": -0.7751937984496197
         }
       ]
+    },
+    {
+      "date": "2026-10-26",
+      "netValue": 0.9248784864887494,
+      "holding": "SH511260",
+      "rebalanced": true,
+      "trades": [
+        {
+          "action": "buy",
+          "symbol": "SH511260",
+          "name": "十年国债ETF",
+          "price": 135.425
+        }
+      ]
     }
   ]
 }
