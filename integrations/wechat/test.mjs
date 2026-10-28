@@ -140,7 +140,7 @@ test("Cloud Run uses the documented sidecar without AppSecret or stable_token", 
     return { ok: true, json: async () => ({ total_count: 0 }) };
   } });
   assert.equal((await client.checkDraftAccess()).draftAccess, true);
-  assert.deepEqual(urls, ["http://api.weixin.qq.com/cgi-bin/draft/batchget"]);
+  assert.deepEqual(urls, ["http://api.weixin.qq.com/cgi-bin/draft/batchget?from_appid=test-cloud-app"]);
   assert.throws(() => new WeChatClient({ appId: "test", authMode: "other" }), /WECHAT_AUTH_MODE/);
 });
 
