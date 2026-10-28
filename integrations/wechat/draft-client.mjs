@@ -13,6 +13,7 @@ export class WeChatClient {
   async request(path, body, { token = true, form = false } = {}) {
     const params = new URLSearchParams();
     if (token && this.authMode === "direct") params.set("access_token", await this.accessToken());
+    if (this.authMode === "cloudrun") params.set("from_appid", this.appId);
     if (path.includes("add_material")) params.set("type", "image");
     const suffix = params.size ? `?${params}` : "";
     // Cloud Run injects credentials inside its documented OpenAPI sidecar.
