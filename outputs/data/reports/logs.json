@@ -1,12 +1,13 @@
 {
   "logs": [
     {
-      "jobName": "late-report",
-      "startedAt": "2026-10-28T06:52:54.814Z",
-      "finishedAt": "2026-10-28T06:52:56.109Z",
-      "status": "success",
+      "jobName": "etf-rotation",
+      "startedAt": "2026-10-28T06:53:10.490Z",
+      "finishedAt": "2026-10-28T06:53:10.490Z",
+      "status": "ok",
       "errorMessage": "",
-      "reportKey": "2026-10-28"
+      "reportKey": "2026-10-28",
+      "attempts": 1
     },
     {
       "jobName": "cleanup-legacy-reports",
