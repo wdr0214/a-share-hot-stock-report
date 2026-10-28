@@ -1,0 +1,55 @@
+name: ETF WeChat Draft
+
+on:
+  workflow_run:
+    workflows: ["GitHub Pages Report"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Optional report date YYYY-MM-DD (historical dates generate a preview only)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: etf-wechat-draft
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check integration
+        run: node --test integrations/wechat/test.mjs
+      - name: Prepare article from today's real ETF report
+        env:
+          REPORT_DATE: ${{ inputs.date }}
+          WECHAT_AUTHOR: ${{ vars.WECHAT_AUTHOR }}
+        run: node integrations/wechat/cli.mjs render "$REPORT_DATE" "$RUNNER_TEMP/wechat-preview"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: etf-wechat-article
+          path: ${{ runner.temp }}/wechat-preview/
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Send to configured fixed-IP draft service
+        if: vars.WECHAT_DRAFT_ENABLED == 'true' && (inputs.date == '' || inputs.date == null)
+        env:
+          WECHAT_DRAFT_BRIDGE_URL: ${{ vars.WECHAT_DRAFT_BRIDGE_URL }}
+          WECHAT_DRAFT_BRIDGE_SECRET: ${{ secrets.WECHAT_DRAFT_BRIDGE_SECRET }}
+        run: |
+          if [ -d "$RUNNER_TEMP/wechat-preview" ]; then
+            node integrations/wechat/cli.mjs bridge
+          fi
