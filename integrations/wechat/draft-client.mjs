@@ -3,18 +3,25 @@ import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export class WeChatClient {
-  constructor({ appId, appSecret, fetchImpl = fetch }) {
-    if (!appId || !appSecret) throw new Error("需要配置 WECHAT_APP_ID 和 WECHAT_APP_SECRET");
+  constructor({ appId, appSecret, authMode = "direct", fetchImpl = fetch }) {
+    if (!["direct", "cloudrun"].includes(authMode)) throw new Error("WECHAT_AUTH_MODE 只支持 direct 或 cloudrun");
+    if (!appId || (authMode === "direct" && !appSecret)) throw new Error("需要配置 WECHAT_APP_ID；direct 模式还需要 WECHAT_APP_SECRET");
+    this.authMode = authMode;
     this.appId = appId; this.appSecret = appSecret; this.fetchImpl = fetchImpl;
   }
 
   async request(path, body, { token = true, form = false } = {}) {
-    const suffix = token ? `?access_token=${encodeURIComponent(await this.accessToken())}${path.includes("add_material") ? "&type=image" : ""}` : "";
+    const params = new URLSearchParams();
+    if (token && this.authMode === "direct") params.set("access_token", await this.accessToken());
+    if (path.includes("add_material")) params.set("type", "image");
+    const suffix = params.size ? `?${params}` : "";
+    // Cloud Run injects credentials inside its documented OpenAPI sidecar.
+    const origin = this.authMode === "cloudrun" ? "http://api.weixin.qq.com" : "https://api.weixin.qq.com";
     let response;
     try {
-      response = await this.fetchImpl(`https://api.weixin.qq.com${path}${suffix}`, {
+      response = await this.fetchImpl(`${origin}${path}${suffix}`, {
         method: "POST", headers: form ? {} : { "Content-Type": "application/json; charset=utf-8" },
-        body: form ? body : JSON.stringify(body), signal: AbortSignal.timeout(20000)
+        body: form ? body : JSON.stringify(body), signal: AbortSignal.timeout(20000), redirect: "error"
       });
     } catch { throw new Error("微信接口连接中断；写入结果可能未知，请检查草稿箱后再处理"); }
     if (!response.ok) throw new Error(`微信接口 HTTP ${response.status}`);
@@ -29,6 +36,7 @@ export class WeChatClient {
   }
 
   async accessToken() {
+    if (this.authMode === "cloudrun") return null;
     if (this.token && this.tokenExpiresAt > Date.now()) return this.token;
     const payload = await this.request("/cgi-bin/stable_token", { grant_type: "client_credential", appid: this.appId, secret: this.appSecret, force_refresh: false }, { token: false });
     if (!payload.access_token) throw new Error("微信没有返回 access_token");
