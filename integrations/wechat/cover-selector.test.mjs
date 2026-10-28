@@ -11,6 +11,17 @@ test("Cloud Run image contains the cover selector imported by the service", asyn
   assert.match(dockerfile, /^COPY .*\bcover-selector\.mjs\b.*\.\//m);
 });
 
+test("every Docker COPY input exists and is explicitly allowed in the build context", async () => {
+  const dockerfile = await readFile(new URL("./Dockerfile", import.meta.url), "utf8");
+  const copy = dockerfile.match(/^COPY\s+(.+?)\s+\.\/\s*$/m);
+  assert.ok(copy, "Expected the service's explicit COPY manifest");
+  const inputs = copy[1].trim().split(/\s+/);
+  const rules = (await readFile(new URL("./.dockerignore", import.meta.url), "utf8")).split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+  assert.deepEqual(new Set(rules), new Set(["*", "!Dockerfile", ...inputs.map(file => "!" + file)]), "Build-context allowlist must match every COPY input");
+  assert.equal(rules[0], "*");
+  for (const file of inputs) assert.ok((await readFile(new URL("./" + file, import.meta.url))).length > 0);
+});
+
 test("final cash position always uses cash cover, including a sell-to-cash day", () => {
   for (const rebalance of [[], [{ action: "sell" }]]) {
     const report = { holding: null, rebalance };

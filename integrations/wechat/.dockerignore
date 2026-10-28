@@ -3,5 +3,6 @@
 !etf-article.mjs
 !draft-client.mjs
 !github-store.mjs
+!cover-selector.mjs
 !server.mjs
 !cli.mjs
