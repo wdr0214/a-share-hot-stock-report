@@ -6,6 +6,6 @@ ENV NODE_ENV=production \
     WECHAT_AUTH_MODE=cloudrun \
     WECHAT_STATE_BACKEND=github
 WORKDIR /app
-COPY etf-article.mjs draft-client.mjs github-store.mjs server.mjs cli.mjs ./
+COPY etf-article.mjs draft-client.mjs github-store.mjs cover-selector.mjs server.mjs cli.mjs ./
 EXPOSE 80
 CMD ["node", "server.mjs"]

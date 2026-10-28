@@ -20,6 +20,13 @@
 | `WECHAT_DRAFT_BRIDGE_SECRET` | 随机长密钥，私密配置，与 GitHub Secret 保持一致 |
 | `GITHUB_REPORT_TOKEN` | 对报告仓库有 Contents 读写权限的令牌，只配置到服务端 |
 | `WECHAT_THUMB_MEDIA_ID` | 可先留空，通过 `/cover` 上传永久封面后再配置 |
+| `WECHAT_THUMB_MEDIA_ID_HOLD` | 持仓无交易封面素材 ID |
+| `WECHAT_THUMB_MEDIA_ID_REBALANCE` | 当日有交易且最终有持仓的封面素材 ID |
+| `WECHAT_THUMB_MEDIA_ID_CASH` | 最终空仓封面素材 ID，包括当天卖出后空仓 |
+
+封面判断顺序为：最终无持仓（含当天全部卖出）使用空仓封面；最终有持仓且有交易使用调仓封面；最终有持仓且无交易使用持有封面。对应素材 ID 缺失时使用原 `WECHAT_THUMB_MEDIA_ID`，不使用其他状态的封面兜底。
+
+三张状态封面分别通过 `/cover` 上传后，将返回的素材 ID 填到对应变量。保留默认封面变量作兜底，头像不用于文章封面。需发布包含 `cover-selector.mjs` 的新版本；`/health` 应出现 `coverSelectionVersion: "final-position-v1"`，且 `stateCoversConfigured` 的三项均为 `true`。
 
 Dockerfile 已设置 `WECHAT_AUTH_MODE=cloudrun` 和 `WECHAT_STATE_BACKEND=github`。
 此模式不需要 `WECHAT_APP_SECRET`，不调用 `stable_token`；通过官方 OpenAPI 侧车代管凭据。

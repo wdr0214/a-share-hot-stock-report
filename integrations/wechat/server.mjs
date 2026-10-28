@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import { createArticle, loadReport, shanghaiDate } from "./etf-article.mjs";
 import { FileDraftStore, WeChatClient, saveDraftOnce } from "./draft-client.mjs";
 import { GitHubDraftStore } from "./github-store.mjs";
+import { selectThumbMediaId, coverConfiguration } from "./cover-selector.mjs";
 
 export function createDraftServer(env = process.env) {
   const authMode = env.WECHAT_AUTH_MODE || "direct";
@@ -20,7 +21,7 @@ export function createDraftServer(env = process.env) {
     res.setHeader("Content-Type", "application/json; charset=utf-8");
     res.setHeader("Cache-Control", "no-store");
     const reply = (status, data) => { res.statusCode = status; res.end(JSON.stringify(data)); };
-    if (req.method === "GET" && req.url === "/health") return reply(200, { ok: true, service: "etf-wechat-draft", mode: "draft_only", authMode, stateBackend, coverConfigured: Boolean(env.WECHAT_THUMB_MEDIA_ID) });
+    if (req.method === "GET" && req.url === "/health") return reply(200, { ok: true, service: "etf-wechat-draft", mode: "draft_only", authMode, stateBackend, ...coverConfiguration(env) });
     const provided = Buffer.from(String(req.headers.authorization || ""));
     if (provided.length !== expected.length || !timingSafeEqual(provided, expected)) return reply(401, { ok: false, error: "Unauthorized" });
     if (req.method !== "POST" || !["/draft", "/check", "/cover"].includes(req.url)) return reply(404, { ok: false });
@@ -44,7 +45,7 @@ export function createDraftServer(env = process.env) {
       if (input.date !== date) return reply(400, { ok: false, error: "Only today's report can be submitted automatically" });
       const report = await loadReport(date);
       if (!report) return reply(200, { ok: true, skipped: true, date, reason: "no_report_for_date" });
-      const article = createArticle(report, { author: env.WECHAT_AUTHOR, thumbMediaId: env.WECHAT_THUMB_MEDIA_ID });
+      const article = createArticle(report, { author: env.WECHAT_AUTHOR, thumbMediaId: selectThumbMediaId(report, env) });
       reply(200, await saveDraftOnce({ date, article, client, store }));
     } catch (error) {
       console.error(error.message);

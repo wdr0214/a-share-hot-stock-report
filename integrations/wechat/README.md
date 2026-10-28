@@ -63,6 +63,9 @@ GitHub Actions 的 `ETF WeChat Draft` 工作流附件为 `etf-wechat-article`。
 | `WECHAT_APP_SECRET` | 公众号 AppSecret |
 | `WECHAT_AUTHOR` | 文章作者，可选 |
 | `WECHAT_THUMB_MEDIA_ID` | 永久封面素材 ID |
+| `WECHAT_THUMB_MEDIA_ID_HOLD` | 有持仓且无交易时使用；未填则用默认封面 |
+| `WECHAT_THUMB_MEDIA_ID_REBALANCE` | 有持仓且有交易时使用；未填则用默认封面 |
+| `WECHAT_THUMB_MEDIA_ID_CASH` | 无持仓时使用，包含当天卖出后空仓；未填则用默认封面 |
 | `WECHAT_STATE_DIR` | 仓库和网站目录以外的持久私有目录 |
 | `WECHAT_DRAFT_BRIDGE_SECRET` | 随机生成的服务鉴权密钥 |
 

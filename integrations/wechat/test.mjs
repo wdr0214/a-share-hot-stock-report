@@ -7,6 +7,7 @@ import { createArticle, loadReport, shanghaiDate, validateReport } from "./etf-a
 import { FileDraftStore, WeChatClient, saveDraftOnce } from "./draft-client.mjs";
 import { createDraftServer } from "./server.mjs";
 import { GitHubDraftStore } from "./github-store.mjs";
+import "./cover-selector.test.mjs";
 
 // These fixtures exercise formatting and API failures; they are never published.
 function fixture() {

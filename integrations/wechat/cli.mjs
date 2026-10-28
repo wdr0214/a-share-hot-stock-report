@@ -4,6 +4,7 @@ import { pathToFileURL } from "node:url";
 import { createArticle, loadReport, shanghaiDate, validateDate } from "./etf-article.mjs";
 import { FileDraftStore, WeChatClient, saveDraftOnce } from "./draft-client.mjs";
 import { GitHubDraftStore } from "./github-store.mjs";
+import { selectThumbMediaId } from "./cover-selector.mjs";
 
 export async function run(args = process.argv.slice(2), env = process.env) {
   const [command = "render", dateArg, outputArg] = args;
@@ -27,7 +28,7 @@ export async function run(args = process.argv.slice(2), env = process.env) {
   }
   const report = await loadReport(date);
   if (!report) return { ok: true, skipped: true, date, reason: "no_report_for_date" };
-  const article = createArticle(report, { author: env.WECHAT_AUTHOR, thumbMediaId: env.WECHAT_THUMB_MEDIA_ID });
+  const article = createArticle(report, { author: env.WECHAT_AUTHOR, thumbMediaId: selectThumbMediaId(report, env) });
   if (command === "draft") {
     const stateBackend = env.WECHAT_STATE_BACKEND || (env.WECHAT_AUTH_MODE === "cloudrun" ? "github" : "file");
     if (!["file", "github"].includes(stateBackend) || (env.WECHAT_AUTH_MODE === "cloudrun" && stateBackend !== "github")) throw new Error("云托管需要 github 持久化存储");
