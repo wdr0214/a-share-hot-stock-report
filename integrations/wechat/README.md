@@ -43,6 +43,14 @@ GitHub Actions 的 `ETF WeChat Draft` 工作流附件为 `etf-wechat-article`。
 
 ## 注册后接入
 
+### 微信云托管方案（ETF大轮动）
+
+已提供云托管专用 Dockerfile、官方 OpenAPI 凭据代管模式和 GitHub 持久化去重存储。
+无需自建固定出口 IP 服务器，也不需要在此模式下配置 AppSecret；仍需启用云托管开放接口服务并实测公众号草稿权限。
+完整步骤见 [CLOUDRUN.md](./CLOUDRUN.md)。
+
+### 普通固定 IP 服务器方案
+
 微信获取 token 需要 IP 白名单。草稿服务应放在有固定公网出口 IP 的云服务器上，
 并将这个出口 IP 加入公众号后台白名单；GitHub 托管 runner、普通 Vercel 函数的动态出口
 不作为默认直连方案。此服务需持久磁盘、进程守护及 HTTPS 反向代理；无固定 IP 服务时尚不能云端自动上传。
