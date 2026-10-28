@@ -37,7 +37,8 @@ Dockerfile 已设置 `WECHAT_AUTH_MODE=cloudrun` 和 `WECHAT_STATE_BACKEND=githu
 /cgi-bin/material/add_material
 ```
 
-此服务按照官方说明向容器内 `http://api.weixin.qq.com` 发起请求，凭据由侧车注入。
+此服务按照官方说明向容器内 `http://api.weixin.qq.com` 发起请求，凭据由侧车注入；
+请求带 `from_appid=WECHAT_APP_ID`，明确指定目标公众号。该账号须为云环境所属账号，或已授权共享此环境。
 这不会扩大个人公众号本身的 API 权限；`48001` 仍表示该账号没有对应权限。
 
 ## 去重状态
