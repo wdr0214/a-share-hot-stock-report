@@ -29,7 +29,7 @@
 
 既有 14:53 报告时点、数据、网页及 cron-job 任务保持原样。
 公众号处理在报告写入仓库并完成工作流后发生，会有处理延迟。
-当前未配置账号与固定 IP 服务，不会上传微信，也不会公开发表。
+完成服务、账号、封面配置并验证后才能启用微信草稿上传；不自动公开发表。
 
 ## 先在本机查看文章，不用账号
 
@@ -42,6 +42,14 @@ node --test integrations/wechat/test.mjs
 GitHub Actions 的 `ETF WeChat Draft` 工作流附件为 `etf-wechat-article`。
 
 ## 注册后接入
+
+### 微信云托管方案（ETF大轮动）
+
+已提供云托管专用 Dockerfile、官方 OpenAPI 凭据代管模式和 GitHub 持久化去重存储。
+无需自建固定出口 IP 服务器，也不需要在此模式下配置 AppSecret；仍需启用云托管开放接口服务并实测公众号草稿权限。
+完整步骤见 [CLOUDRUN.md](./CLOUDRUN.md)。
+
+### 普通固定 IP 服务器方案
 
 微信获取 token 需要 IP 白名单。草稿服务应放在有固定公网出口 IP 的云服务器上，
 并将这个出口 IP 加入公众号后台白名单；GitHub 托管 runner、普通 Vercel 函数的动态出口

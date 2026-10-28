@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { createArticle, loadReport, shanghaiDate, validateReport } from "./etf-article.mjs";
 import { FileDraftStore, WeChatClient, saveDraftOnce } from "./draft-client.mjs";
 import { createDraftServer } from "./server.mjs";
+import { GitHubDraftStore } from "./github-store.mjs";
 
 // These fixtures exercise formatting and API failures; they are never published.
 function fixture() {
@@ -125,6 +126,67 @@ test("bridge requires authentication and rejects historical auto-submission", as
   try {
     assert.equal((await fetch(url + "/draft", { method: "POST" })).status, 401);
     assert.equal((await fetch(url + "/draft", { method: "POST", headers: { Authorization: "Bearer test-auth" }, body: JSON.stringify({ date: "2025-01-01" }) })).status, 400);
-    assert.deepEqual(await (await fetch(url + "/health")).json(), { ok: true, mode: "draft_only" });
+    const health = await (await fetch(url + "/health")).json();
+    assert.equal(health.service, "etf-wechat-draft");
+    assert.equal(health.mode, "draft_only");
   } finally { await new Promise(resolve => server.close(resolve)); }
+});
+
+test("Cloud Run uses the documented sidecar without AppSecret or stable_token", async () => {
+  const urls = [];
+  const client = new WeChatClient({ appId: "test-cloud-app", authMode: "cloudrun", fetchImpl: async (url, options) => {
+    urls.push(url);
+    assert.equal(options.redirect, "error");
+    return { ok: true, json: async () => ({ total_count: 0 }) };
+  } });
+  assert.equal((await client.checkDraftAccess()).draftAccess, true);
+  assert.deepEqual(urls, ["http://api.weixin.qq.com/cgi-bin/draft/batchget?from_appid=test-cloud-app"]);
+  assert.throws(() => new WeChatClient({ appId: "test", authMode: "other" }), /WECHAT_AUTH_MODE/);
+});
+
+test("Cloud Run boot does not require a cover or AppSecret; private endpoints stay protected", async () => {
+  const server = createDraftServer({ WECHAT_APP_ID: "test-cloud-app", WECHAT_AUTH_MODE: "cloudrun", WECHAT_DRAFT_BRIDGE_SECRET: "test-auth", GITHUB_REPORT_TOKEN: "test-github-token" });
+  await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
+  const url = `http://127.0.0.1:${server.address().port}`;
+  try {
+    const health = await (await fetch(url + "/health")).json();
+    assert.equal(health.authMode, "cloudrun"); assert.equal(health.stateBackend, "github"); assert.equal(health.coverConfigured, false);
+    for (const endpoint of ["/check", "/cover", "/draft"]) assert.equal((await fetch(url + endpoint, { method: "POST" })).status, 401);
+  } finally { await new Promise(resolve => server.close(resolve)); }
+  assert.throws(() => createDraftServer({ WECHAT_APP_ID: "test-cloud-app", WECHAT_AUTH_MODE: "cloudrun", WECHAT_STATE_BACKEND: "file", WECHAT_STATE_DIR: tmpdir(), WECHAT_DRAFT_BRIDGE_SECRET: "test-auth" }), /github/);
+});
+
+function githubMemory() {
+  let state = null, version = 0;
+  return async (_url, options) => {
+    if (options.method === "GET") return state ? { ok: true, status: 200, json: async () => ({ ...state }) } : { ok: false, status: 404 };
+    const body = JSON.parse(options.body);
+    if ((!state && body.sha) || (state && body.sha !== state.sha)) return { ok: false, status: 409 };
+    if (!state && version > 0) return { ok: false, status: 422 };
+    state = { sha: `sha-${++version}`, content: body.content, encoding: "base64" };
+    const sha = state.sha;
+    return { ok: true, status: 200, json: async () => ({ content: { sha } }) };
+  };
+}
+
+test("GitHub state survives new container instances and prevents double creation", async () => {
+  const fetchImpl = githubMemory();
+  const store = () => new GitHubDraftStore({ token: "test-token", appId: "test-cloud-app", fetchImpl });
+  let added = 0;
+  const article = createArticle(fixture(), { thumbMediaId: "test-cover" });
+  const client = { accessToken: async () => null, request: async path => {
+    if (path.endsWith("/add")) { added++; return { media_id: "cloud-draft-1" }; }
+    return { news_item: [{ title: article.title, content: article.content }] };
+  } };
+  const input = { date: "2026-10-28", article, client };
+  const concurrent = await Promise.allSettled([saveDraftOnce({ ...input, store: store() }), saveDraftOnce({ ...input, store: store() })]);
+  assert.equal(concurrent.filter(r => r.status === "fulfilled").length, 1);
+  assert.equal(added, 1);
+  assert.equal((await saveDraftOnce({ ...input, store: store() })).status, "draft_verified");
+  assert.equal(added, 1);
+});
+
+test("GitHub state outage stops the draft before WeChat submission", async () => {
+  const store = new GitHubDraftStore({ token: "test-token", appId: "test-app", fetchImpl: async () => ({ ok: false, status: 503 }) });
+  await assert.rejects(saveDraftOnce({ date: "2026-10-28", article: createArticle(fixture(), { thumbMediaId: "test-cover" }), store, client: { accessToken: async () => assert.fail("must not call WeChat") } }), /503/);
 });

@@ -1,0 +1,7 @@
+*
+!Dockerfile
+!etf-article.mjs
+!draft-client.mjs
+!github-store.mjs
+!server.mjs
+!cli.mjs
