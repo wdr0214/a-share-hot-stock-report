@@ -2,6 +2,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-10-28",
+      "generatedAt": "2026-10-28T06:52:54.814Z",
+      "status": "ok",
+      "totalCandidates": 2393,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ300006",
+          "name": "莱美药业",
+          "heatScore": 116
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ300223",
+          "name": "君正股份",
+          "heatScore": 114
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ002472",
+          "name": "双环传动",
+          "heatScore": 106
+        },
+        {
+          "rank": 4,
+          "symbol": "BJ920220",
+          "name": "朗信电气",
+          "heatScore": 102
+        },
+        {
+          "rank": 5,
+          "symbol": "SH603533",
+          "name": "掌阅科技",
+          "heatScore": 102
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-10-23",
       "generatedAt": "2026-10-23T06:52:20.508Z",
       "status": "ok",
