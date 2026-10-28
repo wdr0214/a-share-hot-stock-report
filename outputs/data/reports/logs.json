@@ -2,6 +2,14 @@
   "logs": [
     {
       "jobName": "cleanup-legacy-reports",
+      "startedAt": "2026-10-28T13:50:31.687Z",
+      "finishedAt": "2026-10-28T13:50:31.687Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "legacy-daily-weekly-removed"
+    },
+    {
+      "jobName": "cleanup-legacy-reports",
       "startedAt": "2026-10-28T06:54:31.126Z",
       "finishedAt": "2026-10-28T06:54:31.126Z",
       "status": "success",
@@ -238,15 +246,6 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "legacy-daily-weekly-removed"
-    },
-    {
-      "jobName": "etf-rotation",
-      "startedAt": "2026-10-15T06:53:09.670Z",
-      "finishedAt": "2026-10-15T06:53:09.670Z",
-      "status": "ok",
-      "errorMessage": "",
-      "reportKey": "2026-10-15",
-      "attempts": 1
     }
   ]
 }
