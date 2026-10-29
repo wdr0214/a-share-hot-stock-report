@@ -3,11 +3,12 @@ import { test } from "node:test";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { createArticle, loadReport, shanghaiDate, validateReport } from "./etf-article.mjs";
+import { createArticle, loadReport, shanghaiDate, validateReport, REPORT_URL, LEGACY_REPORT_URL } from "./etf-article.mjs";
 import { FileDraftStore, WeChatClient, saveDraftOnce } from "./draft-client.mjs";
 import { createDraftServer } from "./server.mjs";
 import { GitHubDraftStore } from "./github-store.mjs";
 import "./cover-selector.test.mjs";
+import "./net-value-page.test.mjs";
 
 // These fixtures exercise formatting and API failures; they are never published.
 function fixture() {
@@ -32,6 +33,7 @@ test("article retains six prices and metrics, uses only prior net value, escapes
   assert.match(article.content, /&lt;script&gt;/);
   assert.doesNotMatch(article.content, /<script>/);
   assert.equal((article.content.match(/<tr>/g) || []).length, 7);
+  assert.equal(article.content_source_url, `${REPORT_URL}?date=2026-10-28`);
 });
 
 test("missing, partial, duplicate or wrong-date reports fail closed", () => {
@@ -88,6 +90,21 @@ test("same-day retries do not create duplicate drafts; changed reports need revi
   assert.equal((await saveDraftOnce(input)).status, "draft_verified");
   assert.equal(created, 1);
   await assert.rejects(saveDraftOnce({ ...input, article: { ...article, content: "changed" } }), /不同内容/);
+}));
+
+test("a link-only rollout preserves an already verified draft without duplicating or claiming it was edited", () => temporaryStore(async store => {
+  const article = createArticle(fixture(), { thumbMediaId: "test-cover" });
+  const legacy = { ...article, content_source_url: LEGACY_REPORT_URL };
+  let created = 0;
+  const client = { accessToken: async () => "test", request: async path => {
+    if (path.endsWith("/add")) { created++; return { media_id: "existing-test-draft" }; }
+    return { news_item: [{ title: legacy.title, content: legacy.content }] };
+  } };
+  await saveDraftOnce({ date: "2026-10-28", article: legacy, client, store });
+  const result = await saveDraftOnce({ date: "2026-10-28", article, client: { request: () => assert.fail("must not edit or duplicate") }, store, previousSourceUrl: LEGACY_REPORT_URL });
+  assert.equal(created, 1); assert.equal(result.sourceLinkUpdateRequired, true);
+  assert.equal(result.mediaId, "existing-test-draft");
+  await assert.rejects(saveDraftOnce({ date: "2026-10-28", article: { ...article, content: "changed content" }, client, store, previousSourceUrl: LEGACY_REPORT_URL }), /不同内容/);
 }));
 
 test("timeout after submission never retries draft creation automatically", () => temporaryStore(async store => {

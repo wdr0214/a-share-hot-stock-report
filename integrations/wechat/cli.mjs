@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { createArticle, loadReport, shanghaiDate, validateDate } from "./etf-article.mjs";
+import { createArticle, loadReport, shanghaiDate, validateDate, LEGACY_REPORT_URL } from "./etf-article.mjs";
 import { FileDraftStore, WeChatClient, saveDraftOnce } from "./draft-client.mjs";
 import { GitHubDraftStore } from "./github-store.mjs";
 import { selectThumbMediaId } from "./cover-selector.mjs";
@@ -33,7 +33,7 @@ export async function run(args = process.argv.slice(2), env = process.env) {
     const stateBackend = env.WECHAT_STATE_BACKEND || (env.WECHAT_AUTH_MODE === "cloudrun" ? "github" : "file");
     if (!["file", "github"].includes(stateBackend) || (env.WECHAT_AUTH_MODE === "cloudrun" && stateBackend !== "github")) throw new Error("云托管需要 github 持久化存储");
     const store = stateBackend === "github" ? new GitHubDraftStore({ token: env.GITHUB_REPORT_TOKEN, appId: env.WECHAT_APP_ID, repo: env.WECHAT_STATE_REPO || undefined, branch: env.WECHAT_STATE_BRANCH || undefined }) : new FileDraftStore(env.WECHAT_STATE_DIR, env.WECHAT_APP_ID);
-    return saveDraftOnce({ date, article, client: client(), store });
+    return saveDraftOnce({ date, article, client: client(), store, previousSourceUrl: LEGACY_REPORT_URL });
   }
   const directory = resolve(outputArg || ".codex_tmp/wechat-preview");
   await mkdir(directory, { recursive: true });
