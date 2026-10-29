@@ -2,6 +2,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-10-29",
+      "generatedAt": "2026-10-29T06:51:22.003Z",
+      "status": "ok",
+      "totalCandidates": 2395,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ000530",
+          "name": "冰山冷热",
+          "heatScore": 115
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ002149",
+          "name": "西部材料",
+          "heatScore": 108
+        },
+        {
+          "rank": 3,
+          "symbol": "SH600728",
+          "name": "佳都科技",
+          "heatScore": 105
+        },
+        {
+          "rank": 4,
+          "symbol": "SH600118",
+          "name": "中国卫星",
+          "heatScore": 104
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ002943",
+          "name": "宇晶股份",
+          "heatScore": 103
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-10-28",
       "generatedAt": "2026-10-28T06:52:54.814Z",
       "status": "ok",
