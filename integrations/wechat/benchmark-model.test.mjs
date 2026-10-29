@@ -20,10 +20,27 @@ test("comparison rebases all three series to one and excludes future daily close
   for (const line of lines) assert.equal(line.rows[0].value, 1);
   assert.ok(Math.abs(lines[0].rows[2].value - 1.05) < 1e-12);
   assert.equal(lines[1].rows[2].value, 1.05);
-  assert.equal(lines[2].rows[2].value, 1.15);
+  assert.equal(lines[2].rows[1].value, 23000 / 22000);
+  assert.equal(lines[2].rows[2].value, null);
   assert.equal(lines[1].rows[2].sourceDate, "2026-10-28");
-  assert.equal(lines[2].rows[2].sourceDate, "2026-10-28");
+  assert.equal(lines[2].rows[1].sourceDate, "2026-10-28");
+  assert.equal(lines[2].rows[2].sourceDate, null);
   assert.equal(completedCloseAt(normalizeBenchmarks(payload()).series[0].rows, reportCutoff("2026-10-29", "15:01")).date, "2026-10-29");
+});
+
+test("Nasdaq uses actual US session dates and does not extend across holidays or report day", () => {
+  const p = payload();
+  p.series[1].rows = [usRow("2026-10-26", 20000), usRow("2026-10-28", 23000), usRow("2026-10-29", 50000)];
+  const items = ["2026-10-26", "2026-10-27", "2026-10-28", "2026-10-29"].map(date => ({ date, netValue: 1 }));
+  const line = buildComparison(items, { date: "2026-10-29", executionTime: "14:53" }, p)[2];
+  assert.deepEqual(line.rows.map(row => row.sourceDate), ["2026-10-26", null, "2026-10-28", null]);
+  assert.deepEqual(line.rows.map(row => row.value), [1, null, 1.15, null]);
+  const older = buildComparison(items.slice(0, 3), { date: "2026-10-28" }, p)[2];
+  assert.equal(older.rows.at(-1).value, null);
+  const historical = buildComparison(items.slice(0, 3), { date: "2026-10-29" }, p)[2];
+  assert.equal(historical.rows.at(-1).sourceDate, "2026-10-28");
+  const single = buildComparison(items.slice(-1), { date: "2026-10-29" }, p)[2];
+  assert.equal(single.rows[0].value, null);
 });
 
 test("US close timestamps handle daylight saving and never use incomplete sessions", () => {
