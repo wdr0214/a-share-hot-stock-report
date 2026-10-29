@@ -1,7 +1,7 @@
 {
   "type": "etf-rotation",
-  "date": "2026-10-28",
-  "generatedAt": "2026-10-28T06:53:07.970Z",
+  "date": "2026-10-29",
+  "generatedAt": "2026-10-29T06:53:07.006Z",
   "executionTime": "14:53",
   "executionPriceBasis": "intraday_quote",
   "status": "ok",
@@ -13,87 +13,87 @@
     {
       "symbol": "SZ159915",
       "name": "创业板ETF",
-      "price": 2.648,
+      "price": 2.542,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -22.52779364251066,
-      "ma28": 3.0872857059751238,
+      "momentum20Pct": -25.672516277993275,
+      "ma28": 3.05835713659014,
       "aboveMa28": false
     },
     {
       "symbol": "SH510300",
       "name": "沪深300ETF",
-      "price": 4.152,
+      "price": 4.119,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -9.895829454547107,
-      "ma28": 4.4115356888089865,
+      "momentum20Pct": -10.708864623106379,
+      "ma28": 4.3931785481316705,
       "aboveMa28": false
     },
     {
       "symbol": "SH518880",
       "name": "黄金ETF",
-      "price": 8.227,
+      "price": 8.219,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -7.8723435739226755,
-      "ma28": 8.667964356286186,
+      "momentum20Pct": -7.2242938380411585,
+      "ma28": 8.636750050953456,
       "aboveMa28": false
     },
     {
       "symbol": "SZ159941",
       "name": "纳指ETF",
-      "price": 1.703,
+      "price": 1.69,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": 0.9484269956532109,
-      "ma28": 1.6976071425846644,
-      "aboveMa28": true
+      "momentum20Pct": -1.4002326041721613,
+      "ma28": 1.6975714308874947,
+      "aboveMa28": false
     },
     {
       "symbol": "SH513050",
       "name": "中国互联网ETF",
-      "price": 0.937,
+      "price": 0.922,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": -9.029123686701308,
-      "ma28": 1.004464287843023,
+      "momentum20Pct": -12.190472202776597,
+      "ma28": 1.001035715852465,
       "aboveMa28": false
     },
     {
       "symbol": "SH511260",
       "name": "十年国债ETF",
-      "price": 135.558,
+      "price": 135.667,
       "quoteSource": "Eastmoney",
-      "momentum20Pct": 0.5944004343574915,
-      "ma28": 135.26149913242884,
+      "momentum20Pct": 0.6274993212141445,
+      "ma28": 135.24846376691545,
       "aboveMa28": true
     }
   ],
   "leader": {
-    "symbol": "SZ159941",
-    "name": "纳指ETF",
-    "momentum20Pct": 0.9484269956532109,
+    "symbol": "SH511260",
+    "name": "十年国债ETF",
+    "momentum20Pct": 0.6274993212141445,
     "aboveMa28": true
   },
   "holding": {
-    "symbol": "SZ159941",
-    "name": "纳指ETF",
-    "shares": 0.5435124224616567,
-    "entryPrice": 1.703,
-    "entryDate": "2026-10-28"
+    "symbol": "SH511260",
+    "name": "十年国债ETF",
+    "shares": 0.006769164910750349,
+    "entryPrice": 135.667,
+    "entryDate": "2026-10-29"
   },
   "rebalance": [
     {
       "action": "sell",
-      "symbol": "SH511260",
-      "name": "十年国债ETF",
-      "price": 135.558,
-      "returnPct": 0.09820934096361922
+      "symbol": "SZ159941",
+      "name": "纳指ETF",
+      "price": 1.69,
+      "returnPct": -0.7633587786259614
     },
     {
       "action": "buy",
-      "symbol": "SZ159941",
-      "name": "纳指ETF",
-      "price": 1.703
+      "symbol": "SH511260",
+      "name": "十年国债ETF",
+      "price": 135.667
     }
   ],
-  "netValue": 0.9256016554522013,
+  "netValue": 0.9183522959467676,
   "portfolioHistory": [
     {
       "date": "2026-08-25",
@@ -432,6 +432,27 @@
           "symbol": "SZ159941",
           "name": "纳指ETF",
           "price": 1.703
+        }
+      ]
+    },
+    {
+      "date": "2026-10-29",
+      "netValue": 0.9183522959467676,
+      "holding": "SH511260",
+      "rebalanced": true,
+      "trades": [
+        {
+          "action": "sell",
+          "symbol": "SZ159941",
+          "name": "纳指ETF",
+          "price": 1.69,
+          "returnPct": -0.7633587786259614
+        },
+        {
+          "action": "buy",
+          "symbol": "SH511260",
+          "name": "十年国债ETF",
+          "price": 135.667
         }
       ]
     }
