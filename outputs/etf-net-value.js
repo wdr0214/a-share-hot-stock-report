@@ -1,3 +1,5 @@
+import { BENCHMARKS, normalizeBenchmarks, buildComparison } from "./etf-benchmark-model.js";
+
 export const WINDOW_SIZE = 20;
 const MONTHS = { "1m": 1, "6m": 6, "1y": 12 };
 const finitePositive = value => value !== null && value !== undefined && value !== "" && Number.isFinite(Number(value)) && Number(value) > 0;
@@ -55,6 +57,7 @@ export function mountCurvePage() {
   const $ = id => document.getElementById(id);
   let report, period = "20", start = null, selectedDate = null, drag = null, hits = [];
   const tradeCache = new Map();
+  let benchmarkData = null, benchmarkLoading = true;
   const nameFor = symbol => report.etfs?.find(item => item.symbol === symbol)?.name || symbol || "空仓";
 
   async function showDetail(point) {
@@ -89,7 +92,10 @@ export function mountCurvePage() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, width, height);
     const p = { left: 56, right: 19, top: 23, bottom: 36 };
-    const values = items.map(item => item.netValue), low = Math.min(...values), high = Math.max(...values);
+    const comparisons = buildComparison(items, report, benchmarkData);
+    const visible = comparisons.filter(series => series.id === "strategy" || $(series.id + "Enabled").checked);
+    const values = visible.flatMap(series => series.rows.map(row => row.value).filter(value => value !== null && Number.isFinite(value)));
+    const low = Math.min(...values), high = Math.max(...values);
     const padding = Math.max((high - low) * 0.12, Math.abs(high) * 0.003, 0.0001);
     const min = low - padding, max = high + padding;
     const x = i => p.left + (items.length === 1 ? 0.5 : i / (items.length - 1)) * (width - p.left - p.right);
@@ -100,13 +106,23 @@ export function mountCurvePage() {
       ctx.beginPath(); ctx.moveTo(p.left, yy); ctx.lineTo(width - p.right, yy); ctx.stroke();
       ctx.fillText(fmt(value), 5, yy + 4);
     }
-    ctx.strokeStyle = "#1769aa"; ctx.lineWidth = 2;
-    ctx.beginPath(); items.forEach((point, i) => i ? ctx.lineTo(x(i), y(point.netValue)) : ctx.moveTo(x(i), y(point.netValue))); ctx.stroke();
-    if (items.length === 1) { ctx.fillStyle = "#1769aa"; ctx.beginPath(); ctx.arc(x(0), y(items[0].netValue), 3, 0, Math.PI * 2); ctx.fill(); }
+    for (const series of [...visible].reverse()) {
+      ctx.strokeStyle = series.color; ctx.lineWidth = series.id === "strategy" ? 2.2 : 1.7;
+      ctx.setLineDash(series.id === "csi300" ? [6, 3] : series.id === "nasdaq" ? [2, 3] : []);
+      ctx.beginPath(); let connected = false;
+      series.rows.forEach((point, i) => {
+        if (point.value === null || !Number.isFinite(point.value)) { connected = false; return; }
+        if (connected) ctx.lineTo(x(i), y(point.value)); else ctx.moveTo(x(i), y(point.value));
+        connected = true;
+      });
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    if (items.length === 1) { ctx.fillStyle = "#1769aa"; ctx.beginPath(); ctx.arc(x(0), y(1), 3, 0, Math.PI * 2); ctx.fill(); }
     hits = [];
     items.forEach((point, i) => {
       if (!point.rebalanced && !point.trades?.length) return;
-      const hit = { x: x(i), y: y(point.netValue), point }; hits.push(hit);
+      const hit = { x: x(i), y: y(comparisons[0].rows[i].value), point }; hits.push(hit);
       ctx.fillStyle = "#b42318"; ctx.beginPath(); ctx.arc(hit.x, hit.y, 4, 0, Math.PI * 2); ctx.fill();
     });
     const shortDate = value => width < 500 ? value.slice(5) : value;
@@ -127,6 +143,17 @@ export function mountCurvePage() {
     $("navigation").hidden = period !== "20";
     $("window").max = String(maxStart); $("window").value = String(windowStart); $("window").disabled = maxStart === 0;
     $("earlier").disabled = windowStart === 0; $("later").disabled = windowStart === maxStart;
+    const sourceNotes = [];
+    for (const series of comparisons) {
+      const last = series.rows.at(-1), available = series.rows.some(row => row.value !== null);
+      const value = last?.value;
+      $(series.id + "Return").textContent = value === null || value === undefined ? "暂无数据" : `${value >= 1 ? "+" : ""}${((value - 1) * 100).toFixed(2)}%`;
+      if (series.id === "strategy") continue;
+      $(series.id + "Enabled").disabled = !available;
+      const cacheBehind = benchmarkData?.reportDate && benchmarkData.reportDate < report.date;
+      sourceNotes.push(`${series.name}：${series.source || "暂无数据源"}${last?.sourceDate ? "，收盘日 " + last.sourceDate : "，历史数据不足"}${series.status === "stale" || cacheBehind ? "（缓存未更新）" : ""}`);
+    }
+    $("benchmarkStatus").textContent = benchmarkLoading ? "正在读取指数对比数据……" : sourceNotes.join("；");
   }
 
   function moveWindow(nextStart) { start = nextStart; selectedDate = null; $("detail").hidden = true; draw(); }
@@ -138,6 +165,7 @@ export function mountCurvePage() {
   $("earlier").onclick = () => moveWindow(start - WINDOW_SIZE);
   $("later").onclick = () => moveWindow(start + WINDOW_SIZE);
   $("window").addEventListener("input", event => moveWindow(Number(event.target.value)));
+  for (const benchmark of BENCHMARKS) $(benchmark.id + "Enabled").addEventListener("change", draw);
   $("plot").addEventListener("pointerdown", event => {
     if (!report || event.button > 0) return;
     drag = { x: event.clientX, y: event.clientY, start, moved: false };
@@ -167,6 +195,7 @@ export function mountCurvePage() {
 
   async function load() {
     $("loading").hidden = false; $("error").hidden = true; $("content").hidden = true;
+    benchmarkData = null; benchmarkLoading = true;
     try {
       const date = new URLSearchParams(location.search).get("date");
       report = await loadCurveReport(date);
@@ -174,6 +203,12 @@ export function mountCurvePage() {
       $("reportDate").textContent = "截至 " + report.date;
       $("holding").textContent = report.holding ? nameFor(report.holding.symbol) : "空仓";
       $("content").hidden = false; draw();
+      try {
+        const response = await fetch("data/etf-benchmarks.json", { cache: "no-store", signal: AbortSignal.timeout(15000) });
+        if (!response.ok) throw new Error("Benchmark data unavailable");
+        benchmarkData = normalizeBenchmarks(await response.json());
+      } catch { benchmarkData = null; }
+      finally { benchmarkLoading = false; draw(); }
     } catch (error) { $("errorMessage").textContent = error.message || "净值数据暂时无法读取"; $("error").hidden = false; }
     finally { $("loading").hidden = true; }
   }
