@@ -145,7 +145,8 @@ export function mountCurvePage() {
     $("earlier").disabled = windowStart === 0; $("later").disabled = windowStart === maxStart;
     const sourceNotes = [];
     for (const series of comparisons) {
-      const last = series.rows.at(-1), available = series.rows.some(row => row.value !== null);
+      const last = series.id === "nasdaq" ? series.rows.findLast(row => row.value !== null) : series.rows.at(-1);
+      const available = series.rows.some(row => row.value !== null);
       const value = last?.value;
       $(series.id + "Return").textContent = value === null || value === undefined ? "暂无数据" : `${value >= 1 ? "+" : ""}${((value - 1) * 100).toFixed(2)}%`;
       if (series.id === "strategy") continue;

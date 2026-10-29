@@ -49,6 +49,16 @@ export function buildComparison(items, report, payload) {
   const initial = Number(items[0].netValue);
   const strategy = { id: "strategy", name: "策略", color: "#1769aa", status: "ok", rows: items.map(point => ({ date: point.date, value: Number(point.netValue) / initial })) };
   const indexes = normalizeBenchmarks(payload || { version: 1, series: [] }).series.map(index => {
+    if (index.id === "nasdaq") {
+      const cutoff = reportCutoff(report.date || items.at(-1).date, time);
+      const baseline = completedCloseAt(index.rows, Math.min(cutoff, Date.parse(items[0].date + "T23:59:59.999Z")));
+      const byDate = new Map(index.rows.filter(row => Date.parse(row.availableAt) <= cutoff).map(row => [row.date, row]));
+      // Keep US closes on their own session dates; never carry yesterday into today.
+      return { ...index, baselineDate: baseline?.date || null, rows: items.map(point => {
+        const source = byDate.get(point.date);
+        return { date: point.date, value: baseline && source ? source.close / baseline.close : null, sourceDate: source?.date || null, close: source?.close ?? null };
+      }) };
+    }
     const baseline = completedCloseAt(index.rows, reportCutoff(items[0].date, time));
     return { ...index, baselineDate: baseline?.date || null, rows: items.map(point => {
       const source = completedCloseAt(index.rows, reportCutoff(point.date, time));
