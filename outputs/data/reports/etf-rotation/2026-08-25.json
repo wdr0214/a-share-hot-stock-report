@@ -426,6 +426,27 @@
           "price": 1.703
         }
       ]
+    },
+    {
+      "date": "2026-10-29",
+      "netValue": 0.9183522959467676,
+      "holding": "SH511260",
+      "rebalanced": true,
+      "trades": [
+        {
+          "action": "sell",
+          "symbol": "SZ159941",
+          "name": "纳指ETF",
+          "price": 1.69,
+          "returnPct": -0.7633587786259614
+        },
+        {
+          "action": "buy",
+          "symbol": "SH511260",
+          "name": "十年国债ETF",
+          "price": 135.667
+        }
+      ]
     }
   ]
 }
