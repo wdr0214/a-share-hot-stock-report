@@ -102,12 +102,19 @@ jobs:
       - name: Prepare GitHub Pages entry
         run: cp outputs/xueqiu-stock-report.html outputs/index.html
 
+      - name: Refresh ETF comparison benchmarks
+        continue-on-error: true
+        run: node scripts/export-etf-benchmarks.mjs
+
       - name: Persist generated report data
         if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f outputs/data/reports outputs/index.html outputs/xueqiu-stock-report.html outputs/etf-rotation.html
+          if [ -f outputs/data/etf-benchmarks.json ]; then
+            git add -f outputs/data/etf-benchmarks.json
+          fi
           if [ -f data/reports.json ]; then
             git add -f data/reports.json
           fi

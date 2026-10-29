@@ -9,6 +9,7 @@ import { createDraftServer } from "./server.mjs";
 import { GitHubDraftStore } from "./github-store.mjs";
 import "./cover-selector.test.mjs";
 import "./net-value-page.test.mjs";
+import "./benchmark-model.test.mjs";
 
 // These fixtures exercise formatting and API failures; they are never published.
 function fixture() {
