@@ -441914,14 +441914,6 @@
   "dailyPortfolio": null,
   "jobLogs": [
     {
-      "jobName": "daily-report",
-      "startedAt": "2026-08-14T08:00:35.556Z",
-      "finishedAt": "2026-08-14T08:00:35.556Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-08-14"
-    },
-    {
       "jobName": "news-close",
       "startedAt": "2026-08-14T14:26:07.052Z",
       "finishedAt": "2026-08-14T14:26:07.052Z",
@@ -443571,6 +443563,14 @@
       "jobName": "cleanup-legacy-reports",
       "startedAt": "2026-10-29T15:06:41.442Z",
       "finishedAt": "2026-10-29T15:06:41.443Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "legacy-daily-weekly-removed"
+    },
+    {
+      "jobName": "cleanup-legacy-reports",
+      "startedAt": "2026-10-29T15:54:21.970Z",
+      "finishedAt": "2026-10-29T15:54:21.971Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "legacy-daily-weekly-removed"
