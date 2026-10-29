@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-29T14:52:22.886Z",
-  "generatedBy": "local",
+  "generatedAt": "2026-10-29T14:56:02.731Z",
+  "generatedBy": "github-actions",
   "reportDate": "2026-10-29",
   "cutoffAt": "2026-10-29T06:53:00.000Z",
   "requestedStart": "2026-08-04",
@@ -15,7 +15,7 @@
       "color": "#087443",
       "source": "同花顺 Financial API",
       "status": "ok",
-      "lastSuccessfulAt": "2026-10-29T14:52:22.886Z",
+      "lastSuccessfulAt": "2026-10-29T14:56:02.731Z",
       "rows": [
         {
           "date": "2026-08-04",
@@ -307,7 +307,7 @@
       "color": "#b7791f",
       "source": "Yahoo Finance",
       "status": "ok",
-      "lastSuccessfulAt": "2026-10-29T14:52:22.886Z",
+      "lastSuccessfulAt": "2026-10-29T14:56:02.731Z",
       "rows": [
         {
           "date": "2026-08-04",
