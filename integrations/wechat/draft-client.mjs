@@ -86,13 +86,20 @@ export class FileDraftStore {
   }
 }
 
-export async function saveDraftOnce({ date, article, client, store }) {
+export async function saveDraftOnce({ date, article, client, store, previousSourceUrl }) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date || "")) throw new Error("草稿日期无效");
   if (!article.thumb_media_id) throw new Error("请先配置 WECHAT_THUMB_MEDIA_ID（永久封面素材 ID）");
   const fingerprint = createHash("sha256").update(JSON.stringify(article)).digest("hex");
   return store.exclusive(date, async () => {
     let state = await store.read(date);
-    if (state && state.fingerprint !== fingerprint) throw new Error("当天已有不同内容的草稿记录，需要先在后台核对，避免重复发文");
+    if (state && state.fingerprint !== fingerprint) {
+      const previousFingerprint = previousSourceUrl ? createHash("sha256").update(JSON.stringify({ ...article, content_source_url: previousSourceUrl })).digest("hex") : null;
+      // A link-only rollout must not overwrite or duplicate an already verified draft.
+      if (state.status === "verified" && state.mediaId && previousFingerprint === state.fingerprint) {
+        return { ok: true, date, status: "draft_verified", mediaId: state.mediaId, published: false, sourceLinkUpdateRequired: true };
+      }
+      throw new Error("当天已有不同内容的草稿记录，需要先在后台核对，避免重复发文");
+    }
     if (state?.status === "creating") throw new Error("上一次创建草稿的结果未知，请先在公众号草稿箱核对，系统不会重复创建");
     if (!state?.mediaId) {
       await client.accessToken();

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>ETF 大轮动 · 策略净值曲线</title>
+  <style>
+    :root{font-family:Arial,"Microsoft YaHei",sans-serif;color:#202729;background:#fff;font-synthesis:none;letter-spacing:0}
+    *{box-sizing:border-box}body{margin:0}.wrap{max-width:940px;margin:0 auto;padding:28px 24px 40px}h1{font-size:20px;margin:0 0 20px;font-weight:600}.summary{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding-bottom:20px;border-bottom:1px solid #e3e8e6}.summary p{margin:0;color:#65706c;font-size:13px}.value{display:block;margin-top:5px;font-size:30px;line-height:1.3;font-variant-numeric:tabular-nums}.asof{text-align:right;line-height:1.7;font-size:13px;color:#65706c}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:18px 0 14px}.periods{display:flex;gap:4px;flex-wrap:wrap}.periods button{border:0;border-bottom:2px solid transparent;background:none;padding:10px 9px;color:#65706c;font-size:14px;white-space:nowrap;cursor:pointer}.periods button[aria-pressed="true"]{color:#087443;border-color:#087443;font-weight:600}.legend{display:flex;align-items:center;gap:15px;color:#65706c;font-size:12px}.legend span{display:flex;align-items:center;gap:6px}.line-key{display:inline-block;width:18px;height:2px;background:#1769aa}.dot-key{display:inline-block;width:7px;height:7px;border-radius:50%;background:#b42318}.plot{position:relative;width:100%;height:380px;touch-action:pan-y;cursor:grab;border:1px solid #edf0ee}.plot.dragging{cursor:grabbing}canvas{display:block;width:100%;height:100%}.trade-point{position:absolute;width:32px;height:32px;margin:-16px 0 0 -16px;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer}.trade-point:focus-visible{outline:2px solid #087443;outline-offset:-4px}.trade-point[aria-pressed="true"]{box-shadow:inset 0 0 0 2px #b42318}.navigation{display:flex;align-items:center;gap:12px;margin:14px 0 0;min-height:36px}.icon{width:36px;height:36px;flex:0 0 36px;border:1px solid #d5dfda;border-radius:4px;background:#fff;color:#26352f;font-size:20px;cursor:pointer}.icon:disabled{opacity:.35;cursor:default}.navigation input{min-width:0;flex:1;accent-color:#087443}.range{margin:14px 0 0;color:#65706c;font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-variant-numeric:tabular-nums}.detail{margin-top:22px;padding-top:18px;border-top:1px solid #e3e8e6}.detail h2{font-size:16px;margin:0 0 12px}.detail p{font-size:13px;color:#65706c;margin:8px 0}.trade{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:10px 0;border-bottom:1px solid #edf0ee;font-size:14px}.trade b{font-weight:500;overflow-wrap:anywhere}.trade small{display:block;font-size:12px;color:#65706c;margin-top:4px}.trade .price{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}.buy{color:#b42318}.sell{color:#087443}.notice{font-size:12px;color:#79827e;margin:24px 0 0;line-height:1.7}#loading,#error{font-size:14px;color:#65706c;line-height:1.7}#error button{margin-top:12px;padding:8px 14px;border:1px solid #d5dfda;border-radius:4px;background:#fff;cursor:pointer}[hidden]{display:none!important}button:focus-visible,input:focus-visible{outline:2px solid #087443;outline-offset:2px}
+    .icon{display:grid;place-items:center}.icon svg{width:18px;height:18px}
+    @media(max-width:600px){.wrap{padding:22px 16px 32px}h1{font-size:18px}.plot{height:300px}.toolbar{gap:8px}.legend{width:100%;justify-content:flex-end}.periods{width:100%;justify-content:space-between;gap:0}.periods button{padding:10px 5px;font-size:13px}.value{font-size:28px}.summary{gap:10px}.asof{font-size:12px}.range{font-size:11px}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <h1>ETF 大轮动 · 策略净值曲线</h1>
+  <div id="loading" role="status">正在读取净值数据……</div>
+  <section id="error" role="alert" hidden><div id="errorMessage"></div><button type="button" id="retry">重新加载</button></section>
+  <section id="content" hidden>
+    <header class="summary"><div><p>策略净值</p><strong id="netValue" class="value"></strong></div><div class="asof"><div id="reportDate"></div><div id="holding"></div></div></header>
+    <div class="toolbar">
+      <nav class="periods" aria-label="净值曲线时间范围">
+        <button type="button" data-period="20" aria-pressed="true">20 个交易日</button>
+        <button type="button" data-period="1m" aria-pressed="false">近一个月</button>
+        <button type="button" data-period="6m" aria-pressed="false">近半年</button>
+        <button type="button" data-period="1y" aria-pressed="false">近一年</button>
+      </nav>
+      <div class="legend"><span><i class="line-key"></i>净值</span><span><i class="dot-key"></i>调仓</span></div>
+    </div>
+    <div id="plot" class="plot"><canvas id="chart" role="img" aria-label="策略净值与调仓点"></canvas><div id="markers"></div></div>
+    <!-- Lucide ArrowLeft/ArrowRight; license: etf-net-value-icons.LICENSE.txt -->
+    <div id="navigation" class="navigation"><button type="button" id="earlier" class="icon" title="更早的交易日" aria-label="更早的交易日"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></button><input id="window" type="range" min="0" max="0" step="1" value="0" aria-label="历史交易日窗口"><button type="button" id="later" class="icon" title="更新的交易日" aria-label="更新的交易日"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button></div>
+    <p class="range"><span id="rangeDates"></span><span id="historyExtent"></span></p>
+    <section id="detail" class="detail" aria-live="polite" hidden></section>
+    <p class="notice">模拟组合记录，不构成投资建议。</p>
+  </section>
+</main>
+<script type="module" src="etf-net-value.js"></script>
+</body>
+</html>

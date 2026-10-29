@@ -1,5 +1,6 @@
 const SOURCE_ROOT = "https://raw.githubusercontent.com/wdr0214/a-share-hot-stock-report/main/outputs/data/reports";
-export const REPORT_URL = "https://wdr0214.github.io/a-share-hot-stock-report/etf-rotation.html";
+export const LEGACY_REPORT_URL = "https://wdr0214.github.io/a-share-hot-stock-report/etf-rotation.html";
+export const REPORT_URL = "https://wdr0214.github.io/a-share-hot-stock-report/etf-net-value.html";
 
 export function shanghaiDate(now = new Date()) {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
@@ -78,7 +79,7 @@ export function createArticle(report, { author = "", thumbMediaId = "" } = {}) {
     paragraph("点击文末“阅读原文”可查看策略净值曲线及历史调仓。") + `</section>`;
   return {
     title, author: String(author).slice(0, 8), digest: `${report.date} ETF轮动：净值 ${Number(report.netValue).toFixed(4)}，${report.holding ? "持仓 " + (report.holding.name || report.holding.symbol) : "持有现金"}。`,
-    content: body, content_source_url: REPORT_URL, thumb_media_id: thumbMediaId,
+    content: body, content_source_url: `${REPORT_URL}?date=${encodeURIComponent(report.date)}`, thumb_media_id: thumbMediaId,
     need_open_comment: 0, only_fans_can_comment: 0
   };
 }
