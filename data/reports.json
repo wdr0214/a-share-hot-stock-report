@@ -442374,14 +442374,6 @@
   "dailyPortfolio": null,
   "jobLogs": [
     {
-      "jobName": "late-report",
-      "startedAt": "2026-08-18T06:51:27.527Z",
-      "finishedAt": "2026-08-18T06:51:27.528Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-08-18"
-    },
-    {
       "jobName": "daily-report",
       "startedAt": "2026-08-18T08:01:45.963Z",
       "finishedAt": "2026-08-18T08:01:45.963Z",
@@ -444032,6 +444024,14 @@
       "jobName": "cleanup-legacy-reports",
       "startedAt": "2026-10-30T13:02:30.747Z",
       "finishedAt": "2026-10-30T13:02:30.747Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "legacy-daily-weekly-removed"
+    },
+    {
+      "jobName": "cleanup-legacy-reports",
+      "startedAt": "2026-10-30T13:09:11.543Z",
+      "finishedAt": "2026-10-30T13:09:11.543Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "legacy-daily-weekly-removed"
