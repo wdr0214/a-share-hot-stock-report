@@ -841,7 +841,7 @@ async function exportStatic(existingDb, { skipDailyPortfolioBackfill = false } =
   for (const report of recentDaily) await writeJson(join(OUT_DIR, "daily", `${report.date}.json`), withPortfolioHistory(report, dailyPortfolioHistory));
   for (const report of recentLate) await writeJson(join(OUT_DIR, "late", `${report.date}.json`), withPortfolioHistory(report, latePortfolioHistory));
   for (const report of recentWeekly) await writeJson(join(OUT_DIR, "weekly", `${report.week}.json`), report);
-  for (const report of recentEtfRotation) await writeJson(join(OUT_DIR, "etf-rotation", `${report.date}.json`), { ...report, portfolioHistory: db.etfRotationPortfolio?.history || report.portfolioHistory || [] });
+  for (const report of recentEtfRotation) await writeJson(join(OUT_DIR, "etf-rotation", `${report.date}.json`), { ...report, rebalance: report.rebalance ?? [], portfolioHistory: db.etfRotationPortfolio?.history || report.portfolioHistory || [] });
   for (const item of recentNews) {
     if (item.midday) await writeJson(join(OUT_DIR, "news", `${item.date}-midday.json`), item.midday);
     if (item.close) await writeJson(join(OUT_DIR, "news", `${item.date}-close.json`), item.close);
@@ -851,7 +851,7 @@ async function exportStatic(existingDb, { skipDailyPortfolioBackfill = false } =
   if (recentLate[0]) await writeJson(join(OUT_DIR, "late-latest.json"), withPortfolioHistory(recentLate[0], latePortfolioHistory));
   const latestWeek = recentWeekly[0];
   if (latestWeek) await writeJson(join(OUT_DIR, "weekly-latest.json"), latestWeek);
-  if (recentEtfRotation[0]) await writeJson(join(OUT_DIR, "etf-rotation-latest.json"), { ...recentEtfRotation[0], portfolioHistory: db.etfRotationPortfolio?.history || recentEtfRotation[0].portfolioHistory || [] });
+  if (recentEtfRotation[0]) await writeJson(join(OUT_DIR, "etf-rotation-latest.json"), { ...recentEtfRotation[0], rebalance: recentEtfRotation[0].rebalance ?? [], portfolioHistory: db.etfRotationPortfolio?.history || recentEtfRotation[0].portfolioHistory || [] });
   await writeJson(join(OUT_DIR, "news-index.json"), { reports: recentNews.map(newsIndexItem) });
   if (recentNews[0]) await writeJson(join(OUT_DIR, "news-latest.json"), recentNews[0]);
   return {
@@ -2169,3 +2169,4 @@ function formatPercent(value) {
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+

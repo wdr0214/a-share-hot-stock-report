@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: 22
       - name: Check integration
-        run: node --test integrations/wechat/test.mjs
+        run: node --test integrations/wechat/test.mjs integrations/wechat/report-contract.test.mjs
       - name: Prepare article from today's real ETF report
         env:
           REPORT_DATE: ${{ inputs.date }}
@@ -53,3 +53,4 @@ jobs:
           if [ -d "$RUNNER_TEMP/wechat-preview" ]; then
             node integrations/wechat/cli.mjs bridge
           fi
+
