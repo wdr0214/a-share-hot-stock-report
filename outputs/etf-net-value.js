@@ -57,7 +57,7 @@ export function mountCurvePage() {
   const $ = id => document.getElementById(id);
   let report, period = "20", start = null, selectedDate = null, drag = null, hits = [];
   const tradeCache = new Map();
-  let benchmarkData = null, benchmarkLoading = true;
+  let benchmarkData = null;
   const nameFor = symbol => report.etfs?.find(item => item.symbol === symbol)?.name || symbol || "空仓";
 
   async function showDetail(point) {
@@ -143,7 +143,6 @@ export function mountCurvePage() {
     $("navigation").hidden = period !== "20";
     $("window").max = String(maxStart); $("window").value = String(windowStart); $("window").disabled = maxStart === 0;
     $("earlier").disabled = windowStart === 0; $("later").disabled = windowStart === maxStart;
-    const sourceNotes = [];
     for (const series of comparisons) {
       const last = series.id === "nasdaq" ? series.rows.findLast(row => row.value !== null) : series.rows.at(-1);
       const available = series.rows.some(row => row.value !== null);
@@ -151,10 +150,7 @@ export function mountCurvePage() {
       $(series.id + "Return").textContent = value === null || value === undefined ? "暂无数据" : `${value >= 1 ? "+" : ""}${((value - 1) * 100).toFixed(2)}%`;
       if (series.id === "strategy") continue;
       $(series.id + "Enabled").disabled = !available;
-      const cacheBehind = benchmarkData?.reportDate && benchmarkData.reportDate < report.date;
-      sourceNotes.push(`${series.name}：${series.source || "暂无数据源"}${last?.sourceDate ? "，收盘日 " + last.sourceDate : "，历史数据不足"}${series.status === "stale" || cacheBehind ? "（缓存未更新）" : ""}`);
     }
-    $("benchmarkStatus").textContent = benchmarkLoading ? "正在读取指数对比数据……" : sourceNotes.join("；");
   }
 
   function moveWindow(nextStart) { start = nextStart; selectedDate = null; $("detail").hidden = true; draw(); }
@@ -196,7 +192,7 @@ export function mountCurvePage() {
 
   async function load() {
     $("loading").hidden = false; $("error").hidden = true; $("content").hidden = true;
-    benchmarkData = null; benchmarkLoading = true;
+    benchmarkData = null;
     try {
       const date = new URLSearchParams(location.search).get("date");
       report = await loadCurveReport(date);
@@ -209,7 +205,7 @@ export function mountCurvePage() {
         if (!response.ok) throw new Error("Benchmark data unavailable");
         benchmarkData = normalizeBenchmarks(await response.json());
       } catch { benchmarkData = null; }
-      finally { benchmarkLoading = false; draw(); }
+      finally { draw(); }
     } catch (error) { $("errorMessage").textContent = error.message || "净值数据暂时无法读取"; $("error").hidden = false; }
     finally { $("loading").hidden = true; }
   }
