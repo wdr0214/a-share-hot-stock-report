@@ -77,7 +77,7 @@
     "entryPrice": 9.104,
     "entryDate": "2026-09-03"
   },
-  "rebalance": null,
+  "rebalance": [],
   "netValue": 0.9269661674512327,
   "portfolioHistory": [
     {
