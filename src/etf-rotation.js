@@ -59,7 +59,7 @@ export async function generateEtfRotation({ date, now, portfolio, executionPrice
     executionPriceBasis: useCloseBackfill ? "daily_close_backfill" : "intraday_quote",
     status: "ok", parameters: { momentumDays: 20, maDays: 28 },
     etfs: indicators, leader: { symbol: leader.symbol, name: leader.name, momentum20Pct: leader.momentum20Pct, aboveMa28: leader.aboveMa28 },
-    holding: next.holding, rebalance: next.trades.length ? next.trades : null,
+    holding: next.holding, rebalance: next.trades,
     netValue: next.portfolio.netValue, portfolioHistory: next.portfolio.history
   };
   return { report, portfolio: next.portfolio };
@@ -228,3 +228,4 @@ function normalizeSymbol(symbol) {
 }
 function number(value) { const n = Number(value); return Number.isFinite(n) ? n : null; }
 function average(values) { return values.reduce((sum, value) => sum + value, 0) / values.length; }
+
