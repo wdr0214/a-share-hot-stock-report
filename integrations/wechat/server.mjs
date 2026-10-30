@@ -2,7 +2,7 @@ import { createServer } from "node:http";
 import { timingSafeEqual } from "node:crypto";
 import { pathToFileURL } from "node:url";
 import { resolve } from "node:path";
-import { createArticle, loadReport, shanghaiDate, LEGACY_REPORT_URL, REPORT_URL } from "./etf-article.mjs";
+import { createArticle, loadReport, shanghaiDate, LEGACY_REPORT_URL, REPORT_URL, REPORT_SCHEMA_VERSION } from "./etf-article.mjs";
 import { FileDraftStore, WeChatClient, saveDraftOnce } from "./draft-client.mjs";
 import { GitHubDraftStore } from "./github-store.mjs";
 import { selectThumbMediaId, coverConfiguration } from "./cover-selector.mjs";
@@ -21,7 +21,7 @@ export function createDraftServer(env = process.env) {
     res.setHeader("Content-Type", "application/json; charset=utf-8");
     res.setHeader("Cache-Control", "no-store");
     const reply = (status, data) => { res.statusCode = status; res.end(JSON.stringify(data)); };
-    if (req.method === "GET" && req.url === "/health") return reply(200, { ok: true, service: "etf-wechat-draft", mode: "draft_only", authMode, stateBackend, ...coverConfiguration(env), readMorePage: REPORT_URL });
+    if (req.method === "GET" && req.url === "/health") return reply(200, { ok: true, service: "etf-wechat-draft", mode: "draft_only", authMode, stateBackend, ...coverConfiguration(env), readMorePage: REPORT_URL, reportSchemaVersion: REPORT_SCHEMA_VERSION });
     const provided = Buffer.from(String(req.headers.authorization || ""));
     if (provided.length !== expected.length || !timingSafeEqual(provided, expected)) return reply(401, { ok: false, error: "Unauthorized" });
     if (req.method !== "POST" || !["/draft", "/check", "/cover"].includes(req.url)) return reply(404, { ok: false });
