@@ -38,14 +38,30 @@ export function validateReport(report, date) {
   return report;
 }
 
-export async function loadReport(date, { fetchImpl = fetch } = {}) {
+export async function loadReport(date, { fetchImpl = fetch, waitImpl = ms => new Promise(resolve => setTimeout(resolve, ms)) } = {}) {
   validateDate(date);
   const day = new Date(date + "T12:00:00+08:00").getUTCDay();
   if (day === 0 || day === 6) return null;
-  const response = await fetchImpl(`${SOURCE_ROOT}/etf-rotation/${date}.json`, { cache: "no-store", signal: AbortSignal.timeout(20000) });
-  if (response.status === 404) return null;
-  if (!response.ok) throw new Error(`ETF 报告读取失败 HTTP ${response.status}`);
-  return validateReport(await response.json(), date);
+  const roots = [SOURCE_ROOT, "https://wdr0214.github.io/a-share-hot-stock-report/data/reports"];
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    let missing = 0;
+    for (const root of roots) {
+      let response;
+      try { response = await fetchImpl(`${root}/etf-rotation/${date}.json`, { cache: "no-store", signal: AbortSignal.timeout(10000) }); }
+      catch { lastError = new Error("ETF 报告读取连接中断"); continue; }
+      if (response.status === 404) { missing++; continue; }
+      if (!response.ok) {
+        lastError = new Error(`ETF 报告读取失败 HTTP ${response.status}`);
+        if (response.status === 429 || response.status >= 500) continue;
+        throw lastError;
+      }
+      return validateReport(await response.json(), date);
+    }
+    if (missing === roots.length) return null;
+    if (attempt < 2) await waitImpl(10000);
+  }
+  throw lastError;
 }
 
 function esc(value) {

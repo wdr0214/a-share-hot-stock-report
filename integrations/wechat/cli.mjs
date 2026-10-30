@@ -22,7 +22,11 @@ export async function run(args = process.argv.slice(2), env = process.env) {
     if (url.protocol !== "https:" || url.username || url.password) throw new Error("草稿服务必须使用不含用户名密码的 HTTPS URL");
     const response = await fetch(url, { method: "POST", headers: { Authorization: `Bearer ${env.WECHAT_DRAFT_BRIDGE_SECRET}`, "Content-Type": "application/json" }, body: JSON.stringify({ date }), signal: AbortSignal.timeout(180000), redirect: "error" });
     const body = await response.json().catch(() => ({}));
-    if (!response.ok || body.ok !== true) throw new Error(`草稿服务失败 HTTP ${response.status}，请查看服务端记录`);
+    if (!response.ok || body.ok !== true) {
+      const stage = ["request", "load_report", "build_article", "save_draft"].includes(body.stage) ? body.stage : "unknown";
+      const code = /^(?:(?:state|report)_http_\d{3}|(?:state|report)_connection_error|wechat_\d+|draft_result_unknown|operation_failed)$/.test(body.errorCode || "") ? body.errorCode : "unknown";
+      throw new Error(`草稿服务失败 HTTP ${response.status}，阶段 ${stage}，代码 ${code}，请查看服务端记录`);
+    }
     if (!body.skipped && (body.status !== "draft_verified" || !body.mediaId || body.published !== false || body.date !== date)) throw new Error("草稿服务返回了无法确认的结果");
     return body;
   }
