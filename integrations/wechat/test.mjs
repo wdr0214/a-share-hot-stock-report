@@ -79,7 +79,36 @@ test("weekends and absent daily reports skip, source failures are not treated as
   assert.equal(shanghaiDate(new Date("2026-10-27T17:00:00Z")), "2026-10-28");
   assert.equal(await loadReport("2026-10-31", { fetchImpl: () => assert.fail("weekend fetch") }), null);
   assert.equal(await loadReport("2026-10-28", { fetchImpl: async () => ({ status: 404 }) }), null);
-  await assert.rejects(loadReport("2026-10-28", { fetchImpl: async () => ({ status: 502, ok: false }) }), /502/);
+  await assert.rejects(loadReport("2026-10-28", { fetchImpl: async () => ({ status: 502, ok: false }), waitImpl: async () => {} }), /502/);
+});
+
+test("report GET retries use the same-date Pages fallback without accepting invalid reports", async () => {
+  const urls = [], waits = [];
+  let calls = 0;
+  const report = fixture(); report.rebalance = null;
+  const result = await loadReport(report.date, { waitImpl: async ms => waits.push(ms), fetchImpl: async url => {
+    urls.push(url);
+    if (++calls < 4) throw new Error("test-only network outage");
+    return { ok: true, status: 200, json: async () => report };
+  } });
+  assert.equal(result, report); assert.deepEqual(waits, [10000]);
+  assert.match(urls.at(-1), /^https:\/\/wdr0214.github.io\/a-share-hot-stock-report\/data\/reports\/etf-rotation\/2026-10-28.json$/);
+  let invalidCalls = 0;
+  await assert.rejects(loadReport(report.date, { fetchImpl: async () => {
+    invalidCalls++; return { ok: true, status: 200, json: async () => ({ ...report, date: "2026-10-27" }) };
+  }, waitImpl: async () => assert.fail("invalid reports must not retry") }), /报告类型/);
+  assert.equal(invalidCalls, 1);
+});
+
+test("authenticated draft errors identify the stage without returning upstream secrets", async () => {
+  const server = createDraftServer({ WECHAT_APP_ID: "test-app", WECHAT_AUTH_MODE: "cloudrun", WECHAT_DRAFT_BRIDGE_SECRET: "test-auth", GITHUB_REPORT_TOKEN: "test-token" }, { loadReportImpl: async () => { throw new Error("private-upstream-token"); } });
+  await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
+  try {
+    const response = await fetch(`http://127.0.0.1:${server.address().port}/draft`, { method: "POST", headers: { Authorization: "Bearer test-auth" }, body: JSON.stringify({ date: shanghaiDate() }) });
+    const body = await response.json();
+    assert.equal(response.status, 502); assert.equal(body.stage, "load_report");
+    assert.equal(body.errorCode, "operation_failed"); assert.ok(!JSON.stringify(body).includes("private-upstream-token"));
+  } finally { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); }
 });
 
 test("token stays in server requests; business failures have safe actionable messages", async () => {

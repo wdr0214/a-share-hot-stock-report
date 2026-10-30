@@ -7,7 +7,7 @@ import { FileDraftStore, WeChatClient, saveDraftOnce } from "./draft-client.mjs"
 import { GitHubDraftStore } from "./github-store.mjs";
 import { selectThumbMediaId, coverConfiguration } from "./cover-selector.mjs";
 
-export function createDraftServer(env = process.env) {
+export function createDraftServer(env = process.env, { loadReportImpl = loadReport } = {}) {
   const authMode = env.WECHAT_AUTH_MODE || "direct";
   const stateBackend = env.WECHAT_STATE_BACKEND || (authMode === "cloudrun" ? "github" : "file");
   for (const key of ["WECHAT_APP_ID", "WECHAT_DRAFT_BRIDGE_SECRET", ...(authMode === "direct" ? ["WECHAT_APP_SECRET"] : []), ...(stateBackend === "file" ? ["WECHAT_STATE_DIR"] : [])]) {
@@ -21,10 +21,11 @@ export function createDraftServer(env = process.env) {
     res.setHeader("Content-Type", "application/json; charset=utf-8");
     res.setHeader("Cache-Control", "no-store");
     const reply = (status, data) => { res.statusCode = status; res.end(JSON.stringify(data)); };
-    if (req.method === "GET" && req.url === "/health") return reply(200, { ok: true, service: "etf-wechat-draft", mode: "draft_only", authMode, stateBackend, ...coverConfiguration(env), readMorePage: REPORT_URL, reportSchemaVersion: REPORT_SCHEMA_VERSION });
+    if (req.method === "GET" && req.url === "/health") return reply(200, { ok: true, service: "etf-wechat-draft", mode: "draft_only", authMode, stateBackend, ...coverConfiguration(env), readMorePage: REPORT_URL, reportSchemaVersion: REPORT_SCHEMA_VERSION, reportFetchVersion: "dual-source-retry-v1" });
     const provided = Buffer.from(String(req.headers.authorization || ""));
     if (provided.length !== expected.length || !timingSafeEqual(provided, expected)) return reply(401, { ok: false, error: "Unauthorized" });
     if (req.method !== "POST" || !["/draft", "/check", "/cover"].includes(req.url)) return reply(404, { ok: false });
+    let stage = "request";
     try {
       if (req.url === "/check") return reply(200, await client.checkDraftAccess());
       if (req.url === "/cover") {
@@ -43,13 +44,21 @@ export function createDraftServer(env = process.env) {
       try { input = JSON.parse(body); } catch { return reply(400, { ok: false, error: "Invalid JSON" }); }
       const date = shanghaiDate();
       if (input.date !== date) return reply(400, { ok: false, error: "Only today's report can be submitted automatically" });
-      const report = await loadReport(date);
+      stage = "load_report";
+      const report = await loadReportImpl(date);
       if (!report) return reply(200, { ok: true, skipped: true, date, reason: "no_report_for_date" });
+      stage = "build_article";
       const article = createArticle(report, { author: env.WECHAT_AUTHOR, thumbMediaId: selectThumbMediaId(report, env) });
+      stage = "save_draft";
       reply(200, await saveDraftOnce({ date, article, client, store, previousSourceUrl: LEGACY_REPORT_URL }));
     } catch (error) {
-      console.error(error.message);
-      reply(502, { ok: false, error: "草稿处理失败，请检查服务端日志和公众号草稿箱" });
+      const message = String(error.message);
+      const stateHttp = message.match(/草稿去重存储 HTTP (\d{3})/);
+      const wechatCode = message.match(/微信接口错误 (\d+)/);
+      const reportHttp = message.match(/ETF 报告读取失败 HTTP (\d{3})/);
+      const errorCode = stateHttp ? `state_http_${stateHttp[1]}` : wechatCode ? `wechat_${wechatCode[1]}` : reportHttp ? `report_http_${reportHttp[1]}` : message.includes("ETF 报告读取连接中断") ? "report_connection_error" : message.includes("草稿去重状态请求中断") ? "state_connection_error" : message.includes("结果未知") ? "draft_result_unknown" : "operation_failed";
+      console.error(`WeChat draft failed: ${stage} ${errorCode}`);
+      reply(502, { ok: false, error: "草稿处理失败，请检查服务端日志和公众号草稿箱", stage, errorCode });
     }
   });
 }
