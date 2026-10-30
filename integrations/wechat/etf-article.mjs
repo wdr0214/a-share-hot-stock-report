@@ -1,6 +1,7 @@
 const SOURCE_ROOT = "https://raw.githubusercontent.com/wdr0214/a-share-hot-stock-report/main/outputs/data/reports";
 export const LEGACY_REPORT_URL = "https://wdr0214.github.io/a-share-hot-stock-report/etf-rotation.html";
 export const REPORT_URL = "https://wdr0214.github.io/a-share-hot-stock-report/etf-net-value.html";
+export const REPORT_SCHEMA_VERSION = "nullable-rebalance-v1";
 
 export function shanghaiDate(now = new Date()) {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
@@ -30,7 +31,7 @@ export function validateReport(report, date) {
   }
   if (report.holding && !symbols.has(report.holding.symbol)) throw new Error("持仓标的不在 ETF 列表中");
   if (!report.parameters?.momentumDays || !report.parameters?.maDays) throw new Error("缺少策略参数");
-  if (report.rebalance !== undefined && !Array.isArray(report.rebalance)) throw new Error("调仓记录格式不正确");
+  if (report.rebalance != null && !Array.isArray(report.rebalance)) throw new Error("调仓记录格式不正确");
   for (const trade of report.rebalance || []) {
     if (!["buy", "sell"].includes(trade.action) || !symbols.has(trade.symbol) || !finite(trade.price) || Number(trade.price) <= 0) throw new Error("调仓记录不完整");
   }

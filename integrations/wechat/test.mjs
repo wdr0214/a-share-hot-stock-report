@@ -7,6 +7,7 @@ import { createArticle, loadReport, shanghaiDate, validateReport, REPORT_URL, LE
 import { FileDraftStore, WeChatClient, saveDraftOnce } from "./draft-client.mjs";
 import { createDraftServer } from "./server.mjs";
 import { GitHubDraftStore } from "./github-store.mjs";
+import { selectThumbMediaId } from "./cover-selector.mjs";
 import "./cover-selector.test.mjs";
 import "./net-value-page.test.mjs";
 import "./benchmark-model.test.mjs";
@@ -41,6 +42,28 @@ test("missing, partial, duplicate or wrong-date reports fail closed", () => {
   for (const mutate of [r => r.date = "2026-10-27", r => r.status = "partial", r => r.etfs.pop(), r => r.netValue = null, r => r.etfs[0].price = null, r => r.etfs[0].momentum20Pct = null, r => r.etfs[0].symbol = r.etfs[1].symbol]) {
     const report = fixture(); mutate(report);
     assert.throws(() => validateReport(report, "2026-10-28"));
+  }
+});
+
+test("null, omitted and empty rebalances render unchanged holding or cash days", async () => {
+  const covers = { WECHAT_THUMB_MEDIA_ID_HOLD: "hold-test", WECHAT_THUMB_MEDIA_ID_CASH: "cash-test" };
+  for (const holding of [null, { symbol: "SH511260", name: "测试债券" }]) {
+    const baseline = fixture(); baseline.holding = holding;
+    const expected = createArticle(baseline);
+    for (const rebalance of [null, undefined, []]) {
+      const report = { ...baseline, rebalance };
+      assert.equal(validateReport(report, report.date), report);
+      assert.deepEqual(createArticle(report), expected);
+      assert.equal(selectThumbMediaId(report, covers), holding ? "hold-test" : "cash-test");
+      assert.equal(await loadReport(report.date, { fetchImpl: async () => ({ ok: true, status: 200, json: async () => report }) }), report);
+    }
+  }
+});
+
+test("malformed non-null rebalances remain rejected instead of being treated as no trades", () => {
+  for (const rebalance of [{}, false, 0, "", "[]", [{ action: "buy", symbol: "SH511260", price: null }]]) {
+    const report = { ...fixture(), rebalance };
+    assert.throws(() => createArticle(report), /调仓记录/);
   }
 });
 
@@ -148,6 +171,7 @@ test("bridge requires authentication and rejects historical auto-submission", as
     const health = await (await fetch(url + "/health")).json();
     assert.equal(health.service, "etf-wechat-draft");
     assert.equal(health.mode, "draft_only");
+    assert.equal(health.reportSchemaVersion, "nullable-rebalance-v1");
   } finally { await new Promise(resolve => server.close(resolve)); }
 });
 
