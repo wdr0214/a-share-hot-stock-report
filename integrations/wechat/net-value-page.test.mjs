@@ -59,3 +59,12 @@ test("dedicated curve page includes the requested range buttons and no stock-rep
   for (const text of ["近一个月", "近半年", "近一年", "20 个交易日"]) assert.ok(html.includes(text));
   assert.doesNotMatch(html, /<table|行情报告|6 只 ETF/);
 });
+
+test("curve page omits the source-date row while retaining the calculation note", async () => {
+  const html = await readFile(new URL("../../outputs/etf-net-value.html", import.meta.url), "utf8");
+  const script = await readFile(new URL("../../outputs/etf-net-value.js", import.meta.url), "utf8");
+  assert.doesNotMatch(html, /id="benchmarkStatus"/);
+  assert.doesNotMatch(script, /benchmarkStatus|sourceNotes/);
+  assert.match(html, /区间起点归一为 1/);
+  assert.match(html, /模拟组合记录，不构成投资建议/);
+});
