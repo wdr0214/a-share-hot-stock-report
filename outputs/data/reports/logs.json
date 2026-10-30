@@ -2,6 +2,14 @@
   "logs": [
     {
       "jobName": "cleanup-legacy-reports",
+      "startedAt": "2026-10-30T13:32:06.835Z",
+      "finishedAt": "2026-10-30T13:32:06.835Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "legacy-daily-weekly-removed"
+    },
+    {
+      "jobName": "cleanup-legacy-reports",
       "startedAt": "2026-10-30T13:09:11.543Z",
       "finishedAt": "2026-10-30T13:09:11.543Z",
       "status": "success",
@@ -233,14 +241,6 @@
       "jobName": "cleanup-legacy-reports",
       "startedAt": "2026-10-23T06:54:01.742Z",
       "finishedAt": "2026-10-23T06:54:01.743Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "legacy-daily-weekly-removed"
-    },
-    {
-      "jobName": "cleanup-legacy-reports",
-      "startedAt": "2026-10-23T06:53:34.093Z",
-      "finishedAt": "2026-10-23T06:53:34.093Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "legacy-daily-weekly-removed"
