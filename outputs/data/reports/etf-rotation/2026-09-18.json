@@ -462,6 +462,13 @@
       "holding": "SH511260",
       "rebalanced": false,
       "trades": []
+    },
+    {
+      "date": "2026-11-02",
+      "netValue": 0.9171135387681003,
+      "holding": "SH511260",
+      "rebalanced": false,
+      "trades": []
     }
   ],
   "dividendAdjustment": {
