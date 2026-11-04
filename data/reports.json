@@ -455872,14 +455872,6 @@
   "dailyPortfolio": null,
   "jobLogs": [
     {
-      "jobName": "daily-report",
-      "startedAt": "2026-08-25T08:00:38.440Z",
-      "finishedAt": "2026-08-25T08:00:38.441Z",
-      "status": "success",
-      "errorMessage": "",
-      "reportKey": "2026-08-25"
-    },
-    {
       "jobName": "etf-rotation",
       "startedAt": "2026-08-25T14:58:55.399Z",
       "finishedAt": "2026-08-25T14:58:55.399Z",
@@ -457532,6 +457524,14 @@
       "jobName": "cleanup-legacy-reports",
       "startedAt": "2026-11-04T06:51:48.752Z",
       "finishedAt": "2026-11-04T06:51:48.752Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "legacy-daily-weekly-removed"
+    },
+    {
+      "jobName": "cleanup-legacy-reports",
+      "startedAt": "2026-11-04T06:52:15.791Z",
+      "finishedAt": "2026-11-04T06:52:15.791Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "legacy-daily-weekly-removed"
