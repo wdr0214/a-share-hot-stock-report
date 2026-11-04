@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-03T06:53:29.852Z",
+  "generatedAt": "2026-11-04T06:53:33.728Z",
   "generatedBy": "github-actions",
-  "reportDate": "2026-11-03",
-  "cutoffAt": "2026-11-03T06:53:00.000Z",
+  "reportDate": "2026-11-04",
+  "cutoffAt": "2026-11-04T06:53:00.000Z",
   "requestedStart": "2026-08-04",
   "basis": "latest-completed-close-at-report-time",
   "series": [
@@ -15,7 +15,7 @@
       "color": "#087443",
       "source": "同花顺 Financial API",
       "status": "ok",
-      "lastSuccessfulAt": "2026-11-03T06:53:29.852Z",
+      "lastSuccessfulAt": "2026-11-04T06:53:33.728Z",
       "rows": [
         {
           "date": "2026-08-04",
@@ -311,6 +311,11 @@
           "date": "2026-11-02",
           "close": 4016.92,
           "availableAt": "2026-11-02T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-03",
+          "close": 4008.87,
+          "availableAt": "2026-11-03T07:00:00.000Z"
         }
       ]
     },
@@ -322,7 +327,7 @@
       "color": "#b7791f",
       "source": "Yahoo Finance",
       "status": "ok",
-      "lastSuccessfulAt": "2026-11-03T06:53:29.852Z",
+      "lastSuccessfulAt": "2026-11-04T06:53:33.728Z",
       "rows": [
         {
           "date": "2026-08-04",
@@ -643,6 +648,11 @@
           "date": "2026-11-02",
           "close": 25164.310546875,
           "availableAt": "2026-11-02T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-03",
+          "close": 25372.009765625,
+          "availableAt": "2026-11-03T21:00:00.000Z"
         }
       ]
     }

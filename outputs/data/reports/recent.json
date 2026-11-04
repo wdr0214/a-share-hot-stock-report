@@ -2,6 +2,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-11-04",
+      "generatedAt": "2026-11-04T06:51:27.984Z",
+      "status": "ok",
+      "totalCandidates": 2392,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ300315",
+          "name": "掌趣科技",
+          "heatScore": 118
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ000530",
+          "name": "冰山冷热",
+          "heatScore": 118
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ300139",
+          "name": "晓程科技",
+          "heatScore": 106
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ300502",
+          "name": "新易盛",
+          "heatScore": 105
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ300666",
+          "name": "江丰电子",
+          "heatScore": 105
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-11-02",
       "generatedAt": "2026-11-02T06:51:50.460Z",
       "status": "ok",
