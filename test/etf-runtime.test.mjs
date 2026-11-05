@@ -1,5 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { runInNewContext } from "node:vm";
 import { generateEtfRotation } from "../src/etf-rotation.js";
 import { handleReportJob, writeEtfFilesToGitHub } from "../api/_github-report-job.mjs";
 
@@ -133,4 +135,18 @@ test("concurrently changed portfolio database is never overwritten",async(t)=>{
   });
   await assert.rejects(writeEtfFilesToGitHub([{path:"data/reports.json",content:"stale"}],"update",{sha:"seed",payload:"old-db"}),/refusing to overwrite/);
   assert.equal(writes,0);
+});
+
+test("ETF page identifies minute backfill while preserving normal snapshot copy",async()=>{
+  const html=await readFile(new URL("../outputs/etf-rotation.html",import.meta.url),"utf8");
+  const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
+  for(const basis of ["intraday_quote","minute_1453_open_backfill"]){
+    const elements=new Map();
+    const get=id=>{if(!elements.has(id))elements.set(id,{innerHTML:"",addEventListener(){}});return elements.get(id);};
+    const report={date,generatedAt:`${date}T13:20:00Z`,holding:null,etfs:[],rebalance:[],netValue:1,executionPriceBasis:basis};
+    runInNewContext(`${script}\n report=${JSON.stringify(report)};render();`,{
+      document:{getElementById:get},fetch:()=>new Promise(()=>{}),location:{assign(){}}
+    });
+    assert.ok(get("meta").innerHTML.includes(basis==="intraday_quote"?"&#25253;&#20215;&#24555;&#29031; 14:53":"14:53&#20998;&#38047;&#24320;&#30424;&#20215;&#34917;&#25253;"));
+  }
 });
