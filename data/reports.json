@@ -463299,16 +463299,6 @@
   "dailyPortfolio": null,
   "jobLogs": [
     {
-      "jobName": "late-report",
-      "startedAt": "2026-08-28T06:53:56.605Z",
-      "finishedAt": "2026-08-28T06:53:56.605Z",
-      "status": "failed",
-      "errorMessage": "NETLIFY_DATA_PROXY_BASE is not defined",
-      "reportKey": "2026-08-28",
-      "attempts": 4,
-      "nextRetryHint": "scheduled catchup or one-hour rerun"
-    },
-    {
       "jobName": "weekly-report",
       "startedAt": "2026-08-28T23:32:10.966Z",
       "finishedAt": "2026-08-28T23:32:10.967Z",
@@ -464947,6 +464937,14 @@
       "jobName": "cleanup-legacy-reports",
       "startedAt": "2026-11-05T13:27:06.416Z",
       "finishedAt": "2026-11-05T13:27:06.416Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "legacy-daily-weekly-removed"
+    },
+    {
+      "jobName": "cleanup-legacy-reports",
+      "startedAt": "2026-11-05T13:28:08.292Z",
+      "finishedAt": "2026-11-05T13:28:08.292Z",
       "status": "success",
       "errorMessage": "",
       "reportKey": "legacy-daily-weekly-removed"
