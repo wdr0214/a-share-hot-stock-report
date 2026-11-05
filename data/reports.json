@@ -463299,16 +463299,6 @@
   "dailyPortfolio": null,
   "jobLogs": [
     {
-      "jobName": "late-report",
-      "startedAt": "2026-08-27T06:54:01.737Z",
-      "finishedAt": "2026-08-27T06:54:01.737Z",
-      "status": "failed",
-      "errorMessage": "NETLIFY_DATA_PROXY_BASE is not defined",
-      "reportKey": "2026-08-27",
-      "attempts": 4,
-      "nextRetryHint": "scheduled catchup or one-hour rerun"
-    },
-    {
       "jobName": "etf-rotation",
       "startedAt": "2026-08-28T06:53:09.670Z",
       "finishedAt": "2026-08-28T06:53:09.670Z",
@@ -464955,6 +464945,14 @@
       "errorMessage": "",
       "reportKey": "2026-11-05",
       "attempts": 1
+    },
+    {
+      "jobName": "cleanup-legacy-reports",
+      "startedAt": "2026-11-05T13:21:00.925Z",
+      "finishedAt": "2026-11-05T13:21:00.925Z",
+      "status": "success",
+      "errorMessage": "",
+      "reportKey": "legacy-daily-weekly-removed"
     }
   ]
 }

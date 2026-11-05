@@ -483,6 +483,27 @@
       "holding": "SH511260",
       "rebalanced": false,
       "trades": []
+    },
+    {
+      "date": "2026-11-05",
+      "netValue": 0.9195966428227931,
+      "holding": "SH513050",
+      "rebalanced": true,
+      "trades": [
+        {
+          "action": "sell",
+          "symbol": "SH511260",
+          "name": "十年国债ETF",
+          "price": 135.878,
+          "returnPct": 0.1555278733958769
+        },
+        {
+          "action": "buy",
+          "symbol": "SH513050",
+          "name": "中国互联网ETF",
+          "price": 1.042
+        }
+      ]
     }
   ]
 }
