@@ -21,6 +21,7 @@ export function isEtfRotationTradingDate(date) {
 }
 
 export async function generateEtfRotation({ date, now, portfolio, executionPriceMode = "intraday" }) {
+  if (!["intraday", "close-backfill"].includes(executionPriceMode)) throw new Error("Unsupported ETF execution price mode");
   if (!isEtfRotationTradingDate(date)) {
     throw new Error("非 A 股交易日，ETF 轮动报告已跳过。");
   }
@@ -30,10 +31,17 @@ export async function generateEtfRotation({ date, now, portfolio, executionPrice
     throw new Error("ETF 轮动报告仅在当日 14:53 后生成，不使用伪造的历史分钟价。");
   }
 
-  const klineSets = await Promise.all(ETFS.map((etf) => fetchDailyKline(etf)));
+  const useMinuteBackfill = !useCloseBackfill && (shanghai.hour > 14 || shanghai.minute > 53);
+  const quoteTask = useCloseBackfill ? null : useMinuteBackfill
+    ? fetchExecutionMinuteQuotes(ETFS, date)
+    : fetchQuotesWithFallback(ETFS, date).catch(() => fetchExecutionMinuteQuotes(ETFS, date));
+  const [klineSets, intradayQuotes] = await Promise.all([
+    Promise.all(ETFS.map((etf) => fetchDailyKline(etf))), quoteTask
+  ]);
   const quotes = useCloseBackfill
     ? await fetchHistoricalCloseWithFallback(ETFS, klineSets, date)
-    : await fetchQuotesWithFallback(ETFS);
+    : intradayQuotes;
+  const minuteBackfilled = !useCloseBackfill && quotes.every((quote) => quote.executionPriceBasis === "minute_1453_open_backfill");
   const quoteMap = new Map(quotes.map((quote) => [quote.symbol, quote]));
   const indicators = ETFS.map((etf, index) => {
     const quote = quoteMap.get(etf.symbol);
@@ -46,7 +54,7 @@ export async function generateEtfRotation({ date, now, portfolio, executionPrice
     if (!Number.isFinite(base) || base <= 0) throw new Error(`${etf.symbol} \u65e0\u6cd5\u8ba1\u7b97 20 \u65e5\u6da8\u8dcc\u5e45\u3002`);
     const momentum20Pct = ((quote.price - base) / base) * 100;
     return {
-      symbol: etf.symbol, name: etf.name, price: quote.price, quoteSource: quote.source,
+      symbol: etf.symbol, name: etf.name, price: quote.price, quoteSource: quote.source, quoteTime: quote.quoteTime || null,
       momentum20Pct, ma28, aboveMa28: quote.price > ma28
     };
   });
@@ -55,8 +63,8 @@ export async function generateEtfRotation({ date, now, portfolio, executionPrice
   const target = leader.aboveMa28 ? leader : null;
   const next = rebalance(portfolio, date, target, quoteMap);
   const report = {
-    type: "etf-rotation", date, generatedAt: now.toISOString(), executionTime: useCloseBackfill ? "收盘价补生成" : "14:53",
-    executionPriceBasis: useCloseBackfill ? "daily_close_backfill" : "intraday_quote",
+    type: "etf-rotation", date, generatedAt: now.toISOString(), executionTime: useCloseBackfill ? "收盘价补生成" : minuteBackfilled ? "14:53分钟行情补报" : "14:53",
+    executionPriceBasis: useCloseBackfill ? "daily_close_backfill" : minuteBackfilled ? "minute_1453_open_backfill" : "intraday_quote",
     status: "ok", parameters: { momentumDays: 20, maDays: 28 },
     etfs: indicators, leader: { symbol: leader.symbol, name: leader.name, momentum20Pct: leader.momentum20Pct, aboveMa28: leader.aboveMa28 },
     holding: next.holding, rebalance: next.trades,
@@ -101,7 +109,7 @@ function rebalance(previous, date, target, quoteMap) {
 async function fetchHistoricalCloseWithFallback(etfs, klineSets, date) {
   const eastmoney = await retry(async () => Promise.all(etfs.map(async (etf) => {
     const url = `https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${etf.eastmoneySecid}&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56&klt=101&fqt=0&beg=${date.replaceAll("-", "")}&end=${date.replaceAll("-", "")}`;
-    const response = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+    const response = await fetchMarket(url, { headers: { "User-Agent": "Mozilla/5.0" } });
     if (!response.ok) throw new Error(`Eastmoney HTTP ${response.status}`);
     const rows = (await response.json())?.data?.klines || [];
     const row = rows.find((item) => item.startsWith(`${date},`));
@@ -132,7 +140,7 @@ async function fetchHithinkDailyClose(etfs, date) {
       url.searchParams.set("interval", "1d");
       url.searchParams.set("start", String(start));
       url.searchParams.set("end", String(end));
-      const response = await fetch(url, { headers: { "X-api-key": apiKey } });
+      const response = await fetchMarket(url, { headers: { "X-api-key": apiKey } });
       const payload = await response.json();
       const item = payload?.code === 0 ? (payload.data?.item || []).find((point) => shanghaiParts(new Date(point.date_ms)).date === date) : null;
       const close = number(item?.close_price);
@@ -160,41 +168,71 @@ function quotesFromYahooDailyClose(etfs, klineSets, date) {
   });
 }
 
-async function fetchQuotesWithFallback(etfs) {
+async function fetchQuotesWithFallback(etfs, date) {
   const eastmoney = await retry(async () => {
-    const fields = "f12,f14,f2";
+    const fields = "f12,f14,f2,f124";
     const secids = etfs.map((etf) => etf.eastmoneySecid).join(",");
     const url = `https://push2.eastmoney.com/api/qt/ulist.np/get?fltt=2&fields=${fields}&secids=${secids}`;
-    const response = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+    const response = await fetchMarket(url, { headers: { "User-Agent": "Mozilla/5.0" } });
     if (!response.ok) throw new Error(`Eastmoney HTTP ${response.status}`);
     const data = await response.json();
     const rows = data?.data?.diff;
     if (!Array.isArray(rows) || rows.length !== etfs.length) throw new Error("Eastmoney quote response incomplete");
-    return rows.map((row) => ({ symbol: normalizeSymbol(row.f12), price: number(row.f2), source: "Eastmoney" }));
+    return rows.map((row) => {
+      const quoteTime = new Date(Number(row.f124) * 1000);
+      assertExecutionMinute(quoteTime, date);
+      return { symbol: normalizeSymbol(row.f12), price: number(row.f2), source: "Eastmoney", quoteTime: quoteTime.toISOString() };
+    });
   }).catch(() => []);
   if (eastmoney.length === etfs.length && eastmoney.every((item) => item.price > 0)) return eastmoney;
 
   const sina = await retry(async () => {
     const url = `https://hq.sinajs.cn/list=${etfs.map((etf) => etf.sinaSymbol).join(",")}`;
-    const response = await fetch(url, { headers: { Referer: "https://finance.sina.com.cn/", "User-Agent": "Mozilla/5.0" } });
+    const response = await fetchMarket(url, { headers: { Referer: "https://finance.sina.com.cn/", "User-Agent": "Mozilla/5.0" } });
     if (!response.ok) throw new Error(`Sina HTTP ${response.status}`);
     const text = await response.text();
-    const rows = text.split("\\n").filter(Boolean);
+    const rows = text.split(/\r?\n/).filter(Boolean);
     const byCode = new Map(rows.map((row) => {
-      const match = row.match(/hq_str_(\\w+)="([^"]*)"/);
+      const match = row.match(/hq_str_(\w+)="([^"]*)"/);
       const parts = match?.[2]?.split(",") || [];
-      return [normalizeSymbol(match?.[1]), number(parts[3])];
+      const quoteTime = new Date(`${parts[30]}T${parts[31]}+08:00`);
+      assertExecutionMinute(quoteTime, date);
+      return [normalizeSymbol(match?.[1]), { price: number(parts[3]), quoteTime: quoteTime.toISOString() }];
     }));
-    const out = etfs.map((etf) => ({ symbol: etf.symbol, price: byCode.get(etf.symbol), source: "Sina" }));
+    const out = etfs.map((etf) => ({ symbol: etf.symbol, ...byCode.get(etf.symbol), source: "Sina" }));
     if (out.some((item) => !(item.price > 0))) throw new Error("Sina quote response incomplete");
     return out;
   });
   return sina;
 }
 
+function assertExecutionMinute(time, date) {
+  if (!Number.isFinite(time.getTime())) throw new Error("ETF quote has no valid timestamp");
+  const parts = shanghaiParts(time);
+  if (parts.date !== date || parts.hour !== 14 || parts.minute !== 53) throw new Error("ETF quote is not from the requested 14:53 execution minute");
+}
+
+async function fetchExecutionMinuteQuotes(etfs, date) {
+  return Promise.all(etfs.map((etf) => retry(async () => {
+    const start = Math.floor(new Date(`${date}T00:00:00+08:00`).getTime() / 1000);
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${etf.yahooSymbol}?period1=${start}&period2=${start + 86400}&interval=1m`;
+    const response = await fetchMarket(url);
+    if (!response.ok) throw new Error(`Yahoo minute HTTP ${response.status}`);
+    const result = (await response.json())?.chart?.result?.[0];
+    if (result?.meta?.symbol?.toUpperCase() !== etf.yahooSymbol.toUpperCase()) throw new Error(`${etf.symbol} minute quote symbol mismatch`);
+    const timestamp = Math.floor(new Date(`${date}T14:53:00+08:00`).getTime() / 1000);
+    const index = result?.timestamp?.indexOf(timestamp) ?? -1;
+    // The minute open is the first reported price of 14:53, not a later closing quote.
+    const rawPrice = index >= 0 ? number(result?.indicators?.quote?.[0]?.open?.[index]) : null;
+    if (!(rawPrice > 0)) throw new Error(`${etf.symbol} 缺少 ${date} 14:53 真实分钟行情，不使用当前价替代`);
+    return { symbol: etf.symbol, price: Math.round(rawPrice * 1000) / 1000,
+      source: "Yahoo 14:53分钟开盘价补报", quoteTime: new Date(timestamp * 1000).toISOString(), executionPriceBasis: "minute_1453_open_backfill" };
+  })));
+}
+
 async function fetchDailyKline(etf) {
   return retry(async () => {
-    const response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${etf.yahooSymbol}?range=6mo&interval=1d`);
+    const response = await fetchMarket(`https://query1.finance.yahoo.com/v8/finance/chart/${etf.yahooSymbol}?range=6mo&interval=1d`);
     if (!response.ok) throw new Error(`Yahoo HTTP ${response.status}`);
     const data = await response.json();
     const result = data?.chart?.result?.[0];
@@ -205,6 +243,10 @@ async function fetchDailyKline(etf) {
       close: number(closes[index])
     })).filter((row) => row.close > 0);
   });
+}
+
+function fetchMarket(url, options = {}) {
+  return fetch(url, { ...options, signal: AbortSignal.timeout(12000) });
 }
 
 async function retry(fn) {
@@ -228,4 +270,5 @@ function normalizeSymbol(symbol) {
 }
 function number(value) { const n = Number(value); return Number.isFinite(n) ? n : null; }
 function average(values) { return values.reduce((sum, value) => sum + value, 0) / values.length; }
+
 
