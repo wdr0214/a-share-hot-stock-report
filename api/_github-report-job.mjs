@@ -1,6 +1,7 @@
 import { spawn } from "node:child_process";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 
 const REPO = process.env.GITHUB_REPORT_REPO || "wdr0214/a-share-hot-stock-report";
@@ -31,7 +32,7 @@ export const runtimeConfig = {
   maxDuration: 60
 };
 
-export async function handleReportJob(req, res, type) {
+export async function handleReportJob(req, res, type, { defer } = {}) {
   try {
     assertAuthorized(req);
     if (["daily", "weekly"].includes(type)) {
@@ -62,24 +63,18 @@ export async function handleReportJob(req, res, type) {
       });
     }
 
-    const workspace = join("/tmp", `a-share-report-${type}-${date}-${Date.now()}`);
-    await rm(workspace, { recursive: true, force: true });
-    await mkdir(join(workspace, "data"), { recursive: true });
-
-    await seedReportsDb(workspace);
-    const generation = await runCli(workspace, type, date, req);
-    const changedFiles = await collectChangedFiles(workspace, type, date);
-    const commitResults = await writeFilesToGitHub(changedFiles, `Update ${type} report ${date}`);
-
-    return res.status(200).json({
-      ok: true,
-      runtime: "vercel",
-      type,
-      date,
-      generation: summarizeGeneration(generation),
-      committed: commitResults.length,
-      files: commitResults.map((item) => item.path)
-    });
+    if (type === "etf-rotation" && defer) {
+      const job = executeReportJob(req, type, date).catch(async (error) => {
+        console.error("ETF report job failed", { date, error: error.message });
+        await writeFilesToGitHub([{
+          path: "outputs/data/reports/etf-rotation-job.json",
+          content: JSON.stringify({ type, date, status: "failed", finishedAt: new Date().toISOString(), error: error.message.slice(0, 1500) })
+        }], `Record ETF report failure ${date}`).catch(() => console.error("Unable to persist ETF failure status", { date }));
+      });
+      defer(job);
+      return res.status(202).json({ ok: true, runtime: "vercel", type, date, status: "accepted", completed: false });
+    }
+    return res.status(200).json(await executeReportJob(req, type, date));
   } catch (error) {
     return res.status(500).json({
       ok: false,
@@ -88,6 +83,71 @@ export async function handleReportJob(req, res, type) {
       error: error.message
     });
   }
+}
+
+async function executeReportJob(req, type, date) {
+    const workspace = join(tmpdir(), `a-share-report-${type}-${date}-${Date.now()}`);
+    await rm(workspace, { recursive: true, force: true });
+    await mkdir(join(workspace, "data"), { recursive: true });
+
+    const snapshot = type === "etf-rotation" ? await seedEtfReportsDb(workspace) : await seedReportsDb(workspace);
+    const generation = await runCli(workspace, type, date, req);
+    const changedFiles = await collectChangedFiles(workspace, type, date);
+    if (type === "etf-rotation") changedFiles.push({
+      path: "outputs/data/reports/etf-rotation-job.json",
+      content: JSON.stringify({ type, date, status: "completed", finishedAt: new Date().toISOString() })
+    });
+    const commitResults = type === "etf-rotation"
+      ? await writeEtfFilesToGitHub(changedFiles, `Update ${type} report ${date}`, snapshot)
+      : await writeFilesToGitHub(changedFiles, `Update ${type} report ${date}`);
+
+    return {
+      ok: true,
+      runtime: "vercel",
+      type,
+      date,
+      generation: summarizeGeneration(generation),
+      committed: commitResults.length,
+      files: commitResults.map((item) => item.path)
+    };
+}
+
+async function seedEtfReportsDb(workspace) {
+  const head = await githubJson(`git/ref/heads/${encodeURIComponent(BRANCH)}`);
+  const payload = await fetchText(`https://raw.githubusercontent.com/${REPO}/${head.object.sha}/data/reports.json`, 15000);
+  const db = JSON.parse(payload);
+  if (!db.etfRotationReports || !Array.isArray(db.jobLogs)) throw new Error("Invalid ETF report database; refusing to reset history");
+  if (Object.keys(db.etfRotationReports).length && !db.etfRotationPortfolio?.history?.length) throw new Error("ETF portfolio history missing; refusing to reset net value");
+  await writeFile(join(workspace, "data", "reports.json"), payload, "utf8");
+  return { sha: head.object.sha, payload };
+}
+
+export async function writeEtfFilesToGitHub(files, message, snapshot) {
+  // Publish database, dated report and latest pointers together, never a partial report.
+  const head = await githubJson(`git/ref/heads/${encodeURIComponent(BRANCH)}`);
+  if (head.object.sha !== snapshot.sha) {
+    const current = await fetchText(`https://raw.githubusercontent.com/${REPO}/${head.object.sha}/data/reports.json`, 15000);
+    if (current !== snapshot.payload) throw new Error("Report database changed during generation; refusing to overwrite newer portfolio history");
+  }
+  const commit = await githubJson(`git/commits/${head.object.sha}`);
+  const tree = await githubJson("git/trees", "POST", {
+    base_tree: commit.tree.sha,
+    tree: files.map((file) => ({ path: file.path, mode: "100644", type: "blob", content: file.content }))
+  });
+  const next = await githubJson("git/commits", "POST", { message, tree: tree.sha, parents: [head.object.sha] });
+  await githubJson(`git/refs/heads/${encodeURIComponent(BRANCH)}`, "PATCH", { sha: next.sha, force: false });
+  return files.map((file) => ({ path: file.path, commit: next.sha }));
+}
+
+async function githubJson(path, method = "GET", body) {
+  const token = process.env.GITHUB_REPORT_TOKEN || process.env.GITHUB_TOKEN || "";
+  if (!token) throw new Error("GITHUB_REPORT_TOKEN is not configured");
+  const response = await fetch(`${API_BASE}/repos/${REPO}/${path}`, {
+    method, headers: githubHeaders(token), signal: AbortSignal.timeout(15000),
+    ...(body ? { body: JSON.stringify(body) } : {})
+  });
+  if (!response.ok) throw new Error(`GitHub report storage HTTP ${response.status}`);
+  return response.json();
 }
 
 function summarizeGeneration(generation) {
@@ -258,8 +318,8 @@ async function getGitHubFile(path, token) {
   return response.json();
 }
 
-async function fetchText(url) {
-  const response = await fetch(url, { headers: { "User-Agent": "vercel-report-job/1.0" } });
+async function fetchText(url, timeoutMs) {
+  const response = await fetch(url, { headers: { "User-Agent": "vercel-report-job/1.0" }, ...(timeoutMs ? { signal: AbortSignal.timeout(timeoutMs) } : {}) });
   if (!response.ok) throw new Error(`request failed ${response.status}`);
   return response.text();
 }
@@ -287,3 +347,4 @@ function shanghaiDate() {
   }).formatToParts(new Date()).reduce((acc, part) => (acc[part.type] = part.value, acc), {});
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
+

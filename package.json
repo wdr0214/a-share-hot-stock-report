@@ -12,5 +12,7 @@
     "export:static": "node src/cli.js export-static",
     "check": "node src/cli.js check"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@vercel/functions": "3.10.6"
+  }
 }
