@@ -450138,6 +450138,521 @@
   "weeklyReports": {},
   "newsReports": {},
   "etfRotationReports": {
+    "2026-11-05": {
+      "type": "etf-rotation",
+      "date": "2026-11-05",
+      "generatedAt": "2026-11-05T13:20:36.329Z",
+      "executionTime": "14:53分钟行情补报",
+      "executionPriceBasis": "minute_1453_open_backfill",
+      "status": "ok",
+      "parameters": {
+        "momentumDays": 20,
+        "maDays": 28
+      },
+      "etfs": [
+        {
+          "symbol": "SZ159915",
+          "name": "创业板ETF",
+          "price": 2.584,
+          "quoteSource": "Yahoo 14:53分钟开盘价补报",
+          "quoteTime": "2026-11-05T06:53:00.000Z",
+          "momentum20Pct": -15.361938336036657,
+          "ma28": 2.8846428649766103,
+          "aboveMa28": false
+        },
+        {
+          "symbol": "SH510300",
+          "name": "沪深300ETF",
+          "price": 4.188,
+          "quoteSource": "Yahoo 14:53分钟开盘价补报",
+          "quoteTime": "2026-11-05T06:53:00.000Z",
+          "momentum20Pct": -4.579629568467261,
+          "ma28": 4.297714267458234,
+          "aboveMa28": false
+        },
+        {
+          "symbol": "SH518880",
+          "name": "黄金ETF",
+          "price": 8.416,
+          "quoteSource": "Yahoo 14:53分钟开盘价补报",
+          "quoteTime": "2026-11-05T06:53:00.000Z",
+          "momentum20Pct": -0.6844462741146253,
+          "ma28": 8.46650002683912,
+          "aboveMa28": false
+        },
+        {
+          "symbol": "SZ159941",
+          "name": "纳指ETF",
+          "price": 1.642,
+          "quoteSource": "Yahoo 14:53分钟开盘价补报",
+          "quoteTime": "2026-11-05T06:53:00.000Z",
+          "momentum20Pct": -5.95647470967487,
+          "ma28": 1.7029285771506173,
+          "aboveMa28": false
+        },
+        {
+          "symbol": "SH513050",
+          "name": "中国互联网ETF",
+          "price": 1.042,
+          "quoteSource": "Yahoo 14:53分钟开盘价补报",
+          "quoteTime": "2026-11-05T06:53:00.000Z",
+          "momentum20Pct": 6.218144079068451,
+          "ma28": 0.98678571837289,
+          "aboveMa28": true
+        },
+        {
+          "symbol": "SH511260",
+          "name": "十年国债ETF",
+          "price": 135.878,
+          "quoteSource": "Yahoo 14:53分钟开盘价补报",
+          "quoteTime": "2026-11-05T06:53:00.000Z",
+          "momentum20Pct": 0.8520777175577905,
+          "ma28": 135.18042755126953,
+          "aboveMa28": true
+        }
+      ],
+      "leader": {
+        "symbol": "SH513050",
+        "name": "中国互联网ETF",
+        "momentum20Pct": 6.218144079068451,
+        "aboveMa28": true
+      },
+      "holding": {
+        "symbol": "SH513050",
+        "name": "中国互联网ETF",
+        "shares": 0.8825303673923158,
+        "entryPrice": 1.042,
+        "entryDate": "2026-11-05"
+      },
+      "rebalance": [
+        {
+          "action": "sell",
+          "symbol": "SH511260",
+          "name": "十年国债ETF",
+          "price": 135.878,
+          "returnPct": 0.1555278733958769
+        },
+        {
+          "action": "buy",
+          "symbol": "SH513050",
+          "name": "中国互联网ETF",
+          "price": 1.042
+        }
+      ],
+      "netValue": 0.9195966428227931,
+      "portfolioHistory": [
+        {
+          "date": "2026-08-25",
+          "netValue": 0.9998999999999999,
+          "holding": "SH518880",
+          "rebalanced": true
+        },
+        {
+          "date": "2026-08-26",
+          "netValue": 0.998746228889122,
+          "holding": "SH518880",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-08-27",
+          "netValue": 0.9914040490926256,
+          "holding": "SH518880",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-08-28",
+          "netValue": 0.9927675967691177,
+          "holding": "SH518880",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-08-31",
+          "netValue": 0.9578397985943564,
+          "holding": "SH518880",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-01",
+          "netValue": 0.9562664743522502,
+          "holding": "SH518880",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-02",
+          "netValue": 0.9336221219993706,
+          "holding": null,
+          "rebalanced": true,
+          "trades": [
+            {
+              "action": "sell",
+              "symbol": "SH518880",
+              "name": "黄金ETF",
+              "price": 8.902,
+              "returnPct": -6.619112556383093
+            }
+          ]
+        },
+        {
+          "date": "2026-09-03",
+          "netValue": 0.9335287597871706,
+          "holding": "SH518880",
+          "rebalanced": true,
+          "trades": [
+            {
+              "action": "buy",
+              "symbol": "SH518880",
+              "name": "黄金ETF",
+              "price": 9.104
+            }
+          ]
+        },
+        {
+          "date": "2026-09-04",
+          "netValue": 0.9398862711126106,
+          "holding": "SH518880",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-07",
+          "netValue": 0.9258382218934934,
+          "holding": "SH518880",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-08",
+          "netValue": 0.9282991940194703,
+          "holding": "SH518880",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-09",
+          "netValue": 0.9269661674512327,
+          "holding": "SH518880",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-10",
+          "netValue": 0.9315992234015533,
+          "holding": "SH511260",
+          "rebalanced": true,
+          "trades": [
+            {
+              "action": "sell",
+              "symbol": "SH518880",
+              "name": "黄金ETF",
+              "price": 9.087,
+              "returnPct": -0.18673110720561797
+            },
+            {
+              "action": "buy",
+              "symbol": "SH511260",
+              "name": "十年国债ETF",
+              "price": 135.89
+            }
+          ]
+        },
+        {
+          "date": "2026-09-11",
+          "netValue": 0.9312907241370523,
+          "holding": "SH511260",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-14",
+          "netValue": 0.931379846146797,
+          "holding": "SH511260",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-15",
+          "netValue": 0.9318391672739433,
+          "holding": "SH511260",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-16",
+          "netValue": 0.9320105557542216,
+          "holding": "SH511260",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-17",
+          "netValue": 0.932175088695289,
+          "holding": "SH511260",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-18",
+          "netValue": 0.9322213961304713,
+          "holding": "SZ159941",
+          "rebalanced": true,
+          "trades": [
+            {
+              "action": "sell",
+              "symbol": "SH511260",
+              "name": "十年国债ETF",
+              "price": 134.733,
+              "returnPct": 0.08661417322835638,
+              "returnBasis": "price_plus_cash_dividend"
+            },
+            {
+              "action": "buy",
+              "symbol": "SZ159941",
+              "name": "纳指ETF",
+              "price": 1.677
+            }
+          ],
+          "cashDividend": {
+            "symbol": "SH511260",
+            "exDate": "2026-09-18",
+            "payDate": "2026-09-21",
+            "cashPerShare": 1.2747,
+            "shares": 0.006855539211138078,
+            "cashAmount": 0.008738755832437708,
+            "note": "除权日现金分红计入模拟盘现金，不假设当日自动再投资。"
+          }
+        },
+        {
+          "date": "2026-09-22",
+          "netValue": 0.9525963858090801,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-23",
+          "netValue": 0.9614071921565868,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-24",
+          "netValue": 0.9487416580320461,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-28",
+          "netValue": 0.9448869302550119,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-29",
+          "netValue": 0.9492923334287652,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-09-30",
+          "netValue": 0.9630592183467442,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-10-08",
+          "netValue": 0.9696673231073742,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-10-12",
+          "netValue": 0.982883532628634,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-10-13",
+          "netValue": 0.9773767786614423,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-10-14",
+          "netValue": 0.9834342080253532,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-10-15",
+          "netValue": 0.9509443596189228,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-10-16",
+          "netValue": 0.96581259533034,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-10-19",
+          "netValue": 0.9559004381893951,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-10-21",
+          "netValue": 0.9498430088254844,
+          "holding": "SZ159941",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-10-23",
+          "netValue": 0.924970983587108,
+          "holding": null,
+          "rebalanced": true,
+          "trades": [
+            {
+              "action": "sell",
+              "symbol": "SZ159941",
+              "name": "纳指ETF",
+              "price": 1.664,
+              "returnPct": -0.7751937984496197
+            }
+          ]
+        },
+        {
+          "date": "2026-10-26",
+          "netValue": 0.9248784864887494,
+          "holding": "SH511260",
+          "rebalanced": true,
+          "trades": [
+            {
+              "action": "buy",
+              "symbol": "SH511260",
+              "name": "十年国债ETF",
+              "price": 135.425
+            }
+          ]
+        },
+        {
+          "date": "2026-10-27",
+          "netValue": 0.9258072919099232,
+          "holding": "SH511260",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-10-28",
+          "netValue": 0.9256016554522013,
+          "holding": "SZ159941",
+          "rebalanced": true,
+          "trades": [
+            {
+              "action": "sell",
+              "symbol": "SH511260",
+              "name": "十年国债ETF",
+              "price": 135.558,
+              "returnPct": 0.09820934096361922
+            },
+            {
+              "action": "buy",
+              "symbol": "SZ159941",
+              "name": "纳指ETF",
+              "price": 1.703
+            }
+          ]
+        },
+        {
+          "date": "2026-10-29",
+          "netValue": 0.9183522959467676,
+          "holding": "SH511260",
+          "rebalanced": true,
+          "trades": [
+            {
+              "action": "sell",
+              "symbol": "SZ159941",
+              "name": "纳指ETF",
+              "price": 1.69,
+              "returnPct": -0.7633587786259614
+            },
+            {
+              "action": "buy",
+              "symbol": "SH511260",
+              "name": "十年国债ETF",
+              "price": 135.667
+            }
+          ]
+        },
+        {
+          "date": "2026-10-30",
+          "netValue": 0.9158680124245222,
+          "holding": "SH511260",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-11-02",
+          "netValue": 0.9171135387681003,
+          "holding": "SH511260",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-11-03",
+          "netValue": 0.918744907511591,
+          "holding": "SH511260",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-11-04",
+          "netValue": 0.9191984415606114,
+          "holding": "SH511260",
+          "rebalanced": false,
+          "trades": []
+        },
+        {
+          "date": "2026-11-05",
+          "netValue": 0.9195966428227931,
+          "holding": "SH513050",
+          "rebalanced": true,
+          "trades": [
+            {
+              "action": "sell",
+              "symbol": "SH511260",
+              "name": "十年国债ETF",
+              "price": 135.878,
+              "returnPct": 0.1555278733958769
+            },
+            {
+              "action": "buy",
+              "symbol": "SH513050",
+              "name": "中国互联网ETF",
+              "price": 1.042
+            }
+          ]
+        }
+      ]
+    },
     "2026-11-04": {
       "type": "etf-rotation",
       "date": "2026-11-04",
@@ -461872,14 +462387,14 @@
     }
   },
   "etfRotationPortfolio": {
-    "netValue": 0.9191984415606114,
+    "netValue": 0.9195966428227931,
     "cash": 0,
     "holding": {
-      "symbol": "SH511260",
-      "name": "十年国债ETF",
-      "shares": 0.006769164910750349,
-      "entryPrice": 135.667,
-      "entryDate": "2026-10-29"
+      "symbol": "SH513050",
+      "name": "中国互联网ETF",
+      "shares": 0.8825303673923158,
+      "entryPrice": 1.042,
+      "entryDate": "2026-11-05"
     },
     "history": [
       {
@@ -462270,6 +462785,27 @@
         "holding": "SH511260",
         "rebalanced": false,
         "trades": []
+      },
+      {
+        "date": "2026-11-05",
+        "netValue": 0.9195966428227931,
+        "holding": "SH513050",
+        "rebalanced": true,
+        "trades": [
+          {
+            "action": "sell",
+            "symbol": "SH511260",
+            "name": "十年国债ETF",
+            "price": 135.878,
+            "returnPct": 0.1555278733958769
+          },
+          {
+            "action": "buy",
+            "symbol": "SH513050",
+            "name": "中国互联网ETF",
+            "price": 1.042
+          }
+        ]
       }
     ]
   },
@@ -462762,16 +463298,6 @@
   },
   "dailyPortfolio": null,
   "jobLogs": [
-    {
-      "jobName": "late-report",
-      "startedAt": "2026-08-27T06:53:33.329Z",
-      "finishedAt": "2026-08-27T06:53:33.329Z",
-      "status": "failed",
-      "errorMessage": "NETLIFY_DATA_PROXY_BASE is not defined",
-      "reportKey": "2026-08-27",
-      "attempts": 4,
-      "nextRetryHint": "scheduled catchup or one-hour rerun"
-    },
     {
       "jobName": "late-report",
       "startedAt": "2026-08-27T06:54:01.737Z",
@@ -464420,6 +464946,15 @@
       "status": "success",
       "errorMessage": "",
       "reportKey": "legacy-daily-weekly-removed"
+    },
+    {
+      "jobName": "etf-rotation",
+      "startedAt": "2026-11-05T13:20:36.769Z",
+      "finishedAt": "2026-11-05T13:20:36.769Z",
+      "status": "ok",
+      "errorMessage": "",
+      "reportKey": "2026-11-05",
+      "attempts": 1
     }
   ]
 }
