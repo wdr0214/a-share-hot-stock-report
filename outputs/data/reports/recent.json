@@ -2,6 +2,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-11-05",
+      "generatedAt": "2026-11-05T06:52:23.703Z",
+      "status": "ok",
+      "totalCandidates": 2387,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ002086",
+          "name": "东方海洋",
+          "heatScore": 121
+        },
+        {
+          "rank": 2,
+          "symbol": "SH600261",
+          "name": "阳光照明",
+          "heatScore": 112
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ300071",
+          "name": "福石控股",
+          "heatScore": 110
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ301171",
+          "name": "易点天下",
+          "heatScore": 107
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ300438",
+          "name": "鹏辉能源",
+          "heatScore": 106
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-11-04",
       "generatedAt": "2026-11-04T06:51:27.984Z",
       "status": "ok",
