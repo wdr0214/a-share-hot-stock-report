@@ -22,7 +22,7 @@ on:
         required: false
         default: ""
       etf_price_mode:
-        description: "ETF only: intraday for 14:53 live price; close-backfill for a historical daily close"
+        description: "ETF only: intraday for 14:50 live price; close-backfill for a historical daily close"
         required: false
         default: "intraday"
         type: choice
@@ -135,4 +135,5 @@ jobs:
 
       - id: deployment
         uses: actions/deploy-pages@v4
+
 

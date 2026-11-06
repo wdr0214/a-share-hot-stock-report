@@ -27,11 +27,11 @@ export async function generateEtfRotation({ date, now, portfolio, executionPrice
   }
   const useCloseBackfill = executionPriceMode === "close-backfill";
   const shanghai = shanghaiParts(now);
-  if (!useCloseBackfill && (date !== shanghai.date || shanghai.hour < 14 || (shanghai.hour === 14 && shanghai.minute < 53))) {
-    throw new Error("ETF 轮动报告仅在当日 14:53 后生成，不使用伪造的历史分钟价。");
+  if (!useCloseBackfill && (date !== shanghai.date || shanghai.hour < 14 || (shanghai.hour === 14 && shanghai.minute < 50))) {
+    throw new Error("ETF 轮动报告仅在当日 14:50 后生成，不使用伪造的历史分钟价。");
   }
 
-  const useMinuteBackfill = !useCloseBackfill && (shanghai.hour > 14 || shanghai.minute > 53);
+  const useMinuteBackfill = !useCloseBackfill && (shanghai.hour > 14 || shanghai.minute > 50);
   const quoteTask = useCloseBackfill ? null : useMinuteBackfill
     ? fetchExecutionMinuteQuotes(ETFS, date)
     : fetchQuotesWithFallback(ETFS, date).catch(() => fetchExecutionMinuteQuotes(ETFS, date));
@@ -41,7 +41,7 @@ export async function generateEtfRotation({ date, now, portfolio, executionPrice
   const quotes = useCloseBackfill
     ? await fetchHistoricalCloseWithFallback(ETFS, klineSets, date)
     : intradayQuotes;
-  const minuteBackfilled = !useCloseBackfill && quotes.every((quote) => quote.executionPriceBasis === "minute_1453_open_backfill");
+  const minuteBackfilled = !useCloseBackfill && quotes.every((quote) => quote.executionPriceBasis === "minute_1450_open_backfill");
   const quoteMap = new Map(quotes.map((quote) => [quote.symbol, quote]));
   const indicators = ETFS.map((etf, index) => {
     const quote = quoteMap.get(etf.symbol);
@@ -63,8 +63,8 @@ export async function generateEtfRotation({ date, now, portfolio, executionPrice
   const target = leader.aboveMa28 ? leader : null;
   const next = rebalance(portfolio, date, target, quoteMap);
   const report = {
-    type: "etf-rotation", date, generatedAt: now.toISOString(), executionTime: useCloseBackfill ? "收盘价补生成" : minuteBackfilled ? "14:53分钟行情补报" : "14:53",
-    executionPriceBasis: useCloseBackfill ? "daily_close_backfill" : minuteBackfilled ? "minute_1453_open_backfill" : "intraday_quote",
+    type: "etf-rotation", date, generatedAt: now.toISOString(), executionTime: useCloseBackfill ? "收盘价补生成" : minuteBackfilled ? "14:50分钟行情补报" : "14:50",
+    executionPriceBasis: useCloseBackfill ? "daily_close_backfill" : minuteBackfilled ? "minute_1450_open_backfill" : "intraday_quote",
     status: "ok", parameters: { momentumDays: 20, maDays: 28 },
     etfs: indicators, leader: { symbol: leader.symbol, name: leader.name, momentum20Pct: leader.momentum20Pct, aboveMa28: leader.aboveMa28 },
     holding: next.holding, rebalance: next.trades,
@@ -80,7 +80,7 @@ function rebalance(previous, date, target, quoteMap) {
   const trades = [];
   if (old && old.symbol !== target?.symbol) {
     const quote = quoteMap.get(old.symbol);
-    if (!quote?.price) throw new Error(`${old.symbol} \u7f3a\u5c11 14:53 \u5356\u51fa\u4ef7\u683c\u3002`);
+    if (!quote?.price) throw new Error(`${old.symbol} \u7f3a\u5c11 14:50 \u5356\u51fa\u4ef7\u683c\u3002`);
     const gross = old.shares * quote.price;
     cash += gross * (1 - FEE_RATE);
     trades.push({ action: "sell", symbol: old.symbol, name: old.name, price: quote.price, returnPct: ((quote.price - old.entryPrice) / old.entryPrice) * 100 });
@@ -209,7 +209,7 @@ async function fetchQuotesWithFallback(etfs, date) {
 function assertExecutionMinute(time, date) {
   if (!Number.isFinite(time.getTime())) throw new Error("ETF quote has no valid timestamp");
   const parts = shanghaiParts(time);
-  if (parts.date !== date || parts.hour !== 14 || parts.minute !== 53) throw new Error("ETF quote is not from the requested 14:53 execution minute");
+  if (parts.date !== date || parts.hour !== 14 || parts.minute !== 50) throw new Error("ETF quote is not from the requested 14:50 execution minute");
 }
 
 async function fetchExecutionMinuteQuotes(etfs, date) {
@@ -220,13 +220,13 @@ async function fetchExecutionMinuteQuotes(etfs, date) {
     if (!response.ok) throw new Error(`Yahoo minute HTTP ${response.status}`);
     const result = (await response.json())?.chart?.result?.[0];
     if (result?.meta?.symbol?.toUpperCase() !== etf.yahooSymbol.toUpperCase()) throw new Error(`${etf.symbol} minute quote symbol mismatch`);
-    const timestamp = Math.floor(new Date(`${date}T14:53:00+08:00`).getTime() / 1000);
+    const timestamp = Math.floor(new Date(`${date}T14:50:00+08:00`).getTime() / 1000);
     const index = result?.timestamp?.indexOf(timestamp) ?? -1;
-    // The minute open is the first reported price of 14:53, not a later closing quote.
+    // The minute open is the first reported price of 14:50, not a later closing quote.
     const rawPrice = index >= 0 ? number(result?.indicators?.quote?.[0]?.open?.[index]) : null;
-    if (!(rawPrice > 0)) throw new Error(`${etf.symbol} 缺少 ${date} 14:53 真实分钟行情，不使用当前价替代`);
+    if (!(rawPrice > 0)) throw new Error(`${etf.symbol} 缺少 ${date} 14:50 真实分钟行情，不使用当前价替代`);
     return { symbol: etf.symbol, price: Math.round(rawPrice * 1000) / 1000,
-      source: "Yahoo 14:53分钟开盘价补报", quoteTime: new Date(timestamp * 1000).toISOString(), executionPriceBasis: "minute_1453_open_backfill" };
+      source: "Yahoo 14:50分钟开盘价补报", quoteTime: new Date(timestamp * 1000).toISOString(), executionPriceBasis: "minute_1450_open_backfill" };
   })));
 }
 
@@ -270,5 +270,6 @@ function normalizeSymbol(symbol) {
 }
 function number(value) { const n = Number(value); return Number.isFinite(n) ? n : null; }
 function average(values) { return values.reduce((sum, value) => sum + value, 0) / values.length; }
+
 
 

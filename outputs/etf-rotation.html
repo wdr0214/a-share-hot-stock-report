@@ -9,7 +9,7 @@
 </head>
 <body>
 <main class="wrap">
-<header class="top"><div><h1>A&#32929; ETF&#36718;&#21160;&#25253;&#21578;</h1><p class="muted">&#25191;&#34892;&#26102;&#28857;&#65306;&#20132;&#26131;&#26085; 14:53</p></div><a class="back" href="index.html">&#36820;&#22238;&#34892;&#24773;&#25253;&#21578;</a></header>
+<header class="top"><div><h1>A&#32929; ETF&#36718;&#21160;&#25253;&#21578;</h1><p class="muted">&#25191;&#34892;&#26102;&#28857;&#65306;&#20132;&#26131;&#26085; 14:50</p></div><a class="back" href="index.html">&#36820;&#22238;&#34892;&#24773;&#25253;&#21578;</a></header>
 <section id="meta" class="meta"><span class="muted">&#27491;&#22312;&#35835;&#21462;&#26368;&#26032;&#25253;&#21578;...</span></section>
 <section id="content"></section>
 </main>
@@ -24,18 +24,19 @@ const CURVE_WINDOW=20;
 let report=null,curveStart=0,curveHits=[],dragStartX=null,dragMoved=false;
 function load(){
  fetch("data/reports/etf-rotation-latest.json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw Error("No report");return r.json()}).then(r=>{report=r;render()}).catch(()=>{
-  $("meta").innerHTML="<b>&#26242;&#26080; ETF &#36718;&#21160;&#25253;&#21578;</b><p class='muted'>&#20132;&#26131;&#26085; 14:53 &#21518;&#65292;&#21482;&#22312;&#30495;&#23454;&#34892;&#24773;&#21644;&#26085; K &#25968;&#25454;&#23436;&#25972;&#26102;&#29983;&#25104;&#12290;</p>";
+  $("meta").innerHTML="<b>&#26242;&#26080; ETF &#36718;&#21160;&#25253;&#21578;</b><p class='muted'>&#20132;&#26131;&#26085; 14:50 &#21518;&#65292;&#21482;&#22312;&#30495;&#23454;&#34892;&#24773;&#21644;&#26085; K &#25968;&#25454;&#23436;&#25972;&#26102;&#29983;&#25104;&#12290;</p>";
  });
 }
 function render(){
  const h=report.holding;
- const minuteBackfill=report.executionPriceBasis==="minute_1453_open_backfill";
- const quoteLabel=minuteBackfill?"14:53&#20998;&#38047;&#24320;&#30424;&#20215;&#34917;&#25253;":"&#25253;&#20215;&#24555;&#29031; 14:53";
+ const minuteBackfill=/^minute_\d{4}_open_backfill$/.test(report.executionPriceBasis||"");
+ const executionTime=String(report.executionTime||"").match(/\d{2}:\d{2}/)?.[0]||(report.executionPriceBasis==="minute_1450_open_backfill"?"14:50":"14:53");
+ const quoteLabel=minuteBackfill?esc(executionTime)+"&#20998;&#38047;&#24320;&#30424;&#20215;&#34917;&#25253;":"&#25253;&#20215;&#24555;&#29031; "+esc(executionTime);
  $("meta").innerHTML="<b>"+esc(report.date)+" ETF &#36718;&#21160;&#25253;&#21578;</b><p class='muted'>&#29983;&#25104;&#26102;&#38388;&#65306;"+esc(new Date(report.generatedAt).toLocaleString("zh-CN",{hour12:false}))+"&#65288;"+quoteLabel+"&#65289;</p>";
  const holding=h?esc(h.name)+" <span class='tag'>"+esc(h.symbol)+"</span>":"&#31354;&#20179;";
  const rows=(report.etfs||[]).map(e=>"<tr><td><b>"+esc(e.name)+"</b><br><span class='tag'>"+esc(e.symbol)+"</span></td><td>"+fmt(e.price)+"</td><td class='"+(n(e.momentum20Pct)>=0?"up":"down")+"'>"+pct(e.momentum20Pct)+"</td><td>"+fmt(e.ma28)+"</td><td>"+(e.aboveMa28?"&#28385;&#36275;":"&#19981;&#28385;&#36275;")+"</td></tr>").join("");
- const trades=(report.rebalance||[]).map(t=>"<div class='trade'><b>"+(t.action==="buy"?"&#20080;&#20837;":"&#21334;&#20986;")+" "+esc(t.name)+"</b><br><span class='muted'>"+esc(t.symbol)+" / 14:53 "+fmt(t.price)+(Number.isFinite(n(t.returnPct))?" / "+pct(t.returnPct):"")+"</span></div>").join("");
- $("content").innerHTML="<section class='metrics'><div class='metric'><span>&#24403;&#21069;&#31574;&#30053;&#20928;&#20540;</span><b>"+fmt(report.netValue)+"</b><button class='link' id='curve' type='button'>&#26597;&#30475;&#20928;&#20540;&#26354;&#32447;</button></div><div class='metric'><span>&#24403;&#26085;&#25345;&#20179;&#26631;&#30340;</span><b>"+holding+"</b></div><div class='metric'><span>&#31574;&#30053;&#21442;&#25968;</span><b>20&#26085;&#28072;&#36300;&#24133; / MA28</b><span class='tag'>"+(minuteBackfill?quoteLabel:"&#25353; 14:53 &#30495;&#23454;&#20215;&#26684;&#25191;&#34892;")+"</span></div></section><section class='card'><h2>&#20845;&#21482; ETF &#25191;&#34892;&#26102;&#28857;&#34892;&#24773;</h2><div class='table'><table><thead><tr><th>ETF</th><th>14:53&#20215;&#26684;</th><th>20&#26085;&#28072;&#36300;&#24133;</th><th>MA28</th><th>MA28&#26465;&#20214;</th></tr></thead><tbody>"+rows+"</tbody></table></div></section>"+(trades?"<section class='card'><h2>&#24403;&#26085;&#35843;&#20179;</h2><div class='rebalance'>"+trades+"</div></section>":"");
+ const trades=(report.rebalance||[]).map(t=>"<div class='trade'><b>"+(t.action==="buy"?"&#20080;&#20837;":"&#21334;&#20986;")+" "+esc(t.name)+"</b><br><span class='muted'>"+esc(t.symbol)+" / "+esc(executionTime)+" "+fmt(t.price)+(Number.isFinite(n(t.returnPct))?" / "+pct(t.returnPct):"")+"</span></div>").join("");
+ $("content").innerHTML="<section class='metrics'><div class='metric'><span>&#24403;&#21069;&#31574;&#30053;&#20928;&#20540;</span><b>"+fmt(report.netValue)+"</b><button class='link' id='curve' type='button'>&#26597;&#30475;&#20928;&#20540;&#26354;&#32447;</button></div><div class='metric'><span>&#24403;&#26085;&#25345;&#20179;&#26631;&#30340;</span><b>"+holding+"</b></div><div class='metric'><span>&#31574;&#30053;&#21442;&#25968;</span><b>20&#26085;&#28072;&#36300;&#24133; / MA28</b><span class='tag'>"+(minuteBackfill?quoteLabel:"&#25353; "+esc(executionTime)+" &#30495;&#23454;&#20215;&#26684;&#25191;&#34892;")+"</span></div></section><section class='card'><h2>&#20845;&#21482; ETF &#25191;&#34892;&#26102;&#28857;&#34892;&#24773;</h2><div class='table'><table><thead><tr><th>ETF</th><th>"+esc(executionTime)+"&#20215;&#26684;</th><th>20&#26085;&#28072;&#36300;&#24133;</th><th>MA28</th><th>MA28&#26465;&#20214;</th></tr></thead><tbody>"+rows+"</tbody></table></div></section>"+(trades?"<section class='card'><h2>&#24403;&#26085;&#35843;&#20179;</h2><div class='rebalance'>"+trades+"</div></section>":"");
  $("curve").onclick=()=>{location.assign("etf-net-value.html?date="+encodeURIComponent(report.date))};
 }
 function allCurveItems(){
@@ -90,3 +91,4 @@ $("chart").addEventListener("pointercancel",()=>{dragStartX=null;$("chart").clas
 $("close").onclick=()=>{$("modal").hidden=true};$("modal").onclick=e=>{if(e.target===$("modal"))$("modal").hidden=true};load();
 </script>
 </body></html>
+
