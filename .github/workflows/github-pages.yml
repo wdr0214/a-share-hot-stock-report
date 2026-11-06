@@ -88,11 +88,11 @@ jobs:
         run: node src/cli.js etf-dividend-adjust
 
       - name: Restore late-session historical snapshots
-        if: github.event_name == 'push' || github.event.inputs.job == 'restore-late-history'
+        if: github.event.inputs.job == 'restore-late-history'
         run: npm run restore:late
 
       - name: Remove legacy daily and weekly reports
-        if: github.event_name == 'push' || github.event.inputs.job == 'cleanup-legacy-reports'
+        if: github.event.inputs.job == 'cleanup-legacy-reports'
         run: npm run cleanup:legacy-reports
 
       - name: Export static report data
@@ -107,7 +107,7 @@ jobs:
         run: node scripts/export-etf-benchmarks.mjs
 
       - name: Persist generated report data
-        if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+        if: github.event_name == 'workflow_dispatch'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -119,7 +119,13 @@ jobs:
             git add -f data/reports.json
           fi
           git diff --cached --quiet || git commit -m "Update generated stock reports"
-          git push || (git pull --rebase origin main && git push)
+          # A stale generated database must never be rebased over a newer report.
+          git push
+
+      - name: Verify canonical reports before publishing
+        env:
+          GITHUB_REPORT_TOKEN: ${{ github.token }}
+        run: node scripts/check-report-integrity.mjs
 
       - uses: actions/configure-pages@v5
 
@@ -129,3 +135,4 @@ jobs:
 
       - id: deployment
         uses: actions/deploy-pages@v4
+
