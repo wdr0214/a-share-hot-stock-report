@@ -2967,6 +2967,19 @@
   ],
   "etfRotationReports": [
     {
+      "date": "2026-11-06",
+      "generatedAt": "2026-11-06T06:53:09.525Z",
+      "status": "ok",
+      "netValue": 0.9054761569445161,
+      "holding": {
+        "symbol": "SH513050",
+        "name": "中国互联网ETF",
+        "shares": 0.8825303673923158,
+        "entryPrice": 1.042,
+        "entryDate": "2026-11-05"
+      }
+    },
+    {
       "date": "2026-11-05",
       "generatedAt": "2026-11-05T13:20:36.329Z",
       "status": "ok",
