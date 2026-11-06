@@ -83,6 +83,7 @@ test("explicit close-price backfill remains supported",async(t)=>{
 
 function res(){return {statusCode:null,payload:null,status(code){this.statusCode=code;return this;},json(payload){this.payload=payload;return this;}};}
 test("ETF acknowledgment does not wait for storage, and failed seed cannot erase history",async(t)=>{
+  fastRetries(t);
   env(t,"REPORT_JOB_SECRET","test-secret");env(t,"GITHUB_REPORT_TOKEN","test-token");
   let release; const gate=new Promise(resolve=>release=resolve); const writes=[];
   t.mock.method(globalThis,"fetch",async(url,options={})=>{
@@ -97,7 +98,7 @@ test("ETF acknowledgment does not wait for storage, and failed seed cannot erase
   release();await pending;
   assert.equal(writes.length,1);
   const state=JSON.parse(Buffer.from(writes[0].content,"base64").toString());
-  assert.equal(state.status,"failed");assert.equal(state.date,date);
+  assert.equal(state.status,"failed");assert.equal(state.date,date);assert.equal(state.attempts,3);
 });
 
 test("unauthorized and nontrading requests cannot schedule ETF work",async(t)=>{
@@ -137,6 +138,13 @@ test("concurrently changed portfolio database is never overwritten",async(t)=>{
   assert.equal(writes,0);
 });
 
+test("expired ETF execution budget prevents a late repository write",async(t)=>{
+  env(t,"GITHUB_REPORT_TOKEN","test-token");let calls=0;
+  t.mock.method(globalThis,"fetch",async()=>{calls++;throw Error("unexpected");});
+  await assert.rejects(writeEtfFilesToGitHub([{path:"data/reports.json",content:"stale"}],"update",{sha:"seed",payload:"old-db"},{deadline:Date.now()-1}),/budget exhausted/);
+  assert.equal(calls,0);
+});
+
 test("ETF page identifies minute backfill while preserving normal snapshot copy",async()=>{
   const html=await readFile(new URL("../outputs/etf-rotation.html",import.meta.url),"utf8");
   const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
@@ -151,4 +159,5 @@ test("ETF page identifies minute backfill while preserving normal snapshot copy"
     assert.ok(get("content").innerHTML.includes("<th>"+time+"&#20215;&#26684;</th>"));
   }
 });
+
 

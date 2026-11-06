@@ -1,10 +1,11 @@
 import { spawn } from "node:child_process";
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { mergeGeneratedReport } from "../src/report-state.js";
 import { isDeepStrictEqual } from "node:util";
+import { runEtfJobWithRetry } from "../src/etf-job-retry.js";
 
 const REPO = process.env.GITHUB_REPORT_REPO || "wdr0214/a-share-hot-stock-report";
 const BRANCH = process.env.GITHUB_REPORT_BRANCH || "main";
@@ -66,12 +67,14 @@ export async function handleReportJob(req, res, type, { defer } = {}) {
     }
 
     if (type === "etf-rotation" && defer) {
-      const job = executeReportJob(req, type, date).catch(async (error) => {
+      const job = runEtfJobWithRetry(context => executeReportJob(req, type, date, context), {
+        onRetry: ({ attempt, error }) => console.warn("Retrying ETF report job", { date, attempt, error: error.message })
+      }).catch(async (error) => {
         console.error("ETF report job failed", { date, error: error.message });
         await writeFilesToGitHub([{
           path: "outputs/data/reports/etf-rotation-job.json",
-          content: JSON.stringify({ type, date, status: "failed", finishedAt: new Date().toISOString(), error: error.message.slice(0, 1500) })
-        }], `Record ETF report failure ${date}`).catch(() => console.error("Unable to persist ETF failure status", { date }));
+          content: JSON.stringify({ type, date, status: "failed", attempts: error.retryAttempts || 1, finishedAt: new Date().toISOString(), error: error.message.slice(0, 1500) })
+        }], `Record ETF report failure ${date}`, { deadline: Date.now() + 20000 }).catch(() => console.error("Unable to persist ETF failure status", { date }));
       });
       defer(job);
       return res.status(202).json({ ok: true, runtime: "vercel", type, date, status: "accepted", completed: false });
@@ -87,19 +90,22 @@ export async function handleReportJob(req, res, type, { defer } = {}) {
   }
 }
 
-async function executeReportJob(req, type, date) {
-    const workspace = join(tmpdir(), `a-share-report-${type}-${date}-${Date.now()}`);
+async function executeReportJob(req, type, date, context = {}) {
+    const workspace = type === "etf-rotation"
+      ? await mkdtemp(join(tmpdir(), `a-share-report-${type}-${date}-`))
+      : join(tmpdir(), `a-share-report-${type}-${date}-${Date.now()}`);
+    try {
     await rm(workspace, { recursive: true, force: true });
     await mkdir(join(workspace, "data"), { recursive: true });
 
-    const snapshot = await seedReportSnapshot(workspace);
-    if (type === "etf-rotation" && await etfFilesAreCurrent(snapshot, date)) {
+    const snapshot = await seedReportSnapshot(workspace, context);
+    if (type === "etf-rotation" && await etfFilesAreCurrent(snapshot, date, context)) {
       return { ok: true, runtime: "vercel", type, date, skipped: true, reason: "report_already_published", committed: 0 };
     }
-    const archived = type === "etf-rotation" ? await recoverArchivedEtf(snapshot, date) : null;
+    const archived = type === "etf-rotation" ? await recoverArchivedEtf(snapshot, date, context) : null;
     if (archived) await writeFile(join(workspace, "data", "reports.json"), JSON.stringify(archived, null, 2), "utf8");
-    const generation = await runCli(workspace, type, date, req);
-    const commitResults = await persistGeneratedReport(workspace, type, date, snapshot, req);
+    const generation = await runCli(workspace, type, date, req, context);
+    const commitResults = await persistGeneratedReport(workspace, type, date, snapshot, req, context);
 
     return {
       ok: true,
@@ -110,35 +116,38 @@ async function executeReportJob(req, type, date) {
       committed: commitResults.length,
       files: commitResults.map((item) => item.path)
     };
+    } finally {
+      if (type === "etf-rotation") await rm(workspace, { recursive: true, force: true }).catch(() => {});
+    }
 }
 
-async function readReportSnapshot() {
-  const head = await githubJson(`git/ref/heads/${encodeURIComponent(BRANCH)}`);
-  const payload = await fetchText(`https://raw.githubusercontent.com/${REPO}/${head.object.sha}/data/reports.json`, 15000);
+async function readReportSnapshot(context = {}) {
+  const head = await githubJson(`git/ref/heads/${encodeURIComponent(BRANCH)}`, "GET", undefined, context);
+  const payload = await fetchText(`https://raw.githubusercontent.com/${REPO}/${head.object.sha}/data/reports.json`, 15000, context);
   const db = JSON.parse(payload);
   if (!db.etfRotationReports || !Array.isArray(db.jobLogs)) throw new Error("Invalid ETF report database; refusing to reset history");
   if (Object.keys(db.etfRotationReports).length && !db.etfRotationPortfolio?.history?.length) throw new Error("ETF portfolio history missing; refusing to reset net value");
   return { sha: head.object.sha, payload, db };
 }
 
-async function seedReportSnapshot(workspace) {
-  const snapshot = await readReportSnapshot();
+async function seedReportSnapshot(workspace, context = {}) {
+  const snapshot = await readReportSnapshot(context);
   await writeFile(join(workspace, "data", "reports.json"), snapshot.payload, "utf8");
   return snapshot;
 }
 
-export async function recoverArchivedEtf(snapshot, date) {
+export async function recoverArchivedEtf(snapshot, date, context = {}) {
   if (snapshot.db.etfRotationReports?.[date]?.status === "ok") return null;
   const path = `outputs/data/reports/etf-rotation/${date}.json`;
-  const commits = await githubJson(`commits?path=${encodeURIComponent(path)}&sha=${encodeURIComponent(BRANCH)}&per_page=5`);
+  const commits = await githubJson(`commits?path=${encodeURIComponent(path)}&sha=${encodeURIComponent(BRANCH)}&per_page=5`, "GET", undefined, context);
   for (const commit of commits) {
     const url = `https://raw.githubusercontent.com/${REPO}/${commit.sha}/${path}`;
-    const response = await fetch(url, { signal: AbortSignal.timeout(15000) });
+    const response = await fetch(url, { signal: requestSignal(15000, context) });
     if (response.status === 404) continue;
     if (!response.ok) throw new Error(`ETF archive read HTTP ${response.status}`);
     const report = await response.json();
     if (report.date !== date || report.status !== "ok") continue;
-    const historical = JSON.parse(await fetchText(`https://raw.githubusercontent.com/${REPO}/${commit.sha}/data/reports.json`, 15000));
+    const historical = JSON.parse(await fetchText(`https://raw.githubusercontent.com/${REPO}/${commit.sha}/data/reports.json`, 15000, context));
     const stored = historical.etfRotationReports?.[date];
     if (!stored || stored.netValue !== report.netValue) throw new Error("Archived ETF report and database disagree");
     const merged = mergeGeneratedReport({ current: snapshot.db, snapshot: snapshot.db, generated: historical, type: "etf-rotation", date });
@@ -147,13 +156,13 @@ export async function recoverArchivedEtf(snapshot, date) {
   return null;
 }
 
-export async function etfFilesAreCurrent(snapshot, date) {
+export async function etfFilesAreCurrent(snapshot, date, context = {}) {
   const expected = snapshot.db.etfRotationReports?.[date];
   if (expected?.status !== "ok") return false;
   mergeGeneratedReport({ current: snapshot.db, snapshot: snapshot.db, generated: snapshot.db, type: "etf-rotation", date });
   const paths = [`etf-rotation/${date}.json`, "etf-rotation-latest.json"];
   const reports = await Promise.all(paths.map(async path => {
-    const response = await fetch(`https://raw.githubusercontent.com/${REPO}/${snapshot.sha}/outputs/data/reports/${path}`, { signal: AbortSignal.timeout(15000) });
+    const response = await fetch(`https://raw.githubusercontent.com/${REPO}/${snapshot.sha}/outputs/data/reports/${path}`, { signal: requestSignal(15000, context) });
     if (response.status === 404) return null;
     if (!response.ok) throw new Error(`ETF report verification HTTP ${response.status}`);
     return response.json();
@@ -177,21 +186,21 @@ export async function preparePublishedReports(workspace) {
   return { status: "verified", latestEtfDate: Object.keys(snapshot.db.etfRotationReports).sort().at(-1) || null };
 }
 
-export async function persistGeneratedReport(workspace, type, date, snapshot, req) {
+export async function persistGeneratedReport(workspace, type, date, snapshot, req, context = {}) {
   const generated = JSON.parse(await readFile(join(workspace, "data", "reports.json"), "utf8"));
   for (let attempt = 0; attempt < 3; attempt += 1) {
     try {
-      const current = await readReportSnapshot();
+      const current = await readReportSnapshot(context);
       const merged = mergeGeneratedReport({ current: current.db, snapshot: snapshot.db, generated, type, date });
       await writeFile(join(workspace, "data", "reports.json"), JSON.stringify(merged.db, null, 2), "utf8");
       // Rebuild shared indexes from the merged database, not the stale generator copy.
-      await runCli(workspace, "export-static", date, req);
+      await runCli(workspace, "export-static", date, req, context);
       const files = await collectChangedFiles(workspace, type, date);
       if (type === "etf-rotation") files.push({
         path: "outputs/data/reports/etf-rotation-job.json",
-        content: JSON.stringify({ type, date, status: "completed", alreadyPublished: merged.alreadyPublished, finishedAt: new Date().toISOString() })
+        content: JSON.stringify({ type, date, status: "completed", attempts: context.attempt || 1, alreadyPublished: merged.alreadyPublished, finishedAt: new Date().toISOString() })
       });
-      return await writeEtfFilesToGitHub(files, `Update ${type} report ${date}`, current);
+      return await writeEtfFilesToGitHub(files, `Update ${type} report ${date}`, current, context);
     } catch (error) {
       if (attempt === 2 || !(error.status === 409 || error.status === 422 || error.code === "REPORT_STORAGE_CONFLICT" || error.name === "TimeoutError")) throw error;
       await new Promise(resolve => setTimeout(resolve, 2000));
@@ -199,32 +208,32 @@ export async function persistGeneratedReport(workspace, type, date, snapshot, re
   }
 }
 
-export async function writeEtfFilesToGitHub(files, message, snapshot) {
+export async function writeEtfFilesToGitHub(files, message, snapshot, context = {}) {
   // Publish database, dated report and latest pointers together, never a partial report.
-  const head = await githubJson(`git/ref/heads/${encodeURIComponent(BRANCH)}`);
+  const head = await githubJson(`git/ref/heads/${encodeURIComponent(BRANCH)}`, "GET", undefined, context);
   if (head.object.sha !== snapshot.sha) {
-    const current = await fetchText(`https://raw.githubusercontent.com/${REPO}/${head.object.sha}/data/reports.json`, 15000);
+    const current = await fetchText(`https://raw.githubusercontent.com/${REPO}/${head.object.sha}/data/reports.json`, 15000, context);
     if (current !== snapshot.payload) {
       const error = new Error("Report database changed during generation; refusing to overwrite newer portfolio history");
       error.code = "REPORT_STORAGE_CONFLICT";
       throw error;
     }
   }
-  const commit = await githubJson(`git/commits/${head.object.sha}`);
+  const commit = await githubJson(`git/commits/${head.object.sha}`, "GET", undefined, context);
   const tree = await githubJson("git/trees", "POST", {
     base_tree: commit.tree.sha,
     tree: files.map((file) => ({ path: file.path, mode: "100644", type: "blob", content: file.content }))
-  });
-  const next = await githubJson("git/commits", "POST", { message, tree: tree.sha, parents: [head.object.sha] });
-  await githubJson(`git/refs/heads/${encodeURIComponent(BRANCH)}`, "PATCH", { sha: next.sha, force: false });
+  }, context);
+  const next = await githubJson("git/commits", "POST", { message, tree: tree.sha, parents: [head.object.sha] }, context);
+  await githubJson(`git/refs/heads/${encodeURIComponent(BRANCH)}`, "PATCH", { sha: next.sha, force: false }, context);
   return files.map((file) => ({ path: file.path, commit: next.sha }));
 }
 
-async function githubJson(path, method = "GET", body) {
+async function githubJson(path, method = "GET", body, context = {}) {
   const token = process.env.GITHUB_REPORT_TOKEN || process.env.GITHUB_TOKEN || "";
   if (!token) throw new Error("GITHUB_REPORT_TOKEN is not configured");
   const response = await fetch(`${API_BASE}/repos/${REPO}/${path}`, {
-    method, headers: githubHeaders(token), signal: AbortSignal.timeout(15000),
+    method, headers: githubHeaders(token), signal: requestSignal(15000, context),
     ...(body ? { body: JSON.stringify(body) } : {})
   });
   if (!response.ok) {
@@ -301,14 +310,16 @@ function assertAuthorized(req) {
   throw new Error("Unauthorized report job request");
 }
 
-async function runCli(workspace, type, date, req) {
+async function runCli(workspace, type, date, req, context = {}) {
   const script = join(ROOT, "src", "cli.js");
   const origin = `${req.headers?.["x-forwarded-proto"] || "https"}://${req.headers?.host || "10-5-k.vercel.app"}`;
   const env = {
     ...process.env,
     NETLIFY_DATA_PROXY_BASE: process.env.NETLIFY_DATA_PROXY_BASE || origin
   };
-  const result = await spawnNode(script, [type, date], workspace, env);
+  const timeout = context.deadline ? Math.min(120000, context.deadline - Date.now() - 30000) : undefined;
+  if (timeout !== undefined && timeout <= 0) throw new Error("ETF job execution budget exhausted");
+  const result = await spawnNode(script, [type, date], workspace, env, timeout);
   try {
     return JSON.parse(result.stdout);
   } catch {
@@ -316,9 +327,9 @@ async function runCli(workspace, type, date, req) {
   }
 }
 
-function spawnNode(script, args, cwd, env) {
+function spawnNode(script, args, cwd, env, timeout) {
   return new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [script, ...args], { cwd, env });
+    const child = spawn(process.execPath, [script, ...args], { cwd, env, ...(timeout ? { timeout, killSignal: "SIGTERM" } : {}) });
     let stdout = "";
     let stderr = "";
     child.stdout.on("data", (chunk) => {
@@ -328,9 +339,13 @@ function spawnNode(script, args, cwd, env) {
       stderr += chunk;
     });
     child.on("error", reject);
-    child.on("close", (code) => {
+    child.on("close", (code, signal) => {
       if (code === 0) resolve({ stdout, stderr });
-      else reject(new Error(`report generator exited ${code}: ${stderr || stdout}`));
+      else {
+        const error = new Error(`report generator exited ${code}: ${stderr || stdout}`);
+        if (signal === "SIGTERM" && timeout) error.code = "REPORT_STEP_TIMEOUT";
+        reject(error);
+      }
     });
   });
 }
@@ -357,12 +372,12 @@ async function collectChangedFiles(workspace, type, date) {
   return existing;
 }
 
-async function writeFilesToGitHub(files, message) {
+async function writeFilesToGitHub(files, message, context = {}) {
   const token = process.env.GITHUB_REPORT_TOKEN || process.env.GITHUB_TOKEN || "";
   if (!token) throw new Error("GITHUB_REPORT_TOKEN is not configured");
   const results = [];
   for (const file of files) {
-    const current = await getGitHubFile(file.path, token);
+    const current = await getGitHubFile(file.path, token, context);
     const method = "PUT";
     const body = {
       message,
@@ -373,6 +388,7 @@ async function writeFilesToGitHub(files, message) {
     const response = await fetch(`${API_BASE}/repos/${REPO}/contents/${encodeURIComponentPath(file.path)}`, {
       method,
       headers: githubHeaders(token),
+      ...(context.deadline ? { signal: requestSignal(15000, context) } : {}),
       body: JSON.stringify(body)
     });
     if (!response.ok) {
@@ -385,9 +401,10 @@ async function writeFilesToGitHub(files, message) {
   return results;
 }
 
-async function getGitHubFile(path, token) {
+async function getGitHubFile(path, token, context = {}) {
   const response = await fetch(`${API_BASE}/repos/${REPO}/contents/${encodeURIComponentPath(path)}?ref=${encodeURIComponent(BRANCH)}`, {
-    headers: githubHeaders(token)
+    headers: githubHeaders(token),
+    ...(context.deadline ? { signal: requestSignal(15000, context) } : {})
   });
   if (response.status === 404) return null;
   if (!response.ok) {
@@ -397,10 +414,16 @@ async function getGitHubFile(path, token) {
   return response.json();
 }
 
-async function fetchText(url, timeoutMs) {
-  const response = await fetch(url, { headers: { "User-Agent": "vercel-report-job/1.0" }, ...(timeoutMs ? { signal: AbortSignal.timeout(timeoutMs) } : {}) });
+async function fetchText(url, timeoutMs, context = {}) {
+  const response = await fetch(url, { headers: { "User-Agent": "vercel-report-job/1.0" }, ...(timeoutMs ? { signal: requestSignal(timeoutMs, context) } : {}) });
   if (!response.ok) throw new Error(`request failed ${response.status}`);
   return response.text();
+}
+
+function requestSignal(timeoutMs, context) {
+  const remaining = context.deadline ? context.deadline - Date.now() : timeoutMs;
+  if (remaining <= 0) throw new Error("ETF job execution budget exhausted");
+  return AbortSignal.timeout(Math.max(1, Math.min(timeoutMs, remaining)));
 }
 
 function githubHeaders(token) {
@@ -426,5 +449,6 @@ function shanghaiDate() {
   }).formatToParts(new Date()).reduce((acc, part) => (acc[part.type] = part.value, acc), {});
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
+
 
 
