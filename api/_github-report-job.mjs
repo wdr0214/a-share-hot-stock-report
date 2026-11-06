@@ -3,6 +3,8 @@ import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
+import { mergeGeneratedReport } from "../src/report-state.js";
+import { isDeepStrictEqual } from "node:util";
 
 const REPO = process.env.GITHUB_REPORT_REPO || "wdr0214/a-share-hot-stock-report";
 const BRANCH = process.env.GITHUB_REPORT_BRANCH || "main";
@@ -90,16 +92,14 @@ async function executeReportJob(req, type, date) {
     await rm(workspace, { recursive: true, force: true });
     await mkdir(join(workspace, "data"), { recursive: true });
 
-    const snapshot = type === "etf-rotation" ? await seedEtfReportsDb(workspace) : await seedReportsDb(workspace);
+    const snapshot = await seedReportSnapshot(workspace);
+    if (type === "etf-rotation" && await etfFilesAreCurrent(snapshot, date)) {
+      return { ok: true, runtime: "vercel", type, date, skipped: true, reason: "report_already_published", committed: 0 };
+    }
+    const archived = type === "etf-rotation" ? await recoverArchivedEtf(snapshot, date) : null;
+    if (archived) await writeFile(join(workspace, "data", "reports.json"), JSON.stringify(archived, null, 2), "utf8");
     const generation = await runCli(workspace, type, date, req);
-    const changedFiles = await collectChangedFiles(workspace, type, date);
-    if (type === "etf-rotation") changedFiles.push({
-      path: "outputs/data/reports/etf-rotation-job.json",
-      content: JSON.stringify({ type, date, status: "completed", finishedAt: new Date().toISOString() })
-    });
-    const commitResults = type === "etf-rotation"
-      ? await writeEtfFilesToGitHub(changedFiles, `Update ${type} report ${date}`, snapshot)
-      : await writeFilesToGitHub(changedFiles, `Update ${type} report ${date}`);
+    const commitResults = await persistGeneratedReport(workspace, type, date, snapshot, req);
 
     return {
       ok: true,
@@ -112,14 +112,91 @@ async function executeReportJob(req, type, date) {
     };
 }
 
-async function seedEtfReportsDb(workspace) {
+async function readReportSnapshot() {
   const head = await githubJson(`git/ref/heads/${encodeURIComponent(BRANCH)}`);
   const payload = await fetchText(`https://raw.githubusercontent.com/${REPO}/${head.object.sha}/data/reports.json`, 15000);
   const db = JSON.parse(payload);
   if (!db.etfRotationReports || !Array.isArray(db.jobLogs)) throw new Error("Invalid ETF report database; refusing to reset history");
   if (Object.keys(db.etfRotationReports).length && !db.etfRotationPortfolio?.history?.length) throw new Error("ETF portfolio history missing; refusing to reset net value");
-  await writeFile(join(workspace, "data", "reports.json"), payload, "utf8");
-  return { sha: head.object.sha, payload };
+  return { sha: head.object.sha, payload, db };
+}
+
+async function seedReportSnapshot(workspace) {
+  const snapshot = await readReportSnapshot();
+  await writeFile(join(workspace, "data", "reports.json"), snapshot.payload, "utf8");
+  return snapshot;
+}
+
+export async function recoverArchivedEtf(snapshot, date) {
+  if (snapshot.db.etfRotationReports?.[date]?.status === "ok") return null;
+  const path = `outputs/data/reports/etf-rotation/${date}.json`;
+  const commits = await githubJson(`commits?path=${encodeURIComponent(path)}&sha=${encodeURIComponent(BRANCH)}&per_page=5`);
+  for (const commit of commits) {
+    const url = `https://raw.githubusercontent.com/${REPO}/${commit.sha}/${path}`;
+    const response = await fetch(url, { signal: AbortSignal.timeout(15000) });
+    if (response.status === 404) continue;
+    if (!response.ok) throw new Error(`ETF archive read HTTP ${response.status}`);
+    const report = await response.json();
+    if (report.date !== date || report.status !== "ok") continue;
+    const historical = JSON.parse(await fetchText(`https://raw.githubusercontent.com/${REPO}/${commit.sha}/data/reports.json`, 15000));
+    const stored = historical.etfRotationReports?.[date];
+    if (!stored || stored.netValue !== report.netValue) throw new Error("Archived ETF report and database disagree");
+    const merged = mergeGeneratedReport({ current: snapshot.db, snapshot: snapshot.db, generated: historical, type: "etf-rotation", date });
+    return merged.db;
+  }
+  return null;
+}
+
+export async function etfFilesAreCurrent(snapshot, date) {
+  const expected = snapshot.db.etfRotationReports?.[date];
+  if (expected?.status !== "ok") return false;
+  mergeGeneratedReport({ current: snapshot.db, snapshot: snapshot.db, generated: snapshot.db, type: "etf-rotation", date });
+  const paths = [`etf-rotation/${date}.json`, "etf-rotation-latest.json"];
+  const reports = await Promise.all(paths.map(async path => {
+    const response = await fetch(`https://raw.githubusercontent.com/${REPO}/${snapshot.sha}/outputs/data/reports/${path}`, { signal: AbortSignal.timeout(15000) });
+    if (response.status === 404) return null;
+    if (!response.ok) throw new Error(`ETF report verification HTTP ${response.status}`);
+    return response.json();
+  }));
+  return reports.every(report => report?.date === date && report.status === "ok" && report.netValue === expected.netValue
+    && isDeepStrictEqual(report.etfs, expected.etfs) && isDeepStrictEqual(report.holding, expected.holding)
+    && isDeepStrictEqual(report.portfolioHistory, snapshot.db.etfRotationPortfolio.history));
+}
+
+export async function preparePublishedReports(workspace) {
+  await mkdir(join(workspace, "data"), { recursive: true });
+  const snapshot = await seedReportSnapshot(workspace);
+  const response = await fetch(`https://raw.githubusercontent.com/${REPO}/${snapshot.sha}/outputs/data/reports/etf-rotation-job.json`, { signal: AbortSignal.timeout(15000) });
+  if (response.ok) {
+    const job = await response.json();
+    if (job.status === "completed" && snapshot.db.etfRotationReports?.[job.date]?.status !== "ok") {
+      throw new Error(`Previously completed ETF report ${job.date} is missing; refuse to publish stale data`);
+    }
+  } else if (response.status !== 404) throw new Error(`ETF completion status read HTTP ${response.status}`);
+  await runCli(workspace, "export-static", "", { headers: {} });
+  return { status: "verified", latestEtfDate: Object.keys(snapshot.db.etfRotationReports).sort().at(-1) || null };
+}
+
+export async function persistGeneratedReport(workspace, type, date, snapshot, req) {
+  const generated = JSON.parse(await readFile(join(workspace, "data", "reports.json"), "utf8"));
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const current = await readReportSnapshot();
+      const merged = mergeGeneratedReport({ current: current.db, snapshot: snapshot.db, generated, type, date });
+      await writeFile(join(workspace, "data", "reports.json"), JSON.stringify(merged.db, null, 2), "utf8");
+      // Rebuild shared indexes from the merged database, not the stale generator copy.
+      await runCli(workspace, "export-static", date, req);
+      const files = await collectChangedFiles(workspace, type, date);
+      if (type === "etf-rotation") files.push({
+        path: "outputs/data/reports/etf-rotation-job.json",
+        content: JSON.stringify({ type, date, status: "completed", alreadyPublished: merged.alreadyPublished, finishedAt: new Date().toISOString() })
+      });
+      return await writeEtfFilesToGitHub(files, `Update ${type} report ${date}`, current);
+    } catch (error) {
+      if (attempt === 2 || !(error.status === 409 || error.status === 422 || error.code === "REPORT_STORAGE_CONFLICT" || error.name === "TimeoutError")) throw error;
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+  }
 }
 
 export async function writeEtfFilesToGitHub(files, message, snapshot) {
@@ -127,7 +204,11 @@ export async function writeEtfFilesToGitHub(files, message, snapshot) {
   const head = await githubJson(`git/ref/heads/${encodeURIComponent(BRANCH)}`);
   if (head.object.sha !== snapshot.sha) {
     const current = await fetchText(`https://raw.githubusercontent.com/${REPO}/${head.object.sha}/data/reports.json`, 15000);
-    if (current !== snapshot.payload) throw new Error("Report database changed during generation; refusing to overwrite newer portfolio history");
+    if (current !== snapshot.payload) {
+      const error = new Error("Report database changed during generation; refusing to overwrite newer portfolio history");
+      error.code = "REPORT_STORAGE_CONFLICT";
+      throw error;
+    }
   }
   const commit = await githubJson(`git/commits/${head.object.sha}`);
   const tree = await githubJson("git/trees", "POST", {
@@ -146,7 +227,11 @@ async function githubJson(path, method = "GET", body) {
     method, headers: githubHeaders(token), signal: AbortSignal.timeout(15000),
     ...(body ? { body: JSON.stringify(body) } : {})
   });
-  if (!response.ok) throw new Error(`GitHub report storage HTTP ${response.status}`);
+  if (!response.ok) {
+    const error = new Error(`GitHub report storage HTTP ${response.status}`);
+    error.status = response.status;
+    throw error;
+  }
   return response.json();
 }
 
@@ -216,12 +301,6 @@ function assertAuthorized(req) {
   throw new Error("Unauthorized report job request");
 }
 
-async function seedReportsDb(workspace) {
-  const fallback = { dailyReports: {}, lateReports: {}, weeklyReports: {}, etfRotationReports: {}, latePortfolio: null, dailyPortfolio: null, etfRotationPortfolio: null, jobLogs: [] };
-  const payload = await fetchText(`${RAW_BASE}/data/reports.json`).catch(() => JSON.stringify(fallback, null, 2));
-  await writeFile(join(workspace, "data", "reports.json"), payload, "utf8");
-}
-
 async function runCli(workspace, type, date, req) {
   const script = join(ROOT, "src", "cli.js");
   const origin = `${req.headers?.["x-forwarded-proto"] || "https"}://${req.headers?.host || "10-5-k.vercel.app"}`;
@@ -271,7 +350,7 @@ async function collectChangedFiles(workspace, type, date) {
     try {
       existing.push({ path, content: await readFile(full, "utf8") });
     } catch {
-      // Some files, such as latest pointers, may be absent if generation failed.
+      throw new Error(`Required generated report file missing: ${path}`);
     }
   }
   if (!existing.length) throw new Error("No generated files found to commit");
@@ -347,4 +426,5 @@ function shanghaiDate() {
   }).formatToParts(new Date()).reduce((acc, part) => (acc[part.type] = part.value, acc), {});
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
+
 
