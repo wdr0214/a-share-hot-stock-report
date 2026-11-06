@@ -14,10 +14,10 @@ test("ETF generation always emits an array on buy, hold and cash days", async ()
   globalThis.fetch = async url => {
     if (String(url).startsWith("https://query1.finance.yahoo.com/")) return { ok: true, json: async () => ({ chart: { result: [{ timestamp: timestamps, indicators: { quote: [{ close: timestamps.map(() => 100) }] } }] } }) };
     assert.ok(String(url).startsWith("https://push2.eastmoney.com/"));
-    return { ok: true, json: async () => ({ data: { diff: codes.map(f12 => ({ f12, f2: quotePrice, f124: Date.parse("2026-10-30T06:53:00Z") / 1000 })) } }) };
+    return { ok: true, json: async () => ({ data: { diff: codes.map(f12 => ({ f12, f2: quotePrice, f124: Date.parse("2026-10-30T06:50:00Z") / 1000 })) } }) };
   };
   try {
-    const input = { date: "2026-10-30", now: new Date("2026-10-30T06:53:00Z"), portfolio: null };
+    const input = { date: "2026-10-30", now: new Date("2026-10-30T06:50:00Z"), portfolio: null };
     const first = await generateEtfRotation(input);
     assert.equal(first.report.rebalance.length, 1);
     const hold = await generateEtfRotation({ ...input, portfolio: first.portfolio });
@@ -53,4 +53,5 @@ test("static ETF export normalizes only absent trades without changing financial
   assert.deepEqual(writes.get("outputs/data/reports/etf-rotation-latest.json").rebalance, []);
   assert.equal(reports["2026-10-30"].rebalance, null);
 });
+
 

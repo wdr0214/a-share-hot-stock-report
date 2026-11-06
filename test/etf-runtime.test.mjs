@@ -8,7 +8,7 @@ import { handleReportJob, writeEtfFilesToGitHub } from "../api/_github-report-jo
 const date = "2026-11-05";
 const symbols = ["159915.SZ", "510300.SS", "518880.SS", "159941.SZ", "513050.SS", "511260.SS"];
 const prices = [2.584, 4.188, 8.416, 1.642, 1.042, 135.878];
-const timestamp = Date.parse(`${date}T14:53:00+08:00`) / 1000;
+const timestamp = Date.parse(`${date}T14:50:00+08:00`) / 1000;
 const daily = { chart: { result: [{ timestamp: Array.from({length:40}, (_,i) => timestamp - (40-i)*86400), indicators: { quote: [{close: Array(40).fill(2)}] } }] } };
 function response(payload) { return new Response(JSON.stringify(payload), {headers:{"Content-Type":"application/json"}}); }
 function minute(url, missing = false) {
@@ -24,7 +24,7 @@ function env(t, key, value) {
   t.after(()=>{if(old===undefined)delete process.env[key];else process.env[key]=old;});
 }
 
-test("after the execution minute uses exact 14:53 open, preserves NAV history and fee rules", async (t) => {
+test("after the execution minute uses exact 14:50 open, preserves NAV history and fee rules", async (t) => {
   const urls=[];
   t.mock.method(globalThis,"fetch",async (url) => {
     urls.push(String(url));
@@ -33,8 +33,8 @@ test("after the execution minute uses exact 14:53 open, preserves NAV history an
   const previous={cash:0,netValue:0.9,holding:{symbol:"SH511260",name:"bond",shares:0.01,entryPrice:130},history:[{date:"2026-11-04",netValue:0.9}]};
   const result=await generateEtfRotation({date,now:new Date(`${date}T17:00:00+08:00`),portfolio:previous});
   assert.deepEqual(result.report.etfs.map(e=>e.price),prices);
-  assert.equal(result.report.executionPriceBasis,"minute_1453_open_backfill");
-  assert.equal(result.report.executionTime,"14:53分钟行情补报");
+  assert.equal(result.report.executionPriceBasis,"minute_1450_open_backfill");
+  assert.equal(result.report.executionTime,"14:50分钟行情补报");
   assert.equal(result.report.portfolioHistory.length,2);
   assert.equal(result.report.netValue,0.01*135.878);
   assert.equal(result.portfolio.holding.symbol,"SH511260");
@@ -42,10 +42,10 @@ test("after the execution minute uses exact 14:53 open, preserves NAV history an
   assert.ok(urls.every(url=>url.includes("yahoo.com")));
 });
 
-test("missing 14:53 bar refuses latest/close substitution", async (t) => {
+test("missing 14:50 bar refuses latest/close substitution", async (t) => {
   fastRetries(t);
   t.mock.method(globalThis,"fetch",async url=>String(url).includes("interval=1m") ? minute(url,true) : response(daily));
-  await assert.rejects(generateEtfRotation({date,now:new Date(`${date}T16:00:00+08:00`)}),/14:53/);
+  await assert.rejects(generateEtfRotation({date,now:new Date(`${date}T16:00:00+08:00`)}),/14:50/);
 });
 
 test("Sina multiline fallback parses six timestamped quotes", async(t)=>{
@@ -53,21 +53,21 @@ test("Sina multiline fallback parses six timestamped quotes", async(t)=>{
   t.mock.method(globalThis,"fetch",async url=>{
     if(String(url).includes("eastmoney.com")) return new Response("unavailable",{status:502});
     if(String(url).includes("sinajs.cn")) return new Response(symbols.map((s,i)=>{
-      const fields=Array(33).fill("0"); fields[3]=String(prices[i]); fields[30]=date; fields[31]="14:53:08";
+      const fields=Array(33).fill("0"); fields[3]=String(prices[i]); fields[30]=date; fields[31]="14:50:08";
       return `var hq_str_${s.endsWith("SZ")?"sz":"sh"}${s.slice(0,6)}="${fields.join(",")}";`;
     }).join("\r\n"));
     return response(daily);
   });
-  const {report}=await generateEtfRotation({date,now:new Date(`${date}T14:53:05+08:00`)});
+  const {report}=await generateEtfRotation({date,now:new Date(`${date}T14:50:05+08:00`)});
   assert.deepEqual(report.etfs.map(e=>e.price),prices);
   assert.ok(report.etfs.every(e=>e.quoteSource==="Sina"));
   assert.equal(report.executionPriceBasis,"intraday_quote");
   assert.equal(report.netValue,0.9999);
 });
 
-test("before 14:53, weekends and unknown modes never fetch data",async(t)=>{
+test("before 14:50, weekends and unknown modes never fetch data",async(t)=>{
   let calls=0;t.mock.method(globalThis,"fetch",async()=>{calls++;throw Error("unexpected");});
-  await assert.rejects(generateEtfRotation({date,now:new Date(`${date}T14:52:59+08:00`)}),/14:53/);
+  await assert.rejects(generateEtfRotation({date,now:new Date(`${date}T14:49:59+08:00`)}),/14:50/);
   await assert.rejects(generateEtfRotation({date:"2026-11-07",now:new Date("2026-11-07T15:00:00+08:00")}),/非 A 股交易日/);
   await assert.rejects(generateEtfRotation({date,now:new Date(),executionPriceMode:"fake"}),/Unsupported/);
   assert.equal(calls,0);
@@ -140,13 +140,15 @@ test("concurrently changed portfolio database is never overwritten",async(t)=>{
 test("ETF page identifies minute backfill while preserving normal snapshot copy",async()=>{
   const html=await readFile(new URL("../outputs/etf-rotation.html",import.meta.url),"utf8");
   const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
-  for(const basis of ["intraday_quote","minute_1453_open_backfill"]){
+  for(const [basis,time] of [["intraday_quote","14:50"],["minute_1450_open_backfill","14:50"],["intraday_quote","14:53"],["minute_1453_open_backfill","14:53"]]){
     const elements=new Map();
     const get=id=>{if(!elements.has(id))elements.set(id,{innerHTML:"",addEventListener(){}});return elements.get(id);};
-    const report={date,generatedAt:`${date}T13:20:00Z`,holding:null,etfs:[],rebalance:[],netValue:1,executionPriceBasis:basis};
+    const report={executionTime:time,date,generatedAt:`${date}T13:20:00Z`,holding:null,etfs:[],rebalance:[],netValue:1,executionPriceBasis:basis};
     runInNewContext(`${script}\n report=${JSON.stringify(report)};render();`,{
       document:{getElementById:get},fetch:()=>new Promise(()=>{}),location:{assign(){}}
     });
-    assert.ok(get("meta").innerHTML.includes(basis==="intraday_quote"?"&#25253;&#20215;&#24555;&#29031; 14:53":"14:53&#20998;&#38047;&#24320;&#30424;&#20215;&#34917;&#25253;"));
+    assert.ok(get("meta").innerHTML.includes(basis==="intraday_quote"?"&#25253;&#20215;&#24555;&#29031; "+time:time+"&#20998;&#38047;&#24320;&#30424;&#20215;&#34917;&#25253;"));
+    assert.ok(get("content").innerHTML.includes("<th>"+time+"&#20215;&#26684;</th>"));
   }
 });
+
