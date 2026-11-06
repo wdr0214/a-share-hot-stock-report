@@ -2,6 +2,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-11-06",
+      "generatedAt": "2026-11-06T06:54:35.855Z",
+      "status": "ok",
+      "totalCandidates": 2396,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ002929",
+          "name": "润建股份",
+          "heatScore": 110
+        },
+        {
+          "rank": 2,
+          "symbol": "SH601188",
+          "name": "龙江交通",
+          "heatScore": 109
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ300118",
+          "name": "东方日升",
+          "heatScore": 108
+        },
+        {
+          "rank": 4,
+          "symbol": "SH601599",
+          "name": "浙文影业",
+          "heatScore": 106
+        },
+        {
+          "rank": 5,
+          "symbol": "SH600327",
+          "name": "大东方",
+          "heatScore": 105
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-11-05",
       "generatedAt": "2026-11-05T06:52:23.703Z",
       "status": "ok",
@@ -2966,19 +3005,6 @@
     }
   ],
   "etfRotationReports": [
-    {
-      "date": "2026-11-06",
-      "generatedAt": "2026-11-06T06:53:09.525Z",
-      "status": "ok",
-      "netValue": 0.9054761569445161,
-      "holding": {
-        "symbol": "SH513050",
-        "name": "中国互联网ETF",
-        "shares": 0.8825303673923158,
-        "entryPrice": 1.042,
-        "entryDate": "2026-11-05"
-      }
-    },
     {
       "date": "2026-11-05",
       "generatedAt": "2026-11-05T13:20:36.329Z",
