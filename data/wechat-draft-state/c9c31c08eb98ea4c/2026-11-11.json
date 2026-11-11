@@ -1,7 +1,8 @@
 {
   "date": "2026-11-11",
   "fingerprint": "51548b6028cb1edaef6418ab015a717750e34bd4c3b3c560507eac416e06c242",
-  "status": "created",
+  "status": "verified",
   "startedAt": "2026-11-11T06:52:21.485Z",
-  "mediaId": "w6D0I-5cjuXpX9DVm5Ac54IDzmyOCB0mDP_bYIbfD8-WXY6iNLhHpgr-d9KnLuy9"
+  "mediaId": "w6D0I-5cjuXpX9DVm5Ac54IDzmyOCB0mDP_bYIbfD8-WXY6iNLhHpgr-d9KnLuy9",
+  "verifiedAt": "2026-11-11T06:52:29.222Z"
 }
