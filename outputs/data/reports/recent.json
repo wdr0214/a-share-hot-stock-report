@@ -2,6 +2,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-11-11",
+      "generatedAt": "2026-11-11T06:51:52.829Z",
+      "status": "ok",
+      "totalCandidates": 2389,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ301596",
+          "name": "瑞迪智驱",
+          "heatScore": 109
+        },
+        {
+          "rank": 2,
+          "symbol": "SH603466",
+          "name": "风语筑",
+          "heatScore": 108
+        },
+        {
+          "rank": 3,
+          "symbol": "SZ002703",
+          "name": "浙江世宝",
+          "heatScore": 106
+        },
+        {
+          "rank": 4,
+          "symbol": "SZ300607",
+          "name": "拓斯达",
+          "heatScore": 106
+        },
+        {
+          "rank": 5,
+          "symbol": "SZ300502",
+          "name": "新易盛",
+          "heatScore": 105
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-11-10",
       "generatedAt": "2026-11-10T06:50:54.303Z",
       "status": "ok",
