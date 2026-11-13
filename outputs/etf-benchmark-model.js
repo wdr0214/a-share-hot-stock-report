@@ -26,7 +26,12 @@ export function normalizeBenchmarks(payload) {
       for (const row of entry.rows || []) {
         if (!isoDate(row.date) || row.close === null || row.close === "" || !Number.isFinite(Number(row.close)) || Number(row.close) <= 0 || !Number.isFinite(Date.parse(row.availableAt))) continue;
         if (byDate.has(row.date) && byDate.get(row.date).close !== Number(row.close)) throw new Error("指数同日数据不一致");
-        byDate.set(row.date, { date: row.date, close: Number(row.close), availableAt: new Date(row.availableAt).toISOString() });
+        byDate.set(row.date, {
+          date: row.date,
+          close: Number(row.close),
+          availableAt: new Date(row.availableAt).toISOString(),
+          ...(row.basis === "intraday" ? { basis: "intraday" } : {})
+        });
       }
       return { ...entry, ...expected, rows: [...byDate.values()].sort((a, b) => Date.parse(a.availableAt) - Date.parse(b.availableAt)) };
     })
@@ -59,11 +64,13 @@ export function buildComparison(items, report, payload) {
         return { date: point.date, value: baseline && source ? source.close / baseline.close : null, sourceDate: source?.date || null, close: source?.close ?? null };
       }) };
     }
-    const baseline = completedCloseAt(index.rows, reportCutoff(items[0].date, time));
+    const byDate = new Map(index.rows.map(row => [row.date, row]));
+    const baseline = byDate.get(items[0].date);
     return { ...index, baselineDate: baseline?.date || null, rows: items.map(point => {
-      const source = completedCloseAt(index.rows, reportCutoff(point.date, time));
-      return { date: point.date, value: baseline && source ? source.close / baseline.close : null, sourceDate: source?.date || null, close: source?.close ?? null };
+      const source = byDate.get(point.date);
+      return { date: point.date, value: baseline && source ? source.close / baseline.close : null, sourceDate: source?.date || null, close: source?.close ?? null, basis: source?.basis || "daily_close" };
     }) };
   });
   return [strategy, ...indexes];
 }
+

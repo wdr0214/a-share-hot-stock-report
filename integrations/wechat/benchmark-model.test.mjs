@@ -4,7 +4,7 @@ import { mkdtemp, writeFile, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, dirname, basename, resolve } from "node:path";
 import { BENCHMARKS, reportCutoff, normalizeBenchmarks, buildComparison, completedCloseAt } from "../../outputs/etf-benchmark-model.js";
-import { usCloseTime, parseYahoo, parseHiThink, exportBenchmarks } from "../../scripts/export-etf-benchmarks.mjs";
+import { usCloseTime, parseYahoo, parseHiThink, parseTencentRealtimeQuote, exportBenchmarks } from "../../scripts/export-etf-benchmarks.mjs";
 
 // Only synthetic unit-test fixtures; never published as market history.
 const cnRow = (date, close) => ({ date, close, availableAt: new Date(date + "T15:00:00+08:00").toISOString() });
@@ -19,13 +19,70 @@ test("comparison rebases all three series to one and excludes future daily close
   const lines = buildComparison(items, { executionTime: "14:53" }, payload());
   for (const line of lines) assert.equal(line.rows[0].value, 1);
   assert.ok(Math.abs(lines[0].rows[2].value - 1.05) < 1e-12);
-  assert.equal(lines[1].rows[2].value, 1.05);
+  assert.equal(lines[1].rows[2].value, 9000 / 4400);
   assert.equal(lines[2].rows[1].value, 23000 / 22000);
   assert.equal(lines[2].rows[2].value, null);
-  assert.equal(lines[1].rows[2].sourceDate, "2026-10-28");
+  assert.equal(lines[1].rows[2].sourceDate, "2026-10-29");
   assert.equal(lines[2].rows[1].sourceDate, "2026-10-28");
   assert.equal(lines[2].rows[2].sourceDate, null);
   assert.equal(completedCloseAt(normalizeBenchmarks(payload()).series[0].rows, reportCutoff("2026-10-29", "15:01")).date, "2026-10-29");
+});
+
+test("CSI 300 never substitutes the prior session when a same-day row is missing", () => {
+  const p = payload();
+  p.series[0].rows = p.series[0].rows.filter(row => row.date !== "2026-10-29");
+  const line = buildComparison([
+    { date: "2026-10-28", netValue: 1 },
+    { date: "2026-10-29", netValue: 1.01 }
+  ], { date: "2026-10-29", executionTime: "14:50" }, p)[1];
+  assert.equal(line.rows[0].sourceDate, "2026-10-28");
+  assert.equal(line.rows[1].sourceDate, null);
+  assert.equal(line.rows[1].value, null);
+});
+
+test("Tencent realtime CSI 300 quote is accepted only for the report date after execution", () => {
+  const fields = Array(31).fill("");
+  fields[2] = "000300"; fields[3] = "4123.45"; fields[30] = "20261113145021";
+  const quote = parseTencentRealtimeQuote(`v_sh000300="${fields.join("~")}";`, "2026-11-13", "14:50");
+  assert.equal(quote.date, "2026-11-13");
+  assert.equal(quote.close, 4123.45);
+  assert.equal(quote.basis, "intraday");
+  assert.throws(() => parseTencentRealtimeQuote(`v_sh000300="${fields.join("~")}";`, "2026-11-12", "14:50"), /outside the report session/);
+  fields[30] = "20261113144959";
+  assert.throws(() => parseTencentRealtimeQuote(`v_sh000300="${fields.join("~")}";`, "2026-11-13", "14:50"), /outside the report session/);
+  fields[30] = "20261113150000";
+  assert.throws(() => parseTencentRealtimeQuote(`v_sh000300="${fields.join("~")}";`, "2026-11-13", "14:50"), /outside the report session/);
+});
+
+test("same-day report uses a timestamped intraday CSI 300 point", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "etf-benchmark-intraday-test-"));
+  const reportPath = join(dir, "report.json"), outputPath = join(dir, "benchmarks.json");
+  try {
+    await writeFile(reportPath, JSON.stringify({
+      type: "etf-rotation", status: "ok", date: "2026-11-13", executionTime: "14:50", netValue: 1,
+      portfolioHistory: [{ date: "2026-11-12", netValue: 0.99 }, { date: "2026-11-13", netValue: 1 }], rebalance: [], holding: null
+    }));
+    const quoteFields = Array(31).fill("");
+    quoteFields[2] = "000300"; quoteFields[3] = "4123.45"; quoteFields[30] = "20261113145021";
+    const text = `v_sh000300="${quoteFields.join("~")}";`;
+    const yahoo = { chart: { result: [{ meta: { symbol: "^IXIC", exchangeTimezoneName: "America/New_York" }, timestamp: ["2026-11-11", "2026-11-12"].map(date => Date.parse(`${date}T15:00:00-05:00`) / 1000), indicators: { quote: [{ close: [23000, 23100] }] } }] } };
+    const fetchImpl = async url => {
+      if (url.includes("fqkline/get")) return { ok: true, json: async () => ({ code: 0, data: { sh000300: { day: [["2026-11-11", "4100", "4110"], ["2026-11-12", "4110", "4120"]] } } }) };
+      if (url.includes("qt.gtimg.cn")) return { ok: true, arrayBuffer: async () => new TextEncoder().encode(text).buffer };
+      return { ok: true, json: async () => yahoo };
+    };
+    const result = await exportBenchmarks({ reportPath, outputPath, key: null, now: new Date("2026-11-13T06:52:00.000Z"), producer: "test", fetchImpl, wait: async () => {}, print: () => {} });
+    assert.equal(result.series[0].status, "ok");
+    assert.equal(result.series[0].rows.at(-1).date, "2026-11-13");
+    assert.equal(result.series[0].rows.at(-1).basis, "intraday");
+    const comparison = buildComparison([{ date: "2026-11-12", netValue: 0.99 }, { date: "2026-11-13", netValue: 1 }], { date: "2026-11-13", executionTime: "14:50" }, result);
+    assert.equal(comparison[1].rows.at(-1).sourceDate, "2026-11-13");
+    assert.equal(comparison[1].rows.at(-1).basis, "intraday");
+  } finally {
+    assert.equal(dirname(resolve(dir)), resolve(tmpdir()));
+    assert.ok(basename(dir).startsWith("etf-benchmark-intraday-test-"));
+    await rm(dir, { recursive: true, force: true });
+  }
 });
 
 test("Nasdaq uses actual US session dates and does not extend across holidays or report day", () => {
@@ -76,3 +133,4 @@ test("failed refresh keeps genuine cached rows and marks the feed stale", async 
     await rm(dir, { recursive: true, force: true });
   }
 });
+
