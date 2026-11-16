@@ -3162,6 +3162,13 @@
   ],
   "etfRotationReports": [
     {
+      "date": "2026-11-16",
+      "generatedAt": "2026-11-16T06:50:22.174Z",
+      "status": "ok",
+      "netValue": 0.8851666363198067,
+      "holding": null
+    },
+    {
       "date": "2026-11-13",
       "generatedAt": "2026-11-13T06:50:20.699Z",
       "status": "ok",
