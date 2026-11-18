@@ -3201,6 +3201,19 @@
   ],
   "etfRotationReports": [
     {
+      "date": "2026-11-18",
+      "generatedAt": "2026-11-18T06:50:20.831Z",
+      "status": "ok",
+      "netValue": 0.8861146253976464,
+      "holding": {
+        "symbol": "SH511260",
+        "name": "十年国债ETF",
+        "shares": 0.006518904034412171,
+        "entryPrice": 135.771,
+        "entryDate": "2026-11-17"
+      }
+    },
+    {
       "date": "2026-11-17",
       "generatedAt": "2026-11-17T06:50:22.967Z",
       "status": "ok",
