@@ -2,6 +2,45 @@
   "lateReports": [
     {
       "type": "late",
+      "date": "2026-11-20",
+      "generatedAt": "2026-11-20T06:51:24.958Z",
+      "status": "ok",
+      "totalCandidates": 2395,
+      "stocks": [
+        {
+          "rank": 1,
+          "symbol": "SZ000530",
+          "name": "冰山冷热",
+          "heatScore": 119
+        },
+        {
+          "rank": 2,
+          "symbol": "SZ002086",
+          "name": "东方海洋",
+          "heatScore": 114
+        },
+        {
+          "rank": 3,
+          "symbol": "SH600327",
+          "name": "大东方",
+          "heatScore": 109
+        },
+        {
+          "rank": 4,
+          "symbol": "SH600360",
+          "name": "华微电子",
+          "heatScore": 106
+        },
+        {
+          "rank": 5,
+          "symbol": "SH600715",
+          "name": "文投控股",
+          "heatScore": 104
+        }
+      ]
+    },
+    {
+      "type": "late",
       "date": "2026-11-18",
       "generatedAt": "2026-11-18T06:52:20.990Z",
       "status": "ok",
