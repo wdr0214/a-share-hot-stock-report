@@ -552,6 +552,63 @@
       "holding": "SH511260",
       "rebalanced": false,
       "trades": []
+    },
+    {
+      "date": "2026-11-16",
+      "netValue": 0.8851666363198067,
+      "holding": null,
+      "rebalanced": true,
+      "trades": [
+        {
+          "action": "sell",
+          "symbol": "SH511260",
+          "name": "十年国债ETF",
+          "price": 135.422,
+          "returnPct": -0.46744770612532577
+        }
+      ]
+    },
+    {
+      "date": "2026-11-17",
+      "netValue": 0.8850781196561748,
+      "holding": "SH511260",
+      "rebalanced": true,
+      "trades": [
+        {
+          "action": "buy",
+          "symbol": "SH511260",
+          "name": "十年国债ETF",
+          "price": 135.771
+        }
+      ]
+    },
+    {
+      "date": "2026-11-18",
+      "netValue": 0.8861146253976464,
+      "holding": "SH511260",
+      "rebalanced": false,
+      "trades": []
+    },
+    {
+      "date": "2026-11-19",
+      "netValue": 0.8870598664826361,
+      "holding": "SH511260",
+      "rebalanced": false,
+      "trades": []
+    },
+    {
+      "date": "2026-11-20",
+      "netValue": 0.8866165810082962,
+      "holding": "SH511260",
+      "rebalanced": false,
+      "trades": []
+    },
+    {
+      "date": "2026-11-23",
+      "netValue": 0.8862124089581626,
+      "holding": "SH511260",
+      "rebalanced": false,
+      "trades": []
     }
   ]
 }

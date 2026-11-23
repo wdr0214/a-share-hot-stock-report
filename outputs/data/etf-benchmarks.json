@@ -1,11 +1,12 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-06T06:53:55.849Z",
+  "comparisonVersion": 2,
+  "generatedAt": "2026-11-23T07:48:27.011Z",
   "generatedBy": "github-actions",
-  "reportDate": "2026-11-06",
-  "cutoffAt": "2026-11-06T06:53:00.000Z",
+  "reportDate": "2026-11-23",
+  "cutoffAt": "2026-11-23T06:50:00.000Z",
   "requestedStart": "2026-08-04",
-  "basis": "latest-completed-close-at-report-time",
+  "basis": "same-session-csi300-and-completed-us-close",
   "series": [
     {
       "id": "csi300",
@@ -15,7 +16,7 @@
       "color": "#087443",
       "source": "同花顺 Financial API",
       "status": "ok",
-      "lastSuccessfulAt": "2026-11-06T06:53:55.849Z",
+      "lastSuccessfulAt": "2026-11-23T07:48:27.011Z",
       "rows": [
         {
           "date": "2026-08-04",
@@ -326,6 +327,66 @@
           "date": "2026-11-05",
           "close": 4113.41,
           "availableAt": "2026-11-05T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-06",
+          "close": 4054.28,
+          "availableAt": "2026-11-06T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-09",
+          "close": 4056.11,
+          "availableAt": "2026-11-09T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-10",
+          "close": 4059.11,
+          "availableAt": "2026-11-10T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-11",
+          "close": 4075.71,
+          "availableAt": "2026-11-11T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-12",
+          "close": 4043.93,
+          "availableAt": "2026-11-12T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-13",
+          "close": 4016.29,
+          "availableAt": "2026-11-13T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-16",
+          "close": 3979.8,
+          "availableAt": "2026-11-16T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-17",
+          "close": 3976.46,
+          "availableAt": "2026-11-17T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-18",
+          "close": 3983.77,
+          "availableAt": "2026-11-18T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-19",
+          "close": 3984.84,
+          "availableAt": "2026-11-19T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-20",
+          "close": 3954.57,
+          "availableAt": "2026-11-20T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-23",
+          "close": 3958.29,
+          "availableAt": "2026-11-23T07:00:00.000Z"
         }
       ]
     },
@@ -337,7 +398,7 @@
       "color": "#b7791f",
       "source": "Yahoo Finance",
       "status": "ok",
-      "lastSuccessfulAt": "2026-11-06T06:53:55.849Z",
+      "lastSuccessfulAt": "2026-11-23T07:48:27.011Z",
       "rows": [
         {
           "date": "2026-08-04",
@@ -673,6 +734,61 @@
           "date": "2026-11-05",
           "close": 24315,
           "availableAt": "2026-11-05T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-06",
+          "close": 24579.4296875,
+          "availableAt": "2026-11-06T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-09",
+          "close": 25253.140625,
+          "availableAt": "2026-11-09T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-10",
+          "close": 25065.869140625,
+          "availableAt": "2026-11-10T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-11",
+          "close": 25466.189453125,
+          "availableAt": "2026-11-11T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-12",
+          "close": 25366.08984375,
+          "availableAt": "2026-11-12T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-13",
+          "close": 25136.26953125,
+          "availableAt": "2026-11-13T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-16",
+          "close": 24509.759765625,
+          "availableAt": "2026-11-16T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-17",
+          "close": 24328.380859375,
+          "availableAt": "2026-11-17T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-18",
+          "close": 24429.880859375,
+          "availableAt": "2026-11-18T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-19",
+          "close": 23879.19921875,
+          "availableAt": "2026-11-19T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-20",
+          "close": 22617.73046875,
+          "availableAt": "2026-11-20T21:00:00.000Z"
         }
       ]
     }
