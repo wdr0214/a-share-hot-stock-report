@@ -1,10 +1,10 @@
 {
   "version": 1,
   "comparisonVersion": 2,
-  "generatedAt": "2026-11-23T07:48:27.011Z",
+  "generatedAt": "2026-11-25T10:19:49.313Z",
   "generatedBy": "github-actions",
-  "reportDate": "2026-11-23",
-  "cutoffAt": "2026-11-23T06:50:00.000Z",
+  "reportDate": "2026-11-25",
+  "cutoffAt": "2026-11-25T06:50:00.000Z",
   "requestedStart": "2026-08-04",
   "basis": "same-session-csi300-and-completed-us-close",
   "series": [
@@ -16,7 +16,7 @@
       "color": "#087443",
       "source": "同花顺 Financial API",
       "status": "ok",
-      "lastSuccessfulAt": "2026-11-23T07:48:27.011Z",
+      "lastSuccessfulAt": "2026-11-25T10:19:49.313Z",
       "rows": [
         {
           "date": "2026-08-04",
@@ -387,6 +387,16 @@
           "date": "2026-11-23",
           "close": 3958.29,
           "availableAt": "2026-11-23T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-24",
+          "close": 3963.82,
+          "availableAt": "2026-11-24T07:00:00.000Z"
+        },
+        {
+          "date": "2026-11-25",
+          "close": 3898.24,
+          "availableAt": "2026-11-25T07:00:00.000Z"
         }
       ]
     },
@@ -398,7 +408,7 @@
       "color": "#b7791f",
       "source": "Yahoo Finance",
       "status": "ok",
-      "lastSuccessfulAt": "2026-11-23T07:48:27.011Z",
+      "lastSuccessfulAt": "2026-11-25T10:19:49.313Z",
       "rows": [
         {
           "date": "2026-08-04",
@@ -789,6 +799,16 @@
           "date": "2026-11-20",
           "close": 22617.73046875,
           "availableAt": "2026-11-20T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-23",
+          "close": 24089.560546875,
+          "availableAt": "2026-11-23T21:00:00.000Z"
+        },
+        {
+          "date": "2026-11-24",
+          "close": 23733.5390625,
+          "availableAt": "2026-11-24T21:00:00.000Z"
         }
       ]
     }
