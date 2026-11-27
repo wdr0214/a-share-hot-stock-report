@@ -3279,6 +3279,19 @@
   ],
   "etfRotationReports": [
     {
+      "date": "2026-11-27",
+      "generatedAt": "2026-11-27T06:50:21.451Z",
+      "status": "ok",
+      "netValue": 0.8839104376345681,
+      "holding": {
+        "symbol": "SH510300",
+        "name": "沪深300ETF",
+        "shares": 0.21252955942163215,
+        "entryPrice": 4.159,
+        "entryDate": "2026-11-27"
+      }
+    },
+    {
       "date": "2026-11-26",
       "generatedAt": "2026-11-26T06:50:21.383Z",
       "status": "ok",
